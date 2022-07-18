@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
-@SpringBootApplication(scanBasePackages = "com.javaworld.postservice")
+@SpringBootApplication
 @EnableEurekaClient
 @EnableCircuitBreaker
 public class PostServiceApplication {

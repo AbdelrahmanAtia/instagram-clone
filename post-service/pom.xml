@@ -11,7 +11,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>com.javaworld</groupId>
+	<groupId>com.javaworld.instagram</groupId>
 	<artifactId>post-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>post-service</name>
@@ -59,10 +59,11 @@
 		</dependency>
 
 		<!-- dependencies needed for open-API code generator -->
+
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-annotations</artifactId>
-            <version>${swagger-annotations-version}</version>
+			<version>${swagger-annotations-version}</version>
 		</dependency>
 
 		<dependency>
@@ -87,17 +88,18 @@
 
 	<build>
 		<plugins>
-		
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-		
+
 			<!-- open API plug-in for API code generator -->
 			<plugin>
 				<groupId>org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
 				<version>4.2.3</version>
+								
 				<executions>
 					<execution>
 						<goals>
@@ -111,12 +113,11 @@
 							<apiPackage>com.javaworld.instagram.postservice.server.api</apiPackage>
 							<modelPackage>com.javaworld.instagram.postservice.server.dto</modelPackage>
 							<modelNameSuffix>ApiDto</modelNameSuffix>
-							<supportingFilesToGenerate>
-								ApiUtil.java
-							</supportingFilesToGenerate>
 							<configOptions>
-								<delegatePattern>true</delegatePattern>
+								<interfaceOnly>true</interfaceOnly>
+								<skipDefaultInterface>true</skipDefaultInterface>
 							</configOptions>
+							
 						</configuration>
 					</execution>
 				</executions>
