@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.javaworld.instagram.postservice.features.post.persistence.PostEntity;
+
 @Entity
 @Table(name = "user")
 public class User {
@@ -17,7 +19,7 @@ public class User {
 	private String username;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Post> posts = new ArrayList<>();
+	private List<PostEntity> posts = new ArrayList<>();
 
 	public User() {
 
@@ -31,21 +33,21 @@ public class User {
 		this.username = username;
 	}
 
-	public List<Post> getPosts() {
+	public List<PostEntity> getPosts() {
 		return posts;
 	}
 
-	public void setPosts(List<Post> posts) {
+	public void setPosts(List<PostEntity> posts) {
 		this.posts = posts;
 	}
 
 	// helper methods
-	public void addPost(Post post) {
+	public void addPost(PostEntity post) {
 		posts.add(post);
 		post.setUser(this);
 	}
 
-	public void removePost(Post post) {
+	public void removePost(PostEntity post) {
 		posts.remove(post);
 		post.setUser(null);
 	}

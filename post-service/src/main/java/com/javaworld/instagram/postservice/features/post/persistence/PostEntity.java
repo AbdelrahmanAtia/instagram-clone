@@ -1,4 +1,4 @@
-package com.javaworld.instagram.postservice.features.post;
+package com.javaworld.instagram.postservice.features.post.persistence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,24 +11,30 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.Version;
+
+import com.javaworld.instagram.postservice.features.post.User;
+
 @Entity
 @Table(name = "post")
-public class Post {
+public class PostEntity {
 
 	@Id
 	private Long id;
 
+	@Version
+	private Integer version;
+
 	private String title;
 
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<PostComment> comments = new ArrayList<>();
-	
+	private List<CommentEntity> comments = new ArrayList<>();
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	
 
-	public Post() {
+	public PostEntity() {
 
 	}
 
@@ -40,6 +46,14 @@ public class Post {
 		this.id = id;
 	}
 
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -48,21 +62,21 @@ public class Post {
 		this.title = title;
 	}
 
-	public List<PostComment> getComments() {
+	public List<CommentEntity> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<PostComment> comments) {
+	public void setComments(List<CommentEntity> comments) {
 		this.comments = comments;
 	}
 
 	// helper methods
-	public void addComment(PostComment comment) {
+	public void addComment(CommentEntity comment) {
 		comments.add(comment);
 		comment.setPost(this);
 	}
 
-	public void removeComment(PostComment comment) {
+	public void removeComment(CommentEntity comment) {
 		comments.remove(comment);
 		comment.setPost(null);
 	}
@@ -74,6 +88,5 @@ public class Post {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
 
 }

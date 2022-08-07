@@ -1,69 +1,49 @@
 package com.javaworld.instagram.postservice.features.post.restapi;
 
-import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
+import com.javaworld.instagram.postservice.features.post.persistence.PostEntity;
+import com.javaworld.instagram.postservice.features.post.service.PostService;
+import com.javaworld.instagram.postservice.server.api.PostsApi;
+import com.javaworld.instagram.postservice.server.dto.PostApiDto;
 
 @RestController
 @RequestMapping("/api")
-public class PostController {
+public class PostController implements PostsApi {
 
-	
-	
-	/*
-	@GetMapping("/users/{username}/posts")
-	@HystrixCommand(fallbackMethod = "getFallbackUserPosts")
-	public List<Post> getUserPosts(@PathVariable String username) throws InterruptedException {
+	@Autowired
+	private PostApiDtoMapper postApiDtoMapper;
 
-		Thread.sleep(90000);
-		
-		Post firstPost = new Post();
-		firstPost.setId(1L);
-		firstPost.setTitle("this is my first post");
+	@Autowired
+	private PostService postService;
 
-		Post secondPost = new Post();
-		secondPost.setId(2L);
-		secondPost.setTitle("this is my second post");
+	@Override
+	public ResponseEntity<List<PostApiDto>> getMyPosts() {
 
-		return Arrays.asList(firstPost, secondPost);
+		return null;
 	}
 
-	@GetMapping("/users/{username}/posts/{postId}")
-	public Post getPost(@PathVariable String username, @PathVariable Long postId) {
-		Post firstPost = new Post();
-		firstPost.setId(1L);
-		firstPost.setTitle("this is my first post");
-		return firstPost;
+	@Override
+	public ResponseEntity<PostApiDto> createPost(PostApiDto body) {
+
+		try {
+			
+			PostEntity entity = postApiDtoMapper.apiToEntity(body);
+			PostEntity newEntity = postService.createPost(entity);
+
+			return ResponseEntity.ok(postApiDtoMapper.entityToApi(newEntity));
+		} catch (DataIntegrityViolationException dive) {
+			// TODO: return a specific error message here
+			throw new InvalidInputException(dive.getMessage());
+		}
+
 	}
-
-	@GetMapping("/users/me/posts")
-	public List<Post> getCurrentUserPosts() {
-
-		Post firstPost = new Post();
-		firstPost.setId(1L);
-		firstPost.setTitle("this is my first post");
-
-		Post secondPost = new Post();
-		secondPost.setId(2L);
-		secondPost.setTitle("this is my second post");
-
-		return Arrays.asList(firstPost, secondPost);
-	}
-
-	public List<Post> getFallbackUserPosts(@PathVariable String username) {
-		Post post = new Post();
-		post.setId(0L);
-		post.setTitle("this is a fallback post");
-		
-		return Arrays.asList(post);
-	}
-	
-	*/
 
 }

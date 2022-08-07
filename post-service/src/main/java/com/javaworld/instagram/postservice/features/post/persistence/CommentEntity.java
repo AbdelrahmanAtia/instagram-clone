@@ -1,4 +1,4 @@
-package com.javaworld.instagram.postservice.features.post;
+package com.javaworld.instagram.postservice.features.post.persistence;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "post_comment")
-public class PostComment {
+public class CommentEntity {
 
 	@Id
 	private Long id;
@@ -17,9 +17,9 @@ public class PostComment {
 	
 	@ManyToOne
 	@JoinColumn(name = "post_id")
-	private Post post;
+	private PostEntity post;
 
-	public PostComment() {
+	public CommentEntity() {
 
 	}
 
@@ -39,11 +39,11 @@ public class PostComment {
 		this.reply = reply;
 	}
 
-	public Post getPost() {
+	public PostEntity getPost() {
 		return post;
 	}
 
-	public void setPost(Post post) {
+	public void setPost(PostEntity post) {
 		this.post = post;
 	}
 	

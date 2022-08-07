@@ -45,6 +45,28 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Post'
+  /posts/:                  
+    post:
+      tags:
+        - Post
+      summary: Create a new Post
+      description: ''
+      operationId: createPost
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'          
+
 
 components:
   schemas:
@@ -57,5 +79,3 @@ components:
         title:
           type: string
       
-
-    
