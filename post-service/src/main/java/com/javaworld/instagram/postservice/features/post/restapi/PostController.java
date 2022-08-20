@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
@@ -15,7 +14,6 @@ import com.javaworld.instagram.postservice.server.api.PostsApi;
 import com.javaworld.instagram.postservice.server.dto.PostApiDto;
 
 @RestController
-@RequestMapping("/api")
 public class PostController implements PostsApi {
 
 	@Autowired
