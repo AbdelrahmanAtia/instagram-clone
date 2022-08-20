@@ -25,6 +25,7 @@ public class PostEntity {
 	@Version
 	private Integer version;
 
+	//TODO: change to caption
 	private String title;
 
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
