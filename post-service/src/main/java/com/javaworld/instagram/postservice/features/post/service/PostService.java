@@ -2,8 +2,10 @@ package com.javaworld.instagram.postservice.features.post.service;
 
 import com.javaworld.instagram.postservice.features.post.persistence.PostEntity;
 
-public interface PostService {
+import reactor.core.publisher.Mono;
 
-	PostEntity createPost(PostEntity postEntity);
+public interface PostService {
+	
+	Mono<PostEntity> createPost(PostEntity postEntity);
 
 }

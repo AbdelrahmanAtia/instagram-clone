@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.javaworld.instagram.postservice.features.post.persistence.PostEntity;
 import com.javaworld.instagram.postservice.features.post.persistence.PostRepository;
 
+import reactor.core.publisher.Mono;
+
 @Service
 public class PostServiceImpl implements PostService {
 
@@ -15,7 +17,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	@Transactional
-	public PostEntity createPost(PostEntity postEntity) {
+	public Mono<PostEntity> createPost(PostEntity postEntity) {
 		return postRepository.save(postEntity);
 	}
 

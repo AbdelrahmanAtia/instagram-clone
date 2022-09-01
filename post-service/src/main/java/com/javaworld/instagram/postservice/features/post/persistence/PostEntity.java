@@ -40,6 +40,11 @@ public class PostEntity {
 
 	public PostEntity() {
 
+	}	
+
+	public PostEntity(Long id, String title) {
+		this.id = id;
+		this.title = title;
 	}
 
 	public Long getId() {
