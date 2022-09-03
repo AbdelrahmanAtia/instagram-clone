@@ -1,17 +1,19 @@
 package com.javaworld.instagram.postservice.features.post.restapi;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ServerWebExchange;
 
 import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
 import com.javaworld.instagram.postservice.features.post.persistence.PostEntity;
 import com.javaworld.instagram.postservice.features.post.service.PostService;
 import com.javaworld.instagram.postservice.server.api.PostsApi;
 import com.javaworld.instagram.postservice.server.dto.PostApiDto;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 public class PostController implements PostsApi {
@@ -23,25 +25,25 @@ public class PostController implements PostsApi {
 	private PostService postService;
 
 	@Override
-	public ResponseEntity<List<PostApiDto>> getMyPosts() {
-
+	public Mono<ResponseEntity<Flux<PostApiDto>>> getMyPosts(ServerWebExchange exchange) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ResponseEntity<PostApiDto> createPost(PostApiDto body) {
-
-		try {
+	public Mono<ResponseEntity<PostApiDto>> createPost(Mono<PostApiDto> body, ServerWebExchange exchange) {
+	try {
 			
-			PostEntity entity = postApiDtoMapper.apiToEntity(body);
-			PostEntity newEntity = postService.createPost(entity);
-
-			return ResponseEntity.ok(postApiDtoMapper.entityToApi(newEntity));
+			PostEntity entity = postApiDtoMapper.apiToEntity(body.block());
+			
+			return postService.createPost(entity)
+			           .map(e -> postApiDtoMapper.entityToApi(e))
+			           .map(e -> ResponseEntity.ok(e));
+						
 		} catch (DataIntegrityViolationException dive) {
 			// TODO: return a specific error message here
 			throw new InvalidInputException(dive.getMessage());
 		}
-
 	}
 
 }
