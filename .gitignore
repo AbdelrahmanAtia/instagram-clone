@@ -11,7 +11,6 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 .m2/*
 .metadata/*
-settings.xml
 */.metadata/.lock
 */.metadata/.log
 */.metadata/**

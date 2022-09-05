@@ -78,4 +78,5 @@ components:
           format: int32
         title:
           type: string
-      
+        serviceAddress:
+          type: string      

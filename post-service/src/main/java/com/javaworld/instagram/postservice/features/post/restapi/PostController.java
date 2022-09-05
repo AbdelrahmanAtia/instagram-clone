@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
 
 import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
+import com.javaworld.instagram.postservice.commons.utils.ServiceUtil;
 import com.javaworld.instagram.postservice.features.post.persistence.PostEntity;
 import com.javaworld.instagram.postservice.features.post.service.PostService;
 import com.javaworld.instagram.postservice.server.api.PostsApi;
@@ -23,6 +24,9 @@ public class PostController implements PostsApi {
 
 	@Autowired
 	private PostService postService;
+	
+	@Autowired
+	private ServiceUtil serviceUtil;
 
 	@Override
 	public Mono<ResponseEntity<Flux<PostApiDto>>> getMyPosts(ServerWebExchange exchange) {
@@ -36,14 +40,21 @@ public class PostController implements PostsApi {
 			
 			PostEntity entity = postApiDtoMapper.apiToEntity(body.block());
 			
-			return postService.createPost(entity)
+			return postService.createPost(entity)  
 			           .map(e -> postApiDtoMapper.entityToApi(e))
+			           .map(e -> setServiceAddress(e))
 			           .map(e -> ResponseEntity.ok(e));
 						
 		} catch (DataIntegrityViolationException dive) {
 			// TODO: return a specific error message here
 			throw new InvalidInputException(dive.getMessage());
 		}
+	}
+	
+	
+	private PostApiDto setServiceAddress(PostApiDto postApiDto) {
+		postApiDto.setServiceAddress(serviceUtil.getServiceAddress());
+		return postApiDto;
 	}
 
 }

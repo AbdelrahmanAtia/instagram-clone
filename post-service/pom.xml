@@ -25,21 +25,13 @@
 	</properties>
 
 	<dependencies>
-	
-		<!-- ################### starter dependencies ################################ -->
-	
+		
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
-	
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		
-		
-		
+				
 		<!-- ################### Testing dependencies ################################ -->	
 	
 		<dependency>
@@ -57,23 +49,40 @@
 		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>
-		</dependency>
+		</dependency>		
 		
-		<!-- ###################################################################### -->
-		
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-		</dependency>
-		
-		<!-- ########################### DB dependencies ################################ -->
+		<!-- ########################### DB & persistence layer dependencies ################################ -->
 
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 				
+	
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>6.1.2.Final</version>
+		</dependency>
+		
+		<!-- 
+			 TODO:
+		     strangely this dependency replaces spring-boot-starter-data-jpa 
+			 to support the reactive communication with the data base.. i don't
+			 know why they didn't give it a unique name instead of tying it
+			 to mongodb
+		 --> 
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
+		</dependency>
+		
 		<!-- ################### dependencies needed for open-API code generator ################################ -->
 		
 		<dependency>

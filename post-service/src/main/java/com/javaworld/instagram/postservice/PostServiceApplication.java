@@ -16,6 +16,7 @@ public class PostServiceApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(PostServiceApplication.class, args);
 
+		//print database URL after service starting
 		String mysqlUri = ctx.getEnvironment().getProperty("spring.datasource.url");
 		String mysqlUserName = ctx.getEnvironment().getProperty("spring.datasource.username");
 
