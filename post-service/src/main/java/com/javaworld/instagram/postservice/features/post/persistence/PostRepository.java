@@ -1,7 +1,7 @@
 package com.javaworld.instagram.postservice.features.post.persistence;
 
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface PostRepository extends ReactiveCrudRepository<PostEntity, Long> {
+public interface PostRepository extends CrudRepository<PostEntity, Integer> {
 
 }

@@ -18,6 +18,8 @@ public class PostServiceImpl implements PostService {
 	@Override
 	@Transactional
 	public Mono<PostEntity> createPost(PostEntity postEntity) {
+		
+		//TODO: use JDBC scheduler that is described in the book
 		return postRepository.save(postEntity);
 	}
 

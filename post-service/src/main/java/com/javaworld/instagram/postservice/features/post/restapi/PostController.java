@@ -16,9 +16,13 @@ import com.javaworld.instagram.postservice.server.dto.PostApiDto;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 public class PostController implements PostsApi {
+
+	private static final Logger logger = LoggerFactory.getLogger(PostController.class);
 
 	@Autowired
 	private PostApiDtoMapper postApiDtoMapper;
@@ -36,10 +40,10 @@ public class PostController implements PostsApi {
 	}
 
 	@Override
-	public Mono<ResponseEntity<PostApiDto>> createPost(Mono<PostApiDto> body, ServerWebExchange exchange) {
+	public Mono<ResponseEntity<PostApiDto>> createPost(PostApiDto body, ServerWebExchange exchange) {
 	try {
 		
-			PostEntity entity = postApiDtoMapper.apiToEntity(body.block());
+			PostEntity entity = postApiDtoMapper.apiToEntity(body);
 			
 			return postService.createPost(entity)  
 			           .map(e -> postApiDtoMapper.entityToApi(e))

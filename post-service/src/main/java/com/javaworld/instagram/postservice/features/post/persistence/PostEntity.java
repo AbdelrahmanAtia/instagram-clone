@@ -23,7 +23,7 @@ public class PostEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private int id;
 
 	@Version
 	private Integer version;
@@ -42,16 +42,16 @@ public class PostEntity {
 
 	}	
 
-	public PostEntity(Long id, String title) {
+	public PostEntity(int id, String title) {
 		this.id = id;
 		this.title = title;
 	}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
