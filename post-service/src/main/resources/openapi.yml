@@ -71,5 +71,8 @@ components:
           format: int32
         title:
           type: string
+        userId:
+          type: integer    
+          format: int32
         serviceAddress:
           type: string      

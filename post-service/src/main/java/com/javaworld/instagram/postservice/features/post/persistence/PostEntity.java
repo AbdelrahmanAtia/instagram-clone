@@ -2,23 +2,20 @@ package com.javaworld.instagram.postservice.features.post.persistence;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.springframework.data.annotation.Version;
-
-import com.javaworld.instagram.postservice.features.post.User;
+import javax.persistence.Version;
 
 @Entity
-@Table(name = "post")
+@Table(name = "post", indexes = { @Index(name = "posts_unique_idx", unique = true, columnList = "postUuid") })
 public class PostEntity {
 
 	@Id
@@ -26,25 +23,26 @@ public class PostEntity {
 	private int id;
 
 	@Version
-	private Integer version;
+	private int version;
 
-	//TODO: change to caption
+	private UUID postUuid;
+
+	// TODO: change to caption
 	private String title;
+
+	private int userId;
 
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CommentEntity> comments = new ArrayList<>();
 
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
-
 	public PostEntity() {
 
-	}	
+	}
 
-	public PostEntity(int id, String title) {
-		this.id = id;
+	public PostEntity(UUID postUuid, String title, int userId) {
+		this.postUuid = postUuid;
 		this.title = title;
+		this.userId = userId;
 	}
 
 	public int getId() {
@@ -55,11 +53,11 @@ public class PostEntity {
 		this.id = id;
 	}
 
-	public Integer getVersion() {
+	public int getVersion() {
 		return version;
 	}
 
-	public void setVersion(Integer version) {
+	public void setVersion(int version) {
 		this.version = version;
 	}
 
@@ -69,6 +67,14 @@ public class PostEntity {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public List<CommentEntity> getComments() {
@@ -90,12 +96,29 @@ public class PostEntity {
 		comment.setPost(null);
 	}
 
-	public User getUser() {
-		return user;
+	public UUID getPostUuid() {
+		return postUuid;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setPostUuid(UUID postUuid) {
+		this.postUuid = postUuid;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("PostEntity [id=");
+		builder.append(id);
+		builder.append(", version=");
+		builder.append(version);
+		builder.append(", postUuid=");
+		builder.append(postUuid);
+		builder.append(", title=");
+		builder.append(title);
+		builder.append(", userId=");
+		builder.append(userId);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }
