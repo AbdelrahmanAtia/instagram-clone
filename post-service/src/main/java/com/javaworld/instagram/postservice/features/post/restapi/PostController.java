@@ -1,5 +1,9 @@
 package com.javaworld.instagram.postservice.features.post.restapi;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +19,6 @@ import com.javaworld.instagram.postservice.server.dto.PostApiDto;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RestController
 public class PostController implements PostsApi {
@@ -33,29 +35,30 @@ public class PostController implements PostsApi {
 	private ServiceUtil serviceUtil;
 
 	@Override
-	public Mono<ResponseEntity<Flux<PostApiDto>>> getMyPosts(ServerWebExchange exchange) {
-		
-		//TODO: to be implemented
-		return null;
-	}
-
-	@Override
-	public Mono<ResponseEntity<PostApiDto>> createPost(PostApiDto body, ServerWebExchange exchange) {
+	public Mono<PostApiDto> createPost(PostApiDto body, ServerWebExchange exchange) {
 	try {
 		
 			PostEntity entity = postApiDtoMapper.apiToEntity(body);
 			
 			return postService.createPost(entity)  
 			           .map(e -> postApiDtoMapper.entityToApi(e))
-			           .map(e -> setServiceAddress(e))
-			           .map(e -> ResponseEntity.ok(e));
-						
+			           .map(e -> setServiceAddress(e));
+			           
 		} catch (DataIntegrityViolationException dive) {
 			// TODO: return a specific error message here
 			throw new InvalidInputException(dive.getMessage());
 		}
 	}
+		
+	@Override
+	public Mono<Flux<PostApiDto>> findPostsByUserId(Integer userId, ServerWebExchange exchange) {
+		
+		Flux<PostApiDto> postApiDtoFlux = postService.getPosts(userId)
+		           .map(e -> postApiDtoMapper.entityToApi(e))
+		           .map(e -> setServiceAddress(e));
 	
+		return postApiDtoFlux; //TODO: must be wrapped with Mono
+	}
 	
 	private PostApiDto setServiceAddress(PostApiDto postApiDto) {
 		postApiDto.setServiceAddress(serviceUtil.getServiceAddress());

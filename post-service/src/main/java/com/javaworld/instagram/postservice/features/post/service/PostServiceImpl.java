@@ -1,5 +1,7 @@
 package com.javaworld.instagram.postservice.features.post.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,10 @@ import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputExcept
 import com.javaworld.instagram.postservice.features.post.persistence.PostEntity;
 import com.javaworld.instagram.postservice.features.post.persistence.PostRepository;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
+import static java.util.logging.Level.FINE;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -46,6 +50,36 @@ public class PostServiceImpl implements PostService {
 			// TODO: is this error message correct
 			throw new InvalidInputException("Duplicate key");
 		}
+	}
+
+	@Override
+	public Flux<PostEntity> getPosts(int userId) {
+
+		if (userId < 1) {
+			throw new InvalidInputException("Invalid userId: " + userId);
+		}
+
+		logger.info("Will get posts for user with id={}", userId);
+
+		return Mono.fromCallable(() -> internalGetPosts(userId))
+				.flatMapMany(Flux::fromIterable)
+				.log(logger.getName(), FINE)
+				.subscribeOn(jdbcScheduler);
+
+	}
+	
+	private List<PostEntity> internalGetPosts(int userId) {
+
+		List<PostEntity> entityList = postRepository.findByUserId(userId);
+
+		//TODO: the mapping to api dto & setting the service address should be done at controller
+		
+		// List<Review> list = mapper.entityListToApiList(entityList);
+		// list.forEach(e -> e.setServiceAddress(serviceUtil.getServiceAddress()));
+
+		logger.debug("Response size: {}", entityList.size());
+
+		return entityList;
 	}
 
 }

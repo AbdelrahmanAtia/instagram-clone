@@ -23,21 +23,6 @@ tags:
       url: ""
     
 paths:
-  /posts/me/:
-    get:
-      tags:
-      - Post
-      summary: find current user posts
-      operationId: getMyPosts
-      responses:
-        200:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Post'
   /posts/:                  
     post:
       tags:
@@ -58,7 +43,34 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Post'          
+                $ref: '#/components/schemas/Post'     
+
+  /posts/findByUserId:
+    get:
+      tags:
+        - Post
+      summary: Finds posts by userId
+      description: ''
+      operationId: findPostsByUserId
+      parameters:
+        - name: userId
+          in: query
+          description: ''
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'          
+        '400':
+          description: Invalid userId
 
 
 components:
