@@ -72,6 +72,26 @@ paths:
         '400':
           description: Invalid userId
 
+  /posts/deleteByUserId:
+    delete:
+      tags:
+        - Post
+      summary: delete posts by userId
+      description: ''
+      operationId: deletePostsByUserId
+      parameters:
+        - name: userId
+          in: query
+          description: ''
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid userId          
 
 components:
   schemas:

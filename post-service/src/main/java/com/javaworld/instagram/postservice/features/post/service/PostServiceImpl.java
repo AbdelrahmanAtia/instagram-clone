@@ -69,17 +69,26 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	private List<PostEntity> internalGetPosts(int userId) {
-
 		List<PostEntity> entityList = postRepository.findByUserId(userId);
-
-		//TODO: the mapping to api dto & setting the service address should be done at controller
-		
-		// List<Review> list = mapper.entityListToApiList(entityList);
-		// list.forEach(e -> e.setServiceAddress(serviceUtil.getServiceAddress()));
-
 		logger.debug("Response size: {}", entityList.size());
-
 		return entityList;
+	}
+
+	@Override
+	public Mono<Void> deletePosts(int userId) {
+
+		if (userId < 1) {
+			throw new InvalidInputException("Invalid userId: " + userId);
+		}
+
+		return Mono.fromRunnable(() -> internalDeletePosts(userId)).subscribeOn(jdbcScheduler).then();
+	}
+
+	private void internalDeletePosts(int userId) {
+
+		logger.debug("deletePosts: tries to delete posts for the user with userId: {}", userId);
+
+		postRepository.deleteAll(postRepository.findByUserId(userId));
 	}
 
 }
