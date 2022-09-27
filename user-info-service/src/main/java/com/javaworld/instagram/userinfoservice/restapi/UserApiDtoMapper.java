@@ -16,8 +16,8 @@ public interface UserApiDtoMapper {
 	})
 	UserApiDto entityToApi(UserEntity entity);
 
-	@Mappings({ 
-		@Mapping(target = "id", ignore = true), 
+	@Mappings({
+		//@Mapping(target = "id", ignore = true), //identity key for user entity is the username 
 		@Mapping(target = "version", ignore = true) 
 	})
 	UserEntity apiToEntity(UserApiDto apiDto);
