@@ -1,6 +1,6 @@
 package com.javaworld.instagram.userinfoservice.persistence;
 
-import javax.persistence.Entity;
+import javax.persistence.Entity; 
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;

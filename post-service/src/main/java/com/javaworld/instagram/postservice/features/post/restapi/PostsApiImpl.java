@@ -63,6 +63,12 @@ public class PostsApiImpl implements PostsApi {
 		return postService.deletePosts(userId);
 	}
 	
+	@Override
+	public Mono<PostsCountResponseApiDto> findPostsCount(Integer userId, ServerWebExchange exchange) {
+		// TODO: to be implemented..
+		return null;
+	}
+	
 	private PostApiDto setServiceAddress(PostApiDto postApiDto) {
 		postApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return postApiDto;

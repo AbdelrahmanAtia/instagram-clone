@@ -1,0 +1,24 @@
+spring.config.activate.on-profile: docker
+
+server:
+  port: 8080
+  servlet.context-path: /insta-userinfo-service
+
+# TODO: Strongly recommend to set this property to "none" in a production environment!
+spring.jpa.hibernate.ddl-auto: update
+
+spring.datasource:
+  url: jdbc:mysql://mysql/post-db
+  username: root
+  password: rootpwd
+
+  
+spring.jpa.database-platform: org.hibernate.dialect.MySQL8Dialect  
+
+# TODO: logging SQL queries should be disabled on production env as it heavily affects the performance
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  

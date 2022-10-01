@@ -105,5 +105,34 @@ public interface PostsApi {
         @NotNull @Parameter(name = "userId", description = "", required = true) @Valid @RequestParam(value = "userId", required = true) Integer userId,
         @Parameter(hidden = true) final ServerWebExchange exchange
     );
+    
+    
+    /**
+     * GET /posts/count : Finds posts count for a certain user
+     * 
+     *
+     * @param userId  (required)
+     * @return successful operation (status code 200)
+     *         or Invalid userId (status code 400)
+     */
+    @Operation(
+        operationId = "findPostsCount",
+        summary = "Finds posts count for a certain user",
+        tags = { "Post" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = PostsCountResponseApiDto.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Invalid userId")
+        }
+    )
+    @GetMapping(
+        value = "/posts/count",
+        produces = { "application/json" }
+    )
+    Mono<PostsCountResponseApiDto> findPostsCount(
+        @NotNull @Parameter(name = "userId", description = "", required = true) @Valid @RequestParam(value = "userId", required = true) Integer userId,
+        @Parameter(hidden = true) final ServerWebExchange exchange
+    );    
 
 }

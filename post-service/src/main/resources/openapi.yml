@@ -71,6 +71,31 @@ paths:
                   $ref: '#/components/schemas/Post'          
         '400':
           description: Invalid userId
+          
+  /posts/count:
+    get:
+      tags:
+        - Post
+      summary: Finds posts count for a certain user
+      description: ''
+      operationId: findPostsCount
+      parameters:
+        - name: userId
+          in: query
+          description: ''
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostsCountResponse'          
+        '400':
+          description: Invalid userId          
 
   /posts/deleteByUserId:
     delete:
@@ -98,7 +123,7 @@ components:
     Post:
       type: object
       properties:
-        id:
+        id:  ##TODO: I think we shouldn't send the id in request. if u need to update a request, use uuid
           type: integer
           format: int32
         title:
@@ -107,4 +132,15 @@ components:
           type: integer    
           format: int32
         serviceAddress:
-          type: string      
+          type: string   
+          
+    PostsCountResponse:
+      type: object
+      properties:
+        postsCount:
+          type: integer    
+          format: int32
+        serviceAddress:
+          type: string   
+        
+          

@@ -163,6 +163,7 @@
 			     this plugin is disabled until we fix the issue of wrapping Flux<T> with Mono like 
 			     this Mono<Flux<T>> for api's that return an array
 			-->
+
 			<!-- 
 			<plugin>
 				<groupId>org.openapitools</groupId>
