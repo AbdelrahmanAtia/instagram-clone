@@ -9,6 +9,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import com.javaworld.instagram.userinfoservice.commons.exceptions.InvalidInputException;
+import com.javaworld.instagram.userinfoservice.commons.utils.ServiceUtil;
 import com.javaworld.instagram.userinfoservice.integration.UserInfoIntegration;
 import com.javaworld.instagram.userinfoservice.persistence.UserEntity;
 import com.javaworld.instagram.userinfoservice.persistence.UserRepository;
@@ -26,6 +27,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserInfoIntegration integration;
+	
+	@Autowired
+	private ServiceUtil serviceUtil;
 	
 	@Override
 	public Mono<UserEntity> createUser(UserEntity userEntity) {
@@ -48,19 +52,20 @@ public class UserServiceImpl implements UserService {
 
 		//retrieve each part of the profile details in a parallel way
 		return Mono
-				.zip(values -> createProfileDetails((Integer) values[0], (Integer) values[1], (Integer) values[2]),
+				.zip(values -> createProfileDetails((Integer) values[0], (Integer) values[1], (Integer) values[2], serviceUtil.getServiceAddress()),
 						integration.getUserPostsCount(userId), getFollowersCount(), getFollowingCount())
 				.doOnError(ex -> LOG.warn("createProfileDetails failed: {}", ex.toString()))
 				.log(LOG.getName(), FINE);
 		
 	}
 
-	private ProfileDetails createProfileDetails(int postsCount, int followersCount, int followingCount) {
+	private ProfileDetails createProfileDetails(int postsCount, int followersCount, int followingCount, String serviceAddress) {
 
 		ProfileDetails profileDetails = new ProfileDetails();
 		profileDetails.setPostsCount(postsCount);
 		profileDetails.setFollowersCount(followersCount);
 		profileDetails.setFollowingCount(followingCount);
+		profileDetails.setServiceAddress(serviceAddress);
 
 		return profileDetails;
 	}

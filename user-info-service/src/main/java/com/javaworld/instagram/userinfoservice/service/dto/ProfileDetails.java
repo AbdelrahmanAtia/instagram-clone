@@ -5,6 +5,7 @@ public class ProfileDetails {
 	private int postsCount;
 	private int followersCount;
 	private int followingCount;
+	private String serviceAddress;
 
 	public int getPostsCount() {
 		return postsCount;
@@ -28,6 +29,14 @@ public class ProfileDetails {
 
 	public void setFollowingCount(int followingCount) {
 		this.followingCount = followingCount;
+	}
+
+	public String getServiceAddress() {
+		return serviceAddress;
+	}
+
+	public void setServiceAddress(String serviceAddress) {
+		this.serviceAddress = serviceAddress;
 	}
 
 }
