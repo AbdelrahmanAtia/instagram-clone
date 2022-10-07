@@ -1,4 +1,4 @@
-package com.javaworld.instagram.postservice.features.post.restapi;
+package com.javaworld.instagram.postservice.features.restapi;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ServerWebExchange;
+
+import com.javaworld.instagram.postservice.features.restapi.apidtos.PostApiDto;
+import com.javaworld.instagram.postservice.features.restapi.apidtos.PostsCountResponseApiDto;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

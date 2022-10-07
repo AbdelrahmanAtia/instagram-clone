@@ -1,4 +1,4 @@
-package com.javaworld.instagram.postservice.features.post.service;
+package com.javaworld.instagram.postservice.features.service;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
-import com.javaworld.instagram.postservice.features.post.persistence.PostEntity;
-import com.javaworld.instagram.postservice.features.post.persistence.PostRepository;
+import com.javaworld.instagram.postservice.features.persistence.entities.PostEntity;
+import com.javaworld.instagram.postservice.features.persistence.repositories.PostRepository;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

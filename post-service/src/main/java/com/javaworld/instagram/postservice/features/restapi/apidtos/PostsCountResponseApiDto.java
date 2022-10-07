@@ -1,4 +1,4 @@
-package com.javaworld.instagram.postservice.features.post.restapi;
+package com.javaworld.instagram.postservice.features.restapi.apidtos;
 
 public class PostsCountResponseApiDto {
 

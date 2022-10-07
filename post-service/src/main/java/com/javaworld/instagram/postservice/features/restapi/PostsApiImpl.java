@@ -1,4 +1,4 @@
-package com.javaworld.instagram.postservice.features.post.restapi;
+package com.javaworld.instagram.postservice.features.restapi;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +9,11 @@ import org.springframework.web.server.ServerWebExchange;
 
 import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
 import com.javaworld.instagram.postservice.commons.utils.ServiceUtil;
-import com.javaworld.instagram.postservice.features.post.persistence.PostEntity;
-import com.javaworld.instagram.postservice.features.post.service.PostService;
+import com.javaworld.instagram.postservice.features.persistence.entities.PostEntity;
+import com.javaworld.instagram.postservice.features.restapi.apidtomappers.PostApiDtoMapper;
+import com.javaworld.instagram.postservice.features.restapi.apidtos.PostApiDto;
+import com.javaworld.instagram.postservice.features.restapi.apidtos.PostsCountResponseApiDto;
+import com.javaworld.instagram.postservice.features.service.PostService;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

@@ -1,4 +1,4 @@
-package com.javaworld.instagram.postservice.features.post.persistence;
+package com.javaworld.instagram.postservice.features.persistence.entities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +32,18 @@ public class PostEntity {
 
 	private int userId;
 
-	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(
+		mappedBy = "post", 
+		cascade = CascadeType.ALL, 
+		orphanRemoval = true)
 	private List<CommentEntity> comments = new ArrayList<>();
 
+	@OneToMany(
+		mappedBy = "post", 
+		cascade = CascadeType.ALL, 
+		orphanRemoval = true)
+	private List<PostTagAssignment> postTagAssignmentList = new ArrayList<>();
+	
 	public PostEntity() {
 
 	}
@@ -94,6 +103,14 @@ public class PostEntity {
 	public void removeComment(CommentEntity comment) {
 		comments.remove(comment);
 		comment.setPost(null);
+	}		
+
+	public List<PostTagAssignment> getPostTagAssignmentList() {
+		return postTagAssignmentList;
+	}
+
+	public void setPostTagAssignmentList(List<PostTagAssignment> postTagAssignmentList) {
+		this.postTagAssignmentList = postTagAssignmentList;
 	}
 
 	public UUID getPostUuid() {

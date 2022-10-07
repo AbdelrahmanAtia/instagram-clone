@@ -131,8 +131,19 @@ components:
         userId:
           type: integer    
           format: int32
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'        
         serviceAddress:
-          type: string   
+          type: string  
+          
+    Tag:
+      type: object
+      properties:
+        name:
+          type: string
+  
           
     PostsCountResponse:
       type: object

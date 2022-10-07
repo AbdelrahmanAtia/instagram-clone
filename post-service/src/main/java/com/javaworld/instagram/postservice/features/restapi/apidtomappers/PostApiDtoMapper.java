@@ -1,10 +1,11 @@
-package com.javaworld.instagram.postservice.features.post.restapi;
+package com.javaworld.instagram.postservice.features.restapi.apidtomappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-import com.javaworld.instagram.postservice.features.post.persistence.PostEntity;
+import com.javaworld.instagram.postservice.features.persistence.entities.PostEntity;
+import com.javaworld.instagram.postservice.features.restapi.apidtos.PostApiDto;
 
 @Mapper(componentModel = "spring")
 public interface PostApiDtoMapper {

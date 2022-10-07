@@ -1,4 +1,4 @@
-package com.javaworld.instagram.postservice.features.post.persistence;
+package com.javaworld.instagram.postservice.features.persistence.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
