@@ -1,4 +1,4 @@
-package com.javaworld.instagram.postservice.features.restapi.apidtos;
+package com.javaworld.instagram.postservice.features.restapi.apidto;
 
 import java.util.Objects;
 

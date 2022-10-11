@@ -112,6 +112,12 @@ public class PostEntity {
 	public void setPostTagAssignmentList(List<PostTagAssignment> postTagAssignmentList) {
 		this.postTagAssignmentList = postTagAssignmentList;
 	}
+	
+    public void addPostTagAssignment(TagEntity tagEntity) {
+    	PostTagAssignment postTagAssignment = new PostTagAssignment(this, tagEntity);
+        postTagAssignmentList.add(postTagAssignment);
+        //tagEntity.getPostTagAssignmentList().add(postTagAssignment);
+    }
 
 	public UUID getPostUuid() {
 		return postUuid;
@@ -134,6 +140,8 @@ public class PostEntity {
 		builder.append(title);
 		builder.append(", userId=");
 		builder.append(userId);
+		builder.append(", postTagAssignmentList=");
+		builder.append(postTagAssignmentList);
 		builder.append("]");
 		return builder.toString();
 	}

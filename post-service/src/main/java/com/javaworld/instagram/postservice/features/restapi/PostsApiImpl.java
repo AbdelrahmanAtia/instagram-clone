@@ -9,11 +9,11 @@ import org.springframework.web.server.ServerWebExchange;
 
 import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
 import com.javaworld.instagram.postservice.commons.utils.ServiceUtil;
-import com.javaworld.instagram.postservice.features.persistence.entities.PostEntity;
-import com.javaworld.instagram.postservice.features.restapi.apidtomappers.PostApiDtoMapper;
-import com.javaworld.instagram.postservice.features.restapi.apidtos.PostApiDto;
-import com.javaworld.instagram.postservice.features.restapi.apidtos.PostsCountResponseApiDto;
+import com.javaworld.instagram.postservice.features.restapi.apidto.PostApiDto;
+import com.javaworld.instagram.postservice.features.restapi.apidto.PostsCountResponseApiDto;
+import com.javaworld.instagram.postservice.features.restapi.apidtomapper.PostApiDtoMapper;
 import com.javaworld.instagram.postservice.features.service.PostService;
+import com.javaworld.instagram.postservice.features.service.dto.Post;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -33,17 +33,16 @@ public class PostsApiImpl implements PostsApi {
 	private ServiceUtil serviceUtil;
 	
 	
-    //TODO: what is the use of ServerWebExchange
+	// TODO: what is the use of ServerWebExchange
+	// TODO: change the response to return a generic response saying that
+	// the post is created successfully & change the api documentation response
 	@Override
-	public Mono<PostApiDto> createPost(PostApiDto body, ServerWebExchange exchange) {
-	try {
-		
-			PostEntity entity = postApiDtoMapper.apiToEntity(body);
-			
-			return postService.createPost(entity)  
-			           .map(e -> postApiDtoMapper.entityToApi(e))
-			           .map(e -> setServiceAddress(e));
-			           
+	public Mono<Void> createPost(PostApiDto body, ServerWebExchange exchange) {
+		try {
+
+			Post post = postApiDtoMapper.apiToDto(body);
+			return postService.createPost(post);
+
 		} catch (DataIntegrityViolationException dive) {
 			// TODO: return a specific error message here
 			throw new InvalidInputException(dive.getMessage());
@@ -53,9 +52,9 @@ public class PostsApiImpl implements PostsApi {
     //TODO: what is the use of ServerWebExchange
 	@Override
 	public Flux<PostApiDto> findPostsByUserId(Integer userId, ServerWebExchange exchange) {
-
+		
 		return postService.getPosts(userId)
-				.map(e -> postApiDtoMapper.entityToApi(e))
+				.map(e -> postApiDtoMapper.mapToApiDto(e))
 				.map(e -> setServiceAddress(e));
 	}
 	

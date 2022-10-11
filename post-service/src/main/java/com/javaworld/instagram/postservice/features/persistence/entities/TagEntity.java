@@ -7,16 +7,24 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity(name = "Tag")
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
 @Table(name = "tag")
+//@Setter
+//@Getter
+//@NoArgsConstructor
 public class TagEntity {
  
     @Id
-    @GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
  
     private String name;
@@ -30,14 +38,14 @@ public class TagEntity {
     private List<PostTagAssignment> postTagAssignmentList = new ArrayList<>();
  
     public TagEntity() {
-    
+
     }
- 
+    
     public TagEntity(String name) {
         this.name = name;
     }
-     
-    public int getId() {
+    
+	public int getId() {
 		return id;
 	}
 
@@ -52,7 +60,7 @@ public class TagEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public List<PostTagAssignment> getPostTagAssignmentList() {
 		return postTagAssignmentList;
 	}
@@ -73,4 +81,14 @@ public class TagEntity {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("TagEntity [name=");
+		builder.append(name);
+		builder.append("]");
+		return builder.toString();
+	}
+    
 }

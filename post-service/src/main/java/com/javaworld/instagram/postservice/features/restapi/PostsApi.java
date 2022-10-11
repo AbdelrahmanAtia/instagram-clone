@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ServerWebExchange;
 
-import com.javaworld.instagram.postservice.features.restapi.apidtos.PostApiDto;
-import com.javaworld.instagram.postservice.features.restapi.apidtos.PostsCountResponseApiDto;
+import com.javaworld.instagram.postservice.features.restapi.apidto.PostApiDto;
+import com.javaworld.instagram.postservice.features.restapi.apidto.PostsCountResponseApiDto;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -49,7 +49,7 @@ public interface PostsApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    Mono<PostApiDto> createPost(
+    Mono<Void> createPost(
         @Parameter(name = "" ,required=true )  @Valid @RequestBody PostApiDto postApiDto,
         @Parameter(hidden = true) final ServerWebExchange exchange
     );
