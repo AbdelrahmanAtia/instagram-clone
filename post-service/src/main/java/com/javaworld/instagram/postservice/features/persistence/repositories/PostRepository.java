@@ -9,6 +9,6 @@ import com.javaworld.instagram.postservice.features.persistence.entities.PostEnt
 
 public interface PostRepository extends CrudRepository<PostEntity, Integer> {
 
-	@Transactional(readOnly = true)
+	//@Transactional(readOnly = true)
 	List<PostEntity> findByUserId(int userId);
 }

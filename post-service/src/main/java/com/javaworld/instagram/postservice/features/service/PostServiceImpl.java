@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionPhase;
 
 import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
 import com.javaworld.instagram.postservice.features.persistence.entities.PostEntity;
@@ -92,8 +94,16 @@ public class PostServiceImpl implements PostService {
 
 	}
 	
+	@Transactional
 	private List<PostEntity> internalGetPosts(int userId) {
+		logger.info(">> starting internalGetPosts()..");
 		List<PostEntity> entityList = postRepository.findByUserId(userId);
+		//===================
+		String tagName = entityList.get(0).getPostTagAssignmentList().get(0).getTag().getName();
+		logger.info(">> tagName: " + tagName);
+		String postName = entityList.get(0).getPostTagAssignmentList().get(0).getPost().getTitle();
+		logger.info(">> postName: " + postName);
+		logger.info(">> after posts retrieval..");
 		logger.debug("Response size: {}", entityList.size());
 		return entityList;
 	}
