@@ -1,7 +1,5 @@
 package com.javaworld.instagram.postservice.features.service;
 
-import static java.util.logging.Level.FINE;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.event.TransactionPhase;
 
 import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
 import com.javaworld.instagram.postservice.features.persistence.entities.PostEntity;
@@ -23,8 +19,6 @@ import com.javaworld.instagram.postservice.features.persistence.repositories.Tag
 import com.javaworld.instagram.postservice.features.service.dto.Post;
 import com.javaworld.instagram.postservice.features.service.dtomapper.PostMapper;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 
 @Service
@@ -38,22 +32,17 @@ public class PostServiceImpl implements PostService {
 	@Autowired
 	@Qualifier("jdbcScheduler")
 	private Scheduler jdbcScheduler;
-	
+
 	@Autowired
 	private TagRepository tagRepository;
-	
+
 	@Autowired
 	private PostMapper postMapper;
-	
 
 	@Override
 	@Transactional
-	public Mono<Void> createPost(Post post) {
-		return Mono.fromRunnable(() -> internalCreatePost(post))
-				.subscribeOn(jdbcScheduler).then();
-	}
+	public void createPost(Post post) {
 
-	private void internalCreatePost(Post post) {
 		try {
 
 			List<TagEntity> tagEntityList = postMapper.dtoListToEntityList(post.getTags());
@@ -77,8 +66,8 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	@Transactional  //TODO: make it read only
-	public Flux<Post> getPosts(int userId) {
+	@Transactional // TODO: make it read only
+	public List<Post> getPosts(int userId) {
 
 		if (userId < 1) {
 			throw new InvalidInputException("Invalid userId: " + userId);
@@ -86,43 +75,23 @@ public class PostServiceImpl implements PostService {
 
 		logger.info("Will get posts for user with id={}", userId);
 
-		return Mono.fromCallable(() -> internalGetPosts(userId))
-				.map(e -> postMapper.entityListToDtoList(e))
-				.flatMapMany(Flux::fromIterable)
-				.log(logger.getName(), FINE)
-				.subscribeOn(jdbcScheduler);
-
-	}
-	
-	@Transactional
-	private List<PostEntity> internalGetPosts(int userId) {
-		logger.info(">> starting internalGetPosts()..");
 		List<PostEntity> entityList = postRepository.findByUserId(userId);
-		//===================
-		String tagName = entityList.get(0).getPostTagAssignmentList().get(0).getTag().getName();
-		logger.info(">> tagName: " + tagName);
-		String postName = entityList.get(0).getPostTagAssignmentList().get(0).getPost().getTitle();
-		logger.info(">> postName: " + postName);
-		logger.info(">> after posts retrieval..");
-		logger.debug("Response size: {}", entityList.size());
-		return entityList;
+
+		return postMapper.entityListToDtoList(entityList);
+
 	}
 
 	@Override
-	public Mono<Void> deletePosts(int userId) {
+	public void deletePosts(int userId) {
 
 		if (userId < 1) {
 			throw new InvalidInputException("Invalid userId: " + userId);
 		}
 
-		return Mono.fromRunnable(() -> internalDeletePosts(userId)).subscribeOn(jdbcScheduler).then();
-	}
-
-	private void internalDeletePosts(int userId) {
-
 		logger.debug("deletePosts: tries to delete posts for the user with userId: {}", userId);
 
 		postRepository.deleteAll(postRepository.findByUserId(userId));
+		
 	}
 
 }
