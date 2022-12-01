@@ -1,16 +1,15 @@
 package com.javaworld.instagram.postservice.features.service;
 
-import com.javaworld.instagram.postservice.features.service.dto.Post;
+import java.util.List;
 
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import com.javaworld.instagram.postservice.features.service.dto.Post;
 
 public interface PostService {
 
-	Mono<Void> createPost(Post post);
+	void createPost(Post post);
 
-	Flux<Post> getPosts(int userId);
+	List<Post> getPosts(int userId);
 
-	Mono<Void> deletePosts(int userId);
+	void deletePosts(int userId);
 
 }

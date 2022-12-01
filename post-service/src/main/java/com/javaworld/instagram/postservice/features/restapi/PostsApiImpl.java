@@ -1,22 +1,21 @@
 package com.javaworld.instagram.postservice.features.restapi;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ServerWebExchange;
 
 import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
 import com.javaworld.instagram.postservice.commons.utils.ServiceUtil;
-import com.javaworld.instagram.postservice.features.restapi.apidto.PostApiDto;
-import com.javaworld.instagram.postservice.features.restapi.apidto.PostsCountResponseApiDto;
 import com.javaworld.instagram.postservice.features.restapi.apidtomapper.PostApiDtoMapper;
 import com.javaworld.instagram.postservice.features.service.PostService;
 import com.javaworld.instagram.postservice.features.service.dto.Post;
-
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import com.javaworld.instagram.postservice.server.api.PostsApi;
+import com.javaworld.instagram.postservice.server.dto.PostApiDto;
+import com.javaworld.instagram.postservice.server.dto.PostsCountResponseApiDto;
 
 @RestController
 public class PostsApiImpl implements PostsApi {
@@ -33,15 +32,17 @@ public class PostsApiImpl implements PostsApi {
 	private ServiceUtil serviceUtil;
 	
 	
-	// TODO: what is the use of ServerWebExchange
 	// TODO: change the response to return a generic response saying that
 	// the post is created successfully & change the api documentation response
 	@Override
-	public Mono<Void> createPost(PostApiDto body, ServerWebExchange exchange) {
+	public PostApiDto createPost(PostApiDto body) {
 		try {
 
 			Post post = postApiDtoMapper.apiToDto(body);
-			return postService.createPost(post);
+			 postService.createPost(post);
+			 
+			 return null; //TODO: check how it is handled in the book and do it 
+			              //in a similar way
 
 		} catch (DataIntegrityViolationException dive) {
 			// TODO: return a specific error message here
@@ -49,24 +50,25 @@ public class PostsApiImpl implements PostsApi {
 		}
 	}
 		
-    //TODO: what is the use of ServerWebExchange
 	@Override
-	public Flux<PostApiDto> findPostsByUserId(Integer userId, ServerWebExchange exchange) {
-		
-		return postService.getPosts(userId)
-				.map(e -> postApiDtoMapper.mapToApiDto(e))
-				.map(e -> setServiceAddress(e));
-	}
-	
-    //TODO: what is the use of ServerWebExchange
-	@Override
-	public Mono<Void> deletePostsByUserId(Integer userId, ServerWebExchange exchange) {
-		
-		return postService.deletePosts(userId);
+	public List<PostApiDto> findPostsByUserId(Integer userId) {
+		List<Post> posts = postService.getPosts(userId);
+		List<PostApiDto> postsApiDtoList = postApiDtoMapper.mapToApiDto(posts);
+		postsApiDtoList.forEach(e -> setServiceAddress(e));
+		return postsApiDtoList;
 	}
 	
 	@Override
-	public Mono<PostsCountResponseApiDto> findPostsCount(Integer userId, ServerWebExchange exchange) {
+	public Void deletePostsByUserId(Integer userId) {
+		 postService.deletePosts(userId);
+		 
+		 return null; //TODO: change return type to void and check how can 
+		              //open-api also generate void instead of Void
+		              //then remove this return statement
+	}
+	
+	@Override
+	public PostsCountResponseApiDto findPostsCount(Integer userId) {
 		// TODO: to be implemented..
 		return null;
 	}
@@ -75,5 +77,6 @@ public class PostsApiImpl implements PostsApi {
 		postApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return postApiDto;
 	}
-		
+
+	
 }

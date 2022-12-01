@@ -6,10 +6,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-import com.javaworld.instagram.postservice.features.restapi.apidto.PostApiDto;
-import com.javaworld.instagram.postservice.features.restapi.apidto.TagApiDto;
 import com.javaworld.instagram.postservice.features.service.dto.Post;
 import com.javaworld.instagram.postservice.features.service.dto.Tag;
+import com.javaworld.instagram.postservice.server.dto.PostApiDto;
+import com.javaworld.instagram.postservice.server.dto.TagApiDto;
 
 @Mapper(componentModel = "spring")
 public interface PostApiDtoMapper {
@@ -22,8 +22,7 @@ public interface PostApiDtoMapper {
 	List<Tag> mapToDtoList(List<TagApiDto> apiDto);
 
 	PostApiDto mapToApiDto(Post post);
-	
-	
-	
+
+	List<PostApiDto> mapToApiDto(List<Post> post);
 
 }
