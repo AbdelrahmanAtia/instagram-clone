@@ -19,8 +19,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.javaworld.instagram.postservice.features.post.persistence.PostEntity;
-import com.javaworld.instagram.postservice.features.post.persistence.PostRepository;
+import com.javaworld.instagram.postservice.features.persistence.entities.PostEntity;
+import com.javaworld.instagram.postservice.features.persistence.repositories.PostRepository;
+
+
 
 @DataJpaTest
 @Transactional(propagation = NOT_SUPPORTED) // disable transactional behavior of spring boot tests which disables 
