@@ -1,6 +1,7 @@
 package com.javaworld.instagram.postservice.features.post;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.HttpStatus.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 import com.javaworld.instagram.postservice.features.persistence.repositories.PostRepository;
 
@@ -25,25 +28,27 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 		repository.deleteAll();
 	}
 
-	  @Test
-	  void getReviewsByProductId() {
+	@Test
+	void getPostsByUserId() {
 
-	    int productId = 1;
+		int userId = 1;
 
-	    assertEquals(0, repository.findByProductId(productId).size());
+		assertEquals(0, repository.findByUserId(userId).size());
 
-	    postAndVerifyReview(productId, 1, OK);
-	    postAndVerifyReview(productId, 2, OK);
-	    postAndVerifyReview(productId, 3, OK);
+		postAndVerifyPost(userId, 1, OK);
+		postAndVerifyPost(userId, 2, OK);
+		postAndVerifyPost(userId, 3, OK);
 
-	    assertEquals(3, repository.findByProductId(productId).size());
+		assertEquals(3, repository.findByUserId(userId).size());
 
-	    getAndVerifyReviewsByProductId(productId, OK)
-	      .jsonPath("$.length()").isEqualTo(3)
-	      .jsonPath("$[2].productId").isEqualTo(productId)
-	      .jsonPath("$[2].reviewId").isEqualTo(3);
-	  }
+		getAndVerifyPostsByUserId(userId, OK)
+			.jsonPath("$.length()").isEqualTo(3)
+			.jsonPath("$[2].userId").isEqualTo(userId)
+			.jsonPath("$[2].postId").isEqualTo(3);
+	
+	}
 
+	  /*
 	  @Test
 	  void duplicateError() {
 
@@ -112,10 +117,12 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 	      .jsonPath("$.path").isEqualTo("/review")
 	      .jsonPath("$.message").isEqualTo("Invalid productId: " + productIdInvalid);
 	  }
-
-	  private WebTestClient.BodyContentSpec getAndVerifyReviewsByProductId(int productId, HttpStatus expectedStatus) {
+	  */
+	  
+	  private WebTestClient.BodyContentSpec getAndVerifyPostsByUserId(int productId, HttpStatus expectedStatus) {
 	    return getAndVerifyReviewsByProductId("?productId=" + productId, expectedStatus);
 	  }
+
 
 	  private WebTestClient.BodyContentSpec getAndVerifyReviewsByProductId(String productIdQuery, HttpStatus expectedStatus) {
 	    return client.get()
@@ -127,7 +134,7 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 	      .expectBody();
 	  }
 
-	  private WebTestClient.BodyContentSpec postAndVerifyReview(int productId, int reviewId, HttpStatus expectedStatus) {
+	  private WebTestClient.BodyContentSpec postAndVerifyPost(int userId, int postId, HttpStatus expectedStatus) {
 	    Review review = new Review(productId, reviewId, "Author " + reviewId, "Subject " + reviewId, "Content " + reviewId, "SA");
 	    return client.post()
 	      .uri("/review")
@@ -139,12 +146,12 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 	      .expectBody();
 	  }
 
-	  private WebTestClient.BodyContentSpec deleteAndVerifyReviewsByProductId(int productId, HttpStatus expectedStatus) {
-	    return client.delete()
-	      .uri("/review?productId=" + productId)
-	      .accept(APPLICATION_JSON)
-	      .exchange()
-	      .expectStatus().isEqualTo(expectedStatus)
-	      .expectBody();
-	  }
+		private WebTestClient.BodyContentSpec deleteAndVerifyReviewsByProductId(int userId, HttpStatus expectedStatus) {
+			return client.delete()
+					.uri("/post?userId=" + userId)
+					.accept(APPLICATION_JSON)
+					.exchange()
+					.expectStatus().isEqualTo(expectedStatus)
+					.expectBody();
+		}
 	}
