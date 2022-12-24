@@ -39,10 +39,8 @@ public class PostsApiImpl implements PostsApi {
 		try {
 
 			Post post = postApiDtoMapper.apiToDto(body);
-			 postService.createPost(post);
-			 
-			 return null; //TODO: check how it is handled in the book and do it 
-			              //in a similar way
+			Post savedPost = postService.createPost(post);
+			return postApiDtoMapper.mapToApiDto(savedPost);
 
 		} catch (DataIntegrityViolationException dive) {
 			// TODO: return a specific error message here

@@ -1,4 +1,4 @@
-package com.javaworld.instagram.postservice.features.post;
+package com.javaworld.instagram.postservice;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

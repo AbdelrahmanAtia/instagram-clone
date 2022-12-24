@@ -1,7 +1,14 @@
-package com.javaworld.instagram.postservice.features.post;
+package com.javaworld.instagram.postservice;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static reactor.core.publisher.Mono.just;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,14 +16,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 import com.javaworld.instagram.postservice.features.persistence.repositories.PostRepository;
+import com.javaworld.instagram.postservice.server.dto.PostApiDto;
+import com.javaworld.instagram.postservice.server.dto.TagApiDto;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class PostServiceApplicationTests /* extends MySqlTestBase */ {
-
+	
+	private static final String CONTEXT_PATH = "";
+	
 	@Autowired
 	private WebTestClient client;
 
@@ -32,12 +41,16 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 	void getPostsByUserId() {
 
 		int userId = 1;
+		
+		UUID firstPostUUID = UUID. randomUUID();
+		UUID secondPostUUID = UUID. randomUUID();
+		UUID thirdPostUUID = UUID. randomUUID();		
 
 		assertEquals(0, repository.findByUserId(userId).size());
 
-		postAndVerifyPost(userId, 1, OK);
-		postAndVerifyPost(userId, 2, OK);
-		postAndVerifyPost(userId, 3, OK);
+		postAndVerifyPost(userId, firstPostUUID, OK);
+		postAndVerifyPost(userId, secondPostUUID, OK);
+		postAndVerifyPost(userId, thirdPostUUID, OK);
 
 		assertEquals(3, repository.findByUserId(userId).size());
 
@@ -119,14 +132,14 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 	  }
 	  */
 	  
-	  private WebTestClient.BodyContentSpec getAndVerifyPostsByUserId(int productId, HttpStatus expectedStatus) {
-	    return getAndVerifyReviewsByProductId("?productId=" + productId, expectedStatus);
+	  private WebTestClient.BodyContentSpec getAndVerifyPostsByUserId(int userId, HttpStatus expectedStatus) {
+	    return getAndVerifyPostsByUserId("? userId=" +  userId, expectedStatus);
 	  }
 
 
-	  private WebTestClient.BodyContentSpec getAndVerifyReviewsByProductId(String productIdQuery, HttpStatus expectedStatus) {
+	  private WebTestClient.BodyContentSpec getAndVerifyPostsByUserId(String userIdQuery, HttpStatus expectedStatus) {
 	    return client.get()
-	      .uri("/review" + productIdQuery)
+	      .uri( CONTEXT_PATH + "/posts/" + userIdQuery)
 	      .accept(APPLICATION_JSON)
 	      .exchange()
 	      .expectStatus().isEqualTo(expectedStatus)
@@ -134,21 +147,36 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 	      .expectBody();
 	  }
 
-	  private WebTestClient.BodyContentSpec postAndVerifyPost(int userId, int postId, HttpStatus expectedStatus) {
-	    Review review = new Review(productId, reviewId, "Author " + reviewId, "Subject " + reviewId, "Content " + reviewId, "SA");
-	    return client.post()
-	      .uri("/review")
-	      .body(just(review), Review.class)
-	      .accept(APPLICATION_JSON)
-	      .exchange()
-	      .expectStatus().isEqualTo(expectedStatus)
-	      .expectHeader().contentType(APPLICATION_JSON)
-	      .expectBody();
-	  }
+		private WebTestClient.BodyContentSpec postAndVerifyPost(int userId, UUID postUUID, HttpStatus expectedStatus) {
+			
+			TagApiDto tag1 = new TagApiDto();
+			tag1.setName("java");
+			
+			TagApiDto tag2 = new TagApiDto();
+			tag2.setName("OOP");
+			
+			List<TagApiDto> tagsApiDtoList = new ArrayList<>();
+			tagsApiDtoList.add(tag1);
+			tagsApiDtoList.add(tag2);
+			
+			PostApiDto postApiDto = new PostApiDto();
+			postApiDto.setUserId(userId);
+			postApiDto.setPostUUID(postUUID);
+			postApiDto.setTags(tagsApiDtoList);
+
+			return client.post()
+					.uri(CONTEXT_PATH + "/posts/")
+					.body(just(postApiDto), PostApiDto.class)
+					.accept(APPLICATION_JSON)
+					.exchange()
+					.expectStatus().isEqualTo(expectedStatus)
+					.expectHeader().contentType(APPLICATION_JSON)
+					.expectBody();
+		}
 
 		private WebTestClient.BodyContentSpec deleteAndVerifyReviewsByProductId(int userId, HttpStatus expectedStatus) {
 			return client.delete()
-					.uri("/post?userId=" + userId)
+					.uri(CONTEXT_PATH + "/posts?userId=" + userId)
 					.accept(APPLICATION_JSON)
 					.exchange()
 					.expectStatus().isEqualTo(expectedStatus)

@@ -41,7 +41,7 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	@Transactional
-	public void createPost(Post post) {
+	public Post createPost(Post post) {
 
 		try {
 
@@ -57,7 +57,11 @@ public class PostServiceImpl implements PostService {
 			savedTags.forEach(t -> postEntity.addPostTagAssignment(t));
 			postRepository.save(postEntity);
 
-			logger.debug("createPost: created a post entity");
+			Post savedPost = postMapper.entityToDto(postEntity);
+
+			logger.info("createPost: created a post entity");
+
+			return savedPost;
 
 		} catch (DataIntegrityViolationException dive) {
 			// TODO: is this error message correct

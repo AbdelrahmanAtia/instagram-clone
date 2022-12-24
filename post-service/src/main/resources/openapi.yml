@@ -123,14 +123,14 @@ components:
     Post:
       type: object
       properties:
-        id:  ##TODO: I think we shouldn't send the id in request. if u need to update a request, use uuid
-          type: integer
-          format: int32
         title:
           type: string
         userId:
           type: integer    
           format: int32
+        postUUID:
+          type: string    
+          format: uuid          
         tags:
           type: array
           items:
