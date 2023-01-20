@@ -2,6 +2,7 @@ package com.javaworld.instagram.postservice.features.service.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 //TODO: use lombok for getters & setters
 public class Post {
@@ -9,6 +10,8 @@ public class Post {
 	private String title;
 
 	private Integer userId;
+	
+	private UUID postUuid;
 
 	private List<Tag> tags = new ArrayList<>();
 
@@ -35,5 +38,13 @@ public class Post {
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
+
+	public UUID getPostUuid() {
+		return postUuid;
+	}
+
+	public void setPostUuid(UUID postUuid) {
+		this.postUuid = postUuid;
+	}	
 
 }

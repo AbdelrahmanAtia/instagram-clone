@@ -12,9 +12,10 @@ import com.javaworld.instagram.postservice.features.persistence.entities.TagEnti
 import com.javaworld.instagram.postservice.features.service.dto.Post;
 import com.javaworld.instagram.postservice.features.service.dto.Tag;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", imports = {java.util.UUID.class})
 public interface PostMapper {
 
+    @Mapping(target = "postUuid", expression = "java(UUID.randomUUID())")
 	PostEntity dtoToEntity(Post post);
 
 	TagEntity dtoToEntity(Tag tag);

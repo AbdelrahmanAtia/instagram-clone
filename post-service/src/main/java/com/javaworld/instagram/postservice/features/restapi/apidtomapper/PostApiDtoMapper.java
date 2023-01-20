@@ -21,6 +21,7 @@ public interface PostApiDtoMapper {
 
 	List<Tag> mapToDtoList(List<TagApiDto> apiDto);
 
+    @Mapping(target = "postUuid", source = "")
 	PostApiDto mapToApiDto(Post post);
 
 	List<PostApiDto> mapToApiDto(List<Post> post);

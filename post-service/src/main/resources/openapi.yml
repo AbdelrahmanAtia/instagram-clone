@@ -128,7 +128,7 @@ components:
         userId:
           type: integer    
           format: int32
-        postUUID:
+        postUuid:
           type: string    
           format: uuid          
         tags:

@@ -12,26 +12,35 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.test.web.reactive.server.WebTestClient.BodyContentSpec;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javaworld.instagram.postservice.features.persistence.repositories.PostRepository;
+import com.javaworld.instagram.postservice.features.restapi.PostsApiImpl;
 import com.javaworld.instagram.postservice.server.dto.PostApiDto;
 import com.javaworld.instagram.postservice.server.dto.TagApiDto;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class PostServiceApplicationTests /* extends MySqlTestBase */ {
 	
+	private static final Logger logger = LoggerFactory.getLogger(PostsApiImpl.class);
+
 	private static final String CONTEXT_PATH = "";
-	
+
 	@Autowired
 	private WebTestClient client;
 
 	@Autowired
 	private PostRepository repository;
-
+	            
+	
 	@BeforeEach
 	void setupDb() {
 		repository.deleteAll();
@@ -57,7 +66,7 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 		getAndVerifyPostsByUserId(userId, OK)
 			.jsonPath("$.length()").isEqualTo(3)
 			.jsonPath("$[2].userId").isEqualTo(userId)
-			.jsonPath("$[2].postId").isEqualTo(3);
+			.jsonPath("$[2].postUuid").isEqualTo(thirdPostUUID);  //TODO: shall be passed after ordering retrieved posts by creation date
 	
 	}
 
@@ -133,18 +142,23 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 	  */
 	  
 	  private WebTestClient.BodyContentSpec getAndVerifyPostsByUserId(int userId, HttpStatus expectedStatus) {
-	    return getAndVerifyPostsByUserId("? userId=" +  userId, expectedStatus);
+	    return getAndVerifyPostsByUserId("?userId=" +  userId, expectedStatus);
 	  }
 
 
 	  private WebTestClient.BodyContentSpec getAndVerifyPostsByUserId(String userIdQuery, HttpStatus expectedStatus) {
-	    return client.get()
-	      .uri( CONTEXT_PATH + "/posts/" + userIdQuery)
-	      .accept(APPLICATION_JSON)
-	      .exchange()
-	      .expectStatus().isEqualTo(expectedStatus)
-	      .expectHeader().contentType(APPLICATION_JSON)
-	      .expectBody();
+		  
+		  BodyContentSpec bodyContentSpec = client.get()
+			      .uri( CONTEXT_PATH + "/posts/findByUserId" + userIdQuery)
+			      .accept(APPLICATION_JSON)
+			      .exchange()
+			      .expectStatus().isEqualTo(expectedStatus)
+			      .expectHeader().contentType(APPLICATION_JSON)
+			      .expectBody();
+		  
+		  logWebTestClientResponse(bodyContentSpec);
+		  
+		  return bodyContentSpec;
 	  }
 
 		private WebTestClient.BodyContentSpec postAndVerifyPost(int userId, UUID postUUID, HttpStatus expectedStatus) {
@@ -161,7 +175,7 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 			
 			PostApiDto postApiDto = new PostApiDto();
 			postApiDto.setUserId(userId);
-			postApiDto.setPostUUID(postUUID);
+			postApiDto.setPostUuid(postUUID);
 			postApiDto.setTags(tagsApiDtoList);
 
 			return client.post()
@@ -182,4 +196,30 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 					.expectStatus().isEqualTo(expectedStatus)
 					.expectBody();
 		}
+		
+		
+		private void logWebTestClientResponse(BodyContentSpec bodyContentSpec) {
+			
+			String jsonResponse = new String(bodyContentSpec.returnResult().getResponseBody());
+
+			ObjectMapper mapper = new ObjectMapper();
+
+			try {
+				String prettyJsonResponse = mapper.writerWithDefaultPrettyPrinter()
+						.writeValueAsString(mapper.readTree(jsonResponse));
+				System.out.println("--------------------------------------------");
+				System.out.println("Response Body:");
+				System.out.println("---------------");
+				System.out.println(prettyJsonResponse);
+				System.out.println("--------------------------------------------");
+
+
+			} catch (JsonProcessingException e) {
+
+				e.printStackTrace();
+			}
+
+		}
+
+
 	}

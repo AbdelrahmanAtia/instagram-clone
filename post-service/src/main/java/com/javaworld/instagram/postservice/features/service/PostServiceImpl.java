@@ -69,6 +69,8 @@ public class PostServiceImpl implements PostService {
 		}
 	}
 
+	//TODO: order posts by creation datetime..because the posts inside the user profile shall
+	//be viewed according to what was created last
 	@Override
 	@Transactional // TODO: make it read only
 	public List<Post> getPosts(int userId) {
