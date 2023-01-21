@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,6 +16,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
+	
+	@Version
+	private int version;
 	
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -33,6 +37,15 @@ public class BaseEntity {
     @Column(nullable = false)
     private String updatedBy = "System"; //TODO: remove default value when applying spring security so that it will automatically
                                          //fill it with the current user 
+
+    
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
 
 	public LocalDateTime getCreatedAt() {
 		return createdAt;

@@ -80,12 +80,12 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 	  @Test
 	  void duplicateError() {
 
-	    int productId = 1;
-	    int reviewId = 1;
+	    int userId = 1;
+	    int postId = 1;
 
 	    assertEquals(0, repository.count());
 
-	    postAndVerifyReview(productId, reviewId, OK)
+	    postAndVerifyReview(userId, postId, OK)
 	      .jsonPath("$.productId").isEqualTo(productId)
 	      .jsonPath("$.reviewId").isEqualTo(reviewId);
 
@@ -97,12 +97,15 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 
 	    assertEquals(1, repository.count());
 	  }
+      */
 
+
+	/*
 	  @Test
-	  void deleteReviews() {
+	  void deletePosts() {
 
-	    int productId = 1;
-	    int reviewId = 1;
+	    int userId = 1;
+	    int postId = 1;
 
 	    postAndVerifyReview(productId, reviewId, OK);
 	    assertEquals(1, repository.findByProductId(productId).size());
@@ -112,7 +115,9 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 
 	    deleteAndVerifyReviewsByProductId(productId, OK);
 	  }
-
+      */
+	  
+	  /*
 	  @Test
 	  void getReviewsMissingParameter() {
 

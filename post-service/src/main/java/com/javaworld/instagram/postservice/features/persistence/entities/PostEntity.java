@@ -24,8 +24,7 @@ public class PostEntity extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Version
-	private int version;
+
 
 	private UUID postUuid;
 
@@ -62,14 +61,6 @@ public class PostEntity extends BaseEntity {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
 	}
 
 	public String getTitle() {
@@ -134,8 +125,6 @@ public class PostEntity extends BaseEntity {
 		StringBuilder builder = new StringBuilder();
 		builder.append("PostEntity [id=");
 		builder.append(id);
-		builder.append(", version=");
-		builder.append(version);
 		builder.append(", postUuid=");
 		builder.append(postUuid);
 		builder.append(", title=");
