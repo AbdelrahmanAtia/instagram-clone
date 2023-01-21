@@ -8,7 +8,6 @@ import static reactor.core.publisher.Mono.just;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,22 +50,29 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 
 		int userId = 1;
 		
-		UUID firstPostUUID = UUID. randomUUID();
-		UUID secondPostUUID = UUID. randomUUID();
-		UUID thirdPostUUID = UUID. randomUUID();		
+		String firstPostTitle = "first post title";
+		String secondPostTitle ="second post title";
+		String thirdPostTitle = "third post title";
 
 		assertEquals(0, repository.findByUserId(userId).size());
 
-		postAndVerifyPost(userId, firstPostUUID, OK);
-		postAndVerifyPost(userId, secondPostUUID, OK);
-		postAndVerifyPost(userId, thirdPostUUID, OK);
+		postAndVerifyPost(userId, firstPostTitle, OK);
+		postAndVerifyPost(userId, secondPostTitle, OK);
+		postAndVerifyPost(userId, thirdPostTitle, OK);
 
 		assertEquals(3, repository.findByUserId(userId).size());
 
 		getAndVerifyPostsByUserId(userId, OK)
 			.jsonPath("$.length()").isEqualTo(3)
+			
 			.jsonPath("$[2].userId").isEqualTo(userId)
-			.jsonPath("$[2].postUuid").isEqualTo(thirdPostUUID);  //TODO: shall be passed after ordering retrieved posts by creation date
+			.jsonPath("$[2].title").isEqualTo(firstPostTitle)
+		
+			.jsonPath("$[1].userId").isEqualTo(userId)
+			.jsonPath("$[1].title").isEqualTo(secondPostTitle)	
+
+			.jsonPath("$[0].userId").isEqualTo(userId)
+			.jsonPath("$[0].title").isEqualTo(thirdPostTitle);  	
 	
 	}
 
@@ -161,7 +167,7 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 		  return bodyContentSpec;
 	  }
 
-		private WebTestClient.BodyContentSpec postAndVerifyPost(int userId, UUID postUUID, HttpStatus expectedStatus) {
+		private WebTestClient.BodyContentSpec postAndVerifyPost(int userId, String title, HttpStatus expectedStatus) {
 			
 			TagApiDto tag1 = new TagApiDto();
 			tag1.setName("java");
@@ -175,7 +181,7 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 			
 			PostApiDto postApiDto = new PostApiDto();
 			postApiDto.setUserId(userId);
-			postApiDto.setPostUuid(postUUID);
+			postApiDto.setTitle(title);
 			postApiDto.setTags(tagsApiDtoList);
 
 			return client.post()

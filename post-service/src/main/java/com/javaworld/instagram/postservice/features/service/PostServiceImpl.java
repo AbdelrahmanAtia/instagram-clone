@@ -81,7 +81,7 @@ public class PostServiceImpl implements PostService {
 
 		logger.info("Will get posts for user with id={}", userId);
 
-		List<PostEntity> entityList = postRepository.findByUserId(userId);
+		List<PostEntity> entityList = postRepository.findByUserIdOrderByCreatedAtDesc(userId);
 
 		return postMapper.entityListToDtoList(entityList);
 

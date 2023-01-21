@@ -14,9 +14,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import com.javaworld.instagram.postservice.commons.entities.BaseEntity;
+
 @Entity
 @Table(name = "post", indexes = { @Index(name = "posts_unique_idx", unique = true, columnList = "postUuid") })
-public class PostEntity {
+public class PostEntity extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
