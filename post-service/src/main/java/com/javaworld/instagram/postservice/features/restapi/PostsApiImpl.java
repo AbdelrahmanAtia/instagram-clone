@@ -50,6 +50,11 @@ public class PostsApiImpl implements PostsApi {
 		
 	@Override
 	public List<PostApiDto> findPostsByUserId(Integer userId) {
+		
+		if (userId < 1) {
+			throw new InvalidInputException("Invalid userId: " + userId);
+		}
+		
 		List<Post> posts = postService.getPosts(userId);
 		List<PostApiDto> postsApiDtoList = postApiDtoMapper.mapToApiDto(posts);
 		postsApiDtoList.forEach(e -> setServiceAddress(e));

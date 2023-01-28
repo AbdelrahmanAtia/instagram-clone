@@ -125,41 +125,40 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 
 	}
 
-	  
-	  /*
+	@Test
+	void getPosts_MissingParameter() {
+
+		getAndVerifyPostsByUserId("", BAD_REQUEST)
+				.jsonPath("$.path").isEqualTo("/posts/findByUserId");
+
+	}
+
+	@Test
+	void getPosts_InvalidParameter() {
+
+		getAndVerifyPostsByUserId("?userId=no-integer", BAD_REQUEST)
+				.jsonPath("$.path").isEqualTo("/posts/findByUserId");
+	
+	}
+
+	@Test
+	void getPostsByUserId_NotFound() {
+
+		getAndVerifyPostsByUserId("?userId=213", OK)
+				.jsonPath("$.length()").isEqualTo(0);
+	}
+
+
 	  @Test
-	  void getReviewsMissingParameter() {
+	  void getPostsByUserId_InvalidParameterNegativeValue() {
 
-	    getAndVerifyReviewsByProductId("", BAD_REQUEST)
-	      .jsonPath("$.path").isEqualTo("/review")
-	      .jsonPath("$.message").isEqualTo("Required int parameter 'productId' is not present");
+	    int userId = -1;
+
+	    getAndVerifyPostsByUserId("?userId=" + userId, UNPROCESSABLE_ENTITY)
+	      .jsonPath("$.path").isEqualTo("/posts/findByUserId")
+	      .jsonPath("$.message").isEqualTo("Invalid userId: " + userId);
+	    
 	  }
-
-	  @Test
-	  void getReviewsInvalidParameter() {
-
-	    getAndVerifyReviewsByProductId("?productId=no-integer", BAD_REQUEST)
-	      .jsonPath("$.path").isEqualTo("/review")
-	      .jsonPath("$.message").isEqualTo("Type mismatch.");
-	  }
-
-	  @Test
-	  void getReviewsNotFound() {
-
-	    getAndVerifyReviewsByProductId("?productId=213", OK)
-	      .jsonPath("$.length()").isEqualTo(0);
-	  }
-
-	  @Test
-	  void getReviewsInvalidParameterNegativeValue() {
-
-	    int productIdInvalid = -1;
-
-	    getAndVerifyReviewsByProductId("?productId=" + productIdInvalid, UNPROCESSABLE_ENTITY)
-	      .jsonPath("$.path").isEqualTo("/review")
-	      .jsonPath("$.message").isEqualTo("Invalid productId: " + productIdInvalid);
-	  }
-	  */
 	  
 	  private WebTestClient.BodyContentSpec getAndVerifyPostsByUserId(int userId, HttpStatus expectedStatus) {
 	    return getAndVerifyPostsByUserId("?userId=" +  userId, expectedStatus);

@@ -19,6 +19,11 @@ class GlobalControllerExceptionHandler {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
 
+	/**
+	 * most of the bad requests  are handled by swagger..and this function will
+	 * handle other bad requests that are thrown after the request enters the 
+	 * RestImpl layer
+	 */
 	@ResponseStatus(BAD_REQUEST)
 	@ExceptionHandler(BadRequestException.class)
 	public @ResponseBody HttpErrorInfo handleBadRequestExceptions(HttpServletRequest request, BadRequestException ex) {
