@@ -8,6 +8,7 @@ import static reactor.core.publisher.Mono.just;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ import com.javaworld.instagram.postservice.features.persistence.repositories.Pos
 import com.javaworld.instagram.postservice.features.restapi.PostsApiImpl;
 import com.javaworld.instagram.postservice.server.dto.PostApiDto;
 import com.javaworld.instagram.postservice.server.dto.TagApiDto;
+import static org.springframework.http.HttpStatus.*;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class PostServiceApplicationTests /* extends MySqlTestBase */ {
@@ -76,46 +78,53 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 	
 	}
 
-	  /*
-	  @Test
-	  void duplicateError() {
 
-	    int userId = 1;
-	    int postId = 1;
+	@Test
+	void duplicateErrorWhenCreatingPostsWithSameUUID() {
 
-	    assertEquals(0, repository.count());
+		int userId = 1;
+		UUID postUuid = UUID.randomUUID();
 
-	    postAndVerifyReview(userId, postId, OK)
-	      .jsonPath("$.productId").isEqualTo(productId)
-	      .jsonPath("$.reviewId").isEqualTo(reviewId);
+		assertEquals(0, repository.count());
 
-	    assertEquals(1, repository.count());
+		postAndVerifyPost(userId, postUuid, OK)
+				.jsonPath("$.postUuid").isEqualTo(postUuid.toString())
+				.jsonPath("$.userId").isEqualTo(userId);
 
-	    postAndVerifyReview(productId, reviewId, UNPROCESSABLE_ENTITY)
-	      .jsonPath("$.path").isEqualTo("/review")
-	      .jsonPath("$.message").isEqualTo("Duplicate key, Product Id: 1, Review Id:1");
+		assertEquals(1, repository.count());
 
-	    assertEquals(1, repository.count());
-	  }
-      */
+		postAndVerifyPost(userId, postUuid, UNPROCESSABLE_ENTITY)
+				.jsonPath("$.path").isEqualTo("/posts")
+				.jsonPath("$.message").isEqualTo("Duplicate key, Post UUID: " + postUuid);
 
+		assertEquals(1, repository.count());
 
-	/*
-	  @Test
-	  void deletePosts() {
+	}
 
-	    int userId = 1;
-	    int postId = 1;
+	@Test
+	void deletePostsByPostUUID() {
 
-	    postAndVerifyReview(productId, reviewId, OK);
-	    assertEquals(1, repository.findByProductId(productId).size());
+		int userId = 1;
+		UUID firstPostUuid = UUID.randomUUID();
+		UUID secondPostUuid = UUID.randomUUID();
 
-	    deleteAndVerifyReviewsByProductId(productId, OK);
-	    assertEquals(0, repository.findByProductId(productId).size());
+		postAndVerifyPost(userId, firstPostUuid, OK);
+		postAndVerifyPost(userId, secondPostUuid, OK);
 
-	    deleteAndVerifyReviewsByProductId(productId, OK);
-	  }
-      */
+		assertEquals(2, repository.findByUserId(userId).size());
+
+		List<String> postsUuidList = new ArrayList<>();
+		postsUuidList.add(firstPostUuid.toString());
+		postsUuidList.add(secondPostUuid.toString());
+
+		deleteAndVerifyPostsByUuid(postsUuidList, OK);
+		assertEquals(0, repository.findByUserId(userId).size());
+
+		//issue delete again to validate that the delete service is idempotent
+		deleteAndVerifyPostsByUuid(postsUuidList, OK); 
+
+	}
+
 	  
 	  /*
 	  @Test
@@ -190,7 +199,7 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 			postApiDto.setTags(tagsApiDtoList);
 
 			return client.post()
-					.uri(CONTEXT_PATH + "/posts/")
+					.uri(CONTEXT_PATH + "/posts")
 					.body(just(postApiDto), PostApiDto.class)
 					.accept(APPLICATION_JSON)
 					.exchange()
@@ -199,9 +208,45 @@ class PostServiceApplicationTests /* extends MySqlTestBase */ {
 					.expectBody();
 		}
 
-		private WebTestClient.BodyContentSpec deleteAndVerifyReviewsByProductId(int userId, HttpStatus expectedStatus) {
+		private WebTestClient.BodyContentSpec postAndVerifyPost(int userId, UUID postUuid, HttpStatus expectedStatus) {
+			
+			TagApiDto tag1 = new TagApiDto();
+			tag1.setName("java");
+			
+			TagApiDto tag2 = new TagApiDto();
+			tag2.setName("OOP");
+			
+			List<TagApiDto> tagsApiDtoList = new ArrayList<>();
+			tagsApiDtoList.add(tag1);
+			tagsApiDtoList.add(tag2);
+			
+			PostApiDto postApiDto = new PostApiDto();
+			postApiDto.setUserId(userId);
+			postApiDto.setPostUuid(postUuid);
+			postApiDto.setTags(tagsApiDtoList);
+
+			BodyContentSpec bodyContentSpec =  client.post()
+					.uri(CONTEXT_PATH + "/posts")
+					.body(just(postApiDto), PostApiDto.class)
+					.accept(APPLICATION_JSON)
+					.exchange()
+					.expectStatus().isEqualTo(expectedStatus)
+					.expectHeader().contentType(APPLICATION_JSON)
+					.expectBody();
+			
+			logWebTestClientResponse(bodyContentSpec);
+			return bodyContentSpec;
+
+		}
+		
+		
+		private WebTestClient.BodyContentSpec deleteAndVerifyPostsByUuid(List<String> postsUuidList,
+				HttpStatus expectedStatus) {
+			
 			return client.delete()
-					.uri(CONTEXT_PATH + "/posts?userId=" + userId)
+					.uri(uriBuilder -> uriBuilder.path(CONTEXT_PATH + "/posts/deleteByUuid")
+							.queryParam("postUuid", postsUuidList)
+							.build())
 					.accept(APPLICATION_JSON)
 					.exchange()
 					.expectStatus().isEqualTo(expectedStatus)

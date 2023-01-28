@@ -10,6 +10,6 @@ public interface PostService {
 
 	List<Post> getPosts(int userId);
 
-	void deletePosts(int userId);
+	void deletePosts(List<String> postUuid);
 
 }

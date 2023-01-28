@@ -23,7 +23,7 @@ tags:
       url: ""
     
 paths:
-  /posts/:                  
+  /posts:                  
     post:
       tags:
         - Post
@@ -97,21 +97,23 @@ paths:
         '400':
           description: Invalid userId          
 
-  /posts/deleteByUserId:
+  /posts/deleteByUuid:
     delete:
       tags:
         - Post
-      summary: delete posts by userId
+      summary: delete posts by uuid
       description: ''
-      operationId: deletePostsByUserId
+      operationId: deletePostsByUuuid
       parameters:
-        - name: userId
-          in: query
+        - in: query
+          name: postUuid
           description: ''
-          required: true
+          explode: false
           schema:
-            type: integer
-            format: int32
+            type: array
+            items:
+              type: string          
+
       responses:
         '200':
           description: successful operation
@@ -152,6 +154,5 @@ components:
           type: integer    
           format: int32
         serviceAddress:
-          type: string   
-        
+          type: string
           

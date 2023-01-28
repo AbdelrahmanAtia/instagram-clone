@@ -57,10 +57,11 @@ public class PostsApiImpl implements PostsApi {
 	}
 	
 	@Override
-	public Void deletePostsByUserId(Integer userId) {
-		 postService.deletePosts(userId);
-		 
-		 return null; //TODO: change return type to void and check how can 
+	public Void deletePostsByUuuid(List<String> postUuids) {
+
+		postService.deletePosts(postUuids);
+		
+		return null; //TODO: change return type to void and check how can 
 		              //open-api also generate void instead of Void
 		              //then remove this return statement
 	}

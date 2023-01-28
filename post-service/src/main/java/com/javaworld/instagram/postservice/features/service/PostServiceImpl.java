@@ -64,8 +64,8 @@ public class PostServiceImpl implements PostService {
 			return savedPost;
 
 		} catch (DataIntegrityViolationException dive) {
-			// TODO: is this error message correct
-			throw new InvalidInputException("Duplicate key");
+			// TODO: is this error message correct?
+			throw new InvalidInputException("Duplicate key, Post UUID: " + post.getPostUuid());
 		}
 	}
 
@@ -88,16 +88,13 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public void deletePosts(int userId) {
+	@Transactional
+	public void deletePosts(List<String> postStrUuids) {
 
-		if (userId < 1) {
-			throw new InvalidInputException("Invalid userId: " + userId);
-		}
+		logger.debug("deletePosts: tries to delete posts with uuids", postStrUuids);
 
-		logger.debug("deletePosts: tries to delete posts for the user with userId: {}", userId);
+		postRepository.deleteByPostUuidIn(postMapper.mapStrUuidToUuidObj(postStrUuids));
 
-		postRepository.deleteAll(postRepository.findByUserId(userId));
-		
 	}
 
 }

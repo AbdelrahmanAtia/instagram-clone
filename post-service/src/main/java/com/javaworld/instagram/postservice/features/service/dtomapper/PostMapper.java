@@ -2,6 +2,8 @@ package com.javaworld.instagram.postservice.features.service.dtomapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,7 +17,7 @@ import com.javaworld.instagram.postservice.features.service.dto.Tag;
 @Mapper(componentModel = "spring", imports = {java.util.UUID.class})
 public interface PostMapper {
 
-    @Mapping(target = "postUuid", expression = "java(UUID.randomUUID())")
+    @Mapping(target = "postUuid", expression = "java(post.getPostUuid() == null ? UUID.randomUUID() : post.getPostUuid())")
 	PostEntity dtoToEntity(Post post);
 
 	TagEntity dtoToEntity(Tag tag);
@@ -30,6 +32,11 @@ public interface PostMapper {
 	Tag mapTagEntityToDto(TagEntity entity);
 	
 	List<Tag> mapTagEntityListToDtoList(List<TagEntity> entity);
+	
+	
+	default List<UUID> mapStrUuidToUuidObj(List<String> uuids) {
+		return uuids.stream().map(i -> UUID.fromString(i)).collect(Collectors.toList());
+	}
 	
 	
 	default List<Tag> mapToTags(List<PostTagAssignment> postTagAssignmentList) {

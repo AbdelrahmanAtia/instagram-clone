@@ -1,6 +1,7 @@
 package com.javaworld.instagram.postservice.features.persistence.repositories;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -14,5 +15,7 @@ public interface PostRepository extends CrudRepository<PostEntity, Integer> {
 	
 	//TODO: USE @Transactional(readOnly = true)
 	List<PostEntity> findByUserId(int userId);
+	
+	void deleteByPostUuidIn(List<UUID> postUuid);
 
 }
