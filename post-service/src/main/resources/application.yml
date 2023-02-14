@@ -4,6 +4,7 @@ server:
   port: 8080
   servlet.context-path: /insta-post-service
 
+
 # TODO: Strongly recommend to set this property to "none" in a production environment!
 spring.jpa.hibernate.ddl-auto: create
 
@@ -21,4 +22,19 @@ logging:
     root: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-  
+    
+########################### RabbitMQ Configuration ################################    
+
+spring.rabbitmq.host: rabbitmq  ## host name is what is defined in docker-compose file
+                                ## in case u want to run everything locally, then the host 
+                                ## name shall be localhost
+spring.cloud.stream:
+  defaultBinder: rabbit
+  default.contentType: application/json
+  bindings:
+    posts-out-0:
+      destination: posts
+      producer:
+        required-groups: auditGroup
+
+##################################################################################  
