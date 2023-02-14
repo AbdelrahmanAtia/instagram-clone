@@ -8,18 +8,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
+import com.javaworld.instagram.postservice.features.messaging.Event;
 import com.javaworld.instagram.postservice.features.persistence.entities.PostEntity;
 import com.javaworld.instagram.postservice.features.persistence.entities.TagEntity;
 import com.javaworld.instagram.postservice.features.persistence.repositories.PostRepository;
 import com.javaworld.instagram.postservice.features.persistence.repositories.TagRepository;
 import com.javaworld.instagram.postservice.features.service.dto.Post;
 import com.javaworld.instagram.postservice.features.service.dtomapper.PostMapper;
-
-import reactor.core.scheduler.Scheduler;
+import com.javaworld.instagram.postservice.features.messaging.Event.Type;
+import org.springframework.cloud.stream.function.StreamBridge;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -30,14 +33,13 @@ public class PostServiceImpl implements PostService {
 	private PostRepository postRepository;
 
 	@Autowired
-	@Qualifier("jdbcScheduler")
-	private Scheduler jdbcScheduler;
-
-	@Autowired
 	private TagRepository tagRepository;
 
 	@Autowired
 	private PostMapper postMapper;
+	
+	@Autowired
+	private StreamBridge streamBridge;
 
 	@Override
 	@Transactional
@@ -60,6 +62,13 @@ public class PostServiceImpl implements PostService {
 			Post savedPost = postMapper.entityToDto(postEntity);
 
 			logger.info("createPost: created a post entity");
+			
+			//messageProducer.sendMessage("queueName", savedPost);
+			
+			//TODO: add a validation that this message is sent only when post is 
+			//created and not sent when updated..
+			Event createPostEvent = new Event(Type.CREATE, savedPost.getPostUuid(), savedPost);
+			sendMessage("posts-out-0", createPostEvent);
 
 			return savedPost;
 
@@ -89,6 +98,16 @@ public class PostServiceImpl implements PostService {
 
 		postRepository.deleteByPostUuidIn(postMapper.mapStrUuidToUuidObj(postStrUuids));
 
+	}
+	
+	private void sendMessage(String bindingName, Event event) {
+		logger.info("Sending a {} message to {}", event.getEventType(), bindingName);
+		Message message = MessageBuilder
+				.withPayload(event)
+				//TODO: find a suitable key later for partitioning
+				//.setHeader("partitionKey", event.getKey())
+				.build();
+		streamBridge.send(bindingName, message);
 	}
 
 }
