@@ -12,6 +12,9 @@ buildNumber.properties
 .m2/*
 .metadata/*
 */.project
+*/bin
+*/.settings
+*/.classpath
 */.metadata/.lock
 */.metadata/.log
 */.metadata/**
