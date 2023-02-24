@@ -9,6 +9,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.web.reactive.function.client.WebClient;
+
+
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
@@ -37,6 +41,13 @@ public class PostServiceApplication {
 
 	}
 
+	@Bean
+	@LoadBalanced
+	public WebClient.Builder loadBalancedWebClientBuilder() {
+		return WebClient.builder();
+	}
+	 
+	 
 	@Bean
 	public Scheduler jdbcScheduler() {
 		logger.info("Creates a jdbcScheduler with thread pool size = {}", threadPoolSize);

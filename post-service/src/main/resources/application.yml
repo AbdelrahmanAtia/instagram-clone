@@ -4,6 +4,9 @@ server:
   port: 8080
   servlet.context-path: /insta-post-service
 
+
+
+
 # TODO: Strongly recommend to set this property to "none" in a production environment!
 spring.jpa.hibernate.ddl-auto: create
 
@@ -21,4 +24,20 @@ logging:
     root: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    
+    
+ 
+spring.application.name: post  ##used by EUREKA to identify each micro service
+app.eureka-server: eureka
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${app.eureka-server}:8761/eureka/
+    initialInstanceInfoReplicationIntervalSeconds: 5
+    registryFetchIntervalSeconds: 5
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 5 
+    
   
