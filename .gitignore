@@ -11,6 +11,10 @@ buildNumber.properties
 .mvn/wrapper/maven-wrapper.jar
 .m2/*
 .metadata/*
+*/.project
+*/bin
+*/.settings
+*/.classpath
 */.metadata/.lock
 */.metadata/.log
 */.metadata/**
@@ -18,3 +22,4 @@ buildNumber.properties
 */mvnw
 */mvnw.cmd
 */.gitignore
+

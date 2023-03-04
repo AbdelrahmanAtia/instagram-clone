@@ -28,7 +28,11 @@ import com.javaworld.instagram.postservice.server.dto.PostApiDto;
 import com.javaworld.instagram.postservice.server.dto.TagApiDto;
 import static org.springframework.http.HttpStatus.*;
 
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+
+@SpringBootTest(webEnvironment = RANDOM_PORT, properties = {
+		"eureka.client.enabled=false" //we don't want to depend on having EUREKA server up and running in our tests
+		                              //TODO: try to enable it and see what happens
+})
 class PostServiceApplicationTests /* extends MySqlTestBase */ {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PostsApiImpl.class);
