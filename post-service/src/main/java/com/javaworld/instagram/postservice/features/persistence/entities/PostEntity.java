@@ -24,8 +24,6 @@ public class PostEntity extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-
-
 	private UUID postUuid;
 
 	// TODO: change to caption

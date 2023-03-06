@@ -4,9 +4,6 @@ server:
   port: 8080
   servlet.context-path: /insta-post-service
 
-
-
-
 # TODO: Strongly recommend to set this property to "none" in a production environment!
 spring.jpa.hibernate.ddl-auto: create
 

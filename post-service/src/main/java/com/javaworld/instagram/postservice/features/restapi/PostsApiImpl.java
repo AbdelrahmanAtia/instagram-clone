@@ -73,7 +73,10 @@ public class PostsApiImpl implements PostsApi {
 	
 	@Override
 	public PostsCountResponseApiDto findPostsCount(Integer userId) {
-		// TODO: to be implemented..
+
+		
+		
+		
 		return null;
 	}
 	
