@@ -21,14 +21,21 @@
 		<swagger-annotations-version>1.6.6</swagger-annotations-version>
 		<jackson-databind-nullable>0.2.1</jackson-databind-nullable>
 		<org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
+		<spring-cloud.version>2020.0.3</spring-cloud.version>
 	</properties>
 	
 	<dependencies>
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
+	
 				
 		<!-- ################### Testing dependencies ################################ -->	
 	
@@ -52,45 +59,11 @@
 		<!-- ########################### DB & persistence layer dependencies ################################ -->
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-r2dbc</artifactId>
-		</dependency>
-
-		<!-- Enable connection pooling -->
-		<dependency>
-			<groupId>io.r2dbc</groupId>
-			<artifactId>r2dbc-pool</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-		</dependency>
-
-		<!-- Reactive Mysql -->
-		<dependency>
-			<groupId>dev.miku</groupId>
-			<artifactId>r2dbc-mysql</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<scope>runtime</scope>
 		</dependency>
+				
 	
-		<!-- reactive h2 database -->
-		<dependency>
-			<groupId>io.r2dbc</groupId>
-			<artifactId>r2dbc-h2</artifactId>
-		</dependency>
-		
-       <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-		 
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -101,9 +74,16 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>6.1.2.Final</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
 
-
-
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
 		
 		<!-- ################### dependencies needed for open-API code generator ################################ -->
 		
@@ -147,7 +127,28 @@
 			<version>1.1.0.Final</version>
 		</dependency>
 
+		<!-- ################################ Spring Cloud ################################################ -->
+	
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		
+
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
 
 
 
@@ -211,7 +212,7 @@
 							<configOptions>
 								<interfaceOnly>true</interfaceOnly>
 								<skipDefaultInterface>true</skipDefaultInterface>
-								<reactive>true</reactive>
+								<reactive>false</reactive>
 							</configOptions>
 						</configuration>
 					</execution>

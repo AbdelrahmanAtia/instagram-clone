@@ -2,11 +2,22 @@ version: '2.1'
 
 services:
 
-  post:
+  insta-ms-post:
     build: post-service
     mem_limit: 512m
     ports:
       - "7001:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  insta-ms-user-info:
+    build: user-info-service
+    mem_limit: 512m
+    ports:
+      - "7002:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
