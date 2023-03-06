@@ -1,25 +1,16 @@
 package com.javaworld.instagram.userinfoservice.restapi;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
-import com.javaworld.instagram.userinfoservice.persistence.UserEntity;
-
+import com.javaworld.instagram.userinfoservice.server.dto.CreateUserRequestApiDto;
+import com.javaworld.instagram.userinfoservice.server.dto.UserApiDto;
+import com.javaworld.instagram.userinfoservice.service.dto.User;
 
 @Mapper(componentModel = "spring")
 public interface UserApiDtoMapper {
 
-	@Mappings({
-		//TODO: add service address to the response and uncomment the following mapping
-		// @Mapping(target = "serviceAddress", ignore = true)
-	})
-	UserApiDto entityToApi(UserEntity entity);
+	UserApiDto mapToUserApiDto(User user);
 
-	@Mappings({
-		//@Mapping(target = "id", ignore = true), //identity key for user entity is the username 
-		@Mapping(target = "version", ignore = true) 
-	})
-	UserEntity apiToEntity(UserApiDto apiDto);
+	User mapCreateUserRequestToUserDto(CreateUserRequestApiDto apiDto);
 
 }

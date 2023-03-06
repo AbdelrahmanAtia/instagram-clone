@@ -1,7 +1,12 @@
 package com.javaworld.instagram.userinfoservice.persistence;
 
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import java.util.Optional;
+import java.util.UUID;
 
-public interface UserRepository extends ReactiveCrudRepository<UserEntity, String> {
+import org.springframework.data.repository.CrudRepository;
+
+public interface UserRepository extends CrudRepository<UserEntity, String> {
+
+	Optional<UserEntity> findByUserUuid(UUID userUuid);
 
 }

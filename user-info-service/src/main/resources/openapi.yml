@@ -31,7 +31,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/CreateUserRequest'
         required: true
       responses:
         '200':
@@ -40,6 +40,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'     
+
+    get:
+      tags:
+        - User
+      summary: Find user
+      description: ''
+      operationId: findUser
+      parameters:
+        - name: userUuid
+          in: query
+          description: ''
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+        '400':
+          description: Invalid userId
+
 
 components:
   schemas:
@@ -54,7 +79,28 @@ components:
           type: string 
         password:
           type: string 
+        postsCount:
+          type: integer
+        followersCount:
+          type: integer
+        followingCount:
+          type: integer
+        userUuid:
+          type: string    
+          format: uuid          
         serviceAddress:
-          type: string      
+          type: string 
           
-          
+    CreateUserRequest:
+      type: object
+      properties:
+        username:
+          type: string    
+        email:
+          type: string 
+        password:
+          type: string 
+        serviceAddress:
+          type: string 
+
+       
