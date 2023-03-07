@@ -31,9 +31,10 @@ services:
       - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=rootpwd
-      - MYSQL_DATABASE=post-db
       - MYSQL_USER=user
       - MYSQL_PASSWORD=pwd
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
     healthcheck:
       test: "/usr/bin/mysql --user=user --password=pwd --execute \"SHOW DATABASES;\""
       interval: 5s
@@ -44,4 +45,5 @@ services:
     build: eureka-server
     mem_limit: 512m
     ports:
-      - "8761:8761"            
+      - "8761:8761"  
+    
