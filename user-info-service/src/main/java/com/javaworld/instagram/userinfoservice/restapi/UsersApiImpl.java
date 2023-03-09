@@ -1,16 +1,18 @@
 package com.javaworld.instagram.userinfoservice.restapi;
 
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ServerWebExchange;
 
 import com.javaworld.instagram.userinfoservice.commons.utils.ServiceUtil;
-import com.javaworld.instagram.userinfoservice.persistence.UserEntity;
+import com.javaworld.instagram.userinfoservice.server.api.UsersApi;
+import com.javaworld.instagram.userinfoservice.server.dto.CreateUserRequestApiDto;
+import com.javaworld.instagram.userinfoservice.server.dto.UserApiDto;
 import com.javaworld.instagram.userinfoservice.service.UserService;
-
-import reactor.core.publisher.Mono;
+import com.javaworld.instagram.userinfoservice.service.dto.User;
 
 @RestController
 public class UsersApiImpl implements UsersApi {
@@ -22,22 +24,26 @@ public class UsersApiImpl implements UsersApi {
 
 	@Autowired
 	private UserApiDtoMapper mapper;
-	
+
 	@Autowired
 	private ServiceUtil serviceUtil;
 
-	// TODO: what is the user of ServerWebExchange
 	@Override
-	public Mono<UserApiDto> createUser(UserApiDto body, ServerWebExchange exchange) {
+	public UserApiDto createUser(CreateUserRequestApiDto createUserRequestApiDto) {
 
-		UserEntity entity = mapper.apiToEntity(body);
+		User savedUser = userService.createUser(mapper.mapCreateUserRequestToUserDto(createUserRequestApiDto));
 
-		return userService.createUser(entity)
-					.map(e -> mapper.entityToApi(e))
-			        .map(e -> setServiceAddress(e));
+		UserApiDto response = mapper.mapToUserApiDto(savedUser);
+		return setServiceAddress(response);
 
 	}
-	
+
+	@Override
+	public UserApiDto findUser(UUID userUuid) {
+		UserApiDto userApiDto = mapper.mapToUserApiDto(userService.findUser(userUuid));
+		return setServiceAddress(userApiDto);
+	}
+
 	private UserApiDto setServiceAddress(UserApiDto userApiDto) {
 		userApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return userApiDto;

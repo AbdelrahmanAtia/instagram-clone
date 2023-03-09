@@ -1,22 +1,14 @@
-spring.config.activate.on-profile: docker
-
 server:
-  port: 8080
-  servlet.context-path: /insta-post-service
+  port: 7001
+  servlet.context-path: /services
 
-
-
-
-# TODO: Strongly recommend to set this property to "none" in a production environment!
-spring.jpa.hibernate.ddl-auto: create
-
+spring.jpa.hibernate.ddl-auto: create # TODO: Strongly recommend to set this property to "none" in a production environment!
+spring.jpa.database-platform: org.hibernate.dialect.MySQL8Dialect  
 spring.datasource:
-  url: jdbc:mysql://mysql/post-db
+  url: jdbc:mysql://localhost:3306/post-db
   username: root
   password: rootpwd
 
-  
-spring.jpa.database-platform: org.hibernate.dialect.MySQL8Dialect  
 
 # TODO: logging SQL queries should be disabled on production env as it heavily affects the performance
 logging:
@@ -24,12 +16,20 @@ logging:
     root: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-    
-    
- 
-spring.application.name: post  ##used by EUREKA to identify each micro service
+
+
+---
+spring.config.activate.on-profile: docker
+
+server.port: 8080
+spring.datasource.url: jdbc:mysql://mysql/post-db
+
+
+spring.application.name: post-ms  ##used by EUREKA to identify each micro service
 app.eureka-server: eureka
 
+##TODO: check if we can move this to default profile properties and make it work when running locally
+## i think that was done in the book example
 eureka:
   client:
     serviceUrl:

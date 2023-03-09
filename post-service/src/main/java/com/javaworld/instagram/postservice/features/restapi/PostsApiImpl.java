@@ -1,6 +1,10 @@
 package com.javaworld.instagram.postservice.features.restapi;
 
 import java.util.List;
+import java.util.UUID;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +44,7 @@ public class PostsApiImpl implements PostsApi {
 
 			Post post = postApiDtoMapper.apiToDto(body);
 			Post savedPost = postService.createPost(post);
-			return postApiDtoMapper.mapToApiDto(savedPost);
+			return setServiceAddress(postApiDtoMapper.mapToApiDto(savedPost));
 
 		} catch (DataIntegrityViolationException dive) {
 			// TODO: return a specific error message here
@@ -49,17 +53,22 @@ public class PostsApiImpl implements PostsApi {
 	}
 		
 	@Override
-	public List<PostApiDto> findPostsByUserId(Integer userId) {
-		
-		if (userId < 1) {
-			throw new InvalidInputException("Invalid userId: " + userId);
-		}
-		
-		List<Post> posts = postService.getPosts(userId);
+	public List<PostApiDto> findPosts(UUID userUuid) {
+		List<Post> posts = postService.getPosts(userUuid);
 		List<PostApiDto> postsApiDtoList = postApiDtoMapper.mapToApiDto(posts);
 		postsApiDtoList.forEach(e -> setServiceAddress(e));
 		return postsApiDtoList;
 	}
+
+	@Override
+	public PostsCountResponseApiDto findPostsCount(@NotNull @Valid UUID userUuid) {
+		PostsCountResponseApiDto response = new PostsCountResponseApiDto();
+		response.setPostsCount(4);
+		response.setServiceAddress(serviceUtil.getServiceAddress());
+		return response;
+	}
+
+	
 	
 	@Override
 	public Void deletePostsByUuuid(List<String> postUuids) {
@@ -69,18 +78,11 @@ public class PostsApiImpl implements PostsApi {
 		return null; //TODO: change return type to void and check how can 
 		              //open-api also generate void instead of Void
 		              //then remove this return statement
-	}
-	
-	@Override
-	public PostsCountResponseApiDto findPostsCount(Integer userId) {
-		// TODO: to be implemented..
-		return null;
-	}
+	}	
 	
 	private PostApiDto setServiceAddress(PostApiDto postApiDto) {
 		postApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return postApiDto;
 	}
 
-	
 }

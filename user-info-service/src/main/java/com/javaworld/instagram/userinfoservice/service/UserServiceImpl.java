@@ -1,85 +1,130 @@
 package com.javaworld.instagram.userinfoservice.service;
 
-import static java.util.logging.Level.FINE;
+import java.io.IOException;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import com.javaworld.instagram.userinfoservice.commons.exceptions.HttpErrorInfo;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.InvalidInputException;
-import com.javaworld.instagram.userinfoservice.commons.utils.ServiceUtil;
-import com.javaworld.instagram.userinfoservice.integration.UserInfoIntegration;
+import com.javaworld.instagram.userinfoservice.commons.exceptions.NotFoundException;
+import com.javaworld.instagram.userinfoservice.configuration.PropertiesConfig;
 import com.javaworld.instagram.userinfoservice.persistence.UserEntity;
 import com.javaworld.instagram.userinfoservice.persistence.UserRepository;
-import com.javaworld.instagram.userinfoservice.service.dto.ProfileDetails;
-
-import reactor.core.publisher.Mono;
+import com.javaworld.instagram.userinfoservice.service.dto.PostsCountResponse;
+import com.javaworld.instagram.userinfoservice.service.dto.User;
+import com.javaworld.instagram.userinfoservice.service.dtomapper.UserMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.MediaType;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private UserMapper userMapper;
 	
 	@Autowired
-	private UserInfoIntegration integration;
+	private PropertiesConfig propertiesConfig;
+
+	private final WebClient webClient;
 	
+	private final ObjectMapper mapper;
+
 	@Autowired
-	private ServiceUtil serviceUtil;
-	
-	@Override
-	public Mono<UserEntity> createUser(UserEntity userEntity) {
-
-		Mono<UserEntity> newEntity = userRepository.save(userEntity)
-				.log(LOG.getName(), FINE)
-				.onErrorMap(
-						DuplicateKeyException.class,
-						ex -> new InvalidInputException("Duplicate key, UserName: " + userEntity.getUsername()));
-
-		return newEntity;
+	public UserServiceImpl(WebClient.Builder webClientBuilder, ObjectMapper mapper) {
+		this.webClient = webClientBuilder.build();
+	    this.mapper = mapper;
 	}
-	
+
 	@Override
-	public Mono<ProfileDetails> getProfileDetails(String userName) {
+	public User createUser(User user) {
 
-		int userId = 0; // TODO: load user by user name then retrieve the user id
+		UserEntity userEntity = userMapper.dtoToEntity(user);
+		try {
+			UserEntity savedUser = userRepository.save(userEntity);
+			logger.info("created user with name: " + savedUser.getUsername());
 
-		LOG.info("Will get profile details for user.id={}", userId);
+			return userMapper.mapUserEntityToDto(userEntity);
 
-		//retrieve each part of the profile details in a parallel way
-		return Mono
-				.zip(values -> createProfileDetails((Integer) values[0], (Integer) values[1], (Integer) values[2], serviceUtil.getServiceAddress()),
-						integration.getUserPostsCount(userId), getFollowersCount(), getFollowingCount())
-				.doOnError(ex -> LOG.warn("createProfileDetails failed: {}", ex.toString()))
-				.log(LOG.getName(), FINE);
+		} catch (DuplicateKeyException ex) {
+			throw new InvalidInputException("Duplicate key, UserName: " + userEntity.getUsername());
+		}
+
+	}
+
+	public User findUser(UUID userUuid) {
+
+		String url = propertiesConfig.getVirtualPostServiceUrl() + propertiesConfig.getServicesContext()
+				+ "/posts/count?userUuid=" + userUuid;
 		
+	    logger.info("Will call the findPostsCount API on URL: {}", url);
+		
+		UserEntity existingUser = userRepository.findByUserUuid(userUuid).orElseThrow(() -> {
+			throw new RuntimeException("user with uuid: " + userUuid.toString() + " not found");
+		});
+		
+		User userDto = userMapper.mapUserEntityToDto(existingUser);
+		
+		boolean getPostsCountFromPostsService = true; // TODO: shall be an external configuration flag
+		
+		if (getPostsCountFromPostsService) {
+			PostsCountResponse postsCountResponse = webClient.get()
+					.uri(url)
+					.accept(MediaType.APPLICATION_JSON)
+					.retrieve()
+					.bodyToMono(PostsCountResponse.class)
+					// .log(LOG.getName(), FINE)
+					.onErrorMap(WebClientResponseException.class, ex -> handleException(ex)).block();
+
+			userDto.setPostsCount(postsCountResponse.getPostsCount());
+		}
+		
+		return userDto;
 	}
+	
+	private Throwable handleException(Throwable ex) {
 
-	private ProfileDetails createProfileDetails(int postsCount, int followersCount, int followingCount, String serviceAddress) {
+		logger.info("starting handleException()..");
+		
+		if (!(ex instanceof WebClientResponseException)) {
+			logger.warn("Got a unexpected error: {}, will rethrow it", ex.toString());
+			return ex;
+		}
 
-		ProfileDetails profileDetails = new ProfileDetails();
-		profileDetails.setPostsCount(postsCount);
-		profileDetails.setFollowersCount(followersCount);
-		profileDetails.setFollowingCount(followingCount);
-		profileDetails.setServiceAddress(serviceAddress);
+		WebClientResponseException wcre = (WebClientResponseException) ex;
 
-		return profileDetails;
+		switch (wcre.getStatusCode()) {
+
+		case NOT_FOUND:
+			return new NotFoundException(getErrorMessage(wcre));
+
+		case UNPROCESSABLE_ENTITY:
+			return new InvalidInputException(getErrorMessage(wcre));
+
+		default:
+			logger.warn("Got an unexpected HTTP error: {}, will rethrow it", wcre.getStatusCode());
+			logger.warn("Error body: {}", wcre.getResponseBodyAsString());
+			return ex;
+		}
 	}
-
-	private Mono<Integer> getFollowersCount() {
-
-		//TODO: to be implemented
-		return Mono.empty();
-	}
-
-	private Mono<Integer> getFollowingCount() {
-
-		//TODO: to be implemented
-		return Mono.empty();
+	  
+	private String getErrorMessage(WebClientResponseException ex) {
+		try {
+			return mapper.readValue(ex.getResponseBodyAsString(), HttpErrorInfo.class).getMessage();
+		} catch (IOException ioex) {
+			return ex.getMessage();
+		}
 	}
 
 }

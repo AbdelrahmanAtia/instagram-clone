@@ -2,11 +2,11 @@ package com.javaworld.instagram.postservice.features.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +19,6 @@ import com.javaworld.instagram.postservice.features.persistence.repositories.Tag
 import com.javaworld.instagram.postservice.features.service.dto.Post;
 import com.javaworld.instagram.postservice.features.service.dtomapper.PostMapper;
 
-import reactor.core.scheduler.Scheduler;
-
 @Service
 public class PostServiceImpl implements PostService {
 
@@ -28,10 +26,6 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	private PostRepository postRepository;
-
-	@Autowired
-	@Qualifier("jdbcScheduler")
-	private Scheduler jdbcScheduler;
 
 	@Autowired
 	private TagRepository tagRepository;
@@ -71,11 +65,11 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	@Transactional // TODO: make it read only
-	public List<Post> getPosts(int userId) {
+	public List<Post> getPosts(UUID userUuid) {
 
-		logger.info("Will get posts for user with id={}", userId);
+		logger.info("Will get posts for user with id={}", userUuid);
 
-		List<PostEntity> entityList = postRepository.findByUserIdOrderByCreatedAtDesc(userId);
+		List<PostEntity> entityList = postRepository.findByUserUuidOrderByCreatedAtDesc(userUuid);
 
 		return postMapper.entityListToDtoList(entityList);
 

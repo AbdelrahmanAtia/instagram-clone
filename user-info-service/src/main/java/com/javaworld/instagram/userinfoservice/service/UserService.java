@@ -1,14 +1,14 @@
 package com.javaworld.instagram.userinfoservice.service;
 
-import com.javaworld.instagram.userinfoservice.persistence.UserEntity;
-import com.javaworld.instagram.userinfoservice.service.dto.ProfileDetails;
+import java.util.UUID;
 
-import reactor.core.publisher.Mono;
+import com.javaworld.instagram.userinfoservice.service.dto.User;
+
 
 public interface UserService {
 
-	Mono<UserEntity> createUser(UserEntity userEntity);
-
-	Mono<ProfileDetails> getProfileDetails(String userName);
+	User createUser(User user);
+	
+	User findUser(UUID userUuid);
 
 }

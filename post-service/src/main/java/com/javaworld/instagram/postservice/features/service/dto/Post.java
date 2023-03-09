@@ -9,7 +9,7 @@ public class Post {
 
 	private String title;
 
-	private Integer userId;
+	private UUID userUuid;
 	
 	private UUID postUuid;
 
@@ -23,12 +23,12 @@ public class Post {
 		this.title = title;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public UUID getUserUuid() {
+		return userUuid;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUserUuid(UUID userUuid) {
+		this.userUuid = userUuid;
 	}
 
 	public List<Tag> getTags() {

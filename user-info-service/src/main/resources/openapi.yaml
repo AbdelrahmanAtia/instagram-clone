@@ -1,0 +1,103 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0"
+  title: "insta-ms-user-info-api"
+  termsOfService: ""
+  contact:
+    email: "abdelrahmanattya94@gmail.com"
+host: "localhost"
+basePath: "/"
+schemes:
+  - http
+
+tags:
+  - name: User
+    description: Operations about users
+
+    
+paths:
+  /users/:                  
+    post:
+      tags:
+        - User
+      summary: Create a new user
+      description: ''
+      operationId: createUser
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "invoiceBuckets"
+          description: "Invoice buckets request"
+          required: true
+          schema:
+            $ref: '#/definitions/CreateUserRequest'
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/User'     
+
+    get:
+      tags:
+        - User
+      summary: Find user
+      description: ''
+      operationId: findUser
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: userUuid
+          description: ''
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'          
+        '400':
+          description: Invalid userId
+
+definitions:
+  User:
+    type: object
+    properties:
+      name:
+        type: string
+      username:
+        type: string    
+      email:
+        type: string 
+      password:
+        type: string 
+      postsCount:
+        type: integer
+      followersCount:
+        type: integer
+      followingCount:
+        type: integer
+      userUuid:
+        type: string    
+        format: uuid          
+      serviceAddress:
+        type: string 
+        
+  CreateUserRequest:
+    type: object
+    properties:
+      username:
+        type: string    
+      email:
+        type: string 
+      password:
+        type: string 
+      serviceAddress:
+        type: string  
+
+     
