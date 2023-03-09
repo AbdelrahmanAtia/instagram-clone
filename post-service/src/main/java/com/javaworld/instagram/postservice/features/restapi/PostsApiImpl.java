@@ -3,9 +3,6 @@ package com.javaworld.instagram.postservice.features.restapi;
 import java.util.List;
 import java.util.UUID;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,14 +58,12 @@ public class PostsApiImpl implements PostsApi {
 	}
 
 	@Override
-	public PostsCountResponseApiDto findPostsCount(@NotNull @Valid UUID userUuid) {
+	public PostsCountResponseApiDto findPostsCount(UUID userUuid) {
 		PostsCountResponseApiDto response = new PostsCountResponseApiDto();
-		response.setPostsCount(4);
+		response.setPostsCount(postService.countPosts(userUuid));
 		response.setServiceAddress(serviceUtil.getServiceAddress());
 		return response;
 	}
-
-	
 	
 	@Override
 	public Void deletePostsByUuuid(List<String> postUuids) {
