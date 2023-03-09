@@ -2,6 +2,7 @@ package com.javaworld.instagram.postservice.features.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,11 +65,11 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	@Transactional // TODO: make it read only
-	public List<Post> getPosts(int userId) {
+	public List<Post> getPosts(UUID userUuid) {
 
-		logger.info("Will get posts for user with id={}", userId);
+		logger.info("Will get posts for user with id={}", userUuid);
 
-		List<PostEntity> entityList = postRepository.findByUserIdOrderByCreatedAtDesc(userId);
+		List<PostEntity> entityList = postRepository.findByUserUuidOrderByCreatedAtDesc(userUuid);
 
 		return postMapper.entityListToDtoList(entityList);
 

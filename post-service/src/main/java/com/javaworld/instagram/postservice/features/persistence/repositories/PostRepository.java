@@ -10,11 +10,10 @@ import com.javaworld.instagram.postservice.features.persistence.entities.PostEnt
 public interface PostRepository extends CrudRepository<PostEntity, Integer> {
 
 	//TODO: USE @Transactional(readOnly = true)
-	List<PostEntity> findByUserIdOrderByCreatedAtDesc(int userId);
-	
+	List<PostEntity> findByUserUuidOrderByCreatedAtDesc(UUID userUuid);
 	
 	//TODO: USE @Transactional(readOnly = true)
-	List<PostEntity> findByUserId(int userId);
+	List<PostEntity> findByUserUuid(UUID userUuid);
 	
 	void deleteByPostUuidIn(List<UUID> postUuid);
 

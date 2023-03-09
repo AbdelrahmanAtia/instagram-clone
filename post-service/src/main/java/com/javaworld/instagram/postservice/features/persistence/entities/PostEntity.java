@@ -29,7 +29,7 @@ public class PostEntity extends BaseEntity {
 	// TODO: change to caption
 	private String title;
 
-	private int userId;
+	private UUID userUuid;
 
 	@OneToMany(
 		mappedBy = "post", 
@@ -47,10 +47,10 @@ public class PostEntity extends BaseEntity {
 
 	}
 
-	public PostEntity(UUID postUuid, String title, int userId) {
+	public PostEntity(UUID postUuid, String title, UUID userUuid) {
 		this.postUuid = postUuid;
 		this.title = title;
-		this.userId = userId;
+		this.userUuid = userUuid;
 	}
 
 	public int getId() {
@@ -69,12 +69,12 @@ public class PostEntity extends BaseEntity {
 		this.title = title;
 	}
 
-	public int getUserId() {
-		return userId;
+	public UUID getUserUuid() {
+		return userUuid;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserUuid(UUID userUuid) {
+		this.userUuid = userUuid;
 	}
 
 	public List<CommentEntity> getComments() {
@@ -128,7 +128,7 @@ public class PostEntity extends BaseEntity {
 		builder.append(", title=");
 		builder.append(title);
 		builder.append(", userId=");
-		builder.append(userId);
+		builder.append(userUuid);
 		builder.append(", postTagAssignmentList=");
 		builder.append(postTagAssignmentList);
 		builder.append("]");
