@@ -14,9 +14,7 @@ public class UserInfoServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(UserInfoServiceApplication.class, args);
-	}
-
-	
+	}	
 	
 	@Bean
 	@LoadBalanced

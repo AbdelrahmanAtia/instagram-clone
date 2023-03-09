@@ -47,6 +47,8 @@ paths:
       summary: Find user
       description: ''
       operationId: findUser
+      produces:
+        - "application/json"
       parameters:
         - in: query
           name: userUuid
