@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Type;
+
 import com.javaworld.instagram.postservice.commons.entities.BaseEntity;
 
 @Entity
@@ -29,6 +31,7 @@ public class PostEntity extends BaseEntity {
 	// TODO: change to caption
 	private String title;
 
+	@Type(type="org.hibernate.type.UUIDCharType")  //maps java UUID type to data base UUID type
 	private UUID userUuid;
 
 	@OneToMany(

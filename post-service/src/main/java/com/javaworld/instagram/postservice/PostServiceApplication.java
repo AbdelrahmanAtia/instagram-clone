@@ -2,33 +2,19 @@ package com.javaworld.instagram.postservice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.web.reactive.function.client.WebClient;
-
-
-import reactor.core.scheduler.Scheduler;
-import reactor.core.scheduler.Schedulers;
 
 @SpringBootApplication
 @EnableJpaAuditing
-//@EnableEurekaClient
-//@EnableCircuitBreaker
 public class PostServiceApplication {
 
 	private static final Logger logger = LoggerFactory.getLogger(PostServiceApplication.class);
-
-	@Value("${app.threadPoolSize:10}")
-	private Integer threadPoolSize;
-
-	@Value("${app.taskQueueSize:100}")
-	private Integer taskQueueSize;
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(PostServiceApplication.class, args);
@@ -47,11 +33,4 @@ public class PostServiceApplication {
 		return WebClient.builder();
 	}
 	 
-	 
-	@Bean
-	public Scheduler jdbcScheduler() {
-		logger.info("Creates a jdbcScheduler with thread pool size = {}", threadPoolSize);
-		return Schedulers.newBoundedElastic(threadPoolSize, taskQueueSize, "jdbc-pool");
-	}
-
 }

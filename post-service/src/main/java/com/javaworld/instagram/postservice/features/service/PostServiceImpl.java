@@ -76,6 +76,13 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
+	@Transactional // TODO: make it read only
+	public int countPosts(UUID userUuid) {
+
+		return postRepository.countByUserUuid(userUuid);
+	}
+	
+	@Override
 	@Transactional
 	public void deletePosts(List<String> postStrUuids) {
 
@@ -84,5 +91,6 @@ public class PostServiceImpl implements PostService {
 		postRepository.deleteByPostUuidIn(postMapper.mapStrUuidToUuidObj(postStrUuids));
 
 	}
+
 
 }
