@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name = "user")
 public class UserEntity {
@@ -17,6 +19,7 @@ public class UserEntity {
 	@Version
 	private int version;
 	
+	@Type(type="org.hibernate.type.UUIDCharType")
 	private UUID userUuid;
 
 	private String email;
