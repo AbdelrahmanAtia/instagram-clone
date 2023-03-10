@@ -1,6 +1,7 @@
 
 server.port: 8080
 spring.application.name: gateway
+app.eureka-server: localhost  ##used when running the service locally outside the cluster
 
 eureka:
   client:
