@@ -1,0 +1,11 @@
+1- change services names in docker compose to be insta-post-ms & insta-user-info-ms instead of 
+insta-ms-post & insta-ms-user-info...also u might need to change the urls inside the application.yaml 
+so that things works fine when we don't use eureka
+
+2- fix issue when trying to make requests through swagger editor..
+
+3- understand and try different values for each property used in configuring the eureka
+as a client and as a server..
+
+
+
