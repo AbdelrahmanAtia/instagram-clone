@@ -28,7 +28,13 @@ spring.cloud.gateway.routes:
 - id: post-micro-service
   uri: lb://post-ms   ## name used by service to be registered in eureka
   predicates:
-  - Path=/posts/**
+  - Path=/services/posts/**
+
+- id: user-info-micro-service
+  uri: lb://user-ms   ## name used by service to be registered in eureka
+  predicates:
+  - Path=/services/users/**
+
   
   ## routing rules for eureka
 - id: eureka-api

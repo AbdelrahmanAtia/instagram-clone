@@ -2,7 +2,9 @@ package com.javaworld.instagram.userinfoservice.persistence;
 
 import java.util.UUID;
 
-import javax.persistence.Entity; 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -14,6 +16,9 @@ import org.hibernate.annotations.Type;
 public class UserEntity {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
 	private String username;
 	
 	@Version
@@ -96,6 +101,14 @@ public class UserEntity {
 
 	public void setPostsCount(int postsCount) {
 		this.postsCount = postsCount;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}	
 	
 	
