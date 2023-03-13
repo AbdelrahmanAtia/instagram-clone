@@ -37,6 +37,7 @@ spring.cloud.gateway.routes:
 
   
   ## routing rules for eureka
+  ## the url for eureka api without the gateway is: //${app.eureka-server}:8761/eureka 
 - id: eureka-api
   uri: http://${app.eureka-server}:8761
   predicates:
@@ -44,6 +45,7 @@ spring.cloud.gateway.routes:
   filters:
   - SetPath=/eureka/{segment}
 
+  ## the url for eureka web without the gateway is: //${app.eureka-server}:8761
 - id: eureka-web-start
   uri: http://${app.eureka-server}:8761
   predicates:
