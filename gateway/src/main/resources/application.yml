@@ -52,7 +52,8 @@ spring.cloud.gateway.routes:
   - Path=/eureka/web
   filters:
   - SetPath=/
-
+  
+  ## this is needed for loading .css & .js & .png files when accessing the eureka web page 
 - id: eureka-web-other
   uri: http://${app.eureka-server}:8761
   predicates:
