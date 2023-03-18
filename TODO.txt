@@ -8,4 +8,23 @@ so that things works fine when we don't use eureka
 as a client and as a server..
 
 
+4- i added the certificate to postman as follows:- 
+setting >> certificates >> add certificate 
+then passed the following params
+host: localhost & port: gateway port (8080 or whatever u specified in docker compose)
+then uploaded the edge.p12 to PFX file
+then set password to the password set when creating the certificate
+then tried to make a request with https protocol instead of http 
+but i got an error that "ssl error self signed certificate" 
+so i had to disable ssl certificate verification..also removed my certificate 
+from postman as it is no longer needed after disabling ssl verification
+the question is how to enable ssl verificartion and use the certificate file and make request passes ?
+eh hya el self signed certificate asln we eh hwa el ssl verification ??
+we ezay asln el server byrod be response lma shlt el certificate mn el postman ?? ma kda ay 7d 
+momken yb3t request b2a we y3dy mn 8er ma ykon m3ah certificate!! did i  miss something ??
+
+
+
+
+
 
