@@ -22,6 +22,15 @@ the question is how to enable ssl verificartion and use the certificate file and
 eh hya el self signed certificate asln we eh hwa el ssl verification ??
 we ezay asln el server byrod be response lma shlt el certificate mn el postman ?? ma kda ay 7d 
 momken yb3t request b2a we y3dy mn 8er ma ykon m3ah certificate!! did i  miss something ??
+after adding certificate to server only, i have to access the api's using https through browser
+but the browser says that this is not secure as the browser does not have a valid certificate!!
+how https works ??
+
+
+5- Replacing a self-signed certificate at runtime is not implemented as it is not implemented by book author,,but 
+some hints are provided..check book page [ 309 & 310]
+
+
 
 
 
