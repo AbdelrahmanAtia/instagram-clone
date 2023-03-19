@@ -2,7 +2,9 @@ server:
   port: 7001
   servlet.context-path: /services
 
-################################# Eureka related configurations #############################################################
+###################################
+## Eureka related configurations ##
+###################################
 
 spring.application.name: post-ms  ##used by EUREKA to identify each micro service
 
@@ -20,10 +22,10 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 5
     leaseExpirationDurationInSeconds: 5 
-##############################################################################################################################
 
-
-############################### Database related configurations ###############################################################
+#####################################
+## Database related configurations ##
+#####################################
 
 spring.jpa.hibernate.ddl-auto: create # TODO: Strongly recommend to set this property to "none" in a production environment!
 spring.jpa.database-platform: org.hibernate.dialect.MySQL8Dialect  
@@ -33,14 +35,12 @@ spring.datasource:
   username: root
   password: rootpwd
 
-
 # TODO: logging SQL queries should be disabled on production env as it heavily affects the performance
 logging:
   level:
     root: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-###########################################################################################################################
 
 ---
 spring.config.activate.on-profile: docker
