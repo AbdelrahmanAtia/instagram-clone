@@ -1,24 +1,32 @@
 
 server.port: 8080
-spring.application.name: gateway
 
-############### using HTTPS instead of HTTP ###################
+#################################
+## using HTTPS instead of HTTP ##
+#################################
 
 server.ssl:
   key-store-type: PKCS12
   key-store: classpath:keystore/edge.p12   ## this is the path of the certificate..it is stored in the app jar
   key-store-password: password             ## this password is provided during certificate creation
   key-alias: localhost
-###############################################################
 
 
+###################################
+## Eureka related configurations ##
+###################################
 
-app.eureka-server: localhost  ##used when running the service locally outside the cluster
+spring.application.name: gateway  ##used by EUREKA to identify each micro service
+
+app:
+  eureka-username: u
+  eureka-password: p
+  eureka-server: localhost  ##used when running the service locally outside the cluster
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://${app.eureka-server}:8761/eureka/
+      defaultZone: "http://${app.eureka-username}:${app.eureka-password}@${app.eureka-server}:8761/eureka/"
     initialInstanceInfoReplicationIntervalSeconds: 5
     registryFetchIntervalSeconds: 5
   instance:
@@ -26,8 +34,17 @@ eureka:
     leaseExpirationDurationInSeconds: 5
 
 
+######################################
+## Actuators related configurations ##
+######################################
+
 management.endpoint.health.show-details: "ALWAYS"
 management.endpoints.web.exposure.include: "*"
+
+
+####################################
+## Routes related configurations  ##
+####################################
 
 logging:
   level:

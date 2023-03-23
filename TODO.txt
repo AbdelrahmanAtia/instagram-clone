@@ -30,6 +30,10 @@ how https works ??
 5- Replacing a self-signed certificate at runtime is not implemented as it is not implemented by book author,,but 
 some hints are provided..check book page [ 309 & 310]
 
+6- when i secured the eureka with basic auth and didn't configure clients to send credentials when calling eureka 
+the client failed to register itself in eureka but the error logs were not descriptive..so i want a way to see the 
+requests going out from my user-info service and the response recieved..
+
 
 
 

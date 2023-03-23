@@ -1,6 +1,12 @@
 server:
   port: 8761
 
+## the following username & password are basic auth credentials that are used to protect access to eureka server..
+## any client that wants to register it self in eureka or discover services shall provide this username & password
+app:
+  eureka-username: u
+  eureka-password: p
+
 eureka:
   instance:
     hostname: localhost   ##TODO: is this correct
