@@ -35,6 +35,15 @@ the client failed to register itself in eureka but the error logs were not descr
 requests going out from my user-info service and the response recieved..
 
 
+7- improve the way u are building multiple projects by using the solution here
+https://stackoverflow.com/questions/10665936/maven-how-to-build-multiple-independent-maven-projects-from-one-project
+this is similar to what magnus carlson did but with gradle in settings.gradle file here 
+https://github.com/PacktPublishing/Microservices-with-Spring-Boot-and-Spring-Cloud-2E/blob/main/Chapter11/settings.gradle
+
+
+
+
+
 
 
 
