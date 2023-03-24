@@ -41,6 +41,17 @@ services:
     build: eureka-server
     mem_limit: 512m
 
+  auth-server:
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker  
+    build: authorization-server
+    mem_limit: 512m
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:9999/actuator/health"]  ## TODO: leh localhost..msh el mafrood bnklm el service be el url bta3ha 3la el cluster lw el call mn gwa el cluster
+      interval: 5s
+      timeout: 2s
+      retries: 60
+
   gateway:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
