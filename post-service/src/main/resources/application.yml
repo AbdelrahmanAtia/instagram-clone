@@ -2,6 +2,10 @@ server:
   port: 7001
   servlet.context-path: /services
 
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
 ###################################
 ## Eureka related configurations ##
 ###################################
@@ -12,6 +16,8 @@ app:
   eureka-username: u
   eureka-password: p
   eureka-server: localhost
+  auth-server: auth-server ## this is not related to eureka..it is just added here to benefit from YAML properties nesting
+  
   
 eureka:
   client:
@@ -42,10 +48,21 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
+
+########################################
+## Auth server related configurations ##
+########################################
+
+
+spring.security.oauth2.resourceserver.jwt.issuer-uri: http://${app.auth-server}:9999
+
 ---
 spring.config.activate.on-profile: docker
 server.port: 8080
 spring.datasource.url: jdbc:mysql://mysql/post-db
-app.eureka-server: eureka
+app:
+  eureka-server: eureka
+  auth-server: auth-server
+  
     
   
