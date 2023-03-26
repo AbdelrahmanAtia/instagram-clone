@@ -22,6 +22,8 @@ app:
   eureka-username: u
   eureka-password: p
   eureka-server: localhost  ##used when running the service locally outside the cluster
+  auth-server: auth-server ## this is not related to eureka..it is just added here to benefit from YAML properties nesting
+  
 
 eureka:
   client:
@@ -33,6 +35,11 @@ eureka:
     leaseRenewalIntervalInSeconds: 5
     leaseExpirationDurationInSeconds: 5
 
+
+#################################################
+## Authorization server related configurations ##
+#################################################
+spring.security.oauth2.resourceserver.jwt.issuer-uri: http://${app.auth-server}:9999
 
 ######################################
 ## Actuators related configurations ##
@@ -91,4 +98,6 @@ spring.cloud.gateway.routes:
     
 ---
 spring.config.activate.on-profile: docker
-app.eureka-server: eureka
+app:
+  eureka-server: eureka
+  auth-server: auth-server
