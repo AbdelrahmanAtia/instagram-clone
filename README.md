@@ -10,3 +10,8 @@
 1- move to instagram-clone dir <br>
 2- right click on and click "Git Bash Here <br>
 3- run command:  `bash test-em-all.bash` <br>
+
+
+**Software needed to be installed** <br>
+1- Docker <br>
+2- jq tool  <br>
