@@ -15,3 +15,9 @@
 **Software needed to be installed** <br>
 1- Docker <br>
 2- jq tool  <br>
+
+
+**jq tool installation steps**  <br>
+1 - open git bash and run command `curl -L -o /usr/bin/jq.exe https://github.com/stedolan/jq/releases/latest/download/jq-win64.exe` <br>
+2 - Make sure jq is installed with the `jq --version` command.   <br>
+
