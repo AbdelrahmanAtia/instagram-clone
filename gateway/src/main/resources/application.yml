@@ -1,5 +1,5 @@
 
-server.port: 8080
+server.port: 8443
 
 #################################
 ## using HTTPS instead of HTTP ##
@@ -22,6 +22,8 @@ app:
   eureka-username: u
   eureka-password: p
   eureka-server: localhost  ##used when running the service locally outside the cluster
+  auth-server: auth-server ## this is not related to eureka..it is just added here to benefit from YAML properties nesting
+  
 
 eureka:
   client:
@@ -33,6 +35,11 @@ eureka:
     leaseRenewalIntervalInSeconds: 5
     leaseExpirationDurationInSeconds: 5
 
+
+#################################################
+## Authorization server related configurations ##
+#################################################
+spring.security.oauth2.resourceserver.jwt.issuer-uri: http://${app.auth-server}:9999
 
 ######################################
 ## Actuators related configurations ##
@@ -53,6 +60,21 @@ logging:
     org.springframework.cloud.gateway: TRACE
     
 spring.cloud.gateway.routes:
+
+- id: oauth2-server
+  uri: lb://auth-server
+  predicates:
+  - Path=/oauth2/**
+
+- id: oauth2-login
+  uri: lb://auth-server
+  predicates:
+  - Path=/login/**
+
+- id: oauth2-error
+  uri: lb://auth-server
+  predicates:
+  - Path=/error/**
 
 - id: post-micro-service
   uri: lb://post-ms   ## name used by service to be registered in eureka
@@ -91,4 +113,6 @@ spring.cloud.gateway.routes:
     
 ---
 spring.config.activate.on-profile: docker
-app.eureka-server: eureka
+app:
+  eureka-server: eureka
+  auth-server: auth-server
