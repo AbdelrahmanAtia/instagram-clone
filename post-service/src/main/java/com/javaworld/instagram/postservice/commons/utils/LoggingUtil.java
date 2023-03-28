@@ -13,7 +13,7 @@ public class LoggingUtil {
 
 	private static final Logger LOG = LoggerFactory.getLogger(LoggingUtil.class);
 
-	public static void logAuthorizationInfo(SecurityContext sc) {
+	public static void logAuthorizationInfo(SecurityContext sc) {		
 		if (sc != null && sc.getAuthentication() != null && sc.getAuthentication() instanceof JwtAuthenticationToken) {
 			Jwt jwtToken = ((JwtAuthenticationToken) sc.getAuthentication()).getToken();
 			logAuthorizationInfo(jwtToken);
