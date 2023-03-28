@@ -47,12 +47,11 @@ logging:
     root: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-
+    com.javaworld.instagram.postservice.commons.utils.LoggingUtil: DEBUG  ## this is not related to database config..it is just added here to benefit from YAML properties nesting
 
 ########################################
 ## Auth server related configurations ##
 ########################################
-
 
 spring.security.oauth2.resourceserver.jwt.issuer-uri: http://${app.auth-server}:9999
 

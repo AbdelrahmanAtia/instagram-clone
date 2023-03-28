@@ -8,10 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
+import com.javaworld.instagram.postservice.commons.utils.LoggingUtil;
 import com.javaworld.instagram.postservice.features.persistence.entities.PostEntity;
 import com.javaworld.instagram.postservice.features.persistence.entities.TagEntity;
 import com.javaworld.instagram.postservice.features.persistence.repositories.PostRepository;
@@ -32,12 +35,16 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	private PostMapper postMapper;
-
+	
 	@Override
 	@Transactional
 	public Post createPost(Post post) {
 
 		try {
+
+			logger.info("createPost: creates a new post");
+
+			LoggingUtil.logAuthorizationInfo(getSecurityContext());
 
 			List<TagEntity> tagEntityList = postMapper.dtoListToEntityList(post.getTags());
 			List<TagEntity> savedTags = new ArrayList<>();
@@ -92,5 +99,8 @@ public class PostServiceImpl implements PostService {
 
 	}
 
-
+	private SecurityContext getSecurityContext() {
+		return SecurityContextHolder.getContext();
+	}
+	
 }

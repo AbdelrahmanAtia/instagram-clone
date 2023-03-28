@@ -4,31 +4,29 @@ import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig extends WebSecurityConfigurerAdapter  {	
 
-	@Bean
-	SecurityFilterChain springSecurityFilterChain(HttpSecurity http) throws Exception {
+    @Override
+	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/openapi/**").permitAll()
-				.antMatchers("/webjars/**").permitAll()
-				.antMatchers("/actuator/**").permitAll()
-				
-				// TODO: do we need to append the context
-				.antMatchers(POST, "/services/posts/**").hasAuthority("SCOPE_post:write")
-				.antMatchers(DELETE, "/services/posts/**").hasAuthority("SCOPE_post:write")
-				.antMatchers(GET, "/services/posts/**").hasAuthority("SCOPE_post:read")
+			.antMatchers("/openapi/**").permitAll()
+			.antMatchers("/webjars/**").permitAll()
+			.antMatchers("/actuator/**").permitAll()
+			
+			 // TODO: do we need to append the context
+			.antMatchers(POST, "/posts/**").hasAuthority("SCOPE_post:write")
+			.antMatchers(DELETE, "/posts/**").hasAuthority("SCOPE_post:write")
+			.antMatchers(GET, "/posts/**").hasAuthority("SCOPE_post:read")
 
-				.anyRequest().authenticated()
-				.and()
-			.oauth2ResourceServer()
-				.jwt();
-		
-		return http.build();
-	}
+			.anyRequest().authenticated()
+			.and()
+		.oauth2ResourceServer()
+			.jwt();
+    }    
+	
 }
