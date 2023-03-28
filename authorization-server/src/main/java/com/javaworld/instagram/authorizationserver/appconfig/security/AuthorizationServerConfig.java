@@ -49,6 +49,8 @@ public class AuthorizationServerConfig {
       .scope(OidcScopes.OPENID)
       .scope("post:read")
       .scope("post:write")
+      .scope("user:read")
+      .scope("user:write")
       .clientSettings(clientSettings -> clientSettings.requireUserConsent(true))
       .tokenSettings(ts -> ts.accessTokenTimeToLive(Duration.ofHours(1)))
       .build();
@@ -64,6 +66,7 @@ public class AuthorizationServerConfig {
       .redirectUri("https://localhost:8443/webjars/swagger-ui/oauth2-redirect.html")
       .scope(OidcScopes.OPENID)
       .scope("post:read")
+      .scope("user:read")
       .clientSettings(clientSettings -> clientSettings.requireUserConsent(true))
       .tokenSettings(ts -> ts.accessTokenTimeToLive(Duration.ofHours(1)))
       .build();
