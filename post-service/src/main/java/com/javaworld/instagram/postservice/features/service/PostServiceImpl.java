@@ -91,11 +91,11 @@ public class PostServiceImpl implements PostService {
 	
 	@Override
 	@Transactional
-	public void deletePosts(List<String> postStrUuids) {
+	public int deletePosts(List<String> postStrUuids) {
 
-		logger.debug("deletePosts: tries to delete posts with uuids", postStrUuids);
+		logger.info("deletePosts: tries to delete posts with uuids {}", postStrUuids);
 
-		postRepository.deleteByPostUuidIn(postMapper.mapStrUuidToUuidObj(postStrUuids));
+		return postRepository.deleteByPostUuidIn(postMapper.mapStrUuidToUuidObj(postStrUuids));
 
 	}
 

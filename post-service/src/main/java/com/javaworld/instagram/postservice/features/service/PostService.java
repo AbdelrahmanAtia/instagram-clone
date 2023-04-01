@@ -11,7 +11,7 @@ public interface PostService {
 
 	List<Post> getPosts(UUID userUuid);
 
-	void deletePosts(List<String> postUuid);
+	int deletePosts(List<String> postUuid);
 	
 	int countPosts(UUID userUuid);
 
