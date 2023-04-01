@@ -41,6 +41,10 @@ this is similar to what magnus carlson did but with gradle in settings.gradle fi
 https://github.com/PacktPublishing/Microservices-with-Spring-Boot-and-Spring-Cloud-2E/blob/main/Chapter11/settings.gradle
 
 
+8- when u try to delete a post with an invalid uuid, u get an error with a message saying that there is an inetrnal 
+server error..instead u should have a descriptive error message as in the logs
+
+
 
 
 
