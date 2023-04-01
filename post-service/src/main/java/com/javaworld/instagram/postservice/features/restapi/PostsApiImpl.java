@@ -15,6 +15,7 @@ import com.javaworld.instagram.postservice.features.restapi.apidtomapper.PostApi
 import com.javaworld.instagram.postservice.features.service.PostService;
 import com.javaworld.instagram.postservice.features.service.dto.Post;
 import com.javaworld.instagram.postservice.server.api.PostsApi;
+import com.javaworld.instagram.postservice.server.dto.DeletedPostsResponseApiDto;
 import com.javaworld.instagram.postservice.server.dto.PostApiDto;
 import com.javaworld.instagram.postservice.server.dto.PostsCountResponseApiDto;
 
@@ -66,14 +67,15 @@ public class PostsApiImpl implements PostsApi {
 	}
 	
 	@Override
-	public Void deletePostsByUuuid(List<String> postUuids) {
+	public DeletedPostsResponseApiDto deletePostsByUuuid(List<String> postUuids) {
 
-		postService.deletePosts(postUuids);
-		
-		return null; //TODO: change return type to void and check how can 
-		              //open-api also generate void instead of Void
-		              //then remove this return statement
-	}	
+		int deletedPostsCount = postService.deletePosts(postUuids);
+
+		//TODO: Do we need a DTO for the service layer & a mapper
+		return new DeletedPostsResponseApiDto().deletedPostsCount(deletedPostsCount)
+				.message("Posts deleted successfully")
+				.serviceAddress(serviceUtil.getServiceAddress());
+	}
 	
 	private PostApiDto setServiceAddress(PostApiDto postApiDto) {
 		postApiDto.setServiceAddress(serviceUtil.getServiceAddress());

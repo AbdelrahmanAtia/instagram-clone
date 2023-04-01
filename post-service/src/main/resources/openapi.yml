@@ -69,7 +69,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Post'          
         '400':
-          description: Invalid userId
+          description: Invalid userId ##TODO: is this correct message
           
   /posts/count:
     get:
@@ -100,7 +100,7 @@ paths:
     delete:
       tags:
         - Post
-      summary: delete posts by uuid
+      summary: delete posts by their uuids
       description: ''
       operationId: deletePostsByUuuid
       parameters:
@@ -116,8 +116,12 @@ paths:
       responses:
         '200':
           description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedPostsResponse'          
         '400':
-          description: Invalid userId          
+          description: ""
 
 components:
   schemas:
@@ -152,6 +156,20 @@ components:
         postsCount:
           type: integer    
           format: int32
+        serviceAddress:
+          type: string
+
+
+    DeletedPostsResponse:
+      type: object
+      properties:
+        deletedPostsCount:
+          type: integer    
+          format: int32
+          example: 4
+        message:
+          type: string
+          example: posts deleted successfully
         serviceAddress:
           type: string
           

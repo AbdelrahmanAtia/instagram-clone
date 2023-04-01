@@ -12,10 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
-
 import org.hibernate.annotations.Type;
-
 import com.javaworld.instagram.postservice.commons.entities.BaseEntity;
 
 @Entity
@@ -26,6 +23,7 @@ public class PostEntity extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Type(type="org.hibernate.type.UUIDCharType")  //maps java UUID type to data base UUID type
 	private UUID postUuid;
 
 	// TODO: change to caption
