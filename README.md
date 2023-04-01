@@ -21,3 +21,7 @@
 1 - open git bash and run command `curl -L -o /usr/bin/jq.exe https://github.com/stedolan/jq/releases/latest/download/jq-win64.exe` <br>
 2 - Make sure jq is installed with the `jq --version` command.   <br>
 
+
+**E2E testing using postman**  <br>
+to run e2e tests, import the following file into postman: instagram-clone.postman_collection.json <br>
+then run it and make sure that all tests are passed.
