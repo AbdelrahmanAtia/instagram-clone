@@ -54,7 +54,22 @@ logging:
 ## Auth server related configurations ##
 ########################################
 
-spring.security.oauth2.resourceserver.jwt.issuer-uri: http://${app.auth-server}:9999
+spring:
+  security:
+    oauth2:
+      resourceserver.jwt.issuer-uri: http://${app.auth-server}:9999
+      ## the following configuration is needed for the webclient filter that will call the auth-server
+      ## to get an access token when the service needs to call another service
+      client:
+        registration:
+          mywebclient:
+            client-id: writer
+            client-secret: secret
+            authorization-grant-type: client_credentials
+        provider:
+          mywebclient:
+            issuer-uri: http://${app.auth-server}:9999
+      
 
 ---
 spring.config.activate.on-profile: docker
