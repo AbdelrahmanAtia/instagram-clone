@@ -320,12 +320,12 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/oauth2/token?grant_type=client_credentials",
+							"raw": "https://{{HOST}}:{{PORT}}/oauth2/token?grant_type=client_credentials",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "8443",
+							"port": "{{PORT}}",
 							"path": [
 								"oauth2",
 								"token"
@@ -335,6 +335,68 @@
 									"key": "grant_type",
 									"value": "client_credentials"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getEurekaRegisteredApps",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"verify that all four microservices are registered in Eureka\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.applications.application.length).to.eql(4);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "p",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "u",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "https://{{HOST}}:{{PORT}}/eureka/api/apps",
+							"protocol": "https",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"eureka",
+								"api",
+								"apps"
 							]
 						}
 					},
@@ -362,12 +424,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/actuator/gateway/routes",
+							"raw": "https://{{HOST}}:{{PORT}}/actuator/gateway/routes",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "8443",
+							"port": "{{PORT}}",
 							"path": [
 								"actuator",
 								"gateway",
@@ -418,12 +480,12 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/services/users/",
+							"raw": "https://{{HOST}}:{{PORT}}/services/users/",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "8443",
+							"port": "{{PORT}}",
 							"path": [
 								"services",
 								"users",
@@ -474,12 +536,12 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/services/posts/",
+							"raw": "https://{{HOST}}:{{PORT}}/services/posts/",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "8443",
+							"port": "{{PORT}}",
 							"path": [
 								"services",
 								"posts",
@@ -530,12 +592,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/services/users/?userUuid={{userUuid}}",
+							"raw": "https://{{HOST}}:{{PORT}}/services/users/?userUuid={{userUuid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "8443",
+							"port": "{{PORT}}",
 							"path": [
 								"services",
 								"users",
@@ -580,12 +642,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/services/posts/count?userUuid={{userUuid}}",
+							"raw": "https://{{HOST}}:{{PORT}}/services/posts/count?userUuid={{userUuid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "8443",
+							"port": "{{PORT}}",
 							"path": [
 								"services",
 								"posts",
@@ -648,12 +710,12 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/services/posts/deleteByUuid?postUuid={{postUuid}}",
+							"raw": "https://{{HOST}}:{{PORT}}/services/posts/deleteByUuid?postUuid={{postUuid}}",
 							"protocol": "https",
 							"host": [
-								"localhost"
+								"{{HOST}}"
 							],
-							"port": "8443",
+							"port": "{{PORT}}",
 							"path": [
 								"services",
 								"posts",
@@ -672,6 +734,26 @@
 			]
 		}
 	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
 			"key": "access_token",
@@ -684,6 +766,16 @@
 		{
 			"key": "postUuid",
 			"value": ""
+		},
+		{
+			"key": "HOST",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "PORT",
+			"value": "",
+			"type": "default"
 		}
 	]
 }

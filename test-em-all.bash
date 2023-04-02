@@ -28,6 +28,20 @@ function assertCurl() {
   fi
 }
 
+function assertEqual() {
+
+  local expected=$1
+  local actual=$2
+
+  if [ "$actual" = "$expected" ]
+  then
+    echo "Test OK (actual value: $actual)"
+  else
+    echo "Test FAILED, EXPECTED VALUE: $expected, ACTUAL VALUE: $actual, WILL ABORT"
+    exit 1
+  fi
+}
+
 echo "HOST=${HOST}"
 echo "PORT=${PORT}"
 
@@ -35,13 +49,31 @@ ACCESS_TOKEN=$(curl -k https://writer:secret@$HOST:$PORT/oauth2/token -d grant_t
 echo ACCESS_TOKEN=$ACCESS_TOKEN
 
 
+# print services regosterd in eureka
+echo ==============================
+echo services registered in eureka
+echo ==============================
+curl -H "accept:application/json" https://u:p@localhost:8443/eureka/api/apps -ks | jq -r .applications.application[].instance[].instanceId
+echo =====================================
+
+
+echo ==================================================================================
+echo Verify access to Eureka and that all four microservices are registered in Eureka
+echo ==================================================================================
+# Verify access to Eureka and that all four microservices are registered in Eureka
+assertCurl 200 "curl -H "accept:application/json" -k https://u:p@$HOST:$PORT/eureka/api/apps -s"
+assertEqual 4 $(echo $RESPONSE | jq ".applications.application | length")
+echo ==================================================================================
+
+
 # Verify that the reader - client with only read scope can call the read API but not delete API.
+echo ===============================================================================================
+echo Verify that the reader - client with only read scope can call the read API but not delete API.
+echo ===============================================================================================
 READER_ACCESS_TOKEN=$(curl -k https://reader:secret@$HOST:$PORT/oauth2/token -d grant_type=client_credentials -s | jq .access_token -r)
 echo READER_ACCESS_TOKEN=$READER_ACCESS_TOKEN
 READER_AUTH="-H \"Authorization: Bearer $READER_ACCESS_TOKEN\""
-
 assertCurl 200 "curl $READER_AUTH -k https://$HOST:$PORT/services/posts/count?userUuid=$USER_UUID -s"
-
 assertCurl 403 "curl -X DELETE $READER_AUTH -k https://$HOST:$PORT/services/posts/deleteByUuid?postUuid=$POST_UUID_1 -s"
-
+echo ===============================================================================================
 
