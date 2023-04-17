@@ -2,10 +2,12 @@ package com.javaworld.instagram.configserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.config.server.EnableConfigServer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@EnableConfigServer
 @SpringBootApplication
 public class ConfigServerApplication {
 

@@ -1,6 +1,13 @@
 server.port: 8888
 
-spring.cloud.config.server.native.searchLocations: file:${PWD}/config-repo
+spring:
+  profiles.active: native
+  ##TODO: try to make this location relative..or use an environment varibles or try to check if file:./config-repo is working with new versions of spring cloud
+  cloud.config.server.native.searchLocations: file:/C:\__workspaces\instagram-clone\config-repo  
+  security:
+    user:
+      name: dev-usr
+      password: dev-pwd
 
 # WARNING: Exposing all management endpoints over http should only be used during development, must be locked down in production!
 management.endpoint.health.show-details: "ALWAYS"
