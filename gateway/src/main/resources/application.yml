@@ -110,9 +110,19 @@ spring.cloud.gateway.routes:
   predicates:
   - Path=/eureka/**
   
+- id: config-server
+  uri: ${spring.cloud.config.uri}
+  predicates:
+  - Path=/config/**
+  filters:
+  - RewritePath=/config/(?<segment>.*), /$\{segment}
+  
+  
     
 ---
 spring.config.activate.on-profile: docker
+
+spring.cloud.config.uri: http://config-server:8888
 app:
   eureka-server: eureka
   auth-server: auth-server
