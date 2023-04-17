@@ -20,8 +20,9 @@ public class SecurityConfig {
       .authorizeExchange()
         .pathMatchers("/headerrouting/**").permitAll()
         .pathMatchers("/actuator/**").permitAll()
-        .pathMatchers("/eureka/**").permitAll()
-        
+        .pathMatchers("/eureka/**").permitAll() // delegating the security checks to the eureka server
+        .pathMatchers("/config/**").permitAll() // delegating the security checks to the config server
+
         //the following 3 URLs are related to the authorization server
         .pathMatchers("/oauth2/**").permitAll()
         .pathMatchers("/login/**").permitAll()
