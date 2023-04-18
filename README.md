@@ -25,3 +25,20 @@
 **E2E testing using postman**  <br>
 to run e2e tests, import the following file into postman: instagram-clone.postman_collection.json <br>
 then run it and make sure that all tests are passed.
+**Properties description**  <br>
+<table>
+    <thead>
+      <tr>
+        <th>Property name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>spring.application.name</td>
+            <td>it represents the name under which the application will be registered in eureka also
+                it represents the externalized config file name of that microservice in the config-repo folder
+            </td>
+        </tr>
+    </tbody>
+  </table>
