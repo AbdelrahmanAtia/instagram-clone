@@ -24,7 +24,7 @@
 
 **E2E testing using postman**  <br>
 to run e2e tests, import the following file into postman: instagram-clone.postman_collection.json <br>
-then run it and make sure that all tests are passed.
+then run it and make sure that all tests are passed. <br>
 **Properties description**  <br>
 <table>
     <thead>
