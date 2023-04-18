@@ -1,5 +1,6 @@
-
 server.port: 8443
+
+spring.security.oauth2.resourceserver.jwt.issuer-uri: http://${app.auth-server}:9999
 
 #################################
 ## using HTTPS instead of HTTP ##
@@ -12,43 +13,6 @@ server.ssl:
   key-alias: localhost
 
 
-###################################
-## Eureka related configurations ##
-###################################
-
-spring.application.name: gateway  ##used by EUREKA to identify each micro service
-
-app:
-  eureka-username: u
-  eureka-password: p
-  eureka-server: localhost  ##used when running the service locally outside the cluster
-  auth-server: auth-server ## this is not related to eureka..it is just added here to benefit from YAML properties nesting
-  
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: "http://${app.eureka-username}:${app.eureka-password}@${app.eureka-server}:8761/eureka/"
-    initialInstanceInfoReplicationIntervalSeconds: 5
-    registryFetchIntervalSeconds: 5
-  instance:
-    leaseRenewalIntervalInSeconds: 5
-    leaseExpirationDurationInSeconds: 5
-
-
-#################################################
-## Authorization server related configurations ##
-#################################################
-spring.security.oauth2.resourceserver.jwt.issuer-uri: http://${app.auth-server}:9999
-
-######################################
-## Actuators related configurations ##
-######################################
-
-management.endpoint.health.show-details: "ALWAYS"
-management.endpoints.web.exposure.include: "*"
-
-
 ####################################
 ## Routes related configurations  ##
 ####################################
@@ -58,6 +22,7 @@ logging:
     root: INFO
     org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: INFO
     org.springframework.cloud.gateway: TRACE
+    ## org.springframework.web.server.adapter.HttpWebHandlerAdapter: TRACE
     
 spring.cloud.gateway.routes:
 
@@ -117,12 +82,4 @@ spring.cloud.gateway.routes:
   filters:
   - RewritePath=/config/(?<segment>.*), /$\{segment}
   
-  
-    
----
-spring.config.activate.on-profile: docker
-
-spring.cloud.config.uri: http://config-server:8888
-app:
-  eureka-server: eureka
-  auth-server: auth-server
+ 
