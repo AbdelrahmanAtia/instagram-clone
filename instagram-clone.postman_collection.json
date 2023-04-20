@@ -6,6 +6,86 @@
 	},
 	"item": [
 		{
+			"name": "Health checks",
+			"item": [
+				{
+					"name": "all-services-health",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"verify status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//TODO: is this status represents gateway status ?\r",
+									"pm.test(\"verify discoveryComposite status is UP\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var discoveryClientObj = jsonData.components.discoveryComposite.components.discoveryClient;\r",
+									"    pm.expect(discoveryClientObj.status).to.eql(\"UP\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"verify auth-server status is UP\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var discoveryClientObj = jsonData.components.discoveryComposite.components.discoveryClient;\r",
+									"    var servicesList = discoveryClientObj.details.services;\r",
+									"    pm.expect(servicesList.some(obj => obj === \"auth-server\")).to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"verify gateway status is UP\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var discoveryClientObj = jsonData.components.discoveryComposite.components.discoveryClient;\r",
+									"    var servicesList = discoveryClientObj.details.services;\r",
+									"    pm.expect(servicesList.some(obj => obj === \"gateway\")).to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"verify user-ms status is UP\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var discoveryClientObj = jsonData.components.discoveryComposite.components.discoveryClient;\r",
+									"    var servicesList = discoveryClientObj.details.services;\r",
+									"    pm.expect(servicesList.some(obj => obj === \"user-ms\")).to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"verify post-ms status is UP\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var discoveryClientObj = jsonData.components.discoveryComposite.components.discoveryClient;\r",
+									"    var servicesList = discoveryClientObj.details.services;\r",
+									"    pm.expect(servicesList.some(obj => obj === \"post-ms\")).to.be.true;\r",
+									"});\r",
+									"\r",
+									"//TODO: add health check for config-server\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{HOST}}:{{PORT}}/actuator/health",
+							"protocol": "https",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "config-server",
 			"item": [
 				{
