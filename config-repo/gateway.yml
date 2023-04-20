@@ -1,6 +1,5 @@
-server.port: 8443
 
-spring.security.oauth2.resourceserver.jwt.issuer-uri: http://${app.auth-server}:9999
+server.port: 8443
 
 #################################
 ## using HTTPS instead of HTTP ##
@@ -13,6 +12,17 @@ server.ssl:
   key-alias: localhost
 
 
+###################################
+## Eureka related configurations ##
+###################################
+
+spring.application.name: gateway  ##used by EUREKA to identify each micro service
+
+#################################################
+## Authorization server related configurations ##
+#################################################
+spring.security.oauth2.resourceserver.jwt.issuer-uri: http://${app.auth-server}:9999
+
 ####################################
 ## Routes related configurations  ##
 ####################################
@@ -22,7 +32,6 @@ logging:
     root: INFO
     org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: INFO
     org.springframework.cloud.gateway: TRACE
-    ## org.springframework.web.server.adapter.HttpWebHandlerAdapter: TRACE
     
 spring.cloud.gateway.routes:
 
@@ -82,4 +91,3 @@ spring.cloud.gateway.routes:
   filters:
   - RewritePath=/config/(?<segment>.*), /$\{segment}
   
- 
