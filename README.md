@@ -26,6 +26,27 @@
 to run e2e tests, import the following file into postman: instagram-clone.postman_collection.json <br>
 then run it and make sure that all tests are passed. <br>
 
+**Tools used**  <br>
+<table>
+    
+    <tbody>
+        <tr>
+            <td>Discovery server</td>
+            <td>Netflix Eureka</td>
+        </tr>
+        <tr>
+            <td>Edge server</td>
+            <td>Spring Cloud Gateway and Spring Security OAuth</td>
+        </tr>
+        <tr>
+            <td>Centralized configuration</td>
+            <td>Spring Cloud Configuration Server</td>
+        </tr>
+
+    </tbody>
+  </table><br>
+
+
 
 **Properties description**  <br>
 <table>
