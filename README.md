@@ -66,5 +66,9 @@ then run it and make sure that all tests are passed. <br>
                 it represents the externalized config file name of that microservice in the config-repo folder
             </td>
         </tr>
-    </tbody>
+        <tr>
+            <td>spring.cloud.config.server.native.searchLocations</td>
+            <td>The location of the configuration repository</td>
+        </tr>
+     </tbody>
   </table>
