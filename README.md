@@ -28,7 +28,12 @@ then run it and make sure that all tests are passed. <br>
 
 **Tools used**  <br>
 <table>
-    
+      <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
     <tbody>
         <tr>
             <td>Discovery server</td>
@@ -42,11 +47,9 @@ then run it and make sure that all tests are passed. <br>
             <td>Centralized configuration</td>
             <td>Spring Cloud Configuration Server</td>
         </tr>
-
     </tbody>
-  </table><br>
-
-
+</table>
+<br>
 
 **Properties description**  <br>
 <table>
