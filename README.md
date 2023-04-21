@@ -29,10 +29,7 @@ then run it and make sure that all tests are passed. <br>
 **Tools used**  <br>
 <table>
       <thead>
-      <tr>
-        <th></th>
-        <th></th>
-      </tr>
+      
     </thead>
     <tbody>
         <tr>
