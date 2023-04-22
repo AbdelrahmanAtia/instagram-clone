@@ -4,7 +4,7 @@ spring.config.activate.on-profile: docker
 ## any client that wants to register it self in eureka or discover services shall provide this username & password
 app:
   eureka-username: u
-  eureka-password: p
+  eureka-password: '{cipher}8059cb5b292ce59006e227215a06b2a35c65825af3f847a9540d7e022fecb447'
   eureka-server: eureka
   auth-server: auth-server    
   
