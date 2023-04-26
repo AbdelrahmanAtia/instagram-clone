@@ -30,17 +30,14 @@ public class UsersApiImpl implements UsersApi {
 
 	@Override
 	public UserApiDto createUser(CreateUserRequestApiDto createUserRequestApiDto) {
-
 		User savedUser = userService.createUser(mapper.mapCreateUserRequestToUserDto(createUserRequestApiDto));
-
 		UserApiDto response = mapper.mapToUserApiDto(savedUser);
 		return setServiceAddress(response);
-
 	}
 
 	@Override
-	public UserApiDto findUser(UUID userUuid) {
-		UserApiDto userApiDto = mapper.mapToUserApiDto(userService.findUser(userUuid));
+	public UserApiDto findUser(UUID userUuid, Integer delay, Integer faultPercent) {
+		UserApiDto userApiDto = mapper.mapToUserApiDto(userService.findUser(userUuid, delay, faultPercent));
 		return setServiceAddress(userApiDto);
 	}
 

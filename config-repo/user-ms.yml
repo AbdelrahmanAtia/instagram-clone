@@ -47,6 +47,37 @@ spring:
           mywebclient:
             issuer-uri: http://${app.auth-server}:9999
       
+      
+resilience4j.timelimiter:
+  instances:
+    postsCount:
+      timeoutDuration: 2s
+
+resilience4j.retry:
+  instances:
+    postsCount:
+      maxAttempts: 3
+      waitDuration: 1000
+      retryExceptions:
+      - org.springframework.web.reactive.function.client.WebClientResponseException$InternalServerError
+
+management.health.circuitbreakers.enabled: true
+
+resilience4j.circuitbreaker:
+  instances:
+    postsCount:
+      allowHealthIndicatorToFail: false
+      registerHealthIndicator: true
+      slidingWindowType: COUNT_BASED
+      slidingWindowSize: 5
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      ignoreExceptions:
+        - com.javaworld.instagram.userinfoservice.commons.exceptions.InvalidInputException
+        - com.javaworld.instagram.userinfoservice.commons.exceptions.NotFoundException
+      
 
 
     
