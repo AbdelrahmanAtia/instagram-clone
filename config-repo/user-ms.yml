@@ -1,6 +1,5 @@
 server:
   port: 8080
-  servlet.context-path: /services
 
 insta.post-service.url: http://insta-ms-post
 insta.post-service.virtual-url: http://post-ms    ## url to discover the actual url of the service from eureka
