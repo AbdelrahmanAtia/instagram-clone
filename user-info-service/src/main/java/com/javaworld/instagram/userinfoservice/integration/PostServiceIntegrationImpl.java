@@ -54,8 +54,10 @@ public class PostServiceIntegrationImpl implements PostServiceIntegration {
 	@TimeLimiter(name = "postsCount")
 	@CircuitBreaker(name = "postsCount", fallbackMethod = "getPostsCountFallbackValue")
 	public CompletableFuture<Integer> getPostsCountByUserUuid(UUID userUuid, int delay, int faultPercent) {		
-		String url = propertiesConfig.getVirtualPostServiceUrl() + propertiesConfig.getServicesContext()
-				+ "/posts/count?userUuid=" + userUuid;
+		
+		String url = propertiesConfig.getVirtualPostServiceUrl() + "/posts/count?userUuid=" + userUuid;
+
+		logger.info("Will call the findPostsCount API on URL: {}", url);
 
 		PostsCountResponse postsCountResponse = webClient.get()
 				.uri(url)

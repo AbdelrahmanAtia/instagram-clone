@@ -10,7 +10,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import com.javaworld.instagram.userinfoservice.commons.exceptions.InvalidInputException;
-import com.javaworld.instagram.userinfoservice.configuration.PropertiesConfig;
 import com.javaworld.instagram.userinfoservice.integration.PostServiceIntegration;
 import com.javaworld.instagram.userinfoservice.persistence.UserEntity;
 import com.javaworld.instagram.userinfoservice.persistence.UserRepository;
@@ -27,10 +26,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserMapper userMapper;
-	
-	@Autowired
-	private PropertiesConfig propertiesConfig;
-	
+		
 	@Autowired
 	private PostServiceIntegration postServiceIntegration;
 
@@ -52,11 +48,6 @@ public class UserServiceImpl implements UserService {
 
 	//TODO: delay & faultPercent shall be removed, this is only for testing the circuit breaker
 	public User findUser(UUID userUuid, int delay, int faultPercent) {
-
-		String url = propertiesConfig.getVirtualPostServiceUrl() + propertiesConfig.getServicesContext()
-				+ "/posts/count?userUuid=" + userUuid;
-
-		logger.info("Will call the findPostsCount API on URL: {}", url);
 
 		UserEntity existingUser = userRepository.findByUserUuid(userUuid).orElseThrow(() -> {
 			throw new RuntimeException("user with uuid: " + userUuid.toString() + " not found");
