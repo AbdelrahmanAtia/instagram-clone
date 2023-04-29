@@ -1,0 +1,1 @@
+docker compose stop insta-ms-post && docker compose rm insta-ms-post
