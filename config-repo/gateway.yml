@@ -5,7 +5,11 @@ server.port: 8443
 ## using HTTPS instead of HTTP ##
 #################################
 
-server:
+## the following two commented properties are used to disable HTTPS communication
+## and to communicate with the gateway using HTTP protocol
+##server.http2.enabled: false
+##server.ssl.enabled: false
+
 server.ssl:
   key-store-type: PKCS12
   key-store: classpath:keystore/edge.p12   ## this is the path of the certificate..it is stored in the app jar
