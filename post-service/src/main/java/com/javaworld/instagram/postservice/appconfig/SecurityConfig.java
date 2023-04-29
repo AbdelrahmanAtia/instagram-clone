@@ -1,4 +1,4 @@
-package com.javaworld.instagram.postservice.appconfig.security;
+package com.javaworld.instagram.postservice.appconfig;
 
 import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;

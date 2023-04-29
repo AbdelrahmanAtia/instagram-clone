@@ -56,14 +56,26 @@ paths:
           required: true
           type: string
           format: uuid
+        - in: query
+          name: delay
+          description: 'The amount of delay in milliseconds to simulate network latency'
+          required: false
+          type: integer
+          default: 0
+        - in: query
+          name: faultPercent
+          description: 'The percentage of requests that should return a fault response'
+          required: false
+          type: integer
+          default: 0
       responses:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/User'          
+            $ref: '#/definitions/User'
         '400':
           description: Invalid userId
-
+        
 definitions:
   User:
     type: object

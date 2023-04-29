@@ -69,8 +69,8 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/actuator/health",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/actuator/health",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
@@ -154,14 +154,15 @@
 							}
 						],
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/config/application/docker",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/config//application/docker",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
 							"port": "{{PORT}}",
 							"path": [
 								"config",
+								"",
 								"application",
 								"docker"
 							]
@@ -235,8 +236,8 @@
 							}
 						],
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/config/gateway/docker",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/config/gateway/docker",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
@@ -311,8 +312,8 @@
 							}
 						],
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/config/post-ms/docker",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/config/post-ms/docker",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
@@ -387,8 +388,8 @@
 							}
 						],
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/config/user-ms/docker",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/config/user-ms/docker",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
@@ -463,8 +464,8 @@
 							}
 						],
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/config/eureka-server/docker",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/config/eureka-server/docker",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
@@ -539,8 +540,8 @@
 							}
 						],
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/config/auth-server/docker",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/config/auth-server/docker",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
@@ -603,8 +604,8 @@
 							}
 						},
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/config/encrypt",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/config/encrypt",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
@@ -672,8 +673,8 @@
 							}
 						},
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/config/decrypt",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/config/decrypt",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
@@ -713,8 +714,8 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/services/users/?userUuid=ddd0daa1-b812-474f-b3f0-af1817e084ca",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://localhost:8443/services/users/?userUuid=ddd0daa1-b812-474f-b3f0-af1817e084ca",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"localhost"
 							],
@@ -765,8 +766,8 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/services/users/",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://localhost:8443/services/users/",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"localhost"
 							],
@@ -826,8 +827,8 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/oauth2/token?grant_type=client_credentials",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://localhost:8443/oauth2/token?grant_type=client_credentials",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"localhost"
 							],
@@ -884,14 +885,15 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/services/posts/",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://localhost:8443/services/post-ms/posts/",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"localhost"
 							],
 							"port": "8443",
 							"path": [
 								"services",
+								"post-ms",
 								"posts",
 								""
 							]
@@ -937,14 +939,15 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/services/users/",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://localhost:8443/services/user-ms/users/",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"localhost"
 							],
 							"port": "8443",
 							"path": [
 								"services",
+								"user-ms",
 								"users",
 								""
 							]
@@ -1003,8 +1006,8 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/oauth2/token?grant_type=client_credentials",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/oauth2/token?grant_type=client_credentials",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
@@ -1073,8 +1076,8 @@
 							}
 						],
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/eureka/api/apps",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/eureka/api/apps",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
@@ -1110,8 +1113,8 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/actuator/gateway/routes",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/actuator/gateway/routes",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
@@ -1166,14 +1169,15 @@
 							}
 						},
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/services/users/",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
 							"port": "{{PORT}}",
 							"path": [
 								"services",
+								"user-ms",
 								"users",
 								""
 							]
@@ -1222,14 +1226,15 @@
 							}
 						},
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/services/posts/",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
 							"port": "{{PORT}}",
 							"path": [
 								"services",
+								"post-ms",
 								"posts",
 								""
 							]
@@ -1278,14 +1283,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/services/users/?userUuid={{userUuid}}",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{userUuid}}",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
 							"port": "{{PORT}}",
 							"path": [
 								"services",
+								"user-ms",
 								"users",
 								""
 							],
@@ -1328,14 +1334,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/services/posts/count?userUuid={{userUuid}}",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/count?userUuid={{userUuid}}",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
 							"port": "{{PORT}}",
 							"path": [
 								"services",
+								"post-ms",
 								"posts",
 								"count"
 							],
@@ -1396,14 +1403,15 @@
 							}
 						},
 						"url": {
-							"raw": "https://{{HOST}}:{{PORT}}/services/posts/deleteByUuid?postUuid={{postUuid}}",
-							"protocol": "https",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/deleteByUuid?postUuid={{postUuid}}",
+							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
 							"port": "{{PORT}}",
 							"path": [
 								"services",
+								"post-ms",
 								"posts",
 								"deleteByUuid"
 							],
@@ -1461,6 +1469,11 @@
 		{
 			"key": "PORT",
 			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "PROTOCOL",
+			"value": "https",
 			"type": "default"
 		}
 	]
