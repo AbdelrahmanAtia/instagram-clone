@@ -1139,8 +1139,8 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.collectionVariables.set(\"userUuid\", pm.response.json().userUuid);\r",
-									""
+									"pm.collectionVariables.set(\"generatedUserUuid\", \r",
+									"             pm.response.json().userUuid);"
 								],
 								"type": "text/javascript"
 							}
@@ -1161,7 +1161,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"email\": \"abc@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"userUuid\": \"1c913945-85ee-4cbf-9cc8-ed7a26adca11\"\r\n}",
+							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"email\": \"abc@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1186,7 +1186,7 @@
 					"response": []
 				},
 				{
-					"name": "update-user",
+					"name": "createUserWithExternalUuid",
 					"event": [
 						{
 							"listen": "test",
@@ -1196,7 +1196,13 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.collectionVariables.set(\"userUuid\", pm.response.json().userUuid);\r",
+									"//TODO: u have to get the externalUserUuid from the environment variables\r",
+									"pm.test(\"verify that the external uuid is the same as uuid in the response\" ,function (){\r",
+									"        var jsonData = pm.response.json();\r",
+									"        pm.expect(jsonData.userUuid).to\r",
+									"          .eql(pm.collectionVariables.get(\"externalUserUuid\"));\r",
+									"    }\r",
+									");\r",
 									""
 								],
 								"type": "text/javascript"
@@ -1218,7 +1224,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"email\": \"abc@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"email\": \"abc@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"userUuid\": \"{{externalUserUuid}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1275,7 +1281,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\r\n    \"title\": \"second post title\",\r\n    \"userUuid\": \"{{userUuid}}\",\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n\r\n    \"title\": \"second post title\",\r\n    \"userUuid\": \"{{generatedUserUuid}}\",\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1300,7 +1306,7 @@
 					"response": []
 				},
 				{
-					"name": "findUserByUserUUID",
+					"name": "findUserByUserUUID-generatedUuid",
 					"event": [
 						{
 							"listen": "test",
@@ -1340,7 +1346,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{userUuid}}&delay=3",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{generatedUserUuid}}",
 							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
@@ -1355,11 +1361,63 @@
 							"query": [
 								{
 									"key": "userUuid",
-									"value": "{{userUuid}}"
+									"value": "{{generatedUserUuid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findUserByUserUUID-externalUuid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{externalUserUuid}}&delay=1",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"user-ms",
+								"users",
+								""
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{externalUserUuid}}"
 								},
 								{
 									"key": "delay",
-									"value": "3"
+									"value": "1"
 								}
 							]
 						}
@@ -1375,7 +1433,9 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});"
+									"});\r",
+									"\r",
+									"//assert on posts count"
 								],
 								"type": "text/javascript"
 							}
@@ -1485,6 +1545,75 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "deleteUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"deletedUsersCount is 1\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.deletedUsersCount).to.eql(1);\r",
+									"});\r",
+									"\r",
+									"//TODO: add assertion that we can delete more than one post\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"title\": \"second post title\",\r\n    \"userUuid\": \"1b9316e6-3e65-45fc-a958-9883445a9de8\",\r\n\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{generatedUserUuid}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"user-ms",
+								"users",
+								""
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{generatedUserUuid}}"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
@@ -1515,8 +1644,13 @@
 			"value": ""
 		},
 		{
-			"key": "userUuid",
+			"key": "generatedUserUuid",
 			"value": ""
+		},
+		{
+			"key": "externalUserUuid",
+			"value": "",
+			"type": "default"
 		},
 		{
 			"key": "postUuid",
@@ -1534,8 +1668,12 @@
 		},
 		{
 			"key": "PROTOCOL",
-			"value": "https",
+			"value": "",
 			"type": "default"
+		},
+		{
+			"key": "userUuid",
+			"value": ""
 		}
 	]
 }
