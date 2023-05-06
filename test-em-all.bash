@@ -2,6 +2,8 @@
 : ${PORT=8443}
 : ${USER_UUID=1b9316e6-3e65-45fc-a958-9883445a9de8}
 : ${POST_UUID_1=3005b434-d3ae-4d56-9b4c-04572980d45b}
+: ${SKIP_CB_TESTS=false}
+: ${SKIP_CB_TESTS=false}
 
 
 function assertCurl() {
@@ -42,12 +44,66 @@ function assertEqual() {
   fi
 }
 
+function recreateUser() {
+  
+  echo recreating user with uuid $1 
+  echo ================================================================
+  local userUuid=$1
+  local body=$2
+  
+  WRITER_ACCESS_TOKEN=$(curl -k https://writer:secret@$HOST:$PORT/oauth2/token -d grant_type=client_credentials -s | jq .access_token -r)
+  AUTH="-H \"Authorization: Bearer $WRITER_ACCESS_TOKEN\""
+  
+  assertCurl 200 "curl -s -X DELETE $AUTH -k https://$HOST:$PORT/services/user-ms/users/?userUuid=${userUuid}"
+  assertEqual 200 $(curl -X POST -s -k https://$HOST:$PORT/services/user-ms/users/ -H "Content-Type: application/json" -H "Authorization: Bearer $WRITER_ACCESS_TOKEN" --data "$body" -w "%{http_code}" -o /dev/null)
+  
+  echo ================================================================
+}
+
+function setupTestdata() {
+  local userUuid="aeb7f3e9-3e66-4ad8-9bd4-15f2b6a09a7a"
+  body="{\"username\": \"AbdelrahmanAttya\", \"email\": \"abc@gmail.com\", \"password\": \"123456\", \"userUuid\": \"$userUuid\"}"
+  recreateUser "$userUuid" "$body"
+}
+
+function testCircuitBreaker() {
+    echo  ------------------------------
+    echo "Start Circuit Breaker tests!"
+	echo  ------------------------------
+
+    local userUuid="aeb7f3e9-3e66-4ad8-9bd4-15f2b6a09a7a"
+    
+	WRITER_ACCESS_TOKEN=$(curl -k https://writer:secret@$HOST:$PORT/oauth2/token -d grant_type=client_credentials -s | jq .access_token -r)
+    AUTH="-H \"Authorization: Bearer $WRITER_ACCESS_TOKEN\""
+    
+	# First, use the health - endpoint to verify that the circuit breaker is closed
+	echo ========================================================================
+	echo use the health - endpoint to verify that the circuit breaker is closed
+	echo ========================================================================
+    assertEqual "CLOSED" "$(docker compose exec -T insta-ms-user-info curl -s http://insta-ms-user-info:8080/actuator/health | jq -r .components.circuitBreakers.details.postsCount.details.state)"
+	
+	echo ========================================================================
+    echo Open the circuit breaker by running three slow calls in a row, i.e. that cause a timeout exception
+    echo ========================================================================
+
+    # Open the circuit breaker by running three slow calls in a row, i.e. that cause a timeout exception
+    # Also, verify that we get 500 back and a timeout related error message
+    for ((n=0; n<3; n++))
+    do	
+		assertCurl 500 "curl -s -X GET $AUTH -k 'https://$HOST:$PORT/services/user-ms/users/?userUuid=${userUuid}&delay=3'"
+        message=$(echo $RESPONSE | jq -r .message)
+        ##assertEqual "Did not observe any item or terminal signal within 2000ms" "${message:0:57}"
+    done
+
+}
+
+#########################################
+
+echo ==============================
+echo "printing general info"
+echo ==============================
 echo "HOST=${HOST}"
 echo "PORT=${PORT}"
-
-ACCESS_TOKEN=$(curl -k https://writer:secret@$HOST:$PORT/oauth2/token -d grant_type=client_credentials -s | jq .access_token -r)
-echo ACCESS_TOKEN=$ACCESS_TOKEN
-
 
 # print services regosterd in eureka
 echo ==============================
@@ -71,10 +127,10 @@ echo ===========================================================================
 echo Verify that the reader - client with only read scope can call the read API but not delete API.
 echo ===============================================================================================
 READER_ACCESS_TOKEN=$(curl -k https://reader:secret@$HOST:$PORT/oauth2/token -d grant_type=client_credentials -s | jq .access_token -r)
-echo READER_ACCESS_TOKEN=$READER_ACCESS_TOKEN
+#echo READER_ACCESS_TOKEN=$READER_ACCESS_TOKEN
 READER_AUTH="-H \"Authorization: Bearer $READER_ACCESS_TOKEN\""
-assertCurl 200 "curl $READER_AUTH -k https://$HOST:$PORT/services/posts/count?userUuid=$USER_UUID -s"
-assertCurl 403 "curl -X DELETE $READER_AUTH -k https://$HOST:$PORT/services/posts/deleteByUuid?postUuid=$POST_UUID_1 -s"
+assertCurl 200 "curl $READER_AUTH -k https://$HOST:$PORT/services/post-ms/posts/count?userUuid=$USER_UUID -s"
+assertCurl 403 "curl -X DELETE $READER_AUTH -k https://$HOST:$PORT/services/post-ms/posts/deleteByUuid?postUuid=$POST_UUID_1 -s"
 echo ===============================================================================================
 
 
@@ -88,3 +144,10 @@ ENCRYPTED_VALUE=$(curl -k https://dev-usr:dev-pwd@$HOST:$PORT/config/encrypt --d
 DECRYPTED_VALUE=$(curl -k https://dev-usr:dev-pwd@$HOST:$PORT/config/decrypt -d $ENCRYPTED_VALUE -s)
 assertEqual "$TEST_VALUE" "$DECRYPTED_VALUE"
 echo ===============================================================================================
+
+
+setupTestdata
+if [[ $SKIP_CB_TESTS == "false" ]]
+then
+    testCircuitBreaker
+fi

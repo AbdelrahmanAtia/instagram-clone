@@ -1,8 +1,8 @@
 package com.javaworld.instagram.userinfoservice.integration;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +24,7 @@ import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
-
-import java.time.Duration;
+import reactor.core.publisher.Mono;
 
 @Service
 public class PostServiceIntegrationImpl implements PostServiceIntegration {
@@ -45,35 +44,24 @@ public class PostServiceIntegrationImpl implements PostServiceIntegration {
 		this.mapper = mapper;
 	}
 
-	/**
-	 * this method returns CompletableFuture because the @TimeLimiter requires the method that it annotates to 
-	 * return a CompletableFuture
-	 */
 	@Override
 	@Retry(name = "postsCount")
 	@TimeLimiter(name = "postsCount")
 	@CircuitBreaker(name = "postsCount", fallbackMethod = "getPostsCountFallbackValue")
-	public CompletableFuture<Integer> getPostsCountByUserUuid(UUID userUuid, int delay, int faultPercent) {		
-		
+	public Mono<PostsCountResponse> getPostsCountByUserUuid(UUID userUuid, int delay, int faultPercent) {
+
 		String url = propertiesConfig.getVirtualPostServiceUrl() + "/posts/count?userUuid=" + userUuid;
 
 		logger.info("Will call the findPostsCount API on URL: {}", url);
 
-		PostsCountResponse postsCountResponse = webClient.get()
-				.uri(url)
-				.accept(MediaType.APPLICATION_JSON)
-				.retrieve()
-				.bodyToMono(PostsCountResponse.class)
-		        .delayElement(Duration.ofSeconds(delay)) // Add a delay of one second
-				// .log(LOG.getName(), FINE)
-				.onErrorMap(WebClientResponseException.class, ex -> handleException(ex))
-				.block();
+		return webClient.get().uri(url).accept(MediaType.APPLICATION_JSON)
+				.retrieve().bodyToMono(PostsCountResponse.class).delayElement(Duration.ofSeconds(delay))
+				.onErrorMap(WebClientResponseException.class, ex -> handleException(ex));
 
-		return CompletableFuture.completedFuture(postsCountResponse.getPostsCount());
 	}
-	
-	
-	private CompletableFuture<Integer> getPostsCountFallbackValue(UUID userUuid, int delay, int faultPercent, CallNotPermittedException ex) {
+
+	//TODO: suppress the warning
+	private Mono<PostsCountResponse> getPostsCountFallbackValue(UUID userUuid, int delay, int faultPercent, CallNotPermittedException ex) {
 
 		logger.warn(
 				"Creating a fail-fast fallback postsCount for userUuid = {}, delay = {}, faultPercent = {} and exception = {} ",
@@ -86,7 +74,11 @@ public class PostServiceIntegrationImpl implements PostServiceIntegration {
 		}
 		
 	    int fallbackValue = InstaCache.getPostsCount(userUuid);
-	    return CompletableFuture.completedFuture(fallbackValue);
+	    
+	    PostsCountResponse postsCountResponse = new PostsCountResponse();
+	    postsCountResponse.setPostsCount(fallbackValue);
+	    
+	    return Mono.just(postsCountResponse);
 	}
 
 	//TODO: move to a utility class

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.javaworld.instagram.userinfoservice.commons.utils.ServiceUtil;
 import com.javaworld.instagram.userinfoservice.server.api.UsersApi;
 import com.javaworld.instagram.userinfoservice.server.dto.CreateUserRequestApiDto;
+import com.javaworld.instagram.userinfoservice.server.dto.DeletedUsersResponseApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.UserApiDto;
 import com.javaworld.instagram.userinfoservice.service.UserService;
 import com.javaworld.instagram.userinfoservice.service.dto.User;
@@ -40,10 +41,21 @@ public class UsersApiImpl implements UsersApi {
 		UserApiDto userApiDto = mapper.mapToUserApiDto(userService.findUser(userUuid, delay, faultPercent));
 		return setServiceAddress(userApiDto);
 	}
+	
+	@Override
+	public DeletedUsersResponseApiDto deleteUser(UUID userUuid) {
+		int deletedUsersCount = userService.deleteUser(userUuid);
+
+		return new DeletedUsersResponseApiDto().deletedUsersCount(deletedUsersCount)
+				.message("users deleted successfully")
+				.serviceAddress(serviceUtil.getServiceAddress());
+
+	}
 
 	private UserApiDto setServiceAddress(UserApiDto userApiDto) {
 		userApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return userApiDto;
 	}
+
 
 }

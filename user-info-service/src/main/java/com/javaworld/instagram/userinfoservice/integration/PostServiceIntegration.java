@@ -1,10 +1,13 @@
 package com.javaworld.instagram.userinfoservice.integration;
 
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
+
+import com.javaworld.instagram.userinfoservice.service.dto.PostsCountResponse;
+
+import reactor.core.publisher.Mono;
 
 public interface PostServiceIntegration {
 
-	CompletableFuture<Integer> getPostsCountByUserUuid(UUID userUuid, int delay, int faultPercent);
+	Mono<PostsCountResponse> getPostsCountByUserUuid(UUID userUuid, int delay, int faultPercent);
 
 }

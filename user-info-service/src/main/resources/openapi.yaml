@@ -14,7 +14,6 @@ schemes:
 tags:
   - name: User
     description: Operations about users
-
     
 paths:
   /users/:                  
@@ -75,6 +74,30 @@ paths:
             $ref: '#/definitions/User'
         '400':
           description: Invalid userId
+          
+    delete:
+      tags:
+        - User
+      summary: Delete user
+      description: ''
+      operationId: deleteUser
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: userUuid
+          description: ''
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/DeletedUsersResponse'
+        '400':
+          description: Invalid userId
+          
         
 definitions:
   User:
@@ -109,7 +132,22 @@ definitions:
         type: string 
       password:
         type: string 
+      userUuid:
+        type: string    
+        format: uuid
       serviceAddress:
         type: string  
-
-     
+        
+  DeletedUsersResponse:
+    type: object
+    properties:
+      deletedUsersCount:
+        type: integer    
+        format: int32
+        example: 4
+      message:
+        type: string
+        example: users deleted successfully
+      serviceAddress:
+        type: string
+        

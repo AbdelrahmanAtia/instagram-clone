@@ -1161,6 +1161,63 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"email\": \"abc@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"userUuid\": \"1c913945-85ee-4cbf-9cc8-ed7a26adca11\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"user-ms",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"userUuid\", pm.response.json().userUuid);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
 							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"email\": \"abc@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
@@ -1283,7 +1340,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{userUuid}}",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{userUuid}}&delay=3",
 							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
@@ -1299,6 +1356,10 @@
 								{
 									"key": "userUuid",
 									"value": "{{userUuid}}"
+								},
+								{
+									"key": "delay",
+									"value": "3"
 								}
 							]
 						}
