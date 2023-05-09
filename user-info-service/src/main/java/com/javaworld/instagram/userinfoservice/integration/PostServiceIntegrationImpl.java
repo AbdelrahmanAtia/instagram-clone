@@ -1,7 +1,7 @@
 package com.javaworld.instagram.userinfoservice.integration;
 
 import java.io.IOException;
-import java.time.Duration;
+import java.net.URI;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javaworld.instagram.userinfoservice.caching.InstaCache;
@@ -50,14 +51,15 @@ public class PostServiceIntegrationImpl implements PostServiceIntegration {
 	@CircuitBreaker(name = "postsCount", fallbackMethod = "getPostsCountFallbackValue")
 	public Mono<PostsCountResponse> getPostsCountByUserUuid(UUID userUuid, int delay, int faultPercent) {
 
-		String url = propertiesConfig.getVirtualPostServiceUrl() + "/posts/count?userUuid=" + userUuid;
+		URI url = UriComponentsBuilder.fromUriString(propertiesConfig.getVirtualPostServiceUrl()
+	    	      + "/posts/count?userUuid={userUuid}&delay={delay}&faultPercent={faultPercent}").build(userUuid, delay, faultPercent);
 
 		logger.info("Will call the findPostsCount API on URL: {}", url);
-
-		return webClient.get().uri(url).accept(MediaType.APPLICATION_JSON)
-				.retrieve().bodyToMono(PostsCountResponse.class).delayElement(Duration.ofSeconds(delay))
+		
+		return webClient.get().uri(url).accept(MediaType.APPLICATION_JSON).retrieve()
+				.bodyToMono(PostsCountResponse.class)
 				.onErrorMap(WebClientResponseException.class, ex -> handleException(ex));
-
+				
 	}
 
 	//TODO: suppress the warning
