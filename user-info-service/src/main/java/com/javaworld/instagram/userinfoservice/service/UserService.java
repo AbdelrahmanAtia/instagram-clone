@@ -11,5 +11,7 @@ public interface UserService {
 	User findUser(UUID userUuid, int delay, int faultPercent);
 	
 	int deleteUser(UUID userUuid);
+	
+	
 
 }

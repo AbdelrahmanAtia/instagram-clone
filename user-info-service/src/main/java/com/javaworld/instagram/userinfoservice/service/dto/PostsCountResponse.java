@@ -4,6 +4,10 @@ public class PostsCountResponse {
 
 	private int postsCount;
 
+	public PostsCountResponse(int postsCount) {
+		this.postsCount = postsCount;
+	}
+
 	public int getPostsCount() {
 		return postsCount;
 	}
