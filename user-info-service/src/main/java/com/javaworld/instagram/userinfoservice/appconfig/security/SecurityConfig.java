@@ -13,7 +13,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 
     @Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().disable().csrf().disable()
+		http
+		   //TODO: why without disabling cors & csrf u can't access the actuator end points without token
+		   //even if u made /actuator/** publicly accessible ?
+		  .cors().disable().csrf().disable()
 		  .authorizeRequests()
 			.antMatchers("/openapi/**").permitAll()
 			.antMatchers("/webjars/**").permitAll()
