@@ -1,5 +1,5 @@
 
-package com.javaworld.instagram.gateway;
+package com.javaworld.instagram.gateway.appconfig;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ public class SecurityConfig {
         .pathMatchers("/actuator/**").permitAll()
         .pathMatchers("/eureka/**").permitAll() // delegating the security checks to the eureka server
         .pathMatchers("/config/**").permitAll() // delegating the security checks to the config server
-
+        .pathMatchers("/management/health/**").permitAll()
         //the following 3 URLs are related to the authorization server
         .pathMatchers("/oauth2/**").permitAll()
         .pathMatchers("/login/**").permitAll()
