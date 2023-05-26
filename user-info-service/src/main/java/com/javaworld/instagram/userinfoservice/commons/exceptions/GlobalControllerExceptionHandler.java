@@ -3,6 +3,7 @@ package com.javaworld.instagram.userinfoservice.commons.exceptions;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import java.util.concurrent.TimeoutException;
 
 @RestControllerAdvice
 class GlobalControllerExceptionHandler {
@@ -44,6 +46,12 @@ class GlobalControllerExceptionHandler {
 			InvalidInputException ex) {
 
 		return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
+	}
+	
+	@ResponseStatus(INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(TimeoutException.class)
+	public @ResponseBody HttpErrorInfo handleTimeoutException(HttpServletRequest request, TimeoutException ex) {
+		return createHttpErrorInfo(INTERNAL_SERVER_ERROR, request, ex);
 	}
 
 	private HttpErrorInfo createHttpErrorInfo(HttpStatus httpStatus, HttpServletRequest request, Exception ex) {

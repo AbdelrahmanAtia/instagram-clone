@@ -2,6 +2,7 @@ package com.javaworld.instagram.userinfoservice.persistence;
 
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,24 +20,25 @@ public class UserEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@Column(unique = true)
 	private String username;
-	
+
 	@Version
 	private int version;
-	
-	@Type(type="org.hibernate.type.UUIDCharType")
+
+	@Type(type = "org.hibernate.type.UUIDCharType")
 	private UUID userUuid;
 
 	private String email;
 
 	private String name;
 
-	private String password;	
-	
+	private String password;
+
 	private int postsCount;
-	
+
 	public UserEntity() {
-		
+
 	}
 
 	public UserEntity(String username, String email, String name, String password) {
@@ -53,7 +55,6 @@ public class UserEntity {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
 
 	public int getVersion() {
 		return version;
@@ -109,8 +110,6 @@ public class UserEntity {
 
 	public void setId(int id) {
 		this.id = id;
-	}	
-	
-	
+	}
 
 }

@@ -9,5 +9,9 @@ public interface UserService {
 	User createUser(User user);
 
 	User findUser(UUID userUuid, int delay, int faultPercent);
+	
+	int deleteUser(UUID userUuid);
+	
+	
 
 }

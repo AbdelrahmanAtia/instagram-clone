@@ -1,5 +1,7 @@
 spring.config.activate.on-profile: docker
 
+insta.post-service.virtual-url: http://post-ms    ## url to discover the actual url of the service from eureka
+insta.user-info-service.virtual-url: http://user-ms
 ## the following username & password are basic auth credentials that are used to protect access to eureka server..
 ## any client that wants to register it self in eureka or discover services shall provide this username & password
 app:

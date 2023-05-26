@@ -59,7 +59,12 @@ public class PostsApiImpl implements PostsApi {
 	}
 
 	@Override
-	public PostsCountResponseApiDto findPostsCount(UUID userUuid) {
+	public PostsCountResponseApiDto findPostsCount(UUID userUuid, Integer delay, Integer faultPercent) {
+		
+		logger.info("starting PostsApiImpl.findPostsCount()");
+		
+		delay(delay);
+		
 		PostsCountResponseApiDto response = new PostsCountResponseApiDto();
 		response.setPostsCount(postService.countPosts(userUuid));
 		response.setServiceAddress(serviceUtil.getServiceAddress());
@@ -80,6 +85,15 @@ public class PostsApiImpl implements PostsApi {
 	private PostApiDto setServiceAddress(PostApiDto postApiDto) {
 		postApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return postApiDto;
+	}
+	
+	private void delay(int second) {
+		try {
+			logger.info("delaying for {} s..", second);
+			Thread.sleep(second * 1000);
+		} catch (InterruptedException e) {
+			// Handle the exception if necessary
+		}
 	}
 
 }
