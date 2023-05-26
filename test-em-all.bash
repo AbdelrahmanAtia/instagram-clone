@@ -92,8 +92,11 @@ function testCircuitBreaker() {
     do	
 		assertCurl 500 "curl -s -X GET $AUTH -k 'https://$HOST:$PORT/services/user-ms/users/?userUuid=${userUuid}&delay=3'"
         message=$(echo $RESPONSE | jq -r .message)
-        ##assertEqual "Did not observe any item or terminal signal within 2000ms" "${message:0:57}"
+        assertEqual "Did not observe any item or terminal signal within 2000ms" "${message:0:57}"
     done
+	
+	# Verify that the circuit breaker is open
+    assertEqual "OPEN" "$(docker compose exec -T insta-ms-user-info curl -s http://insta-ms-user-info:8080/actuator/health | jq -r .components.circuitBreakers.details.postsCount.details.state)"
 
 }
 
