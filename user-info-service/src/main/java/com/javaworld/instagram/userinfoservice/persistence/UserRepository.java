@@ -10,11 +10,10 @@ import org.springframework.data.repository.query.Param;
 public interface UserRepository extends CrudRepository<UserEntity, String> {
 
 	Optional<UserEntity> findByUserUuid(UUID userUuid);
-	
-	int deleteByUserUuid(UUID userUuid);
-	
-    @Query("SELECT u.postsCount FROM UserEntity u WHERE u.userUuid = :uuid")
-    int getPostsCountByUserUuid(@Param("uuid") UUID userUuid);
 
+	int deleteByUserUuid(UUID userUuid);
+
+	@Query("SELECT u.postsCount FROM UserEntity u WHERE u.userUuid = :uuid")
+	int getPostsCountByUserUuid(@Param("uuid") UUID userUuid);
 
 }
