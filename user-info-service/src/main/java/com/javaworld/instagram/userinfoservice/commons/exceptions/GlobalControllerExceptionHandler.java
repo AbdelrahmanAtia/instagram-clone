@@ -48,11 +48,11 @@ class GlobalControllerExceptionHandler {
 		return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
 	}
 	
-	@ResponseStatus(INTERNAL_SERVER_ERROR) 
-    @ExceptionHandler(TimeoutException.class)
-    public @ResponseBody HttpErrorInfo handleTimeoutException(HttpServletRequest request, TimeoutException ex) {
+	@ResponseStatus(INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(TimeoutException.class)
+	public @ResponseBody HttpErrorInfo handleTimeoutException(HttpServletRequest request, TimeoutException ex) {
 		return createHttpErrorInfo(INTERNAL_SERVER_ERROR, request, ex);
-    }
+	}
 
 	private HttpErrorInfo createHttpErrorInfo(HttpStatus httpStatus, HttpServletRequest request, Exception ex) {
 
