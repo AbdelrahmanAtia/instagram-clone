@@ -1455,6 +1455,63 @@
 					"response": []
 				},
 				{
+					"name": "findUserByUserUUID-externalUuid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{externalUserUuid}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"user-ms",
+								"users",
+								""
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{externalUserUuid}}"
+								},
+								{
+									"key": "delay",
+									"value": "0",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "user-ms-health-CircuitBreakerIsClosed",
 					"event": [
 						{
@@ -1685,68 +1742,6 @@
 					"response": []
 				},
 				{
-					"name": "findUserByUserUUID-generatedUuid-withDelay",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 500\", function () {\r",
-									"    pm.response.to.have.status(500);\r",
-									"});\r",
-									"\r",
-									"\r",
-									"pm.test(\"error message is 'Did not observe any item or terminal signal within 2000ms'\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.message.substring(0, 57)).to.eql(\"Did not observe any item or terminal signal within 2000ms\");\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{generatedUserUuid}}&delay=7",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"user-ms",
-								"users",
-								""
-							],
-							"query": [
-								{
-									"key": "userUuid",
-									"value": "{{generatedUserUuid}}"
-								},
-								{
-									"key": "delay",
-									"value": "7"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "user-ms-health-CircuitBreakerIsOpenned",
 					"event": [
 						{
@@ -1785,63 +1780,6 @@
 								"management",
 								"health",
 								"user-ms"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "findUserByUserUUID-externalUuid",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{externalUserUuid}}",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"user-ms",
-								"users",
-								""
-							],
-							"query": [
-								{
-									"key": "userUuid",
-									"value": "{{externalUserUuid}}"
-								},
-								{
-									"key": "delay",
-									"value": "0",
-									"disabled": true
-								}
 							]
 						}
 					},
