@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "Health checks",
+			"name": "gateway",
 			"item": [
 				{
 					"name": "all-services-health",
@@ -78,6 +78,153 @@
 							"path": [
 								"actuator",
 								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post-ms-health",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"verify status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/management/health/post-ms",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"management",
+								"health",
+								"post-ms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user-ms-health",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"verify status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/management/health/user-ms",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"management",
+								"health",
+								"user-ms"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Eureka",
+			"item": [
+				{
+					"name": "getEurekaRegisteredApps",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"verify that all four microservices are registered in Eureka\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.applications.application.length).to.eql(4);\r",
+									"});\r",
+									"\r",
+									"//TODO: add more assertions on registered services names\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "p",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "u",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/eureka/api/apps",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"eureka",
+								"api",
+								"apps"
 							]
 						}
 					},
@@ -1027,71 +1174,6 @@
 					"response": []
 				},
 				{
-					"name": "getEurekaRegisteredApps",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"verify that all four microservices are registered in Eureka\", function (){\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.applications.application.length).to.eql(4);\r",
-									"});\r",
-									"\r",
-									"//TODO: add more assertions on registered services names\r",
-									"\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "p",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "u",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "accept",
-								"value": "application/json",
-								"type": "default"
-							}
-						],
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/eureka/api/apps",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"eureka",
-								"api",
-								"apps"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "gateway-routes",
 					"event": [
 						{
@@ -1224,7 +1306,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"email\": \"abc@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"userUuid\": \"{{externalUserUuid}}\"\r\n}",
+							"raw": "{\r\n    \"username\": \"johnwick\",\r\n    \"email\": \"abc@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"userUuid\": \"{{externalUserUuid}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1346,7 +1428,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{generatedUserUuid}}",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{generatedUserUuid}}&delay=0",
 							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
@@ -1362,6 +1444,72 @@
 								{
 									"key": "userUuid",
 									"value": "{{generatedUserUuid}}"
+								},
+								{
+									"key": "delay",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findUserByUserUUID-generatedUuid-withDelay",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"error message is 'Did not observe any item or terminal signal within 2000ms'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message.substring(0, 57)).to.eql(\"Did not observe any item or terminal signal within 2000ms\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{generatedUserUuid}}&delay=7",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"user-ms",
+								"users",
+								""
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{generatedUserUuid}}"
+								},
+								{
+									"key": "delay",
+									"value": "7"
 								}
 							]
 						}
@@ -1398,7 +1546,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{externalUserUuid}}&delay=1",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{externalUserUuid}}",
 							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
@@ -1417,7 +1565,8 @@
 								},
 								{
 									"key": "delay",
-									"value": "1"
+									"value": "0",
+									"disabled": true
 								}
 							]
 						}
