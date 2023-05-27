@@ -54,7 +54,8 @@ public class PostServiceIntegrationImpl implements PostServiceIntegration {
  	}
 
 	//TODO: suppress the warning
-	private Mono<PostsCountResponse> getPostsCountFallbackValue(UUID userUuid, int delay, int faultPercent, CallNotPermittedException ex) {
+	private Mono<PostsCountResponse> getPostsCountFallbackValue(UUID userUuid, int delay, int faultPercent,
+			CallNotPermittedException ex) {
 
 		logger.warn(
 				"Creating a fail-fast fallback postsCount for userUuid = {}, delay = {}, faultPercent = {} and exception = {} ",
@@ -65,10 +66,10 @@ public class PostServiceIntegrationImpl implements PostServiceIntegration {
 			logger.warn(errMsg);
 			throw new NotFoundException(errMsg);
 		}
-		
-	    int fallbackValue = InstaCache.getPostsCount(userUuid);
-	    	    
-	    return Mono.just(new PostsCountResponse(fallbackValue));
+
+		int fallbackValue = InstaCache.getPostsCount(userUuid);
+
+		return Mono.just(new PostsCountResponse(fallbackValue));
 	}
 
 }
