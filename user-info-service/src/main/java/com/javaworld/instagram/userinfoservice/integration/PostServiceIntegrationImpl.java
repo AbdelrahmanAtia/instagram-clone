@@ -12,8 +12,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.javaworld.instagram.userinfoservice.caching.InstaCache;
+import com.javaworld.instagram.userinfoservice.commons.exceptions.NotFoundException;
 import com.javaworld.instagram.userinfoservice.configuration.PropertiesConfig;
-import com.javaworld.instagram.userinfoservice.persistence.UserRepository;
 import com.javaworld.instagram.userinfoservice.service.dto.PostsCountResponse;
 
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
@@ -29,13 +29,9 @@ public class PostServiceIntegrationImpl implements PostServiceIntegration {
 
 	private final WebClient webClient;
 
-
 	@Autowired
 	private PropertiesConfig propertiesConfig;
 	
-	@Autowired
-	private UserRepository userRepository;
-
 	@Autowired
 	public PostServiceIntegrationImpl(WebClient.Builder webClientBuilder) {
 		this.webClient = webClientBuilder.build();
@@ -64,13 +60,10 @@ public class PostServiceIntegrationImpl implements PostServiceIntegration {
 				"Creating a fail-fast fallback postsCount for userUuid = {}, delay = {}, faultPercent = {} and exception = {} ",
 				userUuid, delay, faultPercent, ex.toString());
 
-		if(!InstaCache.postsCountCacheContainsKey(userUuid)) {
+		if (!InstaCache.postsCountCacheContainsKey(userUuid)) {
 			String errMsg = "posts count for userUuid: " + userUuid.toString() + " not found in fallback cache!";
 			logger.warn(errMsg);
-			
-			int postsCount = userRepository.getPostsCountByUserUuid(userUuid);
-			InstaCache.putPostsCount(userUuid, postsCount);
-		    return Mono.just(new PostsCountResponse(postsCount));
+			throw new NotFoundException(errMsg);
 		}
 		
 	    int fallbackValue = InstaCache.getPostsCount(userUuid);

@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.javaworld.instagram.userinfoservice.caching.InstaCache;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.HttpErrorInfo;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.InvalidInputException;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.NotFoundException;
@@ -50,10 +49,6 @@ public class UserServiceImpl implements UserService {
 			UserEntity savedUser = userRepository.save(userEntity);
 			logger.info("created user with name: " + savedUser.getUsername());
 			
-			//TODO: when a post is created u have to add a listener here and this listener will 
-			//update the posts count in both the database and in the cache
-			InstaCache.putPostsCount(savedUser.getUserUuid(), 0);
-
 			return userMapper.mapUserEntityToDto(userEntity);
 
 		} catch (DuplicateKeyException ex) {
