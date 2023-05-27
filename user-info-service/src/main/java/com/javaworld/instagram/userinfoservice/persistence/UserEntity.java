@@ -35,7 +35,6 @@ public class UserEntity {
 
 	private String password;
 
-	private int postsCount;
 
 	public UserEntity() {
 
@@ -94,14 +93,6 @@ public class UserEntity {
 
 	public void setUserUuid(UUID userUuid) {
 		this.userUuid = userUuid;
-	}
-
-	public int getPostsCount() {
-		return postsCount;
-	}
-
-	public void setPostsCount(int postsCount) {
-		this.postsCount = postsCount;
 	}
 
 	public int getId() {
