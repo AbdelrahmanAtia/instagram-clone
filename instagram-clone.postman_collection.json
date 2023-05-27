@@ -1512,7 +1512,7 @@
 					"response": []
 				},
 				{
-					"name": "user-ms-health-CircuitBreakerIsClosed",
+					"name": "validatePostsCountCircuitBreakerIsClosed",
 					"event": [
 						{
 							"listen": "test",
@@ -1742,7 +1742,7 @@
 					"response": []
 				},
 				{
-					"name": "user-ms-health-CircuitBreakerIsOpenned",
+					"name": "ValidatePostsCountCircuitBreakerIsOpenned",
 					"event": [
 						{
 							"listen": "test",
@@ -1757,6 +1757,125 @@
 									"    var circuitBreakerState = jsonData.components.circuitBreakers.details.postsCount.details.state;\r",
 									"    pm.expect(circuitBreakerState).to.eql(\"OPEN\");\r",
 									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/management/health/user-ms",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"management",
+								"health",
+								"user-ms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validateFallbackResponseIsRecievedWhenCB_IsOpened",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"error message stating that the userUUID is not found in fallBack cache\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.include(\"posts count for userUuid: \"+ pm.variables.get(\"generatedUserUuid\") + \" not found in fallback cache!\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{generatedUserUuid}}&delay=7",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"user-ms",
+								"users",
+								""
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{generatedUserUuid}}"
+								},
+								{
+									"key": "delay",
+									"value": "7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validatePostsCountCB_Is_HALF_OPEN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"verify status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"verify circuit breaker is HALF_OPEN\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var circuitBreakerState = jsonData.components.circuitBreakers.details.postsCount.details.state;\r",
+									"    pm.expect(circuitBreakerState).to.eql(\"HALF_OPEN\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//wait for 10 seconds before making this request\r",
+									"//those 10 seconds delay will be enough for the postsCount circuit breaker \r",
+									"//status to be converted from OPEN to HALF_OPEN\r",
+									"setTimeout(function() {}, 10000);\r",
+									"\r",
 									""
 								],
 								"type": "text/javascript"
