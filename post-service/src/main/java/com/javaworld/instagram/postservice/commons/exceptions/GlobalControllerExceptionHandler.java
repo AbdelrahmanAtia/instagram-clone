@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.javaworld.instagram.userinfoservice.commons.exceptions.HttpErrorInfo;
-
 @RestControllerAdvice
 class GlobalControllerExceptionHandler {
 

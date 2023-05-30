@@ -1847,7 +1847,7 @@
 					"response": []
 				},
 				{
-					"name": "validatePostsCountCB_Is_HALF_OPEN",
+					"name": "wait_10Sec_then_validatePostsCountCB_Is_HALF_OPEN",
 					"event": [
 						{
 							"listen": "test",
@@ -1876,6 +1876,254 @@
 									"//status to be converted from OPEN to HALF_OPEN\r",
 									"setTimeout(function() {}, 10000);\r",
 									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/management/health/user-ms",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"management",
+								"health",
+								"user-ms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findUserByUserUUID-generatedUuid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"username is AbdelrahmanAttya\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.username).to.eql(\"AbdelrahmanAttya\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"posts count is 1\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.postsCount).to.eql(1);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{generatedUserUuid}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"user-ms",
+								"users",
+								""
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{generatedUserUuid}}"
+								},
+								{
+									"key": "delay",
+									"value": "7",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findUserByUserUUID-generatedUuid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"username is AbdelrahmanAttya\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.username).to.eql(\"AbdelrahmanAttya\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"posts count is 1\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.postsCount).to.eql(1);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{generatedUserUuid}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"user-ms",
+								"users",
+								""
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{generatedUserUuid}}"
+								},
+								{
+									"key": "delay",
+									"value": "7",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findUserByUserUUID-generatedUuid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"username is AbdelrahmanAttya\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.username).to.eql(\"AbdelrahmanAttya\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"posts count is 1\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.postsCount).to.eql(1);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{generatedUserUuid}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"user-ms",
+								"users",
+								""
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{generatedUserUuid}}"
+								},
+								{
+									"key": "delay",
+									"value": "7",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ValidatePostsCount_CB_returnedToClosedStatus",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"verify status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"verify circuit breaker is CLOSED\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var circuitBreakerState = jsonData.components.circuitBreakers.details.postsCount.details.state;\r",
+									"    pm.expect(circuitBreakerState).to.eql(\"CLOSED\");\r",
+									"});\r",
 									""
 								],
 								"type": "text/javascript"
