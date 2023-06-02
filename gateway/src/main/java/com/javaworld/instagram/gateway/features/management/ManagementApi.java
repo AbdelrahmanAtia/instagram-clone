@@ -42,6 +42,24 @@ public class ManagementApi {
 				.map(JsonNode::toString);
 	}
 
+	@GetMapping("/circuitbreakerevents/{serviceName}/{circuitBreakerName}")
+	public Mono<String> getCircuitBreakerStateTransitions(@PathVariable String serviceName,
+			@PathVariable String circuitBreakerName) {
+		
+		String uri = getServiceUrl(ServiceName.fromString(serviceName)) 
+				+ "/actuator/circuitbreakerevents/" 
+				+ circuitBreakerName
+				+ "/STATE_TRANSITION" ;
+		
+		logger.info("will call service {} on uri {}", serviceName, uri);
+
+		return webClient.get()
+				.uri(uri)
+				.retrieve()
+				.bodyToMono(JsonNode.class)
+				.map(JsonNode::toString);
+	}
+	
 	private String getServiceUrl(ServiceName serviceName) {
 		switch (serviceName) {
 		case USER_MS:

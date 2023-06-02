@@ -23,6 +23,8 @@ public class SecurityConfig {
         .pathMatchers("/eureka/**").permitAll() // delegating the security checks to the eureka server
         .pathMatchers("/config/**").permitAll() // delegating the security checks to the config server
         .pathMatchers("/management/health/**").permitAll()
+        .pathMatchers("/management/circuitbreakerevents/**").permitAll()
+        
         //the following 3 URLs are related to the authorization server
         .pathMatchers("/oauth2/**").permitAll()
         .pathMatchers("/login/**").permitAll()
