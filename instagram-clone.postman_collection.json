@@ -2153,6 +2153,56 @@
 					"response": []
 				},
 				{
+					"name": "ValidateAllStatesForPostsCount_CB",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"verify status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"verify all circuit breaker states transitions\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(jsonData.circuitBreakerEvents[0].stateTransition).to.eql(\"CLOSED_TO_OPEN\");\r",
+									"\r",
+									"    pm.expect(jsonData.circuitBreakerEvents[1].stateTransition).to.eql(\"OPEN_TO_HALF_OPEN\");\r",
+									"\r",
+									"    pm.expect(jsonData.circuitBreakerEvents[2].stateTransition).to.eql(\"HALF_OPEN_TO_CLOSED\");\r",
+									"\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/management/circuitbreakerevents/user-ms/postsCount",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"management",
+								"circuitbreakerevents",
+								"user-ms",
+								"postsCount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "getPostsCountByUserUuid",
 					"event": [
 						{
