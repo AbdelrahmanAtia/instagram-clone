@@ -2715,6 +2715,132 @@
 							"response": []
 						},
 						{
+							"name": "validate-retry-mechanist-for-findUserByUserUUID-generatedUuid Copy 3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// we don't have any tests here as we are not sure if the service will pass or not as the circuit breaker might open \r",
+											"// and if that happened we will get a 404 response as there is no stored postsCount for that user in the cache that is checked by the \r",
+											"// fallback method\r",
+											"\r",
+											"//TODO..we can add tests here after we create a message broker that publishes posts creation actions and the user-ms listens to these \r",
+											"//actions and fills the cache\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{generatedUserUuid}}&delay=0&faultPercent=50",
+									"protocol": "{{PROTOCOL}}",
+									"host": [
+										"{{HOST}}"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"services",
+										"user-ms",
+										"users",
+										""
+									],
+									"query": [
+										{
+											"key": "userUuid",
+											"value": "{{generatedUserUuid}}"
+										},
+										{
+											"key": "delay",
+											"value": "0"
+										},
+										{
+											"key": "faultPercent",
+											"value": "50"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "validate-retry-mechanist-for-findUserByUserUUID-generatedUuid Copy 4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// we don't have any tests here as we are not sure if the service will pass or not as the circuit breaker might open \r",
+											"// and if that happened we will get a 404 response as there is no stored postsCount for that user in the cache that is checked by the \r",
+											"// fallback method\r",
+											"\r",
+											"//TODO..we can add tests here after we create a message broker that publishes posts creation actions and the user-ms listens to these \r",
+											"//actions and fills the cache\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{generatedUserUuid}}&delay=0&faultPercent=50",
+									"protocol": "{{PROTOCOL}}",
+									"host": [
+										"{{HOST}}"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"services",
+										"user-ms",
+										"users",
+										""
+									],
+									"query": [
+										{
+											"key": "userUuid",
+											"value": "{{generatedUserUuid}}"
+										},
+										{
+											"key": "delay",
+											"value": "0"
+										},
+										{
+											"key": "faultPercent",
+											"value": "50"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "ValidateRetryEvents",
 							"event": [
 								{
