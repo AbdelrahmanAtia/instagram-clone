@@ -1,6 +1,7 @@
 package com.javaworld.instagram.postservice.features.restapi;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -23,6 +24,8 @@ import com.javaworld.instagram.postservice.server.dto.PostsCountResponseApiDto;
 public class PostsApiImpl implements PostsApi {
 
 	private static final Logger logger = LoggerFactory.getLogger(PostsApiImpl.class);
+	
+	private final Random randomNumberGenerator = new Random();
 
 	@Autowired
 	private PostApiDtoMapper postApiDtoMapper;
@@ -63,7 +66,12 @@ public class PostsApiImpl implements PostsApi {
 		
 		logger.info("starting PostsApiImpl.findPostsCount()");
 		
-		delay(delay);
+		throwErrorIfBadLuck(faultPercent); // used to test the retry mechanism..for example, if the faultPercent is 25 
+		                                   // then for each 4 requests one of them will be forced to fail 
+		                                   // so that the retry mechanism can be kicked off
+		
+		delay(delay); // used to test circuit breaker..the caller service will throw a timeout exception if 
+		              // the request took more than 2 seconds to be fulfilled
 		
 		PostsCountResponseApiDto response = new PostsCountResponseApiDto();
 		response.setPostsCount(postService.countPosts(userUuid));
@@ -94,6 +102,33 @@ public class PostsApiImpl implements PostsApi {
 		} catch (InterruptedException e) {
 			// Handle the exception if necessary
 		}
+	}
+	
+	private void throwErrorIfBadLuck(int faultPercent) {
+
+		if (faultPercent == 0) {
+			return;
+		}
+
+		int randomThreshold = getRandomNumber(1, 100);
+
+		if (faultPercent < randomThreshold) {
+			//TODO: change to debug
+			logger.info("We got lucky, no error occurred, {} < {}", faultPercent, randomThreshold);
+		} else {
+			//TODO: change to debug
+			logger.info("Bad luck, an error occurred, {} >= {}", faultPercent, randomThreshold);
+			throw new RuntimeException("Something went wrong...");
+		}
+	}
+	  
+	private int getRandomNumber(int min, int max) {
+
+		if (max < min) {
+			throw new IllegalArgumentException("Max must be greater than min");
+		}
+
+		return randomNumberGenerator.nextInt((max - min) + 1) + min;
 	}
 
 }
