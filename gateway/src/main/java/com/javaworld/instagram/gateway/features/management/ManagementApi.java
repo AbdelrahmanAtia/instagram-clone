@@ -59,6 +59,23 @@ public class ManagementApi {
 				.bodyToMono(JsonNode.class)
 				.map(JsonNode::toString);
 	}
+
+	@GetMapping("/retryevents/{serviceName}")
+	public Mono<String> getRetryEvents(@PathVariable String serviceName) {
+		
+		String uri = getServiceUrl(ServiceName.fromString(serviceName)) 
+				+ "/actuator/retryevents"; 
+		
+		logger.info("will call service {} on uri {}", serviceName, uri);
+
+		return webClient.get()
+				.uri(uri)
+				.retrieve()
+				.bodyToMono(JsonNode.class)
+				.map(JsonNode::toString);
+	}
+	
+	
 	
 	private String getServiceUrl(ServiceName serviceName) {
 		switch (serviceName) {

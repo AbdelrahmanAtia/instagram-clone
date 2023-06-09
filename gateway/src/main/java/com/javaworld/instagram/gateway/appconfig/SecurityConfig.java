@@ -24,6 +24,7 @@ public class SecurityConfig {
         .pathMatchers("/config/**").permitAll() // delegating the security checks to the config server
         .pathMatchers("/management/health/**").permitAll()
         .pathMatchers("/management/circuitbreakerevents/**").permitAll()
+        .pathMatchers("/management/retryevents/**").permitAll()
         
         //the following 3 URLs are related to the authorization server
         .pathMatchers("/oauth2/**").permitAll()
