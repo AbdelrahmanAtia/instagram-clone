@@ -20,12 +20,12 @@ public class BaseEntity {
 	@Version
 	private int version;
 	
+	//TODO: how to add the updatable constraint in liquibase?
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime  createdAt;   //TODO: shall it be of type OffsetDateTime ?
 
     @LastModifiedDate
-    @Column(nullable = false)
     private LocalDateTime updatedAt;  //TODO: shall it be of type OffsetDateTime ?
 	
     @CreatedBy
@@ -34,7 +34,6 @@ public class BaseEntity {
                                            //fill it with the current user 
 
     @LastModifiedBy
-    @Column(nullable = false)
     private String updatedBy = "System"; //TODO: remove default value when applying spring security so that it will automatically
                                          //fill it with the current user 
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,12 +22,15 @@ import lombok.Setter;
 //@Setter
 //@Getter
 //@NoArgsConstructor
+
+//TODO: update it to extend the BaseEntity
 public class TagEntity {
  
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
  
+	@Column(unique = true)
     private String name;
  
     @OneToMany(

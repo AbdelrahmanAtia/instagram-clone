@@ -8,6 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "post_comment")
+//TODO: update it to extend the BaseEntity class
 public class CommentEntity {
 
 	@Id
