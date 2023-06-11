@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+	<changeSet author="abdelrahman_attya" id="1">
+		<createTable tableName="post">
+			<column name="id" type="INT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+
+			<column name="post_uuid" type="CHAR(36)">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="title" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="user_uuid" type="CHAR(36)">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="version" type="INT" />
+
+			<column name="created_at" type="datetime">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="updated_at" type="datetime" />
+
+			<column name="created_by" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="updated_by" type="VARCHAR(255)" />
+
+		</createTable>
+	</changeSet>
+
+
+	<changeSet author="abdelrahman_attya" id="2">
+		<addUniqueConstraint constraintName="post_uuid_unique_constraint_name"
+			columnNames="post_uuid" tableName="post" />
+	</changeSet>
+
+	<changeSet author="abdelrahman_attya" id="3">
+		<createIndex tableName="post" indexName="idx_post_userUuid">
+			<column name="user_uuid" />
+		</createIndex>
+	</changeSet>
+
+</databaseChangeLog>

@@ -16,6 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "post_tag_assignment")
 //TODO: use lombok
+//TODO: make it extend the BaseEntity & update the liquibase
 public class PostTagAssignment {
 
 	//TODO: use an embedded id consisting of (postId & tagId) and add them to an embeddable class
@@ -31,6 +32,9 @@ public class PostTagAssignment {
 	@JoinColumn(name = "tag_id")
 	private TagEntity tag;
 
+	//TODO: shall be removed after making it extends the BaseEntity class..also 
+	//it shall be createdAt not createdOn
+	
 	@Column(name = "created_on")
 	private Date createdOn = new Date();
 
