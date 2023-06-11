@@ -27,10 +27,13 @@ public class UserEntity {
 	private int version;
 
 	@Type(type = "org.hibernate.type.UUIDCharType")
+	@Column(unique = true)
 	private UUID userUuid;
 
+	@Column(unique = true)
 	private String email;
 
+	@Column(unique = true)
 	private String name;
 
 	private String password;

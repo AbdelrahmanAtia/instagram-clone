@@ -7,7 +7,7 @@ insta.post-service.url: http://insta-ms-post
 ## Database related configurations ##
 #####################################
 
-spring.jpa.hibernate.ddl-auto: create # TODO: Strongly recommend to set this property to "none" in a production environment!
+##spring.jpa.hibernate.ddl-auto: create # TODO: Strongly recommend to set this property to "none" in a production environment!
 spring.jpa.database-platform: org.hibernate.dialect.MySQL8Dialect  
 
 spring.datasource:
@@ -24,6 +24,10 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     com.javaworld.instagram.userinfoservice.commons.utils.LoggingUtil: DEBUG  ## this is not related to database config..it is just added here to benefit from YAML properties nesting
     
+spring.liquibase:
+  ##changeLog: "classpath:dblogs\changelog\changelog-master.xml"
+  enabled: true
+
 
 ########################################
 ## Auth server related configurations ##
