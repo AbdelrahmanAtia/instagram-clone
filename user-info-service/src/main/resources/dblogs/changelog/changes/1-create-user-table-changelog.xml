@@ -29,7 +29,7 @@
 			<column name="name" type="varchar(255)" />
 
 			<column name="password" type="varchar(255)">
-				<constraints unique="true" nullable="false" />
+				<constraints nullable="false" />
 			</column>
 
 		</createTable>
