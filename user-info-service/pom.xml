@@ -33,73 +33,91 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
+			<groupId>
+				org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 		
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
+			<groupId>
+				org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>	
 
 				
 		<!-- ################### Resilience  configuration ############### -->
 		<dependency>
-			<groupId>io.github.resilience4j</groupId>
+			<groupId>
+				io.github.resilience4j</groupId>
 			<artifactId>resilience4j-spring-boot2</artifactId>
-			<version>${resilience4jVersion}</version>
+			<version>
+				${resilience4jVersion}</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>io.github.resilience4j</groupId>
+			<groupId>
+				io.github.resilience4j</groupId>
 			<artifactId>resilience4j-reactor</artifactId>
-			<version>${resilience4jVersion}</version>
+			<version>
+				${resilience4jVersion}</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
+			<groupId>
+				org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>				
 
 		<!-- ################### config server communication dependencies ############### -->
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
+			<groupId>
+				org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 	
 		<dependency>
-			<groupId>org.springframework.retry</groupId>
+			<groupId>
+				org.springframework.retry</groupId>
 			<artifactId>spring-retry</artifactId>
 		</dependency>
 		
 		<!-- ################### Security dependencies ################################ -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
+			<groupId>
+				org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-oauth2-resource-server</artifactId>
+			<groupId>
+				org.springframework.security</groupId>
+			<artifactId>
+				spring-security-oauth2-resource-server</artifactId>
 		</dependency>
 		
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+			<groupId>
+				org.springframework.boot</groupId>
+			<artifactId>
+				spring-boot-starter-oauth2-client</artifactId>
 		</dependency>
 		
 
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-oauth2-jose</artifactId>
+			<groupId>
+				org.springframework.security</groupId>
+			<artifactId>
+				spring-security-oauth2-jose</artifactId>
 		</dependency>
 		
 		<!-- ################### Testing dependencies ################################ -->	
 	
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
+			<groupId>
+				org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<scope>
+				test</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>org.junit.vintage</groupId>
@@ -109,55 +127,72 @@
 		</dependency>
 	
 		<dependency>
-			<groupId>io.projectreactor</groupId>
+			<groupId>
+				io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>
 		</dependency>		
 		
 		<!-- ########################### DB & persistence layer dependencies ################################ -->
 
 		<dependency>
-			<groupId>mysql</groupId>
+			<groupId>
+				mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 				
 	
 		<dependency>
-			<groupId>org.hibernate</groupId>
+			<groupId>
+				org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>org.hibernate</groupId>
+			<groupId>
+				org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>6.1.2.Final</version>
+			<version>
+				6.1.2.Final</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
+			<groupId>
+				org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>com.h2database</groupId>
+			<groupId>
+				com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+
 		<!-- ################### dependencies needed for open-API code generator ################################ -->
 		
 		<dependency>
-			<groupId>io.swagger</groupId>
+			<groupId>
+				io.swagger</groupId>
 			<artifactId>swagger-annotations</artifactId>
-			<version>${swagger-annotations-version}</version>
+			<version>
+				${swagger-annotations-version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.openapitools</groupId>
+			<groupId>
+				org.openapitools</groupId>
 			<artifactId>jackson-databind-nullable</artifactId>
-			<version>${jackson-databind-nullable}</version>
+			<version>
+				${jackson-databind-nullable}</version>
 		</dependency>
 
 		<dependency>
-		    <groupId>io.springfox</groupId>
+		    <groupId>
+				io.springfox</groupId>
 		    <artifactId>springfox-boot-starter</artifactId>
 		    <version>3.0.0</version>
 		</dependency>
@@ -166,20 +201,25 @@
 		<!-- ################################ MapStruct ################################################ -->
 
 		<dependency>
-			<groupId>org.mapstruct</groupId>
+			<groupId>
+				org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
-			<version>${org.mapstruct.version}</version>
+			<version>
+				${org.mapstruct.version}</version>
 		</dependency>
 
 
 		<dependency>
-			<groupId>org.mapstruct</groupId>
+			<groupId>
+				org.mapstruct</groupId>
 			<artifactId>mapstruct-processor</artifactId>
-			<version>${org.mapstruct.version}</version>
+			<version>
+				${org.mapstruct.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>javax.validation</groupId>
+			<groupId>
+				javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>1.1.0.Final</version>
 		</dependency>
@@ -187,77 +227,103 @@
 		<!-- ################################ Spring Cloud ################################################ -->
 	
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<groupId>
+				org.springframework.cloud</groupId>
+			<artifactId>
+				spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
-		
+
 
 	</dependencies>
 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>org.springframework.cloud</groupId>
+				<groupId>
+					org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
+				<version>
+					${spring-cloud.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
 
 			<dependency>
-				<groupId>io.github.resilience4j</groupId>
+				<groupId>
+					io.github.resilience4j</groupId>
 				<artifactId>resilience4j-spring</artifactId>
-				<version>${resilience4jVersion}</version>
+				<version>
+					${resilience4jVersion}</version>
 			</dependency>
 			<dependency>
-				<groupId>io.github.resilience4j</groupId>
+				<groupId>
+					io.github.resilience4j</groupId>
 				<artifactId>resilience4j-annotations</artifactId>
-				<version>${resilience4jVersion}</version>
+				<version>
+					${resilience4jVersion}</version>
 			</dependency>
 			<dependency>
-				<groupId>io.github.resilience4j</groupId>
+				<groupId>
+					io.github.resilience4j</groupId>
 				<artifactId>resilience4j-consumer</artifactId>
-				<version>${resilience4jVersion}</version>
+				<version>
+					${resilience4jVersion}</version>
 			</dependency>
 			<dependency>
-				<groupId>io.github.resilience4j</groupId>
+				<groupId>
+					io.github.resilience4j</groupId>
 				<artifactId>resilience4j-core</artifactId>
-				<version>${resilience4jVersion}</version>
+				<version>
+					${resilience4jVersion}</version>
 			</dependency>
 			<dependency>
-				<groupId>io.github.resilience4j</groupId>
+				<groupId>
+					io.github.resilience4j</groupId>
 				<artifactId>resilience4j-circuitbreaker</artifactId>
-				<version>${resilience4jVersion}</version>
+				<version>
+					${resilience4jVersion}</version>
 			</dependency>
 			<dependency>
-				<groupId>io.github.resilience4j</groupId>
+				<groupId>
+					io.github.resilience4j</groupId>
 				<artifactId>resilience4j-ratelimiter</artifactId>
-				<version>${resilience4jVersion}</version>
+				<version>
+					${resilience4jVersion}</version>
 			</dependency>
 			<dependency>
-				<groupId>io.github.resilience4j</groupId>
+				<groupId>
+					io.github.resilience4j</groupId>
 				<artifactId>resilience4j-retry</artifactId>
-				<version>${resilience4jVersion}</version>
+				<version>
+					${resilience4jVersion}</version>
 			</dependency>
 			<dependency>
-				<groupId>io.github.resilience4j</groupId>
+				<groupId>
+					io.github.resilience4j</groupId>
 				<artifactId>resilience4j-bulkhead</artifactId>
-				<version>${resilience4jVersion}</version>
+				<version>
+					${resilience4jVersion}</version>
 			</dependency>
 			<dependency>
-				<groupId>io.github.resilience4j</groupId>
+				<groupId>
+					io.github.resilience4j</groupId>
 				<artifactId>resilience4j-timelimiter</artifactId>
-				<version>${resilience4jVersion}</version>
+				<version>
+					${resilience4jVersion}</version>
 			</dependency>
 			<dependency>
-				<groupId>io.github.resilience4j</groupId>
+				<groupId>
+					io.github.resilience4j</groupId>
 				<artifactId>resilience4j-micrometer</artifactId>
-				<version>${resilience4jVersion}</version>
+				<version>
+					${resilience4jVersion}</version>
 			</dependency>
 			<dependency>
-				<groupId>io.github.resilience4j</groupId>
+				<groupId>
+					io.github.resilience4j</groupId>
 				<artifactId>resilience4j-circularbuffer</artifactId>
-				<version>${resilience4jVersion}</version>
+				<version>
+					${resilience4jVersion}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -267,35 +333,41 @@
 		<plugins>		
 		
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
+				<groupId>
+					org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<layers>
-						<enabled>true</enabled>
+						<enabled>
+							true</enabled>
 						<!-- <configuration>${project.basedir}/src/layers.xml</configuration> -->
 					</layers>
 				</configuration>
 			</plugin>
 
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
+				<groupId>
+					org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<version>
+					3.8.1</version>
 				<configuration>
 					<source>1.8</source> 
 					<target>1.8</target> 
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.mapstruct</groupId>
-							<artifactId>mapstruct-processor</artifactId>
-							<version>${org.mapstruct.version}</version>
+							<artifactId>
+								mapstruct-processor</artifactId>
+							<version>
+								${org.mapstruct.version}</version>
 						</path>
 						<!-- other annotation processors -->
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
-			
-			
+
+
 			<!-- open API plug-in for API code generator -->
 			<!-- 
 			     this plugin is disabled until we fix the issue of wrapping Flux<T> with Mono like 
@@ -303,9 +375,11 @@
 			-->
 			
 			<plugin>
-				<groupId>org.openapitools</groupId>
+				<groupId>
+					org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>6.0.1</version>
+				<version>
+					6.0.1</version>
 				<executions>
 					<execution>
 						<goals>
@@ -315,15 +389,21 @@
 							<inputSpec>
 								${project.basedir}/src/main/resources/openapi.yaml
 							</inputSpec>
-							<templateDirectory>src/main/resources/openapi-templates</templateDirectory>
-							<generatorName>spring</generatorName>
-							<apiPackage>com.javaworld.instagram.userinfoservice.server.api</apiPackage>
-							<modelPackage>com.javaworld.instagram.userinfoservice.server.dto</modelPackage>
-							<modelNameSuffix>ApiDto</modelNameSuffix>
+							<templateDirectory>
+								src/main/resources/openapi-templates</templateDirectory>
+							<generatorName>
+								spring</generatorName>
+							<apiPackage>
+								com.javaworld.instagram.userinfoservice.server.api</apiPackage>
+							<modelPackage>
+								com.javaworld.instagram.userinfoservice.server.dto</modelPackage>
+							<modelNameSuffix>
+								ApiDto</modelNameSuffix>
 							<configOptions>
 								<interfaceOnly>true</interfaceOnly>
 								<skipDefaultInterface>true</skipDefaultInterface>
-								<reactive>false</reactive>
+								<reactive>
+									false</reactive>
 							</configOptions>
 						</configuration>
 					</execution>

@@ -1,4 +1,4 @@
-package com.javaworld.instagram.userinfoservice.appconfig.security;
+package com.javaworld.instagram.userinfoservice.appconfig;
 
 import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
@@ -26,6 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 			.antMatchers(POST, "/users/**").hasAuthority("SCOPE_post:write")
 			.antMatchers(DELETE, "/users/**").hasAuthority("SCOPE_post:write")
 			.antMatchers(GET, "/users/**").hasAuthority("SCOPE_post:read")
+			.antMatchers(POST, "/db/recreate").hasAuthority("SCOPE_post:write")
+
 
 			.anyRequest().authenticated()
 			.and()

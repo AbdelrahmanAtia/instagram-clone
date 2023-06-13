@@ -26,6 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 			.antMatchers(POST, "/posts/**").hasAuthority("SCOPE_post:write")
 			.antMatchers(DELETE, "/posts/**").hasAuthority("SCOPE_post:write")
 			.antMatchers(GET, "/posts/**").hasAuthority("SCOPE_post:read")
+			.antMatchers(POST, "/db/recreate").hasAuthority("SCOPE_post:write")
+
 
 			.anyRequest().authenticated()
 			.and()
