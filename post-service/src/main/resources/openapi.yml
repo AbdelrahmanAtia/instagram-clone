@@ -137,6 +137,36 @@ paths:
         '400':
           description: ""
 
+  /posts/{postUuid}/comments:                  
+    post:
+      tags:
+        - Comment
+      summary: add a new comment to a certain post
+      description: ''
+      operationId: addPostComment
+      parameters:
+        - name: postUuid
+          in: path
+          description: The UUID of the post for which the comment is added 
+          required: true
+          schema:
+            type: string
+
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'     
+
 components:
   schemas:
     Post:
@@ -186,4 +216,12 @@ components:
           example: posts deleted successfully
         serviceAddress:
           type: string
+
+
+    Comment:
+      type: object
+      properties:
+        commentText:
+          type: string
+
           
