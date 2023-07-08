@@ -27,6 +27,15 @@ eureka:
 management.endpoint.health.show-details: "ALWAYS"
 management.endpoints.web.exposure.include: "*"
 
+#####################################
+## message brokers related configs ##
+#####################################
+spring.rabbitmq:
+  host: rabbitmq
+  port: 5672
+  username: guest
+  password: '{cipher}17fcf0ae5b8c5cf87de6875b699be4a1746dd493a99d926c7a26a68c422117ef'
+
 #################################
 ## distributed tracing configs ##
 #################################    
