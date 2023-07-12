@@ -28,6 +28,11 @@ spring.application.name: gateway  ##used by EUREKA to identify each micro servic
 #################################################
 spring.security.oauth2.resourceserver.jwt.issuer-uri: http://${app.auth-server}:9999
 
+#################################
+## distributed tracing configs ##
+#################################    
+spring.sleuth.reactor.instrumentation-type: decorate-on-last
+
 ####################################
 ## Routes related configurations  ##
 ####################################
