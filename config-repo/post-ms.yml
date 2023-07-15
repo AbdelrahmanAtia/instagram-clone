@@ -39,6 +39,13 @@ spring:
 spring.security.oauth2.resourceserver.jwt.issuer-uri: http://${app.auth-server}:9999
 
 
-  
+spring.cloud.function.definition: messageProcessor
+
+spring.cloud.stream:
+  default.contentType: application/json
+  bindings.messageProcessor-in-0:
+    destination: posts
+
     
-  
+    
+    

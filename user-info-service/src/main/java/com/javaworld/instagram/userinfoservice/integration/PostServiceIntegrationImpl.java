@@ -14,8 +14,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.javaworld.instagram.userinfoservice.caching.InstaCache;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.NotFoundException;
 import com.javaworld.instagram.userinfoservice.configuration.PropertiesConfig;
+import com.javaworld.instagram.userinfoservice.messaging.Event;
+import com.javaworld.instagram.userinfoservice.messaging.MessageSender;
 import com.javaworld.instagram.userinfoservice.service.dto.PostsCountResponse;
-
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
@@ -31,6 +32,9 @@ public class PostServiceIntegrationImpl implements PostServiceIntegration {
 
 	@Autowired
 	private PropertiesConfig propertiesConfig;
+	
+	@Autowired
+	private MessageSender messageSender;
 	
 	@Autowired
 	public PostServiceIntegrationImpl(WebClient.Builder webClientBuilder) {
@@ -70,6 +74,12 @@ public class PostServiceIntegrationImpl implements PostServiceIntegration {
 		int fallbackValue = InstaCache.getPostsCount(userUuid);
 
 		return Mono.just(new PostsCountResponse(fallbackValue));
+	}
+	
+	@Override
+	public void deletePostsOfCurrentUser(UUID userUuid) {
+		Event<UUID, Object> event = new Event<UUID, Object>(Event.Type.DELETE, userUuid, null);
+		messageSender.sendMessage("posts-out-0", event);
 	}
 
 }

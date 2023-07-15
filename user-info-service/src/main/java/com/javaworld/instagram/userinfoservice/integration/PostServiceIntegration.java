@@ -10,4 +10,6 @@ public interface PostServiceIntegration {
 
 	Mono<PostsCountResponse> getPostsCountByUserUuid(UUID userUuid, int delay, int faultPercent);
 
+	void deletePostsOfCurrentUser(UUID userUuid);
+
 }

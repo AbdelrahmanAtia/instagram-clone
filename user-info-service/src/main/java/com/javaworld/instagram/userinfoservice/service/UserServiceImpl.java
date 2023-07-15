@@ -88,8 +88,10 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	//TODO: enhance this service to make a soft delete and update the retrieval operations
 	public int deleteUser(UUID userUuid) {
-		logger.info("trying to delete user with uuid {}",userUuid);
-		return userRepository.deleteByUserUuid(userUuid);		
+		logger.info("trying to delete user with uuid {}", userUuid);
+		int deletedRowsCount = userRepository.deleteByUserUuid(userUuid);	
+		postServiceIntegration.deletePostsOfCurrentUser(userUuid);
+		return deletedRowsCount;
 	}	
 	
 	// TODO: move to a utility class
