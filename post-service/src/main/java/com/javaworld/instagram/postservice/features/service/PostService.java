@@ -15,4 +15,6 @@ public interface PostService {
 	
 	int countPosts(UUID userUuid);
 
+	void deletePostsByUserUuid(UUID userUuid);
+
 }

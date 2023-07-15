@@ -80,7 +80,15 @@ resilience4j.circuitbreaker:
         - com.javaworld.instagram.userinfoservice.commons.exceptions.InvalidInputException
         - com.javaworld.instagram.userinfoservice.commons.exceptions.NotFoundException
       
-
-
-    
+spring.cloud.stream:
+  default.contentType: application/json
+  bindings:
+    posts-out-0:
+      destination: posts
+      producer:
+        required-groups: auditGroup
+  
+  
+  
+  
   

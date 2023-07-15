@@ -98,6 +98,12 @@ public class PostServiceImpl implements PostService {
 		return postRepository.deleteByPostUuidIn(postMapper.mapStrUuidToUuidObj(postStrUuids));
 
 	}
+	
+	@Override
+	@Transactional
+    public void deletePostsByUserUuid(UUID userUuid) {
+		postRepository.deleteByUserUuid(userUuid);	
+	}
 
 	private SecurityContext getSecurityContext() {
 		return SecurityContextHolder.getContext();
