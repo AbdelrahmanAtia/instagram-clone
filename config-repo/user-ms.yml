@@ -49,6 +49,10 @@ spring:
           mywebclient:
             issuer-uri: http://${app.auth-server}:9999
       
+
+##########################
+## resilience4j configs ##
+##########################
       
 resilience4j.timelimiter:
   instances:
@@ -79,7 +83,11 @@ resilience4j.circuitbreaker:
       ignoreExceptions:
         - com.javaworld.instagram.userinfoservice.commons.exceptions.InvalidInputException
         - com.javaworld.instagram.userinfoservice.commons.exceptions.NotFoundException
-      
+ 
+
+#######################
+## messaging configs ##
+#######################     
 spring.cloud.stream:
   default.contentType: application/json
   bindings:
