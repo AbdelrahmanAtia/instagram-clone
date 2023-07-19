@@ -90,7 +90,11 @@ public class UserServiceImpl implements UserService {
 	public int deleteUser(UUID userUuid) {
 		logger.info("trying to delete user with uuid {}", userUuid);
 		int deletedRowsCount = userRepository.deleteByUserUuid(userUuid);	
-		postServiceIntegration.deletePostsOfCurrentUser(userUuid);
+		
+		if(deletedRowsCount > 0) {
+			postServiceIntegration.deletePostsOfCurrentUser(userUuid);			
+		}
+
 		return deletedRowsCount;
 	}	
 	
