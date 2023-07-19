@@ -48,7 +48,11 @@ spring.cloud.function.definition: messageProcessor
 spring.cloud.stream:
   default.contentType: application/json
   bindings.messageProcessor-in-0:
-    destination: posts
+    destination: posts   ## topic name
+    group: postsGroup    ## a message pushed to posts topic will be consumed by one instance of post-ms even if
+                         ## we have mutiple instances of it
+
+    
 
     
     
