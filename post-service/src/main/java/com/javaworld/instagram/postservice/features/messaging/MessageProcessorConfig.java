@@ -22,7 +22,6 @@ public class MessageProcessorConfig {
 
 	@Bean
 	public Consumer<Event<UUID, Object>> messageProcessor() {
-		 
 		
 		return event -> {
 
