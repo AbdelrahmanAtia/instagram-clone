@@ -22,6 +22,8 @@ public class MessageProcessorConfig {
 
 	@Bean
 	public Consumer<Event<UUID, Object>> messageProcessor() {
+		 
+		
 		return event -> {
 
 			LOG.info("Process message created at {}...", event.getEventCreatedAt());
