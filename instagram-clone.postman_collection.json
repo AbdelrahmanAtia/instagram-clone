@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b84cea84-2d1f-47aa-b1d1-bfa4047cb9de",
+		"_postman_id": "769a05ac-5baa-482e-87bd-33c33608519e",
 		"name": "instagram-clone",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1416,7 +1416,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"johnwick\",\r\n    \"email\": \"johnwick@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"userUuid\": \"{{externalUserUuid}}\"\r\n}",
+							"raw": "{\r\n    \"username\": \"johnwick\",\r\n    \"email\": \"johnwick@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"userUuid\": \"{{externalUserUuid}}\" \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2311,202 +2311,11 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "getPostsCountByUserUuid",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"//assert on posts count"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/count?userUuid={{userUuid}}",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"post-ms",
-								"posts",
-								"count"
-							],
-							"query": [
-								{
-									"key": "userUuid",
-									"value": "{{userUuid}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete-post",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"deletedPostsCount is 1\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.deletedPostsCount).to.eql(1);\r",
-									"});\r",
-									"\r",
-									"//TODO: add assertion that we can delete more than one post\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\r\n    \"title\": \"second post title\",\r\n    \"userUuid\": \"1b9316e6-3e65-45fc-a958-9883445a9de8\",\r\n\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/deleteByUuid?postUuid={{postUuid}}",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"post-ms",
-								"posts",
-								"deleteByUuid"
-							],
-							"query": [
-								{
-									"key": "postUuid",
-									"value": "{{postUuid}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteUser-generatedUuid",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"deletedUsersCount is 1\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.deletedUsersCount).to.eql(1);\r",
-									"});\r",
-									"\r",
-									"//TODO: add assertion that we can delete more than one post\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\r\n    \"title\": \"second post title\",\r\n    \"userUuid\": \"1b9316e6-3e65-45fc-a958-9883445a9de8\",\r\n\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{generatedUserUuid}}",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"user-ms",
-								"users",
-								""
-							],
-							"query": [
-								{
-									"key": "userUuid",
-									"value": "{{generatedUserUuid}}"
-								}
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
 		{
-			"name": "Basic User operations",
+			"name": "Basic Users & Posts operations",
 			"item": [
 				{
 					"name": "generate-token",
@@ -2685,7 +2494,7 @@
 					"response": []
 				},
 				{
-					"name": "create-user",
+					"name": "createUser1 -  generatedUUID",
 					"event": [
 						{
 							"listen": "test",
@@ -2742,7 +2551,7 @@
 					"response": []
 				},
 				{
-					"name": "create-post",
+					"name": "createPost 1 - forUser1",
 					"event": [
 						{
 							"listen": "test",
@@ -2752,7 +2561,7 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.collectionVariables.set(\"postUuid\", pm.response.json().postUuid);\r",
+									"pm.collectionVariables.set(\"post1Uuid\", pm.response.json().postUuid);\r",
 									""
 								],
 								"type": "text/javascript"
@@ -2774,7 +2583,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\r\n    \"title\": \"second post title\",\r\n    \"userUuid\": \"{{generatedUserUuid}}\",\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n\r\n    \"title\": \"user 1 first post\",\r\n    \"userUuid\": \"{{generatedUserUuid}}\",\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2799,7 +2608,249 @@
 					"response": []
 				},
 				{
-					"name": "deleteUser-generatedUuid",
+					"name": "createPost 2 -  forUser1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"post2Uuid\", pm.response.json().postUuid);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"title\": \"user 1 second post\",\r\n    \"userUuid\": \"{{generatedUserUuid}}\",\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createPost 3 -  forUser1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"post3Uuid\", pm.response.json().postUuid);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"title\": \"user 1 third post\",\r\n    \"userUuid\": \"{{generatedUserUuid}}\",\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePost2 - forUser1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"deletedPostsCount is 1\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.deletedPostsCount).to.eql(1);\r",
+									"});\r",
+									"\r",
+									"//TODO: add assertion that we can delete more than one post\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"title\": \"second post title\",\r\n    \"userUuid\": \"1b9316e6-3e65-45fc-a958-9883445a9de8\",\r\n\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/deleteByUuid?postUuid={{post2Uuid}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts",
+								"deleteByUuid"
+							],
+							"query": [
+								{
+									"key": "postUuid",
+									"value": "{{post2Uuid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPostsCountForUser1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//assert on posts count\r",
+									"\r",
+									"pm.test(\"verify posts count for user1\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.postsCount).to.eql(2);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/count?userUuid={{generatedUserUuid}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts",
+								"count"
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{generatedUserUuid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser1",
 					"event": [
 						{
 							"listen": "test",
@@ -2856,6 +2907,65 @@
 								"user-ms",
 								"users",
 								""
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{generatedUserUuid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPostsCountForUser1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//assert on posts count\r",
+									"\r",
+									"pm.test(\"verify posts count for user1 after deleting it\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.postsCount).to.eql(0);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/count?userUuid={{generatedUserUuid}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts",
+								"count"
 							],
 							"query": [
 								{
@@ -3411,7 +3521,7 @@
 		},
 		{
 			"key": "externalUserUuid",
-			"value": "",
+			"value": "e58ed763-928c-4155-bee9-fdbaaadc15f3",
 			"type": "default"
 		},
 		{
@@ -3420,21 +3530,29 @@
 		},
 		{
 			"key": "HOST",
-			"value": "",
+			"value": "localhost",
 			"type": "default"
 		},
 		{
 			"key": "PORT",
-			"value": "",
+			"value": "8443",
 			"type": "default"
 		},
 		{
 			"key": "PROTOCOL",
-			"value": "",
+			"value": "HTTPS",
 			"type": "default"
 		},
 		{
-			"key": "userUuid",
+			"key": "post1Uuid",
+			"value": ""
+		},
+		{
+			"key": "post2Uuid",
+			"value": ""
+		},
+		{
+			"key": "post3Uuid",
 			"value": ""
 		}
 	]
