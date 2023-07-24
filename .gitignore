@@ -24,4 +24,3 @@ buildNumber.properties
 */.gitignore
 
 /.metadata/
-*.jasper
