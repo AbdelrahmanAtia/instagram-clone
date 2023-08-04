@@ -36,6 +36,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private PostServiceIntegration postServiceIntegration;
 	
+	@Autowired
+	private ReportService reportService;
+	
 	public UserServiceImpl(ObjectMapper mapper) {
 		this.mapper = mapper;
 	}
@@ -48,6 +51,8 @@ public class UserServiceImpl implements UserService {
 			//TODO: make username unique
 			UserEntity savedUser = userRepository.save(userEntity);
 			logger.info("created user with name: " + savedUser.getUsername());
+			
+			reportService.generateReport("test");  //TODO: to be removed..just for testing until the consumer is effective
 			
 			return userMapper.mapUserEntityToDto(userEntity);
 

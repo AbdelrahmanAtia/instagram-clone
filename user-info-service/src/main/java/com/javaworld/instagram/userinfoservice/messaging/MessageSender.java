@@ -19,7 +19,11 @@ public class MessageSender {
 
 	public void sendMessage(String bindingName, Event event) {
 		logger.info("Sending a {} message to {}", event.getEventType(), bindingName);
-		Message message = MessageBuilder.withPayload(event).setHeader("partitionKey", event.getKey()).build();
+		
+		Message message = MessageBuilder.withPayload(event)
+				                        .setHeader("partitionKey", event.getKey())
+				                        .build();
+		
 		streamBridge.send(bindingName, message);
 	}
 

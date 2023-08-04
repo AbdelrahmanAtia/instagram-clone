@@ -9,7 +9,7 @@ import java.time.ZonedDateTime;
 public class Event<K, T> {
 
   public enum Type {
-    CREATE,
+    GENERATE_USER_ACCOUNT_INFORMATION_REPORT,
     DELETE
   }
 
