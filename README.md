@@ -2,6 +2,16 @@
 
 # instagram-clone
 
+**cloning the project** <br>
+1- Go to c drive
+2- open cmd in c drive and run the following commands 
+   mkdir _workspaces  <br>
+   cd C:\_workspaces <br>
+   ## replace {PAT} with your actual personal access token <br>
+   git clone https://{PAT}@github.com/AbdelrahmanAtia/instagram-clone.git <br>
+3- import the project into Github Desktop <br>
+
+   
 **Deploying all services to the cluster** <br>
 1- move to instagram-clone/automation directory <br>
 2- execute batch file *_3_build-deploy-all.bat* <br>
