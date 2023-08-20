@@ -51,7 +51,7 @@ public class UsersApiImpl implements UsersApi {
 				.serviceAddress(serviceUtil.getServiceAddress());
 
 	}
-
+	
 	private UserApiDto setServiceAddress(UserApiDto userApiDto) {
 		userApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return userApiDto;
