@@ -7,7 +7,7 @@
 2- open cmd in c drive and run the following commands 
    mkdir _workspaces  <br>
    cd C:\_workspaces <br>
-   ## replace {PAT} with your actual personal access token <br>
+   -- replace {PAT} with your actual personal access token <br>
    git clone https://{PAT}@github.com/AbdelrahmanAtia/instagram-clone.git <br>
 3- import the project into Github Desktop <br>
 
