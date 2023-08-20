@@ -4,9 +4,9 @@
 
 **Cloning the project** <br>
 
-1- Go to c drive
+1- Go to c drive <br>
 
-2- open cmd in c drive and run the following commands 
+2- open cmd in c drive and run the following commands  <br>
    mkdir _workspaces  <br>
    cd C:\_workspaces <br>
    -- replace {PAT} with your actual personal access token <br>
