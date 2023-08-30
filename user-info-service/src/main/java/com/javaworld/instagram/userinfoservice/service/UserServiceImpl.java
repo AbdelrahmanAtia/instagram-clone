@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private PostServiceIntegration postServiceIntegration;
 	
+	
 	public UserServiceImpl(ObjectMapper mapper) {
 		this.mapper = mapper;
 	}

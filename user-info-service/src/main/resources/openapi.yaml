@@ -14,6 +14,9 @@ schemes:
 tags:
   - name: User
     description: Operations about users
+  - name: Reports
+    description: Operations about user account information report
+
     
 paths:
   /users/:                  
@@ -97,6 +100,28 @@ paths:
             $ref: '#/definitions/DeletedUsersResponse'
         '400':
           description: Invalid userId
+
+  /reports/downloadaccountinformationreport:                  
+    get:
+      tags:
+        - Reports
+      summary: download user account information report
+      description: ''
+      operationId: downloadAccountInformationReport
+      produces:
+        - application/pdf
+      parameters:
+        - in: query
+          name: userName
+          description: ''
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            type: string
+            format: binary
           
         
 definitions:
