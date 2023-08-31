@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-post',
+  selector: 'insta-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.css']
 })

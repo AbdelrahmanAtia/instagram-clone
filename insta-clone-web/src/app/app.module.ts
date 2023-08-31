@@ -4,11 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PostComponent } from './post/post.component';
+import { CommentComponent } from './comment/comment.component';
 
 @NgModule({
   declarations: [ // your components are defined here
     AppComponent,
-    PostComponent
+    PostComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,
