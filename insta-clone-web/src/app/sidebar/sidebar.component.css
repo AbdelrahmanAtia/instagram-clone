@@ -1,12 +1,19 @@
 .sidebar {
-    width: 250px;
-    padding: 0px;
-    background-color: black;
-    margin-left: 0px;
-    margin-right: 0px;
-
-  }
+  width: 300px;
+  height: 100%;
+  padding: 0px;
+  background-color: black;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-left: 0;
+  padding-left: 0;
+  border-right: 1px solid grey; /* Add a right border */
+}
   
-  .nav-link {
-    color: white;
-  }
+.nav-link {
+  color: white;
+}
+
+.icon {
+  margin-right: 10px; /* Adjust the margin as needed to control the space between icon and text */
+}

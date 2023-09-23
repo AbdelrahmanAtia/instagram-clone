@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class ProfileComponent {
 
+  username: string = "abdelrahmanattya94";
+  postsCount:number = 0;
+  followersCount: number = 0;
+  followingCount: number = 3;
+  name: string = "Abdelrahman Attya"
+
+
 }
