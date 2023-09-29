@@ -49,16 +49,23 @@ spring.cloud.gateway.routes:
   uri: lb://auth-server
   predicates:
   - Path=/oauth2/**
+  filters:
+  - RequestResponseLoggingFilter= # Reference to your custom filter
+  
 
 - id: oauth2-login
   uri: lb://auth-server
   predicates:
   - Path=/login/**
+  filters:
+  - RequestResponseLoggingFilter= # Reference to your custom filter
 
 - id: oauth2-error
   uri: lb://auth-server
   predicates:
   - Path=/error/**
+  filters:
+  - RequestResponseLoggingFilter= # Reference to your custom filter
 
 - id: post-micro-service
   uri: lb://post-ms   ## name used by service to be registered in eureka
@@ -66,6 +73,8 @@ spring.cloud.gateway.routes:
   - Path=/services/post-ms/**
   filters:
   - RewritePath=/services/post-ms/(?<segment>.*), /$\{segment}
+  - RequestResponseLoggingFilter= # Reference to your custom filter
+  
 
 - id: user-info-micro-service
   uri: lb://user-ms   ## name used by service to be registered in eureka
@@ -73,6 +82,7 @@ spring.cloud.gateway.routes:
   - Path=/services/user-ms/**
   filters:
   - RewritePath=/services/user-ms/(?<segment>.*), /$\{segment}
+  - RequestResponseLoggingFilter= # Reference to your custom filter
 
   
   ## routing rules for eureka
