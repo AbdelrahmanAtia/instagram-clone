@@ -1,0 +1,55 @@
+<div class="container">
+
+    <div class="row">
+      <!-- Narrower First Vertical Element -->
+      <div class="col-3">
+        <img 
+        src="assets/bmw-i8.png"     
+        class="image-container"
+        alt="profile picture image">
+
+      </div>
+  
+      <!-- Wider Second Vertical Element -->
+      <div class="col-9">
+        <!-- First Row -->
+        <br>
+        <br>
+        <div class="row mb-2">
+          <div class="col-auto white-text">
+            <span>{{username}}</span>
+          </div>
+
+          <div class="col-auto">
+            <button class="btn btn-primary btn-grey">Edit Profile</button>
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-primary btn-grey">View Archive</button>
+          </div>
+        </div>
+  
+        <!-- Second Row -->
+        <div class="row mb-2">
+          <div class="col-2 white-text">
+            {{postsCount}} posts
+          </div>
+          <div class="col-2 white-text">
+            {{followersCount}} followers
+          </div>
+          <div class="col white-text">
+            {{followingCount}} following
+          </div>
+
+        </div>
+  
+        <!-- Third Row -->
+        <div class="row">
+          <div class="col-auto white-text">
+            {{name}}
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  

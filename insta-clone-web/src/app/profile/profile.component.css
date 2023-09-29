@@ -1,0 +1,18 @@
+.image-container {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%; /* This makes it round */
+    margin: 50px auto;  /* Just for centering and spacing */
+}
+
+
+.white-text {
+    color: white;
+}
+
+.btn-grey {
+    background-color: grey;
+    border-color: grey;
+    color: #fff; /* Change text color if needed */
+}
