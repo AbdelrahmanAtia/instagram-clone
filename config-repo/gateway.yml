@@ -45,34 +45,38 @@ logging:
     
 spring.cloud.gateway.routes:
 
-- id: oauth2-server
-  uri: lb://auth-server
-  predicates:
-  - Path=/oauth2/**
+## the following commented routing configs are migrated to java config inside 
+## getway service in GatewayConfig class so that we can easily mutate the response headers
 
-- id: oauth2-login
-  uri: lb://auth-server
-  predicates:
-  - Path=/login/**
 
-- id: oauth2-error
-  uri: lb://auth-server
-  predicates:
-  - Path=/error/**
+##- id: oauth2-server
+##  uri: lb://auth-server
+##  predicates:
+##  - Path=/oauth2/**
 
-- id: post-micro-service
-  uri: lb://post-ms   ## name used by service to be registered in eureka
-  predicates:
-  - Path=/services/post-ms/**
-  filters:
-  - RewritePath=/services/post-ms/(?<segment>.*), /$\{segment}
+##- id: oauth2-login
+##  uri: lb://auth-server
+##  predicates:
+##  - Path=/login/**
 
-- id: user-info-micro-service
-  uri: lb://user-ms   ## name used by service to be registered in eureka
-  predicates:
-  - Path=/services/user-ms/**
-  filters:
-  - RewritePath=/services/user-ms/(?<segment>.*), /$\{segment}
+##- id: oauth2-error
+##  uri: lb://auth-server
+##  predicates:
+##  - Path=/error/**
+
+##- id: post-micro-service
+##  uri: lb://post-ms   ## name used by service to be registered in eureka
+##  predicates:
+##  - Path=/services/post-ms/**
+##  filters:
+##  - RewritePath=/services/post-ms/(?<segment>.*), /$\{segment}
+
+##- id: user-info-micro-service
+##  uri: lb://user-ms   ## name used by service to be registered in eureka
+##  predicates:
+##  - Path=/services/user-ms/**
+##  filters:
+##  - RewritePath=/services/user-ms/(?<segment>.*), /$\{segment}
 
   
   ## routing rules for eureka
