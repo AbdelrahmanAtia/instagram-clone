@@ -28,7 +28,7 @@ export class UserService {
 
     const headers = new HttpHeaders({
       //'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Basic ' + btoa('writer:writer') // Encode the username and password.
+      'Authorization': 'Basic ' + btoa('writer:secret') // Encode the username and password.
     });
 
     return this.http.post(tokenUrl, null, { headers: headers });
