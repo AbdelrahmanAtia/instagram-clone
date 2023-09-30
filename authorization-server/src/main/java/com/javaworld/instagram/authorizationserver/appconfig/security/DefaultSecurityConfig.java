@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsUtils;
 
 /**
  * @author Joe Grandja
@@ -29,6 +30,7 @@ public class DefaultSecurityConfig {
     http
       .authorizeRequests(authorizeRequests -> authorizeRequests
         .antMatchers("/actuator/**").permitAll()
+        .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()  // Permit CORS preflight requests
         .anyRequest().authenticated()
       )
       .formLogin(withDefaults());
