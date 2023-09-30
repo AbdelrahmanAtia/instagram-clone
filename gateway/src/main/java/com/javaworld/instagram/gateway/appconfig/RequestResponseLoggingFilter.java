@@ -19,7 +19,7 @@ import reactor.core.publisher.Mono;
 public class RequestResponseLoggingFilter extends AbstractGatewayFilterFactory<RequestResponseLoggingFilter.Config> {
 
     private final Logger logger = LoggerFactory.getLogger(RequestResponseLoggingFilter.class);
-    private static final int MAX_BODY_SIZE = 4096;  // Limit body logging to 4KB
+    private static final int MAX_BODY_SIZE = 1000000;  // Limit body logging to ~ 1MB
 
     public RequestResponseLoggingFilter() {
         super(Config.class);
