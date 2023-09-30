@@ -30,7 +30,11 @@ public class DefaultSecurityConfig {
     http
       .authorizeRequests(authorizeRequests -> authorizeRequests
         .antMatchers("/actuator/**").permitAll()
+        
+        //TODO: is this really effective ? try removing the following line and see 
+        //if the front-end will be affected..if not then this line shall be removed
         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()  // Permit CORS preflight requests
+                                                                      
         .anyRequest().authenticated()
       )
       .formLogin(withDefaults());
