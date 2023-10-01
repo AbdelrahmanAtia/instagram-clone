@@ -8,7 +8,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ProfileComponent } from './profile/profile.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule } from '@angular/common/http';
+import { ProfilePostsComponent } from './profile-posts/profile-posts.component'; 
 
 @NgModule({
   declarations: [ // your components are defined here
@@ -17,7 +18,8 @@ import { HttpClientModule } from '@angular/common/http';
     SidebarComponent,
     ProfileComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
+    ProfilePostsComponent
   ],
   imports: [
     BrowserModule,
