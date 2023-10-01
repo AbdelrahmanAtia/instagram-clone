@@ -51,5 +51,22 @@
         </div>
       </div>
     </div>
+
+
+    <div class="tabs">
+      <a routerLink="/posts" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="fas fa-th"></i> POSTS
+      </a>
+      <a routerLink="/saved" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="fa fa-bookmark"></i> SAVED
+      </a>
+      <a routerLink="/tagged" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <i class="fa fa-tags"></i> TAGGED
+      </a>
+  </div>
+  
+    <router-outlet></router-outlet>
+    
+    
   </div>
   

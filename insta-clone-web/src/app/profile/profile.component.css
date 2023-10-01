@@ -1,18 +1,47 @@
 .image-container {
-    width: 150px;
-    height: 150px;
-    overflow: hidden;
-    border-radius: 50%; /* This makes it round */
-    margin: 50px auto;  /* Just for centering and spacing */
+	width: 150px;
+	height: 150px;
+	overflow: hidden;
+	border-radius: 50%;
+	/* This makes it round */
+	margin: 50px auto;
+	/* Just for centering and spacing */
 }
 
 
 .white-text {
-    color: white;
+	color: white;
 }
 
 .btn-grey {
-    background-color: grey;
-    border-color: grey;
-    color: #fff; /* Change text color if needed */
+	background-color: grey;
+	border-color: grey;
+	color: #fff;
+	/* Change text color if needed */
+}
+
+body {
+	background-color: black;
+	/* Setting the entire background to black */
+}
+
+.tabs {
+    border: 1px yellow solid;
+	display: flex;
+	justify-content: space-between;
+	padding: 0px 450px;
+	background-color: black;
+	border-top: 1px solid grey;
+	/* Adding upper border to the div containing tabs */
+}
+
+.tabs a {
+	padding: 5px 5px;
+	/* Reduced padding for closer tabs */
+	margin: 0 5px;
+	/* Added margin to keep a small distance between the tabs */
+	text-decoration: none;
+	color: grey;
+	font-weight: bold;
+	transition: background-color 0.3s;
 }
