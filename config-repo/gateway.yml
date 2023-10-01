@@ -33,6 +33,26 @@ spring.security.oauth2.resourceserver.jwt.issuer-uri: http://${app.auth-server}:
 #################################    
 spring.sleuth.reactor.instrumentation-type: decorate-on-last
 
+##################
+## Cors configs ##
+##################    
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+spring.cloud.gateway.globalcors.add-to-simple-url-handler-mapping: true   
+
 ####################################
 ## Routes related configurations  ##
 ####################################

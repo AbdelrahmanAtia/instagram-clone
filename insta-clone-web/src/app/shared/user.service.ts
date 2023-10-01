@@ -37,7 +37,7 @@ export class UserService {
   getUser(userUuid: string): Observable<User> {
     const url = this.apiEndpoint;
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.token
+      'Authorization': 'Bearer eyJraWQiOiJjZmM4YWRmOC04YmEyLTQyYTMtYjkyNy0xNTlhNGM5ZTAzMzUiLCJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ3cml0ZXIiLCJhdWQiOiJ3cml0ZXIiLCJuYmYiOjE2OTYxMjc4NzUsInNjb3BlIjpbIm9wZW5pZCIsInBvc3Q6d3JpdGUiLCJ1c2VyOnJlYWQiLCJ1c2VyOndyaXRlIiwicG9zdDpyZWFkIl0sImlzcyI6Imh0dHA6XC9cL2F1dGgtc2VydmVyOjk5OTkiLCJleHAiOjE2OTYxMzE0NzUsImlhdCI6MTY5NjEyNzg3NSwianRpIjoiYmI4ZGM0ZDUtNzBjMC00Njk0LWE5ODctMzQzYmViMjgwOTYzIn0.KE6tptSewA45alw-C4V-FZ4eM6F6nK4lkw19kJwy5t7_EaQsmFbivPtAHGY9AWod6t5QRIiGwhcqqKyaZsaUiaOMSMT4Qk3xZCp2wU_7Bg2LlGq2BqN5Yd21tUul-BNbSTUsxotOkcX6t0u5QyqKwTUlIdesI4H8E0cUQ7mZ1FUJV-FrwI1wKMommXeuREBBTFmcEgOHJPEaauq9v7Gbt8PJCj2zchbxEGC9atjhDVb4Jfil3JRjfWVkbpZjqBcEvpe0__xZY6LUJfcMLZwYgH98oiDGVIDu1xHJ7ktEZ_eIQDL6E_zke3gs76ydpJGp-Cuew34foND6fKqDausb8g'
     });
 
     return this.http.get<User>(url, { headers: headers });
