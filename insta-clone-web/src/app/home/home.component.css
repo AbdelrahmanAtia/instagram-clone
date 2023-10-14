@@ -1,0 +1,13 @@
+.no-padding-left {
+    padding-left: 0;
+}
+
+.my-bg {
+    background-color: black;
+}
+
+.full-height {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}

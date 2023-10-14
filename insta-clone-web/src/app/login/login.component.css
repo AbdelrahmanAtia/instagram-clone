@@ -1,0 +1,25 @@
+.form-group {
+    margin-bottom: 7px;
+}
+
+.my-bg {
+    /*background-color: black;*/
+}
+
+.full-height {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.bordered {
+    border: 1px solid grey;
+    padding: 15px;
+    border-radius: 8px;  /* Optional: for rounded corners */
+}
+
+.spaced-img {
+    margin-top: 50px;    
+    margin-bottom: 50px; 
+}
+
