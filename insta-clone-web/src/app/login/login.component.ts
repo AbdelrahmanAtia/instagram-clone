@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { LoginService } from '../shared/login.service';
+import { LoginModel } from './login.model';
 
 @Component({
   selector: 'insta-login',
@@ -7,8 +9,19 @@ import { Component } from '@angular/core';
 })
 export class LoginComponent {
   
-  onSubmit(formData: any) {
-    console.log(formData);
+
+  constructor(private loginService: LoginService){
+
+  }
+
+  onSubmit(loginModel: LoginModel) {
+
+    this.loginService.login(loginModel.username, loginModel.password).subscribe(response => {
+      const accessToken = response.access_token;
+      console.log(accessToken);
+      this.loginService.setAccessToken(accessToken);
+    });
+    
   }
     
 }

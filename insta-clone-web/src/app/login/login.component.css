@@ -2,10 +2,6 @@
     margin-bottom: 7px;
 }
 
-.my-bg {
-    /*background-color: black;*/
-}
-
 .full-height {
     display: flex;
     flex-direction: column;
