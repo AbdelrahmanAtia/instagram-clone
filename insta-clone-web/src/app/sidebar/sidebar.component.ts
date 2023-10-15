@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class SidebarComponent {
 
+  //TODO: make creating sidebar element dynamic by looping over 
+  // a list of elements 
+
 }

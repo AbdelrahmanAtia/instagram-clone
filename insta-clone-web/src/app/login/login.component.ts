@@ -22,7 +22,7 @@ export class LoginComponent {
     this.loginService.login(loginModel.username, loginModel.password).subscribe(response => {
       const accessToken = response.access_token;
       this.stateService.setAccessToken('Bearer ' + accessToken);
-      //this.router.navigate(['/home/profile']);
+      this.router.navigate(['/home']);
     });
     
   }
