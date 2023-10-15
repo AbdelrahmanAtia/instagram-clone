@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class LoginService {
 
   baseUrl: string = 'https://localhost:8443';
@@ -12,9 +10,7 @@ export class LoginService {
 
   private accessToken: string = "";
 
-  constructor(private http: HttpClient) { 
-
-  }
+  constructor(private http: HttpClient) {}
 
   //TODO: Replace type any with an Object that represents the actual login response
   login(username: string, password: string): Observable<any> {
@@ -29,12 +25,6 @@ export class LoginService {
 
   }
 
-  setAccessToken(token: string) {
-    this.accessToken = token;
-  }
 
-  getAccessToken() {
-    return this.accessToken;
-  }
 
 }

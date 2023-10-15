@@ -12,6 +12,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProfilePostsComponent } from './profile-posts/profile-posts.component';
 import { LoginComponent } from './login/login.component'; 
 import { FormsModule } from '@angular/forms';
+import { UserService } from './shared/services/user.service';
+import { LoginService } from './shared/services/login.service';
+import { StateService } from './shared/services/state.service';
 
 
 const COMPONENTS = [ AppComponent,
@@ -24,11 +27,12 @@ const COMPONENTS = [ AppComponent,
   LoginComponent];
   
 const MODULES = [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule];
+const SERVICES = [LoginService, UserService, StateService];
 
 @NgModule({
   declarations: [COMPONENTS],
   imports: [MODULES],
-  providers: [],  //your services are defined here
+  providers: [SERVICES],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
