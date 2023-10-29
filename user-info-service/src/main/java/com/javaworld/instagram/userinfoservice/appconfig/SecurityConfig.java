@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 			.antMatchers("/actuator/**").permitAll()
 			
 			 // TODO: do we need to append the context
-			.antMatchers(POST, "/users/**").hasAuthority("SCOPE_post:write")
+			.antMatchers(POST, "/users/**").permitAll()  //registering user doesn't need to be protected
 			.antMatchers(DELETE, "/users/**").hasAuthority("SCOPE_post:write")
 			.antMatchers(GET, "/users/**").hasAuthority("SCOPE_post:read")
 			.antMatchers(POST, "/db/recreate").hasAuthority("SCOPE_post:write")
