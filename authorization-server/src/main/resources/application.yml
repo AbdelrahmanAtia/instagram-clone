@@ -12,3 +12,11 @@ spring:
     uri: http://config-server:8888
     username: ${CONFIG_SERVER_USR}
     password: ${CONFIG_SERVER_PWD}
+
+    
+    
+spring.datasource:
+  url: jdbc:mysql://mysql/user-info-db 
+  username: root
+  password: rootpwd
+    

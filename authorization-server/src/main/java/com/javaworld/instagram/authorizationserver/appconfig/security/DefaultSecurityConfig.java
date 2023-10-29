@@ -37,6 +37,8 @@ public class DefaultSecurityConfig {
   // formatter:on
 
   // @formatter:off
+  
+  //TODO: what is the use of the following bean ??? when it is used?? is it for protecting eureka ?
   @Bean
   UserDetailsService users() {
     UserDetails user = User.withDefaultPasswordEncoder()

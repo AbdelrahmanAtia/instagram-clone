@@ -24,9 +24,11 @@ public class SecurityConfig {
         .pathMatchers("/actuator/**").permitAll()
         .pathMatchers("/eureka/**").permitAll() // delegating the security checks to the eureka server
         .pathMatchers("/config/**").permitAll() // delegating the security checks to the config server
+
         .pathMatchers("/management/health/**").permitAll()
         .pathMatchers("/management/circuitbreakerevents/**").permitAll()
         .pathMatchers("/management/retryevents/**").permitAll()
+        .pathMatchers(HttpMethod.POST, "/users").permitAll()  //registering user doesn't need to be protected
         
         //the following 3 URLs are related to the authorization server
         .pathMatchers("/oauth2/**").permitAll()
@@ -35,6 +37,8 @@ public class SecurityConfig {
         
         .pathMatchers("/openapi/**").permitAll()
         .pathMatchers("/webjars/**").permitAll()
+
+        
         .anyExchange().authenticated()
         .and()
       .oauth2ResourceServer()
