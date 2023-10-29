@@ -28,7 +28,7 @@ public class SecurityConfig {
         .pathMatchers("/management/health/**").permitAll()
         .pathMatchers("/management/circuitbreakerevents/**").permitAll()
         .pathMatchers("/management/retryevents/**").permitAll()
-        .pathMatchers(HttpMethod.POST, "/users").permitAll()  //registering user doesn't need to be protected
+        .pathMatchers(HttpMethod.POST, "/services/user-ms/users").permitAll()  //registering user doesn't need to be protected
         
         //the following 3 URLs are related to the authorization server
         .pathMatchers("/oauth2/**").permitAll()
