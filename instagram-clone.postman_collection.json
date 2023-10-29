@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "769a05ac-5baa-482e-87bd-33c33608519e",
+		"_postman_id": "b051379d-4396-4265-a21c-4644740935e0",
 		"name": "instagram-clone",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -898,7 +898,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{PROTOCOL}}://localhost:8443/services/users/?userUuid=ddd0daa1-b812-474f-b3f0-af1817e084ca",
+							"raw": "{{PROTOCOL}}://localhost:8443/services/user-ms/users/?userUuid=ddd0daa1-b812-474f-b3f0-af1817e084ca",
 							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"localhost"
@@ -906,6 +906,7 @@
 							"port": "8443",
 							"path": [
 								"services",
+								"user-ms",
 								"users",
 								""
 							],
@@ -914,52 +915,6 @@
 									"key": "userUuid",
 									"value": "ddd0daa1-b812-474f-b3f0-af1817e084ca"
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create-user-authorize-failure",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 401\", function () {\r",
-									"    pm.response.to.have.status(401);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"email\": \"abc@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{PROTOCOL}}://localhost:8443/services/users/",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"localhost"
-							],
-							"port": "8443",
-							"path": [
-								"services",
-								"users",
-								""
 							]
 						}
 					},
@@ -1084,60 +1039,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "create-user-with-read-role",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 403\", function () {\r",
-									"    pm.response.to.have.status(403);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"email\": \"abc@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{PROTOCOL}}://localhost:8443/services/user-ms/users/",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"localhost"
-							],
-							"port": "8443",
-							"path": [
-								"services",
-								"user-ms",
-								"users",
-								""
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -1176,13 +1077,13 @@
 							"type": "basic",
 							"basic": [
 								{
-									"key": "username",
-									"value": "writer",
+									"key": "password",
+									"value": "secret",
 									"type": "string"
 								},
 								{
-									"key": "password",
-									"value": "secret",
+									"key": "username",
+									"value": "writer",
 									"type": "string"
 								}
 							]
@@ -1340,20 +1241,13 @@
 					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"email\": \"abc@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"raw": "{\r\n   \"username\": \"AbdelrahmanAttya\",\r\n   \"email\": \"abc@gmail.com\",\r\n   \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2349,13 +2243,13 @@
 							"type": "basic",
 							"basic": [
 								{
-									"key": "username",
-									"value": "writer",
+									"key": "password",
+									"value": "secret",
 									"type": "string"
 								},
 								{
-									"key": "password",
-									"value": "secret",
+									"key": "username",
+									"value": "writer",
 									"type": "string"
 								}
 							]
@@ -2378,60 +2272,6 @@
 									"key": "grant_type",
 									"value": "client_credentials"
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "recreate post-ms tables",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/db/recreate",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"post-ms",
-								"db",
-								"recreate"
 							]
 						}
 					},
@@ -2494,7 +2334,7 @@
 					"response": []
 				},
 				{
-					"name": "createUser1 -  generatedUUID",
+					"name": "recreate post-ms tables",
 					"event": [
 						{
 							"listen": "test",
@@ -2502,10 +2342,7 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.collectionVariables.set(\"generatedUserUuid\", \r",
-									"             pm.response.json().userUuid);"
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -2526,7 +2363,57 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"email\": \"abc@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/db/recreate",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"db",
+								"recreate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "registerUser1 -  generatedUUID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"generatedUserUuid\", \r",
+									"             pm.response.json().userUuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"email\": \"abc@gmail.com\", \r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2545,6 +2432,72 @@
 								"user-ms",
 								"users",
 								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "loginUser1 - AbdelrahmanAttya",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.collectionVariables.set(\"access_token\", pm.response.json().access_token);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "AbdelrahmanAttya",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/oauth2/token?grant_type=client_credentials",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"oauth2",
+								"token"
+							],
+							"query": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials"
+								}
 							]
 						}
 					},
@@ -3521,8 +3474,7 @@
 		},
 		{
 			"key": "externalUserUuid",
-			"value": "e58ed763-928c-4155-bee9-fdbaaadc15f3",
-			"type": "default"
+			"value": "e58ed763-928c-4155-bee9-fdbaaadc15f3"
 		},
 		{
 			"key": "postUuid",
@@ -3530,18 +3482,15 @@
 		},
 		{
 			"key": "HOST",
-			"value": "localhost",
-			"type": "default"
+			"value": "localhost"
 		},
 		{
 			"key": "PORT",
-			"value": "8443",
-			"type": "default"
+			"value": "8443"
 		},
 		{
 			"key": "PROTOCOL",
-			"value": "HTTPS",
-			"type": "default"
+			"value": "HTTPS"
 		},
 		{
 			"key": "post1Uuid",
