@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { UserService } from './shared/services/user.service';
 import { LoginService } from './shared/services/login.service';
 import { StateService } from './shared/services/state.service';
+import { RegisterComponent } from './register/register.component';
 
 
 const COMPONENTS = [ AppComponent,
@@ -30,7 +31,7 @@ const MODULES = [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule]
 const SERVICES = [LoginService, UserService, StateService];
 
 @NgModule({
-  declarations: [COMPONENTS],
+  declarations: [COMPONENTS, RegisterComponent],
   imports: [MODULES],
   providers: [SERVICES],
   bootstrap: [AppComponent]

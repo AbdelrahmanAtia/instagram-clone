@@ -1,42 +1,55 @@
 <div class="container-fluid my-bg full-height">
   <div class="row align-items-center h-100">
 
-    <div class="col-3 mx-auto bordered">
+  <div class="col-3 mx-auto" style="margin-top: 80px;">
+    <div class="bordered">
       <img 
         src="../../assets/text-logo.png" 
         alt="Description of Image" 
         class="img-fluid spaced-img">
 
       <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
-   
         <div class="form-group"> 
-            <input 
-                type="text" 
-                name="username" 
-                ngModel 
-                class="form-control"
-                placeholder="Phone number, username, or email"
-            >
+          <input 
+            type="text" 
+            name="username" 
+            ngModel 
+            class="form-control"
+            placeholder="Phone number, username, or email"
+          >
         </div>
 
         <div class="form-group">
-            <input 
-                type="password" 
-                name="password" 
-                ngModel
-                class="form-control"
-                placeholder="Password"
-            >
+          <input 
+            type="password" 
+            name="password" 
+            ngModel
+            class="form-control"
+            placeholder="Password"
+          >
         </div>
     
         <div>
-            <button type="submit" class="btn btn-primary w-100">
-                Log in
-            </button>
+          <button type="submit" class="btn btn-primary w-100">
+            Log in
+          </button>
         </div>
-    
       </form>   
+      
+    </div>    
+
+    <div class="bordered" style="margin-top: 20px; text-align: center;">
+      Don't have an account? 
+      <a 
+        (click)="navigateToSignUp()" 
+        style="color: #007bff; text-decoration: none; cursor: pointer;">
+        Sign up  
+      </a>
+    
     </div>
+    
+    
+  </div>
   </div>
 
 </div>

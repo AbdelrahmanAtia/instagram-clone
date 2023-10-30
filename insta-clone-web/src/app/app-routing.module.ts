@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfilePostsComponent } from './profile-posts/profile-posts.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   {
@@ -23,14 +24,19 @@ const routes: Routes = [
     ]
   },
   {
+    path: '', 
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
     path: 'login', 
     component: LoginComponent
   },
   {
-    path: '', 
-    redirectTo: 'login',
-    pathMatch: 'full'
+    path: 'register', 
+    component: RegisterComponent
   }
+
 ];
 
 @NgModule({
