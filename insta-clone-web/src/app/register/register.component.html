@@ -1,23 +1,39 @@
 <div class="container-fluid my-bg full-height">
-    <div class="row align-items-center h-100">
+  <div class="row align-items-center h-100">
   
-    <div class="col-3 mx-auto" style="margin-top: 80px;">
+    <div class="col-3 mx-auto" style="margin-top: 20px;">
       <div class="bordered">
         <img 
           src="../../assets/text-logo.png" 
           alt="Description of Image" 
           class="img-fluid spaced-img">
 
-        <div style="text-align: center; color: grey;">
+        <div style="text-align: center; color: grey; margin-bottom: 20px;">
             Sign up to see photos and videos<br>
              from your friends.
+        </div>
+
+        <button 
+          type="submit" 
+          style="background-color: rgb(0, 149, 246);
+                 margin-bottom: 20px;
+                 font-weight: bold;
+                 border: none;"
+          class="btn btn-primary w-100">
+            Log in with Facebook
+        </button>  
+        
+        <div class="line-container">
+          <span class="line"></span>
+          <span class="or-text">OR</span>
+          <span class="line"></span>
         </div>
   
         <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
           <div class="form-group"> 
             <input 
               type="text" 
-              name="username" 
+              name="mobileNumberOrEmail" 
               ngModel 
               class="form-control"
               placeholder="Mobile Number or Email"
@@ -26,8 +42,8 @@
   
           <div class="form-group">
             <input 
-              type="password" 
-              name="password" 
+              type="text" 
+              name="fullName" 
               ngModel
               class="form-control"
               placeholder="Full Name"
@@ -36,8 +52,8 @@
 
           <div class="form-group">
             <input 
-              type="password" 
-              name="password" 
+              type="text" 
+              name="username" 
               ngModel
               class="form-control"
               placeholder="Username"
@@ -55,7 +71,10 @@
           </div>          
       
           <div>
-            <button type="submit" class="btn btn-primary w-100">
+            <button 
+              type="submit" 
+              style="font-weight: bold;"
+              class="btn btn-primary w-100">
               Sign up
             </button>
           </div>
@@ -73,9 +92,7 @@
       
       </div>
       
-      
     </div>
-    </div>
-  
   </div>
+</div>
   

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { LoginModel } from '../login/login.model';
+import { RegisterModel } from './register.model';
 
 @Component({
   selector: 'insta-register',
@@ -9,9 +10,8 @@ import { LoginModel } from '../login/login.model';
 export class RegisterComponent {
 
 
-  onSubmit(loginModel: LoginModel) {
-
-    
+  onSubmit(registerModel: RegisterModel) {
+    console.log(registerModel);    
     
   }
 

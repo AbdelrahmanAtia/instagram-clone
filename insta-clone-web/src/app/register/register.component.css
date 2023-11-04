@@ -1,21 +1,44 @@
 .form-group {
-    margin-bottom: 7px;
+  margin-bottom: 7px;
 }
 
 .full-height {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .bordered {
-    border: 1px solid grey;
-    padding: 15px;
-    border-radius: 8px;  /* Optional: for rounded corners */
+  border: 1px solid grey;
+  padding: 15px;
+  border-radius: 8px;
+  /* Optional: for rounded corners */
 }
 
 .spaced-img {
-    margin-top: 50px;    
-    margin-bottom: 50px; 
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
+.line-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.line {
+  flex-grow: 1;
+  height: 1px;
+  /* Adjust line thickness */
+  background-color: grey;
+  /* Line color */
+  margin: 0 10px;
+  /* Space around the lines */
+}
+
+.or-text {
+  color: grey;
+  padding: 0 10px;
+  /* Optional: Adjust space around the 'OR' text */
+}
