@@ -16,6 +16,9 @@ import { UserService } from './shared/services/user.service';
 import { AuthService } from './shared/services/auth.service';
 import { StateService } from './shared/services/state.service';
 import { RegisterComponent } from './register/register.component';
+import { PhotoVideoUploaderComponent } from './photo-video-uploader/photo-video-uploader.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 const COMPONENTS = [ AppComponent,
@@ -31,8 +34,8 @@ const MODULES = [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule]
 const SERVICES = [AuthService, UserService, StateService];
 
 @NgModule({
-  declarations: [COMPONENTS, RegisterComponent],
-  imports: [MODULES],
+  declarations: [COMPONENTS, RegisterComponent, PhotoVideoUploaderComponent],
+  imports: [MODULES, BrowserAnimationsModule, MatDialogModule],
   providers: [SERVICES],
   bootstrap: [AppComponent]
 })

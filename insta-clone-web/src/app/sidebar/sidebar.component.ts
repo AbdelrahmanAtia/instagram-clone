@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { PhotoVideoUploaderComponent } from '../photo-video-uploader/photo-video-uploader.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'insta-sidebar',
@@ -6,6 +8,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
+
+  constructor(public dialog: MatDialog) {}
 
   links = [
     { label: 'Instagram', icon: null, route: '/' },
@@ -19,6 +23,20 @@ export class SidebarComponent {
     { label: 'Profile', icon: 'fas fa-user', route: '/home/profile' },
     // Add more links as needed
   ];
+
+  openUploadDialog(): void {
+    
+    const dialogRef = this.dialog.open(PhotoVideoUploaderComponent, {
+      "width": '600px',
+      "maxHeight": '90vh',
+      "data": "John",  //TODO: what is this?? remove if not needed
+      "autoFocus": false    
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 
 
 }
