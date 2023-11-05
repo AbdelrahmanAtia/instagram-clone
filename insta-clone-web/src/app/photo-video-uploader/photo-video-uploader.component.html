@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Create new post</h2>
+<mat-dialog-content 
+  class="upload-area" 
+  (drop)="onDrop($event)" 
+  (dragover)="onDragOver($event)" 
+  (dragleave)="onDragLeave($event)">
+
+  Drag photos and videos here
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button  (click)="close()">Select from computer</button>
+  <button  (click)="close()">Cancel</button>
+</mat-dialog-actions>

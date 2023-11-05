@@ -1,17 +1,18 @@
 .sidebar {
-  width: 300px;
+  width: 225px;
   height: 100%;
   padding: 0px;
   background-color: black;
   margin-left: 0px;
   margin-right: 0px;
-  margin-left: 0;
-  padding-left: 0;
+  padding-top: 30px;
   border-right: 1px solid grey; /* Add a right border */
+  font-size: 20px;
 }
   
 .nav-link {
   color: white;
+  margin-bottom: 10px;
 }
 
 .icon {
