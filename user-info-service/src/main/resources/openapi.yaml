@@ -150,11 +150,18 @@ definitions:
         
   CreateUserRequest:
     type: object
+    required:
+      - mobileNumberOrEmail
+      - username
+      - password
+      
     properties:
+      mobileNumberOrEmail:
+        type: string
+      fullName:
+        type: string
       username:
         type: string    
-      email:
-        type: string 
       password:
         type: string 
       userUuid:

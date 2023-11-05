@@ -12,8 +12,17 @@ import javax.persistence.Version;
 
 import org.hibernate.annotations.Type;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity
 @Table(name = "user")
+@Getter
+@Setter
+@ToString
+//TODO: crate an abstract entity that holds the version property and each entity shall extend that 
+//abstract entity
 public class UserEntity {
 
 	@Id
@@ -21,7 +30,18 @@ public class UserEntity {
 	private int id;
 
 	@Column(unique = true)
+	private String mobileNumber;
+
+	@Column(unique = true)
+	private String email;
+	
+	@Column
+	private String fullName;
+
+	@Column(unique = true)
 	private String username;
+	
+	private String password;
 
 	@Version
 	private int version;
@@ -29,81 +49,6 @@ public class UserEntity {
 	@Type(type = "org.hibernate.type.UUIDCharType")
 	@Column(unique = true)
 	private UUID userUuid;
-
-	@Column(unique = true)
-	private String email;
-
-	@Column(unique = true)
-	private String name;
-
-	private String password;
-
-
-	public UserEntity() {
-
-	}
-
-	public UserEntity(String username, String email, String name, String password) {
-		this.username = username;
-		this.email = email;
-		this.name = name;
-		this.password = password;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public UUID getUserUuid() {
-		return userUuid;
-	}
-
-	public void setUserUuid(UUID userUuid) {
-		this.userUuid = userUuid;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 
 }
