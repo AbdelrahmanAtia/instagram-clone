@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs'; 
 import { User } from '../models/user.model';
-import { LoginService } from './login.service';
 import { StateService } from './state.service';
 
 @Injectable()

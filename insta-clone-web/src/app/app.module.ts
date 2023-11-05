@@ -13,7 +13,7 @@ import { ProfilePostsComponent } from './profile-posts/profile-posts.component';
 import { LoginComponent } from './login/login.component'; 
 import { FormsModule } from '@angular/forms';
 import { UserService } from './shared/services/user.service';
-import { LoginService } from './shared/services/login.service';
+import { AuthService } from './shared/services/auth.service';
 import { StateService } from './shared/services/state.service';
 import { RegisterComponent } from './register/register.component';
 
@@ -28,7 +28,7 @@ const COMPONENTS = [ AppComponent,
   LoginComponent];
   
 const MODULES = [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule];
-const SERVICES = [LoginService, UserService, StateService];
+const SERVICES = [AuthService, UserService, StateService];
 
 @NgModule({
   declarations: [COMPONENTS, RegisterComponent],

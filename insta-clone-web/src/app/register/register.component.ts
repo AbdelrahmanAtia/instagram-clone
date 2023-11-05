@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { LoginModel } from '../login/login.model';
 import { RegisterModel } from './register.model';
+import { AuthService } from '../shared/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'insta-register',
@@ -9,13 +11,20 @@ import { RegisterModel } from './register.model';
 })
 export class RegisterComponent {
 
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ){}
 
   onSubmit(registerModel: RegisterModel) {
-    console.log(registerModel);    
-    
+    //TODO: handle cases when an error occurs
+    this.authService.register(registerModel).subscribe(res => {
+      this.navigateToLogin();
+    });
   }
 
-  navigateToSignUp(){
+  navigateToLogin(){
+    this.router.navigate(['/login']); 
   }
 
 }
