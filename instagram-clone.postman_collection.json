@@ -1247,7 +1247,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n   \"username\": \"AbdelrahmanAttya\",\r\n   \"email\": \"abc@gmail.com\",\r\n   \"password\": \"123456\"\r\n}",
+							"raw": "{\r\n   \"mobileNumberOrEmail\": \"abc@gmail.com\",\r\n   \"username\": \"AbdelrahmanAttya\",\r\n   \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1310,7 +1310,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"johnwick\",\r\n    \"email\": \"johnwick@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"userUuid\": \"{{externalUserUuid}}\" \r\n}",
+							"raw": "{\r\n    \"username\": \"johnwick\",\r\n    \"mobileNumberOrEmail\": \"johnwick@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"userUuid\": \"{{externalUserUuid}}\" \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2413,7 +2413,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"email\": \"abc@gmail.com\", \r\n    \"password\": \"123456\"\r\n}",
+							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"mobileNumberOrEmail\": \"abc@gmail.com\", \r\n    \"password\": \"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2971,7 +2971,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"email\": \"abc@gmail.com\",\r\n    \"password\": \"123456\"\r\n\r\n}",
+									"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"mobileNumberOrEmail\": \"abc@gmail.com\",\r\n    \"password\": \"123456\"\r\n\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
