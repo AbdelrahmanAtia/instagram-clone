@@ -44,6 +44,7 @@ public class PostsApiImpl implements PostsApi {
 		try {
 
 			Post post = postApiDtoMapper.apiToDto(body);
+			
 			Post savedPost = postService.createPost(post);
 			return setServiceAddress(postApiDtoMapper.mapToApiDto(savedPost));
 

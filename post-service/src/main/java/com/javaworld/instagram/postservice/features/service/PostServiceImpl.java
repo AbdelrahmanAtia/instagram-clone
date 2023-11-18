@@ -44,6 +44,7 @@ public class PostServiceImpl implements PostService {
 
 			logger.info("createPost: creates a new post");
 
+			//TODO: useful utility function was found in the book
 			LoggingUtil.logAuthorizationInfo(getSecurityContext());
 
 			List<TagEntity> tagEntityList = postMapper.dtoListToEntityList(post.getTags());
