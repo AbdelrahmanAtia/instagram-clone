@@ -1,6 +1,8 @@
 package com.javaworld.instagram.postservice.features.restapi;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,7 +12,8 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,7 +32,6 @@ public class FilesApiImpl implements FilesApi {
 
 	// TODO: make this service more generic..for example: for uploading videos &
 	// reels not only images
-
 	@Override
 	public UploadFilesResponseApiDto uploadFile(MultipartFile file) {
 
@@ -50,6 +52,22 @@ public class FilesApiImpl implements FilesApi {
 
 		} catch (IOException e) {
 			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public Resource downloadFile(String fileName) {
+		try {
+			Path fileLocation = Paths.get(Constants.POSTS_IMAGES_LOCATION).resolve(fileName).normalize();
+			Resource resource = new UrlResource(fileLocation.toUri());
+
+			if (resource.exists() && resource.isReadable()) {
+				return resource;
+			} else {
+				throw new FileNotFoundException("File not found " + fileName);
+			}
+		} catch (MalformedURLException | FileNotFoundException ex) {
+			throw new RuntimeException("Error while trying to download file: " + fileName, ex);
 		}
 	}
 

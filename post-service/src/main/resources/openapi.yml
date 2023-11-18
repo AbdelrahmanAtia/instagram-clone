@@ -103,6 +103,32 @@ paths:
               schema:
                 $ref: '#/components/schemas/UploadFilesResponse'    
    
+  /files/download:
+    get:
+      tags:
+        - Files
+      summary: Download a file
+      description: Endpoint to download media files such as images or videos
+      operationId: downloadFile
+      parameters:
+        - in: query
+          name: fileName
+          description: Name of the file to download
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: File downloaded successfully
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: File not found
+        '500':
+          description: Internal server error  
   
   /posts/count:
     get:

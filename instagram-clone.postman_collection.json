@@ -1232,6 +1232,16 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
+									"pm.test(\"validate email\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.email).to.eql(\"abc@gmail.com\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"validate username\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.username).to.eql(\"AbdelrahmanAttya\");\r",
+									"});\r",
+									"\r",
 									"pm.collectionVariables.set(\"generatedUserUuid\", \r",
 									"             pm.response.json().userUuid);"
 								],
@@ -1335,6 +1345,132 @@
 					"response": []
 				},
 				{
+					"name": "upload-image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"validate message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"File uploaded successfully\");\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"fileName\", pm.response.json().fileName);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/a911932/Desktop/Capture.PNG"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/files/upload",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"files",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "download-image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/files/download?fileName={{fileName}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"files",
+								"download"
+							],
+							"query": [
+								{
+									"key": "fileName",
+									"value": "{{fileName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "create-post",
 					"event": [
 						{
@@ -1346,12 +1482,39 @@
 									"});\r",
 									"\r",
 									"pm.collectionVariables.set(\"postUuid\", pm.response.json().postUuid);\r",
+									"\r",
+									"pm.test(\"validate title\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"second post title\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"validate fileName\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.fileName).to.eql(pm.variables.get('fileName'));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"validate userUuid\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.userUuid).to.eql(pm.variables.get('generatedUserUuid'));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate number of tags\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.tags).to.be.an('array');\r",
+									"    pm.expect(jsonData.tags.length).to.eql(2); \r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
 									""
 								],
 								"type": "text/javascript"
 							}
 						}
 					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1367,7 +1530,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\r\n    \"title\": \"second post title\",\r\n    \"userUuid\": \"{{generatedUserUuid}}\",\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n\r\n    \"title\": \"second post title\",\r\n    \"userUuid\": \"{{generatedUserUuid}}\",\r\n    \"fileName\": \"{{fileName}}\",\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3502,6 +3665,10 @@
 		},
 		{
 			"key": "post3Uuid",
+			"value": ""
+		},
+		{
+			"key": "fileName",
 			"value": ""
 		}
 	]
