@@ -1,12 +1,28 @@
 /* photo-video-uploader.component.css */
 .upload-area {
-    border: 2px dashed #ccc;
-    border-radius: 5px;
-    text-align: center;
-    padding: 20px;
-    margin: 10px 0;
-  }
-  .dragging-over {
-    background-color: #eee;
-    border: 2px dashed #000;
-  }
+  width: 405px;
+  height: 415px;
+  border: 1px solid #262626;
+  text-align: center;
+  /*padding: 20px;*/
+  /*margin: 10px 0;*/
+  background-color: #262626;
+  padding: 0px;
+}
+
+.dialog-title {
+  text-align: center;
+  color: white; 
+  border: 1px solid white;
+  height: 40px;
+}
+
+.dragging-over {
+  background-color: #eee;
+  border: 2px dashed #000;
+}
+  
+.image-preview {
+  max-width: 100%;
+  max-height: 300px;
+}
