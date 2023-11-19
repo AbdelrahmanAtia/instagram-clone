@@ -12,6 +12,10 @@
 
   <img *ngIf="imageUrl" [src]="imageUrl" alt="Image Preview" class="image-preview">
 
+  <div class="media-icon" *ngIf="!imageUrl">
+    <mat-icon>perm_media</mat-icon> 
+  </div>
+
   <div *ngIf="!imageUrl" style="color: white;">
     Drag photos and videos here
   </div>
