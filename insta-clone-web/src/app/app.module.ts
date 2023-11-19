@@ -19,6 +19,7 @@ import { RegisterComponent } from './register/register.component';
 import { PhotoVideoUploaderComponent } from './photo-video-uploader/photo-video-uploader.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PostService } from './shared/services/post.service';
 
 
 const COMPONENTS = [ AppComponent,
@@ -31,7 +32,7 @@ const COMPONENTS = [ AppComponent,
   LoginComponent];
   
 const MODULES = [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule];
-const SERVICES = [AuthService, UserService, StateService];
+const SERVICES = [AuthService, UserService, StateService, PostService];
 
 @NgModule({
   declarations: [COMPONENTS, RegisterComponent, PhotoVideoUploaderComponent],

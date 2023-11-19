@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PostService } from '../shared/services/post.service';
 
 @Component({
   selector: 'insta-photo-video-uploader',
@@ -6,6 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./photo-video-uploader.component.css']
 })
 export class PhotoVideoUploaderComponent {
+
+
+  constructor(private postService: PostService){
+
+  }
 
   onDragOver(event: DragEvent): void {
     event.preventDefault();
@@ -21,16 +27,25 @@ export class PhotoVideoUploaderComponent {
   }
 
   onDrop(event: DragEvent): void {
-    console.log("something dropped");
+   
     event.preventDefault();
     event.stopPropagation();
+   
     const files = event.dataTransfer?.files;
-    console.log(files);
+
     if (files && files.length) {
-      // Handle the files, perhaps using a service to upload them or process them
+      //TODO: we need to support uploading multiple files as in instagram
+      const fileToUpload: File = files[0]; // Assuming you want to upload the first file
+      this.postService.uploadFile(fileToUpload).subscribe(
+        response => {
+          console.log('File is uploaded successfully:', response);
+        },
+        error => {
+          console.error('Error uploading file:', error);
+        }
+      );
     }
   }
-
   close(): void {
     // logic to close the dialog
   }
