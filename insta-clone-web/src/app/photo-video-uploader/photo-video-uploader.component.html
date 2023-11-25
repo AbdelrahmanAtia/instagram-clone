@@ -10,10 +10,23 @@
     Create new post
   </div>
 
-  <img *ngIf="imageUrl" [src]="imageUrl" alt="Image Preview" class="image-preview">
+  <img 
+    *ngIf="imageUrl" 
+    [src]="imageUrl" 
+    alt="Image Preview" 
+    class="image-preview"
+  >
 
-  <div class="media-icon" *ngIf="!imageUrl">
-    <mat-icon>perm_media</mat-icon> 
+  <div 
+    class="media-icon" 
+    *ngIf="!imageUrl" 
+    style="border: 1px solid yellow; margin-top: 20px;"
+  >
+    <mat-icon style="font-size: 100px; 
+                     height: 100px; 
+                     width: 200px;"> perm_media
+    </mat-icon> 
+  
   </div>
 
   <div *ngIf="!imageUrl" style="color: white;">
