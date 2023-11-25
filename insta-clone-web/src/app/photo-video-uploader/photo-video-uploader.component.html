@@ -1,5 +1,6 @@
 
-<mat-dialog-content 
+<div style="display: flex; flex-direction: row;">
+  <mat-dialog-content 
   class="upload-area" 
   (drop)="onFilesDrop($event)" 
   (dragover)="onDragOver($event)" 
@@ -45,15 +46,24 @@
       #fileInput 
       (change)="onFilesSelected($event)"
     >
-  
   </div>
-
-
-
+  <!-- 
+       the following empty element is for the flex to take some spaces 
+       so that the above div is more near the center of the popup 
+  -->
+  <div></div>
   <div></div>
 
+  </mat-dialog-content>
 
-</mat-dialog-content>
+  <div *ngIf="filesSelectedOrDropped">
+    <textarea placeholder="Write a caption..." [(ngModel)]="postCaption"></textarea>
+  </div>
+
+</div>
+
+
+
 
 <!--
 <mat-dialog-actions>

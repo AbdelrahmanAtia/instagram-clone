@@ -10,6 +10,8 @@ export class PhotoVideoUploaderComponent implements OnInit {
   
   private filesToUpload: FileList | null = null;
   public imageUrl: string | ArrayBuffer | null = null;
+  postCaption: string = '';
+  filesSelectedOrDropped: boolean = false;
   
   @ViewChild('fileInput') fileInput!: ElementRef;
 
@@ -43,6 +45,9 @@ export class PhotoVideoUploaderComponent implements OnInit {
   } 
 
   handleSelectedOrDroppedFiles(files: any){
+
+    this.filesSelectedOrDropped = true;
+    
     if (files && files.length) {
       this.filesToUpload = files;
 
