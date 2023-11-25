@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PostService } from '../shared/services/post.service';
 
 @Component({
@@ -8,9 +8,10 @@ import { PostService } from '../shared/services/post.service';
 })
 export class PhotoVideoUploaderComponent implements OnInit {
   
-
   private filesToUpload: FileList | null = null;
   public imageUrl: string | ArrayBuffer | null = null;
+  
+  @ViewChild('fileInput') fileInput!: ElementRef;
 
   constructor(private postService: PostService){}
 
@@ -29,29 +30,37 @@ export class PhotoVideoUploaderComponent implements OnInit {
     // Remove the visual cue
   }
 
-  onDrop(event: DragEvent): void {
+  onFilesDrop(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
     const files = event.dataTransfer?.files;
- 
-    if (files && files.length) {
-       this.filesToUpload = files;
- 
-       console.log(">> file type: " + files[0].type)
-       // Read the first file if it's an image
-       if(files[0].type.match(/image.*/)) {
-          const reader = new FileReader();
+    this.handleSelectedOrDroppedFiles(files);
+  }
 
-          //convert file into a data url {base64 string image}
-          reader.onload = (e: any) => {
-             this.imageUrl = e.target.result;
-             console.log(">> umageUrl: " + this.imageUrl);
-          };
-          reader.readAsDataURL(files[0]);
-       }
-    }
+  onFilesSelected(event: any) {
+    const files: FileList = event.target.files;
+    this.handleSelectedOrDroppedFiles(files);
+  } 
+
+  handleSelectedOrDroppedFiles(files: any){
+    if (files && files.length) {
+      this.filesToUpload = files;
+
+      // Read the first file if it's an image
+      if(files[0].type.match(/image.*/)) {
+         const reader = new FileReader();
+         reader.onload = (e: any) => {
+            this.imageUrl = e.target.result; //convert file into a data url {base64 string image}
+         };
+         reader.readAsDataURL(files[0]);
+      }
+   }
   }
  
+  selectFile() {
+    this.fileInput.nativeElement.click();
+  }
+
   close(): void {
     // logic to close the dialog
   }

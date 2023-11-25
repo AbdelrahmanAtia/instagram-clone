@@ -1,7 +1,7 @@
 
 <mat-dialog-content 
   class="upload-area" 
-  (drop)="onDrop($event)" 
+  (drop)="onFilesDrop($event)" 
   (dragover)="onDragOver($event)" 
   (dragleave)="onDragLeave($event)">
 
@@ -34,10 +34,17 @@
     <button 
       class="btn btn-primary w-80 uplodad-media-btn"
       *ngIf="!imageUrl" 
-      (click)="close()" 
+      (click)="selectFile()"
     >
       Select from computer
     </button>
+
+    <input 
+      type="file" 
+      style="display: none" 
+      #fileInput 
+      (change)="onFilesSelected($event)"
+    >
   
   </div>
 
