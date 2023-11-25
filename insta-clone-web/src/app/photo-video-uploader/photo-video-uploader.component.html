@@ -20,22 +20,30 @@
   <div 
     class="media-icon" 
     *ngIf="!imageUrl" 
-    style="border: 1px solid yellow; margin-top: 20px;"
+    style="margin-top: 20px;align-self: center;"
   >
     <mat-icon style="font-size: 100px; 
                      height: 100px; 
                      width: 200px;"> perm_media
     </mat-icon> 
+
+    <div *ngIf="!imageUrl" style="color: white; margin-top: 5px;">
+      Drag photos and videos here
+    </div>
+
+    <button 
+      class="btn btn-primary w-80 uplodad-media-btn"
+      *ngIf="!imageUrl" 
+      (click)="close()" 
+    >
+      Select from computer
+    </button>
   
   </div>
 
-  <div *ngIf="!imageUrl" style="color: white;">
-    Drag photos and videos here
-  </div>
 
-  <button *ngIf="!imageUrl" (click)="close()">
-   Select from computer
-  </button>
+
+  <div></div>
 
 
 </mat-dialog-content>

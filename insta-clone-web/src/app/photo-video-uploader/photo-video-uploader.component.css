@@ -6,16 +6,20 @@
   text-align: center;
   background-color: #262626;
   padding: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .dialog-title {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; 
+  display: flex; /* This allows its children elements to be flex items and enables flex-related properties to be applied. */
+  align-items: center;  /* Align content vertically..flex shall be enabled as above */
+  justify-content: center; /* align elements hrizontally */
   color: white; 
   border-bottom: 1px solid #363636;
   height: 40px;
+  width: 100%;  /* Take the full width of the upload area */
 }
 
 .dragging-over {
@@ -26,4 +30,10 @@
 .image-preview {
   max-width: 100%;
   max-height: 100%;
+}
+
+.uplodad-media-btn {
+  margin-top: 15px;
+  background-color: rgb(0, 149, 246);
+  border: none;
 }
