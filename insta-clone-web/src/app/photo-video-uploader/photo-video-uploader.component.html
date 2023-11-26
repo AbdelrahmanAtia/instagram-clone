@@ -1,14 +1,82 @@
-<h2 mat-dialog-title>Create new post</h2>
-<mat-dialog-content 
+
+<div style="display: flex; flex-direction: row;">
+  <mat-dialog-content 
   class="upload-area" 
-  (drop)="onDrop($event)" 
+  (drop)="onFilesDrop($event)" 
   (dragover)="onDragOver($event)" 
   (dragleave)="onDragLeave($event)">
 
-  Drag photos and videos here
-</mat-dialog-content>
+  <div class="dialog-title">
+    Create new post
+  </div>
 
+  <img 
+    *ngIf="imageUrl" 
+    [src]="imageUrl" 
+    alt="Image Preview" 
+    class="image-preview"
+  >
+
+  <div 
+    class="media-icon" 
+    *ngIf="!imageUrl" 
+    style="margin-top: 20px;align-self: center;"
+  >
+    <mat-icon style="font-size: 100px; 
+                     height: 100px; 
+                     width: 200px;"> perm_media
+    </mat-icon> 
+
+    <div *ngIf="!imageUrl" style="color: white; margin-top: 5px;">
+      Drag photos and videos here
+    </div>
+
+    <button 
+      class="btn btn-primary w-80 uplodad-media-btn"
+      *ngIf="!imageUrl" 
+      (click)="selectFile()"
+    >
+      Select from computer
+    </button>
+
+    <input 
+      type="file" 
+      style="display: none" 
+      #fileInput 
+      (change)="onFilesSelected($event)"
+    >
+  </div>
+  <!-- 
+       the following empty element is for the flex to take some spaces 
+       so that the above div is more near the center of the popup 
+  -->
+  <div></div>
+  <div></div>
+
+  </mat-dialog-content>
+
+  <div *ngIf="filesSelectedOrDropped" style="width: 335px;">  
+   
+    <div *ngIf="imageUrl">
+      share
+    </div>
+
+    <textarea 
+      placeholder="Write a caption..." 
+      [(ngModel)]="postCaption"
+      style="width: 100%;"
+    >
+  </textarea>
+  </div>
+
+</div>
+
+
+
+
+<!--
 <mat-dialog-actions>
   <button  (click)="close()">Select from computer</button>
   <button  (click)="close()">Cancel</button>
 </mat-dialog-actions>
+-->

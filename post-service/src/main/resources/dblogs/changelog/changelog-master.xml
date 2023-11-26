@@ -7,16 +7,19 @@
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
 	<include
-		file="/dblogs/changelog/changes/1-create-post-table-changelog.xml" />
+		file="/dblogs/changelog/changes/001-create-post-table-changelog.xml" />
 
 	<include
-		file="/dblogs/changelog/changes/2-create-tag-table-changelog.xml" />
+		file="/dblogs/changelog/changes/002-create-tag-table-changelog.xml" />
 
 	<include
-		file="/dblogs/changelog/changes/3-create-post-tag-assignment-table-changelog.xml" />
+		file="/dblogs/changelog/changes/003-create-post-tag-assignment-table-changelog.xml" />
 
 	<include
-		file="/dblogs/changelog/changes/4-create-comment-table-changelog.xml" />
+		file="/dblogs/changelog/changes/004-create-comment-table-changelog.xml" />
+		
+	<include
+		file="/dblogs/changelog/changes/005-add-new-column-to-posts-table.xml" />		
 
 
 </databaseChangeLog>

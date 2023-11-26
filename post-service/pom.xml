@@ -230,11 +230,9 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>
-					org.springframework.cloud</groupId>
+				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>
-					${spring-cloud.version}</version>
+				<version>${spring-cloud.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -245,43 +243,38 @@
 		<plugins>
 
 			<plugin>
-				<groupId>
-					org.springframework.boot</groupId>
+				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<layers>
-						<enabled>
-							true</enabled>
+						<enabled>true</enabled>
 						<!-- <configuration>${project.basedir}/src/layers.xml</configuration> -->
 					</layers>
 				</configuration>
 			</plugin>
 
-
 			<plugin>
-				<groupId>
-					org.apache.maven.plugins</groupId>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>
-					3.8.1</version>
+				<version>3.8.1</version>
 				<configuration>
 					<source>1.8</source> 
 					<target>1.8</target> 
 					<annotationProcessorPaths>
+						
+						<!-- lombok generated code shall be before mapstruct generated code -->
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+				            <version>1.18.30</version> 
+						</path>
+						
 						<path>
 							<groupId>org.mapstruct</groupId>
-							<artifactId>
-								mapstruct-processor</artifactId>
-							<version>
-								${org.mapstruct.version}</version>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>${org.mapstruct.version}</version>
 						</path>
-						<path>
-							<groupId>
-								org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-							<version>
-								1.18.20</version>
-						</path>
+												
 						<!-- other annotation processors -->
 					</annotationProcessorPaths>
 				</configuration>
@@ -299,19 +292,12 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>
-								${project.basedir}/src/main/resources/openapi.yml
-							</inputSpec>
-							<templateDirectory>
-								src/main/resources/openapi-templates</templateDirectory>
-							<generatorName>
-								spring</generatorName>
-							<apiPackage>
-								com.javaworld.instagram.postservice.server.api</apiPackage>
-							<modelPackage>
-								com.javaworld.instagram.postservice.server.dto</modelPackage>
-							<modelNameSuffix>
-								ApiDto</modelNameSuffix>
+							<inputSpec>${project.basedir}/src/main/resources/openapi.yml</inputSpec>
+							<templateDirectory>src/main/resources/openapi-templates</templateDirectory>
+							<generatorName>spring</generatorName>
+							<apiPackage>com.javaworld.instagram.postservice.server.api</apiPackage>
+							<modelPackage>com.javaworld.instagram.postservice.server.dto</modelPackage>
+							<modelNameSuffix>ApiDto</modelNameSuffix>
 							<configOptions>
 								<interfaceOnly>true</interfaceOnly>
 								<skipDefaultInterface>true</skipDefaultInterface>

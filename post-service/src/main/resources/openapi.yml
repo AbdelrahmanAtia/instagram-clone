@@ -16,6 +16,11 @@ tags:
     externalDocs:
       description: ""
       url: ""
+  - name: Files
+    description: Operations about media
+    externalDocs:
+      description: ""
+      url: ""      
   - name: Comment
     description: Operations about comments
     externalDocs:
@@ -71,6 +76,60 @@ paths:
         '400':
           description: Invalid userId ##TODO: is this correct message
           
+  /files/upload:
+    post:
+      tags:
+        - Files
+      summary: upload post image/video
+      description: ''
+      operationId: uploadFile
+      requestBody:
+        required: true
+        description: ''
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadFilesResponse'    
+   
+  /files/download:
+    get:
+      tags:
+        - Files
+      summary: Download a file
+      description: Endpoint to download media files such as images or videos
+      operationId: downloadFile
+      parameters:
+        - in: query
+          name: fileName
+          description: Name of the file to download
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: File downloaded successfully
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: File not found
+        '500':
+          description: Internal server error  
+  
   /posts/count:
     get:
       tags:
@@ -144,6 +203,9 @@ components:
       properties:
         title:
           type: string
+        fileName:
+          type: string  
+          example: test.png
         userUuid:
           type: string    
           format: uuid
@@ -186,4 +248,16 @@ components:
           example: posts deleted successfully
         serviceAddress:
           type: string
+
+    UploadFilesResponse:
+      type: object
+      properties:
+        fileName:
+          type: string    
+          example: test_uniqueidentifier.png
+        message:
+          type: string
+          example: file uploaded successfully
+        serviceAddress:
+          type: string          
           

@@ -27,10 +27,11 @@ export class SidebarComponent {
   openUploadDialog(): void {
     
     const dialogRef = this.dialog.open(PhotoVideoUploaderComponent, {
-      "width": '600px',
-      "maxHeight": '90vh',
+      "width": '405px',
+      "maxHeight": '415px',
       "data": "John",  //TODO: what is this?? remove if not needed
-      "autoFocus": false    
+      "autoFocus": false,
+      "id": "upload-media-dialog"
     });
   
     dialogRef.afterClosed().subscribe(result => {
