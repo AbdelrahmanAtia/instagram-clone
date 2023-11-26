@@ -1,26 +1,35 @@
 <div class="container" style="background-color: #262626; color: white;">
+  
   <!-- First div taking full width -->
-  <div class="row" style="height: 40px; border-bottom: 1px solid #363636;">
+  <div 
+    class="row" 
+    style="height: 40px; 
+          border-bottom: 1px solid #363636; 
+          display: flex; 
+          align-items: center;">
     <div class="col-12">
       <div style="display: flex; justify-content: space-between;">
-
-        <div style="text-align: center; 
-                    flex: 1;">
+  
+        <div style="text-align: center; flex: 1;">
           Create new post
         </div>
-
-        <div
+  
+        <div 
           *ngIf="imageUrl" 
-          style="text-align: right; border: 1px solid yellow;">
-          share
+          style="text-align: right;  
+                 display: flex; 
+                 align-items: center;"
+        >
+          Share
         </div>
-
+  
       </div>
     </div>
   </div>
+  
 
   <!-- Second div with two parallel columns -->
-  <div class="row mt-4">
+  <div class="row mt-4"  style="margin-top: 0 !important;">
     
     <input 
       type="file" 
@@ -32,7 +41,7 @@
     <div   
       [class.col-md-12]="!imageUrl" 
       [class.col-md-8]="imageUrl"
-      style="border: 1px solid blue;"
+     
     >
 
       <img
