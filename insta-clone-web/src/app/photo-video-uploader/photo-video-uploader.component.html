@@ -6,8 +6,7 @@
   (dragover)="onDragOver($event)" 
   (dragleave)="onDragLeave($event)">
 
-
-  <div class="dialog-title" *ngIf="!imageUrl">
+  <div class="dialog-title">
     Create new post
   </div>
 
@@ -56,8 +55,18 @@
 
   </mat-dialog-content>
 
-  <div *ngIf="filesSelectedOrDropped">
-    <textarea placeholder="Write a caption..." [(ngModel)]="postCaption"></textarea>
+  <div *ngIf="filesSelectedOrDropped" style="width: 335px;">  
+   
+    <div *ngIf="imageUrl">
+      share
+    </div>
+
+    <textarea 
+      placeholder="Write a caption..." 
+      [(ngModel)]="postCaption"
+      style="width: 100%;"
+    >
+  </textarea>
   </div>
 
 </div>

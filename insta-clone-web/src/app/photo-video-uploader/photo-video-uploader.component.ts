@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PostService } from '../shared/services/post.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'insta-photo-video-uploader',
@@ -15,7 +16,10 @@ export class PhotoVideoUploaderComponent implements OnInit {
   
   @ViewChild('fileInput') fileInput!: ElementRef;
 
-  constructor(private postService: PostService){}
+  constructor(
+    private postService: PostService,
+    public dialog: MatDialog
+  ){}
 
   ngOnInit(): void {}
 
@@ -46,6 +50,7 @@ export class PhotoVideoUploaderComponent implements OnInit {
 
   handleSelectedOrDroppedFiles(files: any){
 
+    
     this.filesSelectedOrDropped = true;
     
     if (files && files.length) {
@@ -56,7 +61,8 @@ export class PhotoVideoUploaderComponent implements OnInit {
          const reader = new FileReader();
          reader.onload = (e: any) => {
             this.imageUrl = e.target.result; //convert file into a data url {base64 string image}
-         };
+            this.dialog.getDialogById("upload-media-dialog")?.updateSize("740px", "415px");
+          };
          reader.readAsDataURL(files[0]);
       }
    }
