@@ -38,7 +38,7 @@ public class PostEntity extends BaseEntity {
 	private UUID postUuid;
 
 	// TODO: change to caption
-	private String title;
+	private String caption;
 	
 	private String fileName;
 
@@ -52,9 +52,9 @@ public class PostEntity extends BaseEntity {
 	private List<PostTagAssignment> postTagAssignmentList = new ArrayList<>();
 
 
-	public PostEntity(UUID postUuid, String title, UUID userUuid) {
+	public PostEntity(UUID postUuid, String caption, UUID userUuid) {
 		this.postUuid = postUuid;
-		this.title = title;
+		this.caption = caption;
 		this.userUuid = userUuid;
 	}
 
