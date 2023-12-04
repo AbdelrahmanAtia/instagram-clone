@@ -13,8 +13,6 @@ public class Post {
 
 	private String fileName;
 
-	private UUID userUuid;
-
 	private UUID postUuid;
 
 }

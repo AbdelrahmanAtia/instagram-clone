@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
 import com.javaworld.instagram.postservice.commons.utils.SecurityLoggingUtil;
+import com.javaworld.instagram.postservice.commons.utils.SecurityUtil;
 import com.javaworld.instagram.postservice.features.persistence.entities.PostEntity;
 import com.javaworld.instagram.postservice.features.persistence.entities.TagEntity;
 import com.javaworld.instagram.postservice.features.persistence.repositories.PostRepository;
@@ -49,7 +50,8 @@ public class PostServiceImpl implements PostService {
 			SecurityLoggingUtil.logAuthorizationInfo(getSecurityContext()); // TODO: useful utility function was found in the
 																	// book
 			PostEntity postEntity = postMapper.dtoToEntity(post);
-
+			
+			postEntity.setUserUuid(SecurityUtil.getUserUuidFromAccessToken(getSecurityContext()));			
 			List<TagEntity> tags = extractAndSaveTags(post.getCaption());
 			assignTagsToPost(tags, postEntity);
 

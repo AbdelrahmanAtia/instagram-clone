@@ -20,8 +20,11 @@ public interface PostMapper {
 
 	List<Post> entityListToDtoList(List<PostEntity> entityList);
 
+	
 	default List<UUID> mapStrUuidToUuidObj(List<String> uuids) {
 		return uuids.stream().map(i -> UUID.fromString(i)).collect(Collectors.toList());
 	}
+	
+
 
 }

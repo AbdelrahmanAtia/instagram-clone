@@ -9,7 +9,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import java.net.URL;
 import java.util.List;
 
-//TODO: change to security logging util
 public class SecurityLoggingUtil {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SecurityLoggingUtil.class);
@@ -40,5 +39,7 @@ public class SecurityLoggingUtil {
 			}
 		}
 	}
+	
+	
 
 }
