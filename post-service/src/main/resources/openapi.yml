@@ -201,7 +201,7 @@ components:
     Post:
       type: object
       properties:
-        title:
+        caption:
           type: string
         fileName:
           type: string  
@@ -212,19 +212,8 @@ components:
         postUuid:
           type: string    
           format: uuid          
-        tags:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'        
         serviceAddress:
           type: string  
-          
-    Tag:
-      type: object
-      properties:
-        name:
-          type: string
-  
           
     PostsCountResponse:
       type: object

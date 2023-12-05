@@ -11,10 +11,9 @@ import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 
-
 public class JpaRegisteredClientRepository implements RegisteredClientRepository {
 
-	private static final Logger LOG = LoggerFactory.getLogger(JpaRegisteredClientRepository.class);
+	private static final Logger logger = LoggerFactory.getLogger(JpaRegisteredClientRepository.class);
 
 	private final ClientRepository clientRepository;
 
@@ -40,6 +39,7 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
 			return getWriterClient();
 		}
 		
+		
 		ClientEntity client = clientRepository.findByClientId(clientId).orElseThrow(() -> {
 			return new RuntimeException("User with username: " + clientId + " not found");
 		});
@@ -57,6 +57,8 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
 			      .redirectUri("https://my.redirect.uri")
 			      .redirectUri("https://localhost:8443/webjars/swagger-ui/oauth2-redirect.html")
 			      .scope(OidcScopes.OPENID)
+			      
+			      //TODO: this roles shall not be static..it shall be in DB
 			      .scope("post:read")
 			      .scope("post:write")
 			      .scope("user:read")
@@ -65,9 +67,7 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
 			      .tokenSettings(ts -> ts.accessTokenTimeToLive(Duration.ofHours(1)))
 			      .build();
 		 // @formatter:on
-		 
-		 
-			 
+
 		return writerClient;
 	}
 	
@@ -89,7 +89,7 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
 		return readerClient;
 
 	}	
-	
+
 	//TODO: to be removed..this is just a workaround method that is used till i updated the postman tests
 	//to use non static users other than reader & writer	
 	private RegisteredClient getWriterClient() {
@@ -106,5 +106,5 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
 
 		return writerClient;
 	}
-  
+
 }

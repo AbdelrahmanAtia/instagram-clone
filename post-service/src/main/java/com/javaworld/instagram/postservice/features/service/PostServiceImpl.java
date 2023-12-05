@@ -3,6 +3,8 @@ package com.javaworld.instagram.postservice.features.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
-import com.javaworld.instagram.postservice.commons.utils.LoggingUtil;
+import com.javaworld.instagram.postservice.commons.utils.SecurityLoggingUtil;
+import com.javaworld.instagram.postservice.commons.utils.SecurityUtil;
 import com.javaworld.instagram.postservice.features.persistence.entities.PostEntity;
 import com.javaworld.instagram.postservice.features.persistence.entities.TagEntity;
 import com.javaworld.instagram.postservice.features.persistence.repositories.PostRepository;
@@ -44,19 +47,14 @@ public class PostServiceImpl implements PostService {
 
 			logger.info("createPost: creates a new post");
 
-			//TODO: useful utility function was found in the book
-			LoggingUtil.logAuthorizationInfo(getSecurityContext());
-
-			List<TagEntity> tagEntityList = postMapper.dtoListToEntityList(post.getTags());
-			List<TagEntity> savedTags = new ArrayList<>();
-
-			tagEntityList.forEach(t -> {
-				tagRepository.findByName(t.getName()).ifPresentOrElse(e -> savedTags.add(e),
-						() -> savedTags.add(tagRepository.save(t)));
-			});
-
+			SecurityLoggingUtil.logAuthorizationInfo(getSecurityContext()); // TODO: useful utility function was found in the
+																	// book
 			PostEntity postEntity = postMapper.dtoToEntity(post);
-			savedTags.forEach(t -> postEntity.addPostTagAssignment(t));
+			
+			postEntity.setUserUuid(SecurityUtil.getUserUuidFromAccessToken(getSecurityContext()));			
+			List<TagEntity> tags = extractAndSaveTags(post.getCaption());
+			assignTagsToPost(tags, postEntity);
+
 			postRepository.save(postEntity);
 
 			Post savedPost = postMapper.entityToDto(postEntity);
@@ -66,10 +64,10 @@ public class PostServiceImpl implements PostService {
 			return savedPost;
 
 		} catch (DataIntegrityViolationException dive) {
-			// TODO: is this error message correct?
-			throw new InvalidInputException("Duplicate key, Post UUID: " + post.getPostUuid());
+			throw new InvalidInputException(dive.getMessage(), dive);
 		}
 	}
+	
 
 	@Override
 	@Transactional // TODO: make it read only
@@ -108,6 +106,38 @@ public class PostServiceImpl implements PostService {
 
 	private SecurityContext getSecurityContext() {
 		return SecurityContextHolder.getContext();
+	}
+	
+	private void assignTagsToPost(List<TagEntity> tags, PostEntity postEntity) {
+		tags.forEach(t -> postEntity.addPostTagAssignment(t));
+	}
+
+	private List<TagEntity> extractAndSaveTags(String caption) {
+
+		List<TagEntity> savedTags = new ArrayList<>();
+		List<TagEntity> tagEntityList = extractHashtags(caption);
+
+		tagEntityList.stream().forEach(t -> {
+			tagRepository.findByName(t.getName()).ifPresentOrElse(e -> savedTags.add(e),
+					() -> savedTags.add(tagRepository.save(t)));
+		});
+
+		return savedTags;
+
+	}
+
+	private ArrayList<TagEntity> extractHashtags(String input) {
+		ArrayList<TagEntity> hashtags = new ArrayList<>();
+
+		Pattern pattern = Pattern.compile("\\#\\w+"); // Matches '#' followed by word characters
+
+		// Create a Matcher and find hashtags in the input string
+		Matcher matcher = pattern.matcher(input);
+		while (matcher.find()) {
+			hashtags.add(new TagEntity(matcher.group().substring(1)));
+		}
+
+		return hashtags;
 	}
 	
 }

@@ -1,5 +1,7 @@
 package com.javaworld.instagram.authorizationserver.appconfig.security;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
+
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "user")
@@ -24,9 +28,15 @@ public class ClientEntity {
 
 	@Column(name = "password")
 	private String clientSecret;
-		
-	 // TODO: Include other fields for client details (e.g., clientSecret, grantTypes,
-	 // redirectUris, scopes, etc.)
+
+	
+	@Column(name = "user_uuid")
+	@Type(type = "org.hibernate.type.UUIDCharType")
+	private UUID clientUuid;
+
+	// TODO: Include other fields for client details (e.g., clientSecret,
+	// grantTypes,
+	// redirectUris, scopes, etc.)
 
 	public ClientEntity() {
 
@@ -62,6 +72,31 @@ public class ClientEntity {
 
 	public void setClientSecret(String clientSecret) {
 		this.clientSecret = clientSecret;
+	}
+
+	public UUID getClientUuid() {
+		return clientUuid;
+	}
+
+	public void setClientUuid(UUID clientUuid) {
+		this.clientUuid = clientUuid;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("ClientEntity [id=");
+		builder.append(id);
+		builder.append(", version=");
+		builder.append(version);
+		builder.append(", clientId=");
+		builder.append(clientId);
+		builder.append(", clientSecret=");
+		builder.append(clientSecret);
+		builder.append(", clientUuid=");
+		builder.append(clientUuid);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }
