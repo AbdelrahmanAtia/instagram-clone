@@ -103,7 +103,6 @@ export class PhotoVideoUploaderComponent implements OnInit {
   createPost(uploadedFileName: string){
     const newPost: Post = {
       caption: this.postCaption,
-      userUuid: "",
       fileName: uploadedFileName
     }
 
