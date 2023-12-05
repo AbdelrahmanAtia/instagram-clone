@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name = "user")
 public class ClientEntity {
@@ -27,7 +29,9 @@ public class ClientEntity {
 	@Column(name = "password")
 	private String clientSecret;
 
+	
 	@Column(name = "user_uuid")
+	@Type(type = "org.hibernate.type.UUIDCharType")
 	private UUID clientUuid;
 
 	// TODO: Include other fields for client details (e.g., clientSecret,

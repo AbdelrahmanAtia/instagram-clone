@@ -1043,7 +1043,7 @@
 			]
 		},
 		{
-			"name": "positive-tests",
+			"name": "Basic Users & Posts operations",
 			"item": [
 				{
 					"name": "generate-token",
@@ -1222,7 +1222,858 @@
 					"response": []
 				},
 				{
-					"name": "create-user",
+					"name": "registerUser1 -  AbdelrahmanAttya",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"user_uuid\", \r",
+									"             pm.response.json().userUuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"mobileNumberOrEmail\": \"abcd@gmail.com\", \r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"user-ms",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "loginUser1 - AbdelrahmanAttya",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.collectionVariables.set(\"access_token\", pm.response.json().access_token);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "AbdelrahmanAttya",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/oauth2/token?grant_type=client_credentials",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"oauth2",
+								"token"
+							],
+							"query": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upload-image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"validate message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"File uploaded successfully\");\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"fileName\", pm.response.json().fileName);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/a911932/Desktop/kaneki.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/files/upload",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"files",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "download-image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/files/download?fileName={{fileName}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"files",
+								"download"
+							],
+							"query": [
+								{
+									"key": "fileName",
+									"value": "{{fileName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createPost 1 - forUser1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"validate caption\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.caption).to.eql(\"user 1 first post\");\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"post_1_uuid\", pm.response.json().postUuid);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"caption\": \"user 1 first post\",\r\n    \"fileName\": \"{{fileName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createPost 2 -  forUser1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"validate caption\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.caption).to.eql(\"#tokyo user 1 second post #ghoul\");\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"post_2_uuid\", pm.response.json().postUuid);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"caption\": \"#tokyo user 1 second post #ghoul\",\r\n    \"fileName\": \"{{fileName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createPost 3 -  forUser1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"validate caption\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.caption).to.eql(\"user 1 third post #tag3\");\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"post_3_uuid\", pm.response.json().postUuid);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"caption\": \"user 1 third post #tag3\",\r\n    \"fileName\": \"{{fileName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePost2 - forUser1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"deletedPostsCount is 1\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.deletedPostsCount).to.eql(1);\r",
+									"});\r",
+									"\r",
+									"//TODO: add assertion that we can delete more than one post\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/deleteByUuid?postUuid={{post_2_uuid}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts",
+								"deleteByUuid"
+							],
+							"query": [
+								{
+									"key": "postUuid",
+									"value": "{{post_2_uuid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPostsCountForUser1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//assert on posts count\r",
+									"\r",
+									"pm.test(\"verify posts count for user1\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.postsCount).to.eql(2);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/count?userUuid={{user_uuid}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts",
+								"count"
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{user_uuid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"deletedUsersCount is 1\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.deletedUsersCount).to.eql(1);\r",
+									"});\r",
+									"\r",
+									"//TODO: add assertion that we can delete more than one post\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"title\": \"second post title\",\r\n    \"userUuid\": \"1b9316e6-3e65-45fc-a958-9883445a9de8\",\r\n\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{user_uuid}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"user-ms",
+								"users",
+								""
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{user_uuid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPostsCountForUser1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//assert on posts count\r",
+									"\r",
+									"pm.test(\"verify posts count for user1 after deleting it\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.postsCount).to.eql(0);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/count?userUuid={{generatedUserUuid}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts",
+								"count"
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{generatedUserUuid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "posts-count-circuit-breaker-test",
+			"item": [
+				{
+					"name": "generate-token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.collectionVariables.set(\"access_token\", pm.response.json().access_token);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "secret",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "writer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/oauth2/token?grant_type=client_credentials",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"oauth2",
+								"token"
+							],
+							"query": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "recreate user-ms tables",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/db/recreate",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"user-ms",
+								"db",
+								"recreate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "recreate post-ms tables",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/db/recreate",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"db",
+								"recreate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "registerUser-AbdelrahmanAttya",
 					"event": [
 						{
 							"listen": "test",
@@ -1282,8 +2133,17 @@
 					"response": []
 				},
 				{
-					"name": "createUserWithExternalUuid",
+					"name": "loginUser1 - AbdelrahmanAttya",
 					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
 						{
 							"listen": "test",
 							"script": {
@@ -1291,14 +2151,8 @@
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
+									"pm.collectionVariables.set(\"access_token\", pm.response.json().access_token);\r",
 									"\r",
-									"//TODO: u have to get the externalUserUuid from the environment variables\r",
-									"pm.test(\"verify that the external uuid is the same as uuid in the response\" ,function (){\r",
-									"        var jsonData = pm.response.json();\r",
-									"        pm.expect(jsonData.userUuid).to\r",
-									"          .eql(pm.collectionVariables.get(\"externalUserUuid\"));\r",
-									"    }\r",
-									");\r",
 									""
 								],
 								"type": "text/javascript"
@@ -1307,38 +2161,38 @@
 					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
+							"type": "basic",
+							"basic": [
 								{
-									"key": "token",
-									"value": "{{access_token}}",
+									"key": "password",
+									"value": "123456",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "AbdelrahmanAttya",
 									"type": "string"
 								}
 							]
 						},
 						"method": "POST",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"johnwick\",\r\n    \"mobileNumberOrEmail\": \"johnwick@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"userUuid\": \"{{externalUserUuid}}\" \r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/oauth2/token?grant_type=client_credentials",
 							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
 							"port": "{{PORT}}",
 							"path": [
-								"services",
-								"user-ms",
-								"users",
-								""
+								"oauth2",
+								"token"
+							],
+							"query": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials"
+								}
 							]
 						}
 					},
@@ -1390,14 +2244,9 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/C:/Users/a911932/Desktop/Capture.PNG"
+									"src": "/C:/Users/a911932/Desktop/kaneki.png"
 								}
-							],
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							]
 						},
 						"url": {
 							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/files/upload",
@@ -1483,25 +2332,14 @@
 									"\r",
 									"pm.collectionVariables.set(\"postUuid\", pm.response.json().postUuid);\r",
 									"\r",
-									"pm.test(\"validate title\", function () {\r",
+									"pm.test(\"validate caption\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.title).to.eql(\"second post title\");\r",
+									"    pm.expect(jsonData.caption).to.eql(\"#java #springboot second post title\");\r",
 									"});\r",
 									"\r",
 									"pm.test(\"validate fileName\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.fileName).to.eql(pm.variables.get('fileName'));\r",
-									"});\r",
-									"\r",
-									"pm.test(\"validate userUuid\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.userUuid).to.eql(pm.variables.get('generatedUserUuid'));\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Validate number of tags\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.tags).to.be.an('array');\r",
-									"    pm.expect(jsonData.tags.length).to.eql(2); \r",
 									"});\r",
 									"\r",
 									"\r",
@@ -1530,7 +2368,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\r\n    \"title\": \"second post title\",\r\n    \"userUuid\": \"{{generatedUserUuid}}\",\r\n    \"fileName\": \"{{fileName}}\",\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"caption\": \"#java #springboot second post title\",\r\n    \"fileName\": \"{{fileName}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1616,6 +2454,69 @@
 									"key": "delay",
 									"value": "0"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createUserWithExternalUuid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//TODO: u have to get the externalUserUuid from the environment variables\r",
+									"pm.test(\"verify that the external uuid is the same as uuid in the response\" ,function (){\r",
+									"        var jsonData = pm.response.json();\r",
+									"        pm.expect(jsonData.userUuid).to\r",
+									"          .eql(pm.collectionVariables.get(\"externalUserUuid\"));\r",
+									"    }\r",
+									");\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"johnwick\",\r\n    \"mobileNumberOrEmail\": \"johnwick@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"userUuid\": \"{{externalUserUuid}}\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"user-ms",
+								"users",
+								""
 							]
 						}
 					},
@@ -2372,730 +3273,6 @@
 			]
 		},
 		{
-			"name": "Basic Users & Posts operations",
-			"item": [
-				{
-					"name": "generate-token",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.collectionVariables.set(\"access_token\", pm.response.json().access_token);\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "secret",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "writer",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/oauth2/token?grant_type=client_credentials",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"oauth2",
-								"token"
-							],
-							"query": [
-								{
-									"key": "grant_type",
-									"value": "client_credentials"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "recreate user-ms tables",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/db/recreate",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"user-ms",
-								"db",
-								"recreate"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "recreate post-ms tables",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/db/recreate",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"post-ms",
-								"db",
-								"recreate"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "registerUser1 -  generatedUUID",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.collectionVariables.set(\"generatedUserUuid\", \r",
-									"             pm.response.json().userUuid);"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"mobileNumberOrEmail\": \"abc@gmail.com\", \r\n    \"password\": \"123456\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"user-ms",
-								"users",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "loginUser1 - AbdelrahmanAttya",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.collectionVariables.set(\"access_token\", pm.response.json().access_token);\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "123456",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "AbdelrahmanAttya",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/oauth2/token?grant_type=client_credentials",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"oauth2",
-								"token"
-							],
-							"query": [
-								{
-									"key": "grant_type",
-									"value": "client_credentials"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "createPost 1 - forUser1",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.collectionVariables.set(\"post1Uuid\", pm.response.json().postUuid);\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\r\n    \"title\": \"user 1 first post\",\r\n    \"userUuid\": \"{{generatedUserUuid}}\",\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"post-ms",
-								"posts",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "createPost 2 -  forUser1",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.collectionVariables.set(\"post2Uuid\", pm.response.json().postUuid);\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\r\n    \"title\": \"user 1 second post\",\r\n    \"userUuid\": \"{{generatedUserUuid}}\",\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"post-ms",
-								"posts",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "createPost 3 -  forUser1",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.collectionVariables.set(\"post3Uuid\", pm.response.json().postUuid);\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\r\n    \"title\": \"user 1 third post\",\r\n    \"userUuid\": \"{{generatedUserUuid}}\",\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"post-ms",
-								"posts",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deletePost2 - forUser1",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"deletedPostsCount is 1\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.deletedPostsCount).to.eql(1);\r",
-									"});\r",
-									"\r",
-									"//TODO: add assertion that we can delete more than one post\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\r\n    \"title\": \"second post title\",\r\n    \"userUuid\": \"1b9316e6-3e65-45fc-a958-9883445a9de8\",\r\n\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/deleteByUuid?postUuid={{post2Uuid}}",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"post-ms",
-								"posts",
-								"deleteByUuid"
-							],
-							"query": [
-								{
-									"key": "postUuid",
-									"value": "{{post2Uuid}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getPostsCountForUser1",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"//assert on posts count\r",
-									"\r",
-									"pm.test(\"verify posts count for user1\", function (){\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.postsCount).to.eql(2);\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/count?userUuid={{generatedUserUuid}}",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"post-ms",
-								"posts",
-								"count"
-							],
-							"query": [
-								{
-									"key": "userUuid",
-									"value": "{{generatedUserUuid}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteUser1",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"deletedUsersCount is 1\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.deletedUsersCount).to.eql(1);\r",
-									"});\r",
-									"\r",
-									"//TODO: add assertion that we can delete more than one post\r",
-									"\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\r\n    \"title\": \"second post title\",\r\n    \"userUuid\": \"1b9316e6-3e65-45fc-a958-9883445a9de8\",\r\n\r\n    \"tags\": [\r\n        {\r\n            \"name\": \"starnger things\"\r\n        },\r\n        {\r\n            \"name\": \"games\"\r\n        }\r\n    ]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{generatedUserUuid}}",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"user-ms",
-								"users",
-								""
-							],
-							"query": [
-								{
-									"key": "userUuid",
-									"value": "{{generatedUserUuid}}"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getPostsCountForUser1",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"//assert on posts count\r",
-									"\r",
-									"pm.test(\"verify posts count for user1 after deleting it\", function (){\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.postsCount).to.eql(0);\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/count?userUuid={{generatedUserUuid}}",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"post-ms",
-								"posts",
-								"count"
-							],
-							"query": [
-								{
-									"key": "userUuid",
-									"value": "{{generatedUserUuid}}"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "retry-mechanism-testing",
 			"item": [
 				{
@@ -3632,18 +3809,6 @@
 			"value": ""
 		},
 		{
-			"key": "generatedUserUuid",
-			"value": ""
-		},
-		{
-			"key": "externalUserUuid",
-			"value": "e58ed763-928c-4155-bee9-fdbaaadc15f3"
-		},
-		{
-			"key": "postUuid",
-			"value": ""
-		},
-		{
 			"key": "HOST",
 			"value": "localhost"
 		},
@@ -3656,19 +3821,31 @@
 			"value": "HTTPS"
 		},
 		{
-			"key": "post1Uuid",
-			"value": ""
-		},
-		{
-			"key": "post2Uuid",
-			"value": ""
-		},
-		{
-			"key": "post3Uuid",
+			"key": "user_uuid",
 			"value": ""
 		},
 		{
 			"key": "fileName",
+			"value": ""
+		},
+		{
+			"key": "post_1_uuid",
+			"value": ""
+		},
+		{
+			"key": "post_2_uuid",
+			"value": ""
+		},
+		{
+			"key": "post_3_uuid",
+			"value": ""
+		},
+		{
+			"key": "generatedUserUuid",
+			"value": ""
+		},
+		{
+			"key": "postUuid",
 			"value": ""
 		}
 	]

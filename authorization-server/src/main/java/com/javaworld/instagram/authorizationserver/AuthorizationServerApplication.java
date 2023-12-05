@@ -1,5 +1,7 @@
 package com.javaworld.instagram.authorizationserver;
 
+import java.util.Map;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +27,8 @@ public class AuthorizationServerApplication {
 		return context -> {
 			if (context.getTokenType() == OAuth2TokenType.ACCESS_TOKEN) {
 				Authentication principal = context.getPrincipal();
-				context.getClaims().claims(c -> c.putAll(customClaims.getClaims(principal)));
+				Map<String, Object> myCustomClaims = customClaims.getClaims(principal);
+				context.getClaims().claims(c -> c.putAll(myCustomClaims));
 			}
 		};
 	}
