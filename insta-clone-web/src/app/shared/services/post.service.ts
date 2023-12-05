@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs'; 
 import { StateService } from './state.service';
 import { API_CONFIG } from '../models/api.config';
+import { Post } from 'src/app/profile-posts/models/post.model';
 
 @Injectable()
 export class PostService {
@@ -24,5 +25,16 @@ export class PostService {
     });
 
     return this.http.post<any>(reqUrl, formData, { headers: headers });
+  }
+
+  sharePost(post: Post): Observable<any> {
+
+    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.createPostEndoint}`;
+
+    const headers = new HttpHeaders({
+      'Authorization': this.stateService.getAccessToken(),
+    });
+
+    return this.http.post<any>(reqUrl, post, { headers: headers });
   }
 }

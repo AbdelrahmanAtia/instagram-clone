@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PostService } from '../shared/services/post.service';
 import { MatDialog } from '@angular/material/dialog';
+import { Post } from '../profile-posts/models/post.model';
 
 @Component({
   selector: 'insta-photo-video-uploader',
@@ -90,7 +91,27 @@ export class PhotoVideoUploaderComponent implements OnInit {
     this.postService.uploadFile(fileToUpload).subscribe(
       response => {
         console.log('File is uploaded successfully:', response);
+        this.createPost(response.fileName);
       },
+      error => {
+        console.error('Error uploading file:', error);
+      }
+    );
+
+  }
+
+  createPost(uploadedFileName: string){
+    const newPost: Post = {
+      caption: this.postCaption,
+      userUuid: "",
+      fileName: uploadedFileName
+    }
+
+    this.postService.sharePost(newPost).subscribe(
+      res => {
+        console.log("post shared successfully..")
+        console.log(res);
+      }, 
       error => {
         console.error('Error uploading file:', error);
       }
