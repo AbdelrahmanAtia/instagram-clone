@@ -90,7 +90,6 @@ export class PhotoVideoUploaderComponent implements OnInit {
     
     this.postService.uploadFile(fileToUpload).subscribe(
       response => {
-        console.log('File is uploaded successfully:', response);
         this.createPost(response.fileName);
       },
       error => {
@@ -108,8 +107,7 @@ export class PhotoVideoUploaderComponent implements OnInit {
 
     this.postService.sharePost(newPost).subscribe(
       res => {
-        console.log("post shared successfully..")
-        console.log(res);
+        this.dialog.getDialogById("upload-media-dialog")?.close();
       }, 
       error => {
         console.error('Error uploading file:', error);
