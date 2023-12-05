@@ -16,10 +16,12 @@
         <div 
           *ngIf="imageUrl" 
           style="text-align: right;  
-                 display: flex; 
+                 display: flex;
+                 color: blue; 
+                 cursor: pointer;
                  align-items: center;"
         >
-          Share
+          <a (click)="onPostShare()">Share</a>
         </div>
   
       </div>
