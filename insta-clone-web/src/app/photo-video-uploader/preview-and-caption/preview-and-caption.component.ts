@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class PreviewAndCaptionComponent {
 
+  public imageUrl: string | ArrayBuffer | null = null;
+  postCaption: string = '';
+
 }

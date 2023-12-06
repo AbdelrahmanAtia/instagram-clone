@@ -14,8 +14,7 @@
           <span *ngIf="postShared">Post shared</span>
         </div>
   
-        <div 
-          *ngIf="imageUrl" 
+        <div  *ngIf="mediaUploaded"
           style="text-align: right;  
                  display: flex;
                  color: blue; 
@@ -28,51 +27,17 @@
       </div>
     </div>
   </div>
+
   
+  <insta-upload-dialog 
+    *ngIf="!mediaUploaded && !postShared"
+    (mediaUploadedEvent)="onMediaUploaded($event)">
+  
+  </insta-upload-dialog>
 
-  <insta-upload-dialog></insta-upload-dialog>
-
+  <insta-preview-and-caption *ngIf="mediaUploaded && !postShared"></insta-preview-and-caption>
+  
   <insta-post-success *ngIf="postShared"></insta-post-success>
 
-
-  <!-- Second div with two parallel columns -->
-  <div class="row mt-4"  
-    style="margin-top: 0 !important;">
-        
-
-    <!-- uploading media section -->
-    <div [class.col-md-12]="!imageUrl && !postShared" [class.col-md-8]="imageUrl && !postShared">
-
-      <img *ngIf="imageUrl && !postShared" 
-        [src]="imageUrl" 
-        alt="Image Preview" 
-        class="image-preview"
-      >
-
-
-    </div>
-
-    <!-- post caption and config section -->
-    <div class="col-md-4" *ngIf="imageUrl && !postShared">
-
-      <br>
-      <br>
-      
-      <textarea 
-        placeholder="Write a caption..." 
-        [(ngModel)]="postCaption"
-        style="width: 100%; 
-               border: none;
-               outline: none; 
-               color: white;
-               height: 100px;
-               background-color: #262626;"
-      >
-      </textarea>
-    </div>
-
-
-
-  </div>
 
 </div>

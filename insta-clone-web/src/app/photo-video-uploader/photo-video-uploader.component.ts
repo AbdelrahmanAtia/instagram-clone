@@ -9,14 +9,20 @@ import { Post } from '../profile-posts/models/post.model';
 })
 export class PhotoVideoUploaderComponent implements OnInit {
 
-  public imageUrl: string | ArrayBuffer | null = null;
-  postCaption: string = '';
-
+  mediaUploaded: boolean = false;
   postShared: boolean = false;
+
 
   ngOnInit(): void {
   }
 
-  onPostShare() {}
+  // Method to handle the emitted event from insta-upload-dialog
+  onMediaUploaded(flag: boolean) {
+    this.mediaUploaded = flag; 
+  }
+
+  onPostShare(){
+  
+  }
   
 }

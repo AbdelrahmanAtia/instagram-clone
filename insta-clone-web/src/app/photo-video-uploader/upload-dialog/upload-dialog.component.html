@@ -5,7 +5,7 @@
        (change)="onFilesSelected($event)"
 >
 
-<mat-dialog-content *ngIf="!imageUrl && !postShared"
+<mat-dialog-content
   (drop)="onFilesDrop($event)" 
   (dragover)="onDragOver($event)" 
   (dragleave)="onDragLeave($event)"

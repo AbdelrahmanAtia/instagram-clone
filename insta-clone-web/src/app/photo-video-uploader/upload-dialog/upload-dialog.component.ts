@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Post } from 'src/app/profile-posts/models/post.model';
 import { PostService } from 'src/app/shared/services/post.service';
@@ -14,7 +14,8 @@ export class UploadDialogComponent implements OnInit {
   postCaption: string = '';
   filesSelectedOrDropped: boolean = false;
   postShared: boolean = false;
-  increaseDialogSize: boolean = false;
+
+  @Output() mediaUploadedEvent = new EventEmitter<boolean>();
 
   @ViewChild('fileInput') fileInput!: ElementRef;
 
@@ -52,7 +53,6 @@ export class UploadDialogComponent implements OnInit {
 
   handleSelectedOrDroppedFiles(files: any){
 
-    
     this.filesSelectedOrDropped = true;
     
     if (files && files.length) {
@@ -63,7 +63,10 @@ export class UploadDialogComponent implements OnInit {
          const reader = new FileReader();
          reader.onload = (e: any) => {
             this.imageUrl = e.target.result; //convert file into a data url {base64 string image}
-            this.increaseDialogSize = true;
+            this.mediaUploadedEvent.emit(true); // Emitting the event with true as a flag
+            
+            //TODO: IS THIS NEEDED ??
+            //I think it shall be moved to ngOnInit of preview component!!
             this.dialog.getDialogById("upload-media-dialog")?.updateSize("740px", "415px");
           };
          reader.readAsDataURL(files[0]);
