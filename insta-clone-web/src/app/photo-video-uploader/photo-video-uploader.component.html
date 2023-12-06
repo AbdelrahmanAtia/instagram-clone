@@ -1,6 +1,6 @@
 <div class="container" style="background-color: #262626; color: white;">
   
-  <!-- First div taking full width -->
+  <!-- top div taking full width -->
   <div class="row" 
     style="height: 40px; 
           border-bottom: 1px solid #363636; 
@@ -10,7 +10,8 @@
       <div style="display: flex; justify-content: space-between;">
   
         <div style="text-align: center; flex: 1;">
-          Create new post
+          <span *ngIf="!postShared">Create new post</span>
+          <span *ngIf="postShared">Post shared</span>
         </div>
   
         <div 
@@ -33,26 +34,23 @@
   <div class="row mt-4"  
     style="margin-top: 0 !important;">
     
-    <input 
+    <input style="display: none" 
       type="file" 
-      style="display: none" 
       #fileInput 
       (change)="onFilesSelected($event)"
     >
 
-    <div [class.col-md-12]="!imageUrl" [class.col-md-8]="imageUrl">
+    <!-- uploading media section -->
+    <div [class.col-md-12]="!imageUrl && !postShared" [class.col-md-8]="imageUrl && !postShared">
 
-      <img
-        *ngIf="imageUrl" 
+      <img *ngIf="imageUrl && !postShared" 
         [src]="imageUrl" 
         alt="Image Preview" 
         class="image-preview"
       >
 
       <!-- upload media section -->
-      <mat-dialog-content  
-
-        *ngIf="!imageUrl"
+      <mat-dialog-content *ngIf="!imageUrl && !postShared"
         (drop)="onFilesDrop($event)" 
         (dragover)="onDragOver($event)" 
         (dragleave)="onDragLeave($event)"
@@ -89,10 +87,11 @@
 
       </mat-dialog-content>
 
+
     </div>
 
     <!-- post caption and config section -->
-    <div class="col-md-4" *ngIf="imageUrl">
+    <div class="col-md-4" *ngIf="imageUrl && !postShared">
 
       <br>
       <br>
@@ -109,6 +108,9 @@
       >
       </textarea>
     </div>
+
+    <insta-post-success *ngIf="postShared"></insta-post-success>
+
 
   </div>
 

@@ -14,6 +14,8 @@ export class PhotoVideoUploaderComponent implements OnInit {
   public imageUrl: string | ArrayBuffer | null = null;
   postCaption: string = '';
   filesSelectedOrDropped: boolean = false;
+  postShared: boolean = false;
+  increaseDialogSize: boolean = false;
   
   @ViewChild('fileInput') fileInput!: ElementRef;
 
@@ -62,6 +64,7 @@ export class PhotoVideoUploaderComponent implements OnInit {
          const reader = new FileReader();
          reader.onload = (e: any) => {
             this.imageUrl = e.target.result; //convert file into a data url {base64 string image}
+            this.increaseDialogSize = true;
             this.dialog.getDialogById("upload-media-dialog")?.updateSize("740px", "415px");
           };
          reader.readAsDataURL(files[0]);
@@ -107,7 +110,9 @@ export class PhotoVideoUploaderComponent implements OnInit {
 
     this.postService.sharePost(newPost).subscribe(
       res => {
-        this.dialog.getDialogById("upload-media-dialog")?.close();
+        this.imageUrl = null;
+        this.postShared = true;
+        this.dialog.getDialogById("upload-media-dialog")?.updateSize("405px", "415px");
       }, 
       error => {
         console.error('Error uploading file:', error);

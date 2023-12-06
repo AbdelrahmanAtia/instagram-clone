@@ -21,6 +21,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PostService } from './shared/services/post.service';
 import { MatIconModule } from '@angular/material/icon';
+import { PostSuccessComponent } from './photo-video-uploader/post-success/post-success.component';
+import { PreviewAndCaptionComponent } from './photo-video-uploader/preview-and-caption/preview-and-caption.component';
 
 
 const COMPONENTS = [ AppComponent,
@@ -30,7 +32,11 @@ const COMPONENTS = [ AppComponent,
   FooterComponent,
   HomeComponent,
   ProfilePostsComponent,
-  LoginComponent];
+  LoginComponent,
+  RegisterComponent, 
+  PhotoVideoUploaderComponent,
+  PostSuccessComponent
+];
   
 const MODULES = [
   BrowserModule, 
@@ -45,7 +51,7 @@ const MODULES = [
 const SERVICES = [AuthService, UserService, StateService, PostService];
 
 @NgModule({
-  declarations: [COMPONENTS, RegisterComponent, PhotoVideoUploaderComponent],
+  declarations: [COMPONENTS, PreviewAndCaptionComponent],
   imports: [MODULES],
   providers: [SERVICES],
   bootstrap: [AppComponent]
