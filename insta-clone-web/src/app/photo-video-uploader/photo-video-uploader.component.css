@@ -1,17 +1,7 @@
 
-.dragging-over {
-  background-color: #262626;
-  border: 2px dashed #000;
-}
-  
 .image-preview {
   width: 100%; /* Ensure the image takes the full width */
   height: max-content; /* Maintain aspect ratio */
   display: block; /* Ensures proper spacing and layout */
 }
 
-.uplodad-media-btn {
-  margin-top: 15px;
-  background-color: rgb(0, 149, 246);
-  border: none;
-}

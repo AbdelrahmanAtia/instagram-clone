@@ -1,0 +1,43 @@
+
+<input style="display: none"  
+       type="file" 
+       #fileInput 
+       (change)="onFilesSelected($event)"
+>
+
+<mat-dialog-content *ngIf="!imageUrl && !postShared"
+  (drop)="onFilesDrop($event)" 
+  (dragover)="onDragOver($event)" 
+  (dragleave)="onDragLeave($event)"
+  style="display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;"
+
+>
+
+    <mat-icon 
+        style="font-size: 100px; 
+                width: 200px; 
+                height: 100px; 
+                display: flex; 
+                align-items: center; 
+                justify-content: center;">
+                
+        perm_media
+    </mat-icon>
+
+
+    <div 
+      style="color: white; margin-top: 5px;">
+        Drag photos and videos here
+    </div>
+
+    <button 
+        class="btn btn-primary w-80 uplodad-media-btn" 
+        (click)="selectFile()"
+    >
+        Select from computer
+    </button>  
+
+</mat-dialog-content>
