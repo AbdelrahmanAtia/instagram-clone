@@ -1,15 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-
-import { Post } from '../profile-posts/models/post.model';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PreviewAndCaptionComponent } from './preview-and-caption/preview-and-caption.component';
 
 @Component({
   selector: 'insta-photo-video-uploader',
-  templateUrl: './photo-video-uploader.component.html',
-  styleUrls: ['./photo-video-uploader.component.css']
+  templateUrl: './post-create.component.html'
 })
-export class PhotoVideoUploaderComponent implements OnInit {
-
+export class PostCreateComponent implements OnInit {
 
   uploadedFiles: FileList | null = null;
   postShared: boolean = false;

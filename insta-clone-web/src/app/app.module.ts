@@ -16,14 +16,14 @@ import { UserService } from './shared/services/user.service';
 import { AuthService } from './shared/services/auth.service';
 import { StateService } from './shared/services/state.service';
 import { RegisterComponent } from './register/register.component';
-import { PhotoVideoUploaderComponent } from './photo-video-uploader/photo-video-uploader.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PostService } from './shared/services/post.service';
 import { MatIconModule } from '@angular/material/icon';
-import { PostSuccessComponent } from './photo-video-uploader/post-success/post-success.component';
-import { PreviewAndCaptionComponent } from './photo-video-uploader/preview-and-caption/preview-and-caption.component';
-import { UploadDialogComponent } from './photo-video-uploader/upload-dialog/upload-dialog.component';
+import { PostCreateComponent } from './create-post/post-create.component';
+import { UploadDialogComponent } from './create-post/upload-dialog/upload-dialog.component';
+import { PreviewAndCaptionComponent } from './create-post/preview-and-caption/preview-and-caption.component';
+import { PostSuccessComponent } from './create-post/post-success/post-success.component';
 
 
 const COMPONENTS = [ AppComponent,
@@ -35,7 +35,9 @@ const COMPONENTS = [ AppComponent,
   ProfilePostsComponent,
   LoginComponent,
   RegisterComponent, 
-  PhotoVideoUploaderComponent,
+  PostCreateComponent,
+  UploadDialogComponent,
+  PreviewAndCaptionComponent, 
   PostSuccessComponent
 ];
   
@@ -52,7 +54,7 @@ const MODULES = [
 const SERVICES = [AuthService, UserService, StateService, PostService];
 
 @NgModule({
-  declarations: [COMPONENTS, PreviewAndCaptionComponent, UploadDialogComponent],
+  declarations: [COMPONENTS, ],
   imports: [MODULES],
   providers: [SERVICES],
   bootstrap: [AppComponent]

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { PhotoVideoUploaderComponent } from '../photo-video-uploader/photo-video-uploader.component';
 import { MatDialog } from '@angular/material/dialog';
+import { PostCreateComponent } from '../create-post/post-create.component';
 
 @Component({
   selector: 'insta-sidebar',
@@ -26,7 +26,7 @@ export class SidebarComponent {
 
   openUploadDialog(): void {
     
-    const dialogRef = this.dialog.open(PhotoVideoUploaderComponent, {
+    const dialogRef = this.dialog.open(PostCreateComponent, {
       "width": '405px',
       "maxHeight": '415px',
       "data": "John",  //TODO: what is this?? remove if not needed
