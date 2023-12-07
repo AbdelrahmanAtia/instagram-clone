@@ -1,0 +1,49 @@
+<div class="container" style="background-color: #262626; color: white;">
+  
+  <!-- top div taking full width -->
+  <div class="row" 
+    style="height: 40px; 
+          border-bottom: 1px solid #363636; 
+          display: flex; 
+          align-items: center;">
+    <div class="col-12">
+      <div style="display: flex; justify-content: space-between;">
+  
+        <div style="text-align: center; flex: 1;">
+          <span *ngIf="!postShared">Create new post</span>
+          <span *ngIf="postShared">Post shared</span>
+        </div>
+  
+        <div  *ngIf="mediaUploaded"
+          style="text-align: right;  
+                 display: flex;
+                 color: blue; 
+                 cursor: pointer;
+                 align-items: center;"
+        >
+          <a
+            *ngIf="!postShared" 
+            (click)="onShareClick()">Share</a>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+
+  
+  <insta-upload-dialog  
+    *ngIf="!mediaUploaded"
+    (mediaUploadedEvent)="onMediaUploaded($event)">
+  </insta-upload-dialog>
+
+  <insta-preview-and-caption 
+    *ngIf="mediaUploaded && !postShared" 
+    (postCreationSuccessEvent)="onPostCreationSuccess($event)"
+    [uploadedFiles]="uploadedFiles"
+  >
+  </insta-preview-and-caption>
+  
+  <insta-post-success *ngIf="postShared"></insta-post-success>
+
+
+</div>
