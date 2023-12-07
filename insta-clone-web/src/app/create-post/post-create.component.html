@@ -21,7 +21,9 @@
                  cursor: pointer;
                  align-items: center;"
         >
-          <a (click)="onShareClick()">Share</a>
+          <a
+            *ngIf="!postShared" 
+            (click)="onShareClick()">Share</a>
         </div>
   
       </div>
