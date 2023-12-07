@@ -21,7 +21,7 @@
                  cursor: pointer;
                  align-items: center;"
         >
-          <a (click)="onPostShare()">Share</a>
+          <a (click)="onShareClick()">Share</a>
         </div>
   
       </div>
@@ -29,13 +29,17 @@
   </div>
 
   
-  <insta-upload-dialog 
-    *ngIf="!mediaUploaded && !postShared"
+  <insta-upload-dialog  
+    *ngIf="!mediaUploaded"
     (mediaUploadedEvent)="onMediaUploaded($event)">
-  
   </insta-upload-dialog>
 
-  <insta-preview-and-caption *ngIf="mediaUploaded && !postShared"></insta-preview-and-caption>
+  <insta-preview-and-caption 
+    *ngIf="mediaUploaded && !postShared" 
+    (postCreationSuccessEvent)="onPostCreationSuccess($event)"
+    [uploadedFiles]="uploadedFiles"
+  >
+  </insta-preview-and-caption>
   
   <insta-post-success *ngIf="postShared"></insta-post-success>
 

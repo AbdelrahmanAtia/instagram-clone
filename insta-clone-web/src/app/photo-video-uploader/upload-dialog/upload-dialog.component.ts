@@ -9,13 +9,11 @@ import { PostService } from 'src/app/shared/services/post.service';
 })
 export class UploadDialogComponent implements OnInit {
 
-  private filesToUpload: FileList | null = null;
-  public imageUrl: string | ArrayBuffer | null = null;
+
   postCaption: string = '';
-  filesSelectedOrDropped: boolean = false;
   postShared: boolean = false;
 
-  @Output() mediaUploadedEvent = new EventEmitter<boolean>();
+  @Output() mediaUploadedEvent = new EventEmitter<FileList>();
 
   @ViewChild('fileInput') fileInput!: ElementRef;
 
@@ -51,27 +49,8 @@ export class UploadDialogComponent implements OnInit {
     this.handleSelectedOrDroppedFiles(files);
   } 
 
-  handleSelectedOrDroppedFiles(files: any){
-
-    this.filesSelectedOrDropped = true;
-    
-    if (files && files.length) {
-      this.filesToUpload = files;
-
-      // Read the first file if it's an image
-      if(files[0].type.match(/image.*/)) {
-         const reader = new FileReader();
-         reader.onload = (e: any) => {
-            this.imageUrl = e.target.result; //convert file into a data url {base64 string image}
-            this.mediaUploadedEvent.emit(true); // Emitting the event with true as a flag
-            
-            //TODO: IS THIS NEEDED ??
-            //I think it shall be moved to ngOnInit of preview component!!
-            this.dialog.getDialogById("upload-media-dialog")?.updateSize("740px", "415px");
-          };
-         reader.readAsDataURL(files[0]);
-      }
-   }
+  handleSelectedOrDroppedFiles(files: any){    
+    this.mediaUploadedEvent.emit(files); // Emitting the event with true as a flag
   }
  
   selectFile() {
@@ -82,45 +61,6 @@ export class UploadDialogComponent implements OnInit {
     // logic to close the dialog
   }
 
-  onPostShare() {
 
-    if(this.filesToUpload == null){
-      //TODO: u need to handle that case
-      return;
-    }
-
-    //TODO: we need to support uploading multiple files as in instagram
-    // Assuming you want to upload the first file
-    const fileToUpload: File = this.filesToUpload[0];
-    
-    this.postService.uploadFile(fileToUpload).subscribe(
-      response => {
-        this.createPost(response.fileName);
-      },
-      error => {
-        console.error('Error uploading file:', error);
-      }
-    );
-
-  }
-
-  createPost(uploadedFileName: string){
-    const newPost: Post = {
-      caption: this.postCaption,
-      fileName: uploadedFileName
-    }
-
-    this.postService.sharePost(newPost).subscribe(
-      res => {
-        this.imageUrl = null;
-        this.postShared = true;
-        this.dialog.getDialogById("upload-media-dialog")?.updateSize("405px", "415px");
-      }, 
-      error => {
-        console.error('Error uploading file:', error);
-      }
-    );
-
-  }
 
 }

@@ -1,7 +1,2 @@
 
-.image-preview {
-  width: 100%; /* Ensure the image takes the full width */
-  height: max-content; /* Maintain aspect ratio */
-  display: block; /* Ensures proper spacing and layout */
-}
 
