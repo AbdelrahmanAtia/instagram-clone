@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
@@ -55,10 +56,13 @@ public class PostsApiImpl implements PostsApi {
 	}
 		
 	@Override
-	public List<PostApiDto> findPosts(UUID userUuid) {
-		List<Post> posts = postService.getPosts(userUuid);
-		List<PostApiDto> postsApiDtoList = postApiDtoMapper.mapToApiDto(posts);
+	public List<PostApiDto> findPosts(UUID userUuid, Integer page) {
+
+		Page<Post> posts = postService.getPosts(userUuid, page);
+	
+		List<PostApiDto> postsApiDtoList = postApiDtoMapper.mapToApiDto(posts.getContent());
 		postsApiDtoList.forEach(e -> setServiceAddress(e));
+		
 		return postsApiDtoList;
 	}
 
