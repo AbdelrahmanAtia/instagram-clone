@@ -82,16 +82,16 @@ public class PostServiceImpl implements PostService {
 	@Override
 	@Transactional(readOnly = true)
 	public Page<Post> getPosts(UUID userUuid, int pageNumber) {
-
 		logger.info("Will get posts page={} for userUuid={}", userUuid, pageNumber);
-		
-	    Pageable pageable = PageRequest.of(pageNumber, Constants.USER_POSTS_PAGE_SIZE, Sort.by("createdAt").descending());
-		
-	    Page<PostEntity> entityPage = postRepository.findByUserUuid(userUuid, pageable);
-		
+
+		Pageable pageable = PageRequest.of(pageNumber, Constants.USER_POSTS_PAGE_SIZE,
+				Sort.by("createdAt").descending());
+
+		Page<PostEntity> entityPage = postRepository.findByUserUuid(userUuid, pageable);
+
 		httpServletResponse.setHeader("page_size", String.valueOf(pageable.getPageSize()));
 		httpServletResponse.setHeader("page_number", String.valueOf(pageNumber));
-		
+
 		return entityPage.map(postMapper::entityToDto);
 	}
 
