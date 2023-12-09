@@ -56,8 +56,8 @@ public class PostsApiImpl implements PostsApi {
 	}
 		
 	@Override
-	public List<PostApiDto> findPosts(UUID userUuid, Integer page) {
-		Page<Post> posts = postService.getPosts(userUuid, page);
+	public List<PostApiDto> findPosts(UUID userUuid, Integer page, Integer pageSize) {
+		Page<Post> posts = postService.getPosts(userUuid, page, pageSize);
 		List<PostApiDto> postsApiDtoList = postApiDtoMapper.mapToApiDto(posts.getContent());
 		postsApiDtoList.forEach(e -> setServiceAddress(e));		
 		return postsApiDtoList;

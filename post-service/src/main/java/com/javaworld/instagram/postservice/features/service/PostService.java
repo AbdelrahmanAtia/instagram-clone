@@ -11,7 +11,7 @@ public interface PostService {
 
 	Post createPost(Post post);
 
-	Page<Post> getPosts(UUID userUuid, int pageNumber);
+	Page<Post> getPosts(UUID userUuid, int pageNumber, int pageSize);
 
 	int deletePosts(List<String> postUuid);
 	

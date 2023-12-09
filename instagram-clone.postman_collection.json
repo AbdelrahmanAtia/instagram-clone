@@ -1043,6 +1043,198 @@
 			]
 		},
 		{
+			"name": "images-setUp-manual_run",
+			"item": [
+				{
+					"name": "generate-token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.collectionVariables.set(\"access_token\", pm.response.json().access_token);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "secret",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "writer",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/oauth2/token?grant_type=client_credentials",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"oauth2",
+								"token"
+							],
+							"query": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upload-image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"validate message\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.message).to.eql(\"File uploaded successfully\");\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"fileName\", pm.response.json().fileName);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/a911932/Desktop/kaneki.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/files/upload",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"files",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "download-image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/files/download?fileName={{fileName}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"files",
+								"download"
+							],
+							"query": [
+								{
+									"key": "fileName",
+									"value": "{{fileName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Basic Users & Posts operations",
 			"item": [
 				{
@@ -1222,7 +1414,7 @@
 					"response": []
 				},
 				{
-					"name": "registerUser1 -  AbdelrahmanAttya",
+					"name": "register-user-1",
 					"event": [
 						{
 							"listen": "test",
@@ -1232,7 +1424,7 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.collectionVariables.set(\"user_uuid\", \r",
+									"pm.collectionVariables.set(\"user_1_uuid\", \r",
 									"             pm.response.json().userUuid);"
 								],
 								"type": "text/javascript"
@@ -1247,7 +1439,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"AbdelrahmanAttya\",\r\n    \"mobileNumberOrEmail\": \"abcd@gmail.com\", \r\n    \"password\": \"123456\"\r\n}",
+							"raw": "{\r\n    \"username\": \"user1\",\r\n    \"mobileNumberOrEmail\": \"user1@gmail.com\", \r\n    \"password\": \"user1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1272,7 +1464,7 @@
 					"response": []
 				},
 				{
-					"name": "loginUser1 - AbdelrahmanAttya",
+					"name": "login-user-1",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -1290,7 +1482,7 @@
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
-									"pm.collectionVariables.set(\"access_token\", pm.response.json().access_token);\r",
+									"pm.collectionVariables.set(\"access_token_user_1\", pm.response.json().access_token);\r",
 									"\r",
 									""
 								],
@@ -1304,12 +1496,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "123456",
+									"value": "user1",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "AbdelrahmanAttya",
+									"value": "user1",
 									"type": "string"
 								}
 							]
@@ -1338,7 +1530,7 @@
 					"response": []
 				},
 				{
-					"name": "upload-image",
+					"name": "register-user-2",
 					"event": [
 						{
 							"listen": "test",
@@ -1348,12 +1540,65 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"validate message\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.message).to.eql(\"File uploaded successfully\");\r",
+									"pm.collectionVariables.set(\"user_2_uuid\", \r",
+									"             pm.response.json().userUuid);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"user2\",\r\n    \"mobileNumberOrEmail\": \"user2@gmail.com\", \r\n    \"password\": \"user2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"user-ms",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login-user-2",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
 									"});\r",
-									"\r",
-									"pm.collectionVariables.set(\"fileName\", pm.response.json().fileName);\r",
+									"pm.collectionVariables.set(\"access_token_user_2\", pm.response.json().access_token);\r",
 									"\r",
 									""
 								],
@@ -1361,97 +1606,39 @@
 							}
 						}
 					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
+							"type": "basic",
+							"basic": [
 								{
-									"key": "token",
-									"value": "{{access_token}}",
+									"key": "password",
+									"value": "user2",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user2",
 									"type": "string"
 								}
 							]
 						},
 						"method": "POST",
 						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "file",
-									"type": "file",
-									"src": "/C:/Users/a911932/Desktop/kaneki.png"
-								}
-							]
-						},
 						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/files/upload",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/oauth2/token?grant_type=client_credentials",
 							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
 							],
 							"port": "{{PORT}}",
 							"path": [
-								"services",
-								"post-ms",
-								"files",
-								"upload"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "download-image",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/files/download?fileName={{fileName}}",
-							"protocol": "{{PROTOCOL}}",
-							"host": [
-								"{{HOST}}"
-							],
-							"port": "{{PORT}}",
-							"path": [
-								"services",
-								"post-ms",
-								"files",
-								"download"
+								"oauth2",
+								"token"
 							],
 							"query": [
 								{
-									"key": "fileName",
-									"value": "{{fileName}}"
+									"key": "grant_type",
+									"value": "client_credentials"
 								}
 							]
 						}
@@ -1459,7 +1646,7 @@
 					"response": []
 				},
 				{
-					"name": "createPost 1 - forUser1",
+					"name": "create-post-1-for-user-1",
 					"event": [
 						{
 							"listen": "test",
@@ -1474,7 +1661,7 @@
 									"    pm.expect(jsonData.caption).to.eql(\"user 1 first post\");\r",
 									"});\r",
 									"\r",
-									"pm.collectionVariables.set(\"post_1_uuid\", pm.response.json().postUuid);\r",
+									"pm.collectionVariables.set(\"user_1_post_1_uuid\", pm.response.json().postUuid);\r",
 									""
 								],
 								"type": "text/javascript"
@@ -1487,7 +1674,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{access_token}}",
+									"value": "{{access_token_user_1}}",
 									"type": "string"
 								}
 							]
@@ -1521,7 +1708,7 @@
 					"response": []
 				},
 				{
-					"name": "createPost 2 -  forUser1",
+					"name": "create-post-2-for-user-1",
 					"event": [
 						{
 							"listen": "test",
@@ -1536,8 +1723,18 @@
 									"    pm.expect(jsonData.caption).to.eql(\"#tokyo user 1 second post #ghoul\");\r",
 									"});\r",
 									"\r",
-									"pm.collectionVariables.set(\"post_2_uuid\", pm.response.json().postUuid);\r",
+									"pm.collectionVariables.set(\"user_1_post_2_uuid\", pm.response.json().postUuid);\r",
 									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"setTimeout(() => { pm.sendRequest(); }, 3000);"
 								],
 								"type": "text/javascript"
 							}
@@ -1549,7 +1746,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{access_token}}",
+									"value": "{{access_token_user_1}}",
 									"type": "string"
 								}
 							]
@@ -1583,7 +1780,7 @@
 					"response": []
 				},
 				{
-					"name": "createPost 3 -  forUser1",
+					"name": "create-post-3-for-user-1",
 					"event": [
 						{
 							"listen": "test",
@@ -1598,8 +1795,17 @@
 									"    pm.expect(jsonData.caption).to.eql(\"user 1 third post #tag3\");\r",
 									"});\r",
 									"\r",
-									"pm.collectionVariables.set(\"post_3_uuid\", pm.response.json().postUuid);\r",
+									"pm.collectionVariables.set(\"user_1_post_3_uuid\", pm.response.json().postUuid);\r",
 									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(() => { pm.sendRequest(); }, 3000);"
 								],
 								"type": "text/javascript"
 							}
@@ -1611,7 +1817,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{access_token}}",
+									"value": "{{access_token_user_1}}",
 									"type": "string"
 								}
 							]
@@ -1645,7 +1851,494 @@
 					"response": []
 				},
 				{
-					"name": "deletePost2 - forUser1",
+					"name": "create-post-1-for-user-2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"validate caption\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.caption).to.eql(\"user 2 first post\");\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"user_2_post_1_uuid\", pm.response.json().postUuid);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token_user_2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"caption\": \"user 2 first post\",\r\n    \"fileName\": \"{{fileName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-post-2-for-user-2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"validate caption\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.caption).to.eql(\"user 2 second post\");\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"user_2_post_2_uuid\", pm.response.json().postUuid);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(() => { pm.sendRequest(); }, 5000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token_user_2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"caption\": \"user 2 second post\",\r\n    \"fileName\": \"{{fileName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-post-3-for-user-2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"validate caption\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.caption).to.eql(\"user 2 third post #test\");\r",
+									"});\r",
+									"\r",
+									"pm.collectionVariables.set(\"user_2_post_3_uuid\", pm.response.json().postUuid);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"setTimeout(() => { pm.sendRequest(); }, 5000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token_user_2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"caption\": \"user 2 third post #test\",\r\n    \"fileName\": \"{{fileName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPosts-user-1-page-0",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"verify that retrieved posts count in page 0\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length).to.eql(2);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate caption of the first element\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[0].caption).to.eql(\"user 1 third post #tag3\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate caption of the second element\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[1].caption).to.eql(\"#tokyo user 1 second post #ghoul\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token_user_1}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts?userUuid={{user_1_uuid}}&page=0&pageSize=2",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{user_1_uuid}}"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "pageSize",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPosts-user-1-page-1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"verify that retrieved posts count in page 1\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length).to.eql(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate caption of the only element\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[0].caption).to.eql(\"user 1 first post\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token_user_1}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts?userUuid={{user_1_uuid}}&page=1&pageSize=2",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{user_1_uuid}}"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPosts-user-2-page-0",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"verify that retrieved posts count in page 0\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length).to.eql(2);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate caption of the first element\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[0].caption).to.eql(\"user 2 third post #test\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate caption of the second element\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[1].caption).to.eql(\"user 2 second post\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token_user_2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts?userUuid={{user_2_uuid}}&page=0&pageSize=2",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{user_2_uuid}}"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "pageSize",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPosts-user-2-page-1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"verify that retrieved posts count in page 0\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length).to.eql(1);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate caption of the first element\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[0].caption).to.eql(\"user 2 first post\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token_user_2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts?userUuid={{user_2_uuid}}&page=1&pageSize=2",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{user_2_uuid}}"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-post-2-for-user-1",
 					"event": [
 						{
 							"listen": "test",
@@ -1674,7 +2367,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{access_token}}",
+									"value": "{{access_token_user_1}}",
 									"type": "string"
 								}
 							]
@@ -1682,7 +2375,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/deleteByUuid?postUuid={{post_2_uuid}}",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/deleteByUuid?postUuid={{user_1_post_2_uuid}}",
 							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
@@ -1697,7 +2390,7 @@
 							"query": [
 								{
 									"key": "postUuid",
-									"value": "{{post_2_uuid}}"
+									"value": "{{user_1_post_2_uuid}}"
 								}
 							]
 						}
@@ -1733,7 +2426,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{access_token}}",
+									"value": "{{access_token_user_1}}",
 									"type": "string"
 								}
 							]
@@ -1741,7 +2434,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/count?userUuid={{user_uuid}}",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/count?userUuid={{user_1_uuid}}",
 							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
@@ -1756,7 +2449,7 @@
 							"query": [
 								{
 									"key": "userUuid",
-									"value": "{{user_uuid}}"
+									"value": "{{user_1_uuid}}"
 								}
 							]
 						}
@@ -1810,7 +2503,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{user_uuid}}",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/user-ms/users/?userUuid={{user_1_uuid}}",
 							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
@@ -1825,7 +2518,7 @@
 							"query": [
 								{
 									"key": "userUuid",
-									"value": "{{user_uuid}}"
+									"value": "{{user_1_uuid}}"
 								}
 							]
 						}
@@ -1861,7 +2554,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{access_token}}",
+									"value": "{{access_token_user_1}}",
 									"type": "string"
 								}
 							]
@@ -1869,7 +2562,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/count?userUuid={{generatedUserUuid}}",
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/count?userUuid={{user_1_uuid}}",
 							"protocol": "{{PROTOCOL}}",
 							"host": [
 								"{{HOST}}"
@@ -1884,7 +2577,126 @@
 							"query": [
 								{
 									"key": "userUuid",
-									"value": "{{generatedUserUuid}}"
+									"value": "{{user_1_uuid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-post-2-for-user-2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"deletedPostsCount is 1\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.deletedPostsCount).to.eql(1);\r",
+									"});\r",
+									"\r",
+									"//TODO: add assertion that we can delete more than one post\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token_user_2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/deleteByUuid?postUuid={{user_2_post_2_uuid}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts",
+								"deleteByUuid"
+							],
+							"query": [
+								{
+									"key": "postUuid",
+									"value": "{{user_2_post_2_uuid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPostsCountForUser2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//assert on posts count\r",
+									"\r",
+									"pm.test(\"verify posts count for user1\", function (){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.postsCount).to.eql(2);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token_user_2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PROTOCOL}}://{{HOST}}:{{PORT}}/services/post-ms/posts/count?userUuid={{user_2_uuid}}",
+							"protocol": "{{PROTOCOL}}",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"services",
+								"post-ms",
+								"posts",
+								"count"
+							],
+							"query": [
+								{
+									"key": "userUuid",
+									"value": "{{user_2_uuid}}"
 								}
 							]
 						}
@@ -3846,6 +4658,46 @@
 		},
 		{
 			"key": "postUuid",
+			"value": ""
+		},
+		{
+			"key": "user_1_uuid",
+			"value": ""
+		},
+		{
+			"key": "access_token_user_1",
+			"value": ""
+		},
+		{
+			"key": "user_2_uuid",
+			"value": ""
+		},
+		{
+			"key": "access_token_user_2",
+			"value": ""
+		},
+		{
+			"key": "user_1_post_1_uuid",
+			"value": ""
+		},
+		{
+			"key": "user_1_post_2_uuid",
+			"value": ""
+		},
+		{
+			"key": "user_1_post_3_uuid",
+			"value": ""
+		},
+		{
+			"key": "user_2_post_1_uuid",
+			"value": ""
+		},
+		{
+			"key": "user_2_post_2_uuid",
+			"value": ""
+		},
+		{
+			"key": "user_2_post_3_uuid",
 			"value": ""
 		}
 	]
