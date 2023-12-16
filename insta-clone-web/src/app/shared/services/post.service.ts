@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs'; 
 import { StateService } from './state.service';
 import { API_CONFIG } from '../models/api.config';
-import { Post } from 'src/app/profile-posts/models/post.model';
+import { Post } from 'src/app/shared/models/post.model';
 
 @Injectable()
 export class PostService {
@@ -37,4 +37,21 @@ export class PostService {
 
     return this.http.post<any>(reqUrl, post, { headers: headers });
   }
+
+  getPosts(userUuid: string, page: number, pageSize: number): Observable<Post[]>  {
+    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.getPostsEndpoint}`;
+
+    const headers = new HttpHeaders({
+      'Authorization': this.stateService.getAccessToken(),
+    });
+
+    let params = new HttpParams()
+        .set('userUuid', userUuid)
+        .set('page', page.toString())
+        .set('pageSize', pageSize.toString());
+
+    return this.http.get<Post[]>(reqUrl, { headers: headers, params: params });
+  }
+
+
 }

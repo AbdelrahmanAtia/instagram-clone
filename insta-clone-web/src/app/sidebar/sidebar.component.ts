@@ -20,7 +20,7 @@ export class SidebarComponent {
     { label: 'Messages', icon: 'fas fa-envelope', route: '#' },
     { label: 'Notifications', icon: 'fas fa-heart', route: '#' },
     { label: 'Create', icon: 'fas fa-plus', route: '#' },
-    { label: 'Profile', icon: 'fas fa-user', route: '/home/profile' },
+    { label: 'Profile', icon: 'fas fa-user', route: '/home/profile/posts' },
     // Add more links as needed
   ];
 

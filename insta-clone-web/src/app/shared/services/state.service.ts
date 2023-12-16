@@ -13,4 +13,12 @@ export class StateService {
     return localStorage.getItem('accessToken') || '';
   }
 
+  setCurrentUserUuid(userUuid: string){
+    localStorage.setItem('userUuid', userUuid);
+  }
+
+  getCurrentUserUuid(): string {
+    return localStorage.getItem('userUuid') || '';
+  }
+
 }

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RegisterModel } from 'src/app/register/register.model';
 import { API_CONFIG } from '../models/api.config';
+import { User } from '../models/user.model';
 
 @Injectable()
 export class AuthService {
@@ -19,9 +20,9 @@ export class AuthService {
     return this.http.post(reqUrl, null, { headers: headers });
   }
 
-  register(registerModel: RegisterModel): Observable<any> {
+  register(registerModel: RegisterModel): Observable<User> {
     const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.registerEndpoint}`;
-    return this.http.post(reqUrl, registerModel);
+    return this.http.post<User>(reqUrl, registerModel);
   }
 
  
