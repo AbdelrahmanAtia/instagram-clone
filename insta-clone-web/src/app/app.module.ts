@@ -24,6 +24,8 @@ import { UploadDialogComponent } from './create-post/upload-dialog/upload-dialog
 import { PreviewAndCaptionComponent } from './create-post/preview-and-caption/preview-and-caption.component';
 import { PostSuccessComponent } from './create-post/post-success/post-success.component';
 import { ProfilePostsComponent } from './profile/profile-posts/profile-posts.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './shared/interceptor/auth.interceptor';
 
 
 const COMPONENTS = [ AppComponent,
@@ -56,7 +58,10 @@ const SERVICES = [AuthService, UserService, StateService, PostService];
 @NgModule({
   declarations: [COMPONENTS],
   imports: [MODULES],
-  providers: [SERVICES],
+  providers: [
+    SERVICES,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
