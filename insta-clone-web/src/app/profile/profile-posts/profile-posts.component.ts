@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { API_CONFIG } from 'src/app/shared/models/api.config';
 import { Post } from 'src/app/shared/models/post.model';
 import { PostService } from 'src/app/shared/services/post.service';
 import { StateService } from 'src/app/shared/services/state.service';
-
 
 @Component({
   selector: 'insta-profile-posts',
@@ -11,14 +11,13 @@ import { StateService } from 'src/app/shared/services/state.service';
   styleUrls: ['./profile-posts.component.css']
 })
 export class ProfilePostsComponent implements OnInit {
-
   posts: Post [] = [];
-  loadedFiles: any [] = [];
-
+  loadedFiles: string[] = []; // to store blob URLs
 
   constructor(
     private postService: PostService,
-    private stateService: StateService
+    private stateService: StateService,
+    private sanitizer: DomSanitizer // Add DomSanitizer
   ){}
 
   ngOnInit(): void {  
@@ -33,25 +32,14 @@ export class ProfilePostsComponent implements OnInit {
     this.postService.getPosts(userUuid, page, pageSize).subscribe(
       res => {
         this.posts = res;
-        this.posts.forEach(post => {
-          post.fullFileUrl = `${API_CONFIG.baseUrl}${API_CONFIG.downloadFileEndpoint}/${post.fileName}`;
+        this.posts.forEach((post, index) => {
+          this.postService.downloadFile(post.fileName).subscribe(blob => {
+            const objectURL = URL.createObjectURL(blob);
+            this.loadedFiles[index] = this.sanitizer.bypassSecurityTrustUrl(objectURL) as string;
+          });
         });
         console.log(res);
       }
     )
   }
-
-  /*
-  loadFile(fileName: string): void {
-    this.postService.downloadFile(fileName).subscribe((data: Blob) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        this.loadedFiles.push(reader.result as string); // Store the base64 string in the images array
-      };
-      reader.readAsDataURL(data);
-    });
-  }
-  */
-} 
-
-
+}

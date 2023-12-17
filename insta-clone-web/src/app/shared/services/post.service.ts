@@ -15,13 +15,14 @@ export class PostService {
     formData.append('file', file); 
     return this.http.post<any>(reqUrl, formData);
   }
-
-  /*
+  
   downloadFile(fileName: string): Observable<Blob> {
-    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.downloadFileEndpoint}/${fileName}`;
-    return this.http.get(reqUrl, { responseType: 'blob' });
+    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.downloadFileEndpoint}`;
+    let params = new HttpParams()
+      .set('fileName', fileName);
+
+    return this.http.get(reqUrl, { params: params ,responseType: 'blob' });
   }
-  */
 
   sharePost(post: Post): Observable<any> {
     const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.createPostEndoint}`;
