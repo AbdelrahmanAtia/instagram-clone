@@ -25,23 +25,20 @@ body {
 	/* Setting the entire background to black */
 }
 
-.tabs {
-    border: 1px yellow solid;
+.tabs-container {
 	display: flex;
-	justify-content: space-between;
-	padding: 0px 450px;
-	background-color: black;
+	justify-content: center; 
 	border-top: 1px solid grey;
-	/* Adding upper border to the div containing tabs */
+	padding-top: 15px;
 }
-
-.tabs a {
-	padding: 5px 5px;
-	/* Reduced padding for closer tabs */
-	margin: 0 5px;
-	/* Added margin to keep a small distance between the tabs */
-	text-decoration: none;
+  
+.tabs-container a {
+	margin: 0 30px; /* Add 60px space between each tab */
+	text-decoration: none; /* Remove the default underline from links */
 	color: grey;
-	font-weight: bold;
-	transition: background-color 0.3s;
 }
+  
+.tabs-container a.active {
+	font-weight: bold; /* Style the active tab differently, if needed */
+}
+  

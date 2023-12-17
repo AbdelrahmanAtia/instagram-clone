@@ -1,6 +1,5 @@
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Post } from 'src/app/profile-posts/models/post.model';
 import { PostService } from 'src/app/shared/services/post.service';
 @Component({
   selector: 'insta-upload-dialog',
