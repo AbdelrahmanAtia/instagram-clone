@@ -6,8 +6,12 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
+    <!-- Note that file names starts with a unique identifier with pattern ddMMyyyyHHmm -->
 	<include
-		file="/dblogs/changelog/changes/1-create-user-table-changelog.xml" />
+		file="/dblogs/changelog/changes/231220231717-create-user-table-changelog.xml" />
+
+	<include
+		file="/dblogs/changelog/changes/231220231718-add-new-col-to-user-profile.xml" />
 
 
 </databaseChangeLog>

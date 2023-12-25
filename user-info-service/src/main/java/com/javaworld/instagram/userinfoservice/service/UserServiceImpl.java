@@ -44,13 +44,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User createUser(User user) {
 
-		UserEntity userEntity = userMapper.dtoToEntity(user);
+		UserEntity userEntity = userMapper.toEntity(user);
 		try {
 			//TODO: make username unique
 			UserEntity savedUser = userRepository.save(userEntity);
 			logger.info("created user with name: " + savedUser.getUsername());
 			
-			return userMapper.mapUserEntityToDto(userEntity);
+			return userMapper.toDto(userEntity);
 
 		} catch (DuplicateKeyException ex) {
 			throw new InvalidInputException("Duplicate key, UserName: " + userEntity.getUsername());
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 			throw new NotFoundException("user with uuid: " + userUuid.toString() + " not found");
 		});
 
-		User userDto = userMapper.mapUserEntityToDto(existingUser);
+		User userDto = userMapper.toDto(existingUser);
 
 		boolean getPostsCountFromPostsService = true; // TODO: shall be an external configuration flag
 
@@ -84,6 +84,21 @@ public class UserServiceImpl implements UserService {
 
 		return userDto;
 	}
+	
+	@Override
+	public User partialUpdateUser(User updatedUserData) {
+
+		UUID userUuid = updatedUserData.getUserUuid();
+		UserEntity existingUser = userRepository.findByUserUuid(userUuid)
+	            .orElseThrow(() -> new NotFoundException("User with uuid: " + userUuid.toString() + " not found"));
+
+	    userMapper.partialUpdate(existingUser, updatedUserData);
+
+	    UserEntity updatedUserEntity = userRepository.save(existingUser);
+	    
+	    return userMapper.toDto(updatedUserEntity);
+	}
+
 
 	@Override
 	@Transactional

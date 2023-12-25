@@ -10,8 +10,8 @@ public interface UserService {
 
 	User findUser(UUID userUuid, int delay, int faultPercent);
 	
+	User partialUpdateUser(User updatedUserData);
+	
 	int deleteUser(UUID userUuid);
 	
-	
-
 }

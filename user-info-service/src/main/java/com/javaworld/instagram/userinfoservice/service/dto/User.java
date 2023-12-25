@@ -24,5 +24,8 @@ public class User {
 	private UUID userUuid;
 
 	private int postsCount;
+	
+	private String profileImageName;
+
 
 }
