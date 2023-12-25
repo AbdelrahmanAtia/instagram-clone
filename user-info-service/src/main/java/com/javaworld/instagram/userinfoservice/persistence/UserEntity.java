@@ -43,6 +43,9 @@ public class UserEntity {
 	
 	private String password;
 
+	@Column
+	private String profileImageName;
+
 	@Version
 	private int version;
 

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.javaworld.instagram.userinfoservice.commons.utils.ServiceUtil;
+import com.javaworld.instagram.userinfoservice.server.dto.PartialUpdateUserRequestApiDto;
+
 import com.javaworld.instagram.userinfoservice.server.api.UsersApi;
 import com.javaworld.instagram.userinfoservice.server.dto.CreateUserRequestApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.DeletedUsersResponseApiDto;
@@ -32,14 +34,22 @@ public class UsersApiImpl implements UsersApi {
 	@Override
 	public UserApiDto createUser(CreateUserRequestApiDto createUserRequestApiDto) {
 		User savedUser = userService.createUser(mapper.mapCreateUserRequestToUserDto(createUserRequestApiDto));
-		UserApiDto response = mapper.mapToUserApiDto(savedUser);
+		UserApiDto response = mapper.toApiDto(savedUser);
 		return setServiceAddress(response);
 	}
 
 	@Override
 	public UserApiDto findUser(UUID userUuid, Integer delay, Integer faultPercent) {
-		UserApiDto userApiDto = mapper.mapToUserApiDto(userService.findUser(userUuid, delay, faultPercent));
+		UserApiDto userApiDto = mapper.toApiDto(userService.findUser(userUuid, delay, faultPercent));
 		return setServiceAddress(userApiDto);
+	}
+	
+	@Override
+	public UserApiDto partialUpdateUser(PartialUpdateUserRequestApiDto partialUpdateUserRequestApiDto) {
+		logger.info("partially updating user: " + partialUpdateUserRequestApiDto);
+		User userDto = mapper.toDto(partialUpdateUserRequestApiDto);
+		UserApiDto resposne = mapper.toApiDto(userService.partialUpdateUser(userDto));
+		return setServiceAddress(resposne);
 	}
 	
 	@Override
@@ -56,6 +66,8 @@ public class UsersApiImpl implements UsersApi {
 		userApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return userApiDto;
 	}
+
+
 
 
 }

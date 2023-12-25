@@ -32,7 +32,7 @@ paths:
         - "application/json"
       parameters:
         - in: "body"
-          name: "invoiceBuckets"
+          name: "CreateUserRequest"
           description: "Invoice buckets request"
           required: true
           schema:
@@ -42,6 +42,29 @@ paths:
           description: Successful operation
           schema:
             $ref: '#/definitions/User'     
+            
+    patch:
+      tags:
+        - User
+      summary: Create a new user
+      description: ''
+      operationId: partialUpdateUser
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "invoiceBuckets"
+          description: "Invoice buckets request"
+          required: true
+          schema:
+            $ref: '#/definitions/PartialUpdateUserRequest'
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/User'                
 
     get:
       tags:
@@ -144,7 +167,9 @@ definitions:
         type: integer
       userUuid:
         type: string    
-        format: uuid          
+        format: uuid   
+      profileImageName:
+        type: string           
       serviceAddress:
         type: string 
         
@@ -154,7 +179,6 @@ definitions:
       - mobileNumberOrEmail
       - username
       - password
-      
     properties:
       mobileNumberOrEmail:
         type: string
@@ -164,12 +188,27 @@ definitions:
         type: string    
       password:
         type: string 
-      userUuid:
+    
+    
+  PartialUpdateUserRequest:
+    type: object
+    required:
+      - userUuid    
+    properties:
+      userUuid:   
         type: string    
-        format: uuid
-      serviceAddress:
-        type: string  
-        
+        format: uuid   
+      profileImageName:
+        type: string        
+      mobileNumber:
+        type: string
+      email:
+        type: string
+      username:
+        type: string    
+      password:
+        type: string 
+ 
   DeletedUsersResponse:
     type: object
     properties:
