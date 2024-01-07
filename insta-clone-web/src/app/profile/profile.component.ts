@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { UserService } from '../shared/services/user.service';
 import { User } from '../shared/models/user.model';
 import { StateService } from '../shared/services/state.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ProfileImageUploadComponent } from './profile-image-upload/profile-image-upload.component';
 
 @Component({
   selector: 'insta-profile',
@@ -18,7 +20,8 @@ export class ProfileComponent {
 
   constructor(
     private userService: UserService,
-    private stateService: StateService){}
+    private stateService: StateService,
+    public dialog: MatDialog){}
 
 
   ngOnInit(): void {
@@ -39,6 +42,20 @@ export class ProfileComponent {
       
     }, (error: any) => {
       console.error('Error fetching user data:', error);
+    });
+  }
+
+  openUploadDialog(){
+    const dialogRef = this.dialog.open(ProfileImageUploadComponent, {
+      "width": '400px',
+      "height": '224px',
+      "data": "John",  //TODO: what is this?? remove if not needed
+      "autoFocus": false,
+      "id": "upload-media-dialog"
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
     });
   }
 
