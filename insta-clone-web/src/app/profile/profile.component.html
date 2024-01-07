@@ -2,16 +2,17 @@
 
     <div class="row">
       <!-- Narrower First Vertical Element -->
-      <div class="col-3">
+      <div class="col-4" style="padding-left: 85px;">
         <img 
-        src="assets/bmw-i8.png"     
-        class="image-container"
-        alt="profile picture image">
-
+          src="assets/bmw-i8.png"     
+          class="image-container hover-cursor"
+          alt="profile picture image"
+          (click)="openUploadDialog()"
+        >
       </div>
   
       <!-- Wider Second Vertical Element -->
-      <div class="col-9">
+      <div class="col-8">
         <!-- First Row -->
         <br>
         <br>

@@ -1,0 +1,21 @@
+
+.my-custom-btn {
+    border: none;
+    border-bottom: 1px solid #363636;
+    height: 48px;
+    background-color: #262626;   
+    width: 100%;
+}
+
+.my-custom-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid #363636;
+    height: 80px;
+    color: white;
+    font-size: large;
+}
+
+

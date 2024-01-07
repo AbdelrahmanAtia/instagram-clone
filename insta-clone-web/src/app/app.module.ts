@@ -26,6 +26,7 @@ import { PostSuccessComponent } from './create-post/post-success/post-success.co
 import { ProfilePostsComponent } from './profile/profile-posts/profile-posts.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './shared/interceptor/auth.interceptor';
+import { ProfileImageUploadComponent } from './profile/profile-image-upload/profile-image-upload.component';
 
 
 const COMPONENTS = [ AppComponent,
@@ -56,7 +57,7 @@ const MODULES = [
 const SERVICES = [AuthService, UserService, StateService, PostService];
 
 @NgModule({
-  declarations: [COMPONENTS],
+  declarations: [COMPONENTS, ProfileImageUploadComponent],
   imports: [MODULES],
   providers: [
     SERVICES,

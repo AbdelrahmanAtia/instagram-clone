@@ -8,7 +8,10 @@
 	/* Just for centering and spacing */
 }
 
-
+.hover-cursor:hover {
+  cursor: pointer; /* Change 'pointer' to any cursor type you prefer */
+}
+  
 .white-text {
 	color: white;
 }
