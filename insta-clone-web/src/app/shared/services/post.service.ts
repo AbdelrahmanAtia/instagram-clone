@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs'; 
 import { API_CONFIG } from '../models/api.config';
 import { Post } from 'src/app/shared/models/post.model';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 
 @Injectable()
 export class PostService {
 
   constructor(private http: HttpClient) {}
 
-  uploadFile(file: File): Observable<any> {
+  uploadFile(file: File): Observable<any> {  
     const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.uploadFileEndpoint}`;
     const formData: FormData = new FormData();
     formData.append('file', file); 

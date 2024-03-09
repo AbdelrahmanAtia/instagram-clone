@@ -4,7 +4,8 @@ import { User } from '../shared/models/user.model';
 import { StateService } from '../shared/services/state.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileImageUploadComponent } from './profile-image-upload/profile-image-upload.component';
-import { v4 as uuidv4 } from 'uuid';
+import { PostService } from '../shared/services/post.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'insta-profile',
@@ -17,17 +18,11 @@ export class ProfileComponent {
   profileImage: string | null = null;
   userUuid: string = "";
 
-  /*
-  username: string = "abdelrahmanattya94"; //TODO: why there is a fixed name
-  postsCount:number = 0;
-  followersCount: number = 0;
-  followingCount: number = 3;
-  name: string = "Abdelrahman Attya"; //TODO: why there is a fixed name 
-  */
-
   constructor(
     private userService: UserService,
     private stateService: StateService,
+    private postService: PostService,
+    private sanitizer: DomSanitizer, // Add DomSanitizer
     public dialog: MatDialog){}
 
 
@@ -39,6 +34,8 @@ export class ProfileComponent {
   loadUser(): void {
     this.userService.getUser(this.userUuid).subscribe((user: User) => {
       this.userDetails = user;
+      this.viewProfileImageByName(this.userDetails.profileImageName);
+
     }, (error: any) => {
       console.error('Error fetching user data:', error);
     });
@@ -67,46 +64,59 @@ export class ProfileComponent {
   handleProfileImageUploaded(files: FileList): void {
     console.log("profile image uploaded..");
     const uploadedFile = files[0];
-    // Convert the image to a data URL
-    this.createImageFromBlob(uploadedFile);
+    this.updateProfileImage(uploadedFile);
   }
 
-  createImageFromBlob(file: File): void {
+  /**
+   * this function does the following steps:-
+   * 1- save image file 
+   * 2- updates profile Image name field ofuser entity in db
+   * 3- views profile image..(this last step is a verification that the 
+   *     above two steps are done successfully)
+   */
+  updateProfileImage(file: File): void {
+
+    this.postService.uploadFile(file).subscribe(res => {
+
+      let partialUpdateUser :PartialUpdateUser = {
+        "userUuid": this.userUuid,
+        "profileImageName": res.fileName
+      };
+
+      this.userService.partialUpdate(partialUpdateUser).subscribe(res => {
+        const dataFromBody = res.body;
+        this.viewProfileImage(file);
+      });
+
+    });
+  }
+  
+  /**
+   * 
+   * this function is used to view profile image once 
+   * it is uploaded
+   */
+  private viewProfileImage(file: File): void {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const dataURL = e.target.result;
-      this.profileImage = dataURL;
-
-      //TODO: save image as a file in the backend 
-      this.updateUserProfileImageName(this.userUuid, this.generateFilename(file));
-
+      this.profileImage = dataURL; //views profile image 
     };
     reader.readAsDataURL(file);
   }
-  
-  updateUserProfileImageName(userId: string, profileImageName: string){
 
-    //TODO: call backend service to save user profile image..and also 
-    //when loading this component set the prfile image member variable
-    let partialUpdateUser :PartialUpdateUser = {
-      "id": userId,
-      "profileImageName": profileImageName
-    };
-
-    this.userService.partialUpdate(partialUpdateUser).subscribe(res => {
-      const dataFromBody = res.body;
-      //TODO: DO SOMETHING IF NEEDED
+  /**
+   * 
+   * this function is used to view profile image 
+   * when we refresh the profile
+   */
+  private viewProfileImageByName(fileName: string){
+    this.postService.downloadFile(fileName).subscribe(blob => {
+      const objectURL = URL.createObjectURL(blob);
+      this.profileImage = this.sanitizer.bypassSecurityTrustUrl(objectURL) as string;
     });
 
   }
 
-  generateFilename(file: File): string {
-    const extension = file.name.split('.').pop(); // Get the file extension
-    const uniqueId = uuidv4(); // Generate a unique identifier
-
-    // Construct the filename using a combination of timestamp, unique ID, and extension
-    const filename = `${Date.now()}_${uniqueId}.${extension}`;
-    return filename;
-  }
 
 }

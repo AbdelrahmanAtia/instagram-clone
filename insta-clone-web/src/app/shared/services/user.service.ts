@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { API_CONFIG } from '../models/api.config';
 
 export type EntityResponseType = HttpResponse<User>;
-export type PartialUpdateUser = Partial<User> & Pick<User, 'id'>;
+export type PartialUpdateUser = Partial<User> & Pick<User, 'userUuid'>;
 
 @Injectable()
 export class UserService {
