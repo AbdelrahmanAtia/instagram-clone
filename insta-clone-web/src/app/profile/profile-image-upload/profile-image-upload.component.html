@@ -8,10 +8,18 @@
   </div>
 
   <div>
+    <input style="display: none"  
+       type="file" 
+       #fileInput 
+       (change)="onFilesSelected($event)"
+    >
+    
     <button 
       class="my-custom-btn"
-      style="color: #0095f6">
-        Upload Photo
+      style="color: #0095f6"
+      (click)="selectFile()"
+      >
+        Upload Photo  
     </button>
   </div>
 

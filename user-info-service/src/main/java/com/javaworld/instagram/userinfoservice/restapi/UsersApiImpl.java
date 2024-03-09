@@ -39,7 +39,7 @@ public class UsersApiImpl implements UsersApi {
 	}
 
 	@Override
-	public UserApiDto findUser(UUID userUuid, Integer delay, Integer faultPercent) {
+	public UserApiDto findUser(UUID userUuid, Integer delay, Integer faultPercent) { 
 		UserApiDto userApiDto = mapper.toApiDto(userService.findUser(userUuid, delay, faultPercent));
 		return setServiceAddress(userApiDto);
 	}
