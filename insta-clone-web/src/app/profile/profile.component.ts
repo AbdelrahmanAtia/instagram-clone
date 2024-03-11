@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { UserService } from '../shared/services/user.service';
+import { PartialUpdateUser, UserService } from '../shared/services/user.service';
 import { User } from '../shared/models/user.model';
 import { StateService } from '../shared/services/state.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileImageUploadComponent } from './profile-image-upload/profile-image-upload.component';
+import { PostService } from '../shared/services/post.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'insta-profile',
@@ -12,34 +14,28 @@ import { ProfileImageUploadComponent } from './profile-image-upload/profile-imag
 })
 export class ProfileComponent {
 
-  username: string = "abdelrahmanattya94";
-  postsCount:number = 0;
-  followersCount: number = 0;
-  followingCount: number = 3;
-  name: string = "Abdelrahman Attya"
+  userDetails?: User;
+  profileImage: string | null = null;
+  userUuid: string = "";
 
   constructor(
     private userService: UserService,
     private stateService: StateService,
+    private postService: PostService,
+    private sanitizer: DomSanitizer, // Add DomSanitizer
     public dialog: MatDialog){}
 
 
-  ngOnInit(): void {
-    this.loadUserData();
+  ngOnInit(): void {   
+    this.userUuid = this.stateService.getCurrentUserUuid();
+    this.loadUser();
   }
 
-  loadUserData(): void {
-    //TODO: userUuid shall not be static
-    const userUuid = this.stateService.getCurrentUserUuid();
+  loadUser(): void {
+    this.userService.getUser(this.userUuid).subscribe((user: User) => {
+      this.userDetails = user;
+      this.viewProfileImageByName(this.userDetails.profileImageName);
 
-    this.userService.getUser(userUuid).subscribe((user: User) => {
-      
-      this.username = user.username;
-      this.postsCount = user.postsCount;
-      this.followersCount = user.followersCount;
-      this.followingCount = user.followingCount;
-      this.name = user.name;
-      
     }, (error: any) => {
       console.error('Error fetching user data:', error);
     });
@@ -53,10 +49,74 @@ export class ProfileComponent {
       "autoFocus": false,
       "id": "upload-media-dialog"
     });
+
+    dialogRef.componentInstance.profileImageUploadedEvent.subscribe((files: FileList) => {
+      // Handle the emitted event here
+      this.handleProfileImageUploaded(files);
+    });
   
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }    
+
+  // Event handler method for the emitted event from ProfileImageUploadComponent
+  handleProfileImageUploaded(files: FileList): void {
+    console.log("profile image uploaded..");
+    const uploadedFile = files[0];
+    this.updateProfileImage(uploadedFile);
   }
+
+  /**
+   * this function does the following steps:-
+   * 1- save image file 
+   * 2- updates profile Image name field ofuser entity in db
+   * 3- views profile image..(this last step is a verification that the 
+   *     above two steps are done successfully)
+   */
+  updateProfileImage(file: File): void {
+
+    this.postService.uploadFile(file).subscribe(res => {
+
+      let partialUpdateUser :PartialUpdateUser = {
+        "userUuid": this.userUuid,
+        "profileImageName": res.fileName
+      };
+
+      this.userService.partialUpdate(partialUpdateUser).subscribe(res => {
+        const dataFromBody = res.body;
+        this.viewProfileImage(file);
+      });
+
+    });
+  }
+  
+  /**
+   * 
+   * this function is used to view profile image once 
+   * it is uploaded
+   */
+  private viewProfileImage(file: File): void {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const dataURL = e.target.result;
+      this.profileImage = dataURL; //views profile image 
+    };
+    reader.readAsDataURL(file);
+  }
+
+  /**
+   * 
+   * this function is used to view profile image 
+   * when we refresh the profile
+   */
+  private viewProfileImageByName(fileName: string){
+    this.postService.downloadFile(fileName).subscribe(blob => {
+      const objectURL = URL.createObjectURL(blob);
+      this.profileImage = this.sanitizer.bypassSecurityTrustUrl(objectURL) as string;
+    });
+
+  }
+
 
 }
