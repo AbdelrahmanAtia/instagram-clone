@@ -8,7 +8,9 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '
 export class ProfileImageUploadComponent implements OnInit {
   
   @ViewChild('fileInput') fileInput!: ElementRef;  //initialized by the hidden input of type file
+
   @Output() profileImageUploadedEvent = new EventEmitter<FileList>();
+  @Output() profileImageRemovalEvent = new EventEmitter<FileList>();
 
   uploadedFiles: FileList | null = null;
 
@@ -27,6 +29,10 @@ export class ProfileImageUploadComponent implements OnInit {
 
   selectFile() {
     this.fileInput.nativeElement.click();
+  }
+
+  removeProilePhoto(){
+    this.profileImageRemovalEvent.emit();
   }
 
 }

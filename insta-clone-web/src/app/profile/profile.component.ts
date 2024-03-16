@@ -54,11 +54,34 @@ export class ProfileComponent {
       // Handle the emitted event here
       this.handleProfileImageUploaded(files);
     });
-  
+
+    dialogRef.componentInstance.profileImageRemovalEvent.subscribe(() => {
+
+      this.handleProfileImageRemovalEvent();
+    });
+
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
-  }    
+  }
+
+  handleProfileImageRemovalEvent() {
+   
+    //TODO: 1- remove file from file system
+    //TODO: 2- after above success..update image name in user enity in DB
+
+    let partialUpdateUser :PartialUpdateUser = {
+      "userUuid": this.userUuid,
+      "profileImageName": ""
+    };
+
+    this.userService.partialUpdate(partialUpdateUser).subscribe(res => {
+      const dataFromBody = res.body;
+      this.viewDummyProfileImage();
+    });
+    
+  }
+
 
   // Event handler method for the emitted event from ProfileImageUploadComponent
   handleProfileImageUploaded(files: FileList): void {
@@ -69,12 +92,12 @@ export class ProfileComponent {
 
   /**
    * this function does the following steps:-
-   * 1- save image file 
+   * 1- save image file
    * 2- updates profile Image name field ofuser entity in db
    * 3- views profile image..(this last step is a verification that the 
    *     above two steps are done successfully)
    */
-  updateProfileImage(file: File): void {
+  updateProfileImage(file: File): void { 
 
     this.postService.uploadFile(file).subscribe(res => {
 
@@ -103,6 +126,10 @@ export class ProfileComponent {
       this.profileImage = dataURL; //views profile image 
     };
     reader.readAsDataURL(file);
+  }
+
+  viewDummyProfileImage() {
+    this.profileImage = "";
   }
 
   /**
