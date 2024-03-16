@@ -1,0 +1,18 @@
+Q1) How to access and delete all images in folder where posts are stored ?
+
+1- open git bash in post-ms folder
+
+2- access docker terminal using command:-
+
+docker-compose exec insta-ms-post bash
+
+3- navigate to folder where images are stored in insta-ms-post container:-
+
+cd ../var/lib/insta-ms/posts-images
+
+4- to remove all images in that folder, run command:- 
+
+rm *
+=================================================================================================
+
+
