@@ -97,6 +97,8 @@ public class FilesApiImpl implements FilesApi {
 
 	private String getUniqueFileName(String originalFileName) {
 
+		String uniqueFileName = "";
+		
 		if (originalFileName == null) {
 			throw new RuntimeException("file name is null");
 		}
@@ -105,9 +107,8 @@ public class FilesApiImpl implements FilesApi {
 		int extensionIndex = originalFileName.lastIndexOf(".");
 		if (extensionIndex > 0) {
 			extension = originalFileName.substring(extensionIndex);
-			originalFileName = originalFileName.substring(0, extensionIndex);
 		}
-		return originalFileName.concat("_").concat(UUID.randomUUID().toString()).concat(extension);
+		return uniqueFileName.concat(UUID.randomUUID().toString()).concat(extension);
 	}
 
 

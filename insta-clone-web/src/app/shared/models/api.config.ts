@@ -6,6 +6,7 @@ export const API_CONFIG = {
     getUserEndPoint: '/services/user-ms/users/',
     uploadFileEndpoint: '/services/post-ms/files/upload',
     downloadFileEndpoint: '/services/post-ms/files/download',
+    deleteFileEndpoint: '/services/post-ms/files/delete',
     createPostEndoint: '/services/post-ms/posts/',
     getPostsEndpoint: '/services/post-ms/posts/'
 
