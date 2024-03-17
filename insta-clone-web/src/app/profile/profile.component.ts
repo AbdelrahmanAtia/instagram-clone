@@ -52,15 +52,21 @@ export class ProfileComponent {
 
     dialogRef.componentInstance.profileImageUploadedEvent.subscribe((files: FileList) => {
       // Handle the emitted event here
+      dialogRef.close();
       this.handleProfileImageUploadingEvent(files);
     });
 
     dialogRef.componentInstance.profileImageRemovalEvent.subscribe(() => {
+      dialogRef.close();
       this.handleProfileImageRemovalEvent();
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+    dialogRef.componentInstance.dialogClosingEvent.subscribe(event => {
+      dialogRef.close();
+    });
+
+    dialogRef.afterClosed().subscribe(event => {
+      //console.log('The dialog was closed');
     });
   }
   

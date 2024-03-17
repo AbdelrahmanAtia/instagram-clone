@@ -11,6 +11,8 @@ export class ProfileImageUploadComponent implements OnInit {
 
   @Output() profileImageUploadedEvent = new EventEmitter<FileList>();
   @Output() profileImageRemovalEvent = new EventEmitter<FileList>();
+  @Output() dialogClosingEvent = new EventEmitter<FileList>();
+
 
   uploadedFiles: FileList | null = null;
 
@@ -33,6 +35,10 @@ export class ProfileImageUploadComponent implements OnInit {
 
   removeProilePhoto(){
     this.profileImageRemovalEvent.emit();
+  }
+
+  closeDialog(){
+    this.dialogClosingEvent.emit();
   }
 
 }
