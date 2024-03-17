@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.javaworld.instagram.postservice.commons.Constants;
+import com.javaworld.instagram.postservice.commons.exceptions.NotFoundException;
 import com.javaworld.instagram.postservice.commons.utils.ServiceUtil;
 import com.javaworld.instagram.postservice.server.api.FilesApi;
+import com.javaworld.instagram.postservice.server.dto.GenericResponseApiDto;
 import com.javaworld.instagram.postservice.server.dto.UploadFilesResponseApiDto;
 
 @RestController
@@ -41,6 +43,9 @@ public class FilesApiImpl implements FilesApi {
 
 		try {
 			if (file.isEmpty()) {
+				//TODO: find a way to return 404 status error code for the response
+				//one way u can use ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
+				//but this will require updating the swagger definition also
 				throw new IOException("Failed to store empty file " + file.getOriginalFilename());
 			}
 			// This is where we save the file
@@ -70,9 +75,30 @@ public class FilesApiImpl implements FilesApi {
 			throw new RuntimeException("Error while trying to download file: " + fileName, ex);
 		}
 	}
+	
+	@Override
+	public GenericResponseApiDto deleteFile(String fileName) {
+
+		logger.info("deleting file with name: " + fileName);
+
+		try {
+			Path filePath = Paths.get(Constants.POSTS_IMAGES_LOCATION).resolve(fileName).normalize();
+
+			if (!Files.exists(filePath)) {
+				throw new NotFoundException("File not found: " + fileName);
+			}
+
+			Files.deleteIfExists(filePath);
+			return new GenericResponseApiDto().message("File deleted successfully");
+		} catch (IOException ex) {
+			throw new RuntimeException("Error while trying to delete file: " + fileName, ex);
+		}
+	}
 
 	private String getUniqueFileName(String originalFileName) {
 
+		String uniqueFileName = "";
+		
 		if (originalFileName == null) {
 			throw new RuntimeException("file name is null");
 		}
@@ -81,9 +107,10 @@ public class FilesApiImpl implements FilesApi {
 		int extensionIndex = originalFileName.lastIndexOf(".");
 		if (extensionIndex > 0) {
 			extension = originalFileName.substring(extensionIndex);
-			originalFileName = originalFileName.substring(0, extensionIndex);
 		}
-		return originalFileName.concat("_").concat(UUID.randomUUID().toString()).concat(extension);
+		return uniqueFileName.concat(UUID.randomUUID().toString()).concat(extension);
 	}
+
+
 
 }

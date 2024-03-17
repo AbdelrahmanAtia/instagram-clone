@@ -142,7 +142,33 @@ paths:
         '404':
           description: File not found
         '500':
-          description: Internal server error  
+          description: Internal server error 
+          
+  /files/delete:
+    delete:
+      tags:
+        - Files
+      summary: deletes a file by name
+      description: Endpoint to delete media files such as images or videos
+      operationId: deleteFile
+      parameters:
+        - in: query
+          name: fileName
+          description: Name of the file to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResponse'
+        '404':
+          description: File not found
+        '500':
+          description: Internal server error            
   
   /posts/count:
     get:
@@ -262,5 +288,14 @@ components:
           type: string
           example: file uploaded successfully
         serviceAddress:
-          type: string          
+          type: string      
+          
+    GenericResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: message
+        serviceAddress:
+          type: string              
           

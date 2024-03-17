@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { API_CONFIG } from 'src/app/shared/models/api.config';
 import { Post } from 'src/app/shared/models/post.model';
+import { FileService } from 'src/app/shared/services/file.service';
 import { PostService } from 'src/app/shared/services/post.service';
 import { StateService } from 'src/app/shared/services/state.service';
 
@@ -16,6 +17,7 @@ export class ProfilePostsComponent implements OnInit {
 
   constructor(
     private postService: PostService,
+    private fileService: FileService,
     private stateService: StateService,
     private sanitizer: DomSanitizer // Add DomSanitizer
   ){}
@@ -33,7 +35,7 @@ export class ProfilePostsComponent implements OnInit {
       res => {
         this.posts = res;
         this.posts.forEach((post, index) => {
-          this.postService.downloadFile(post.fileName).subscribe(blob => {
+          this.fileService.downloadFile(post.fileName).subscribe(blob => {
             const objectURL = URL.createObjectURL(blob);
             this.loadedFiles[index] = this.sanitizer.bypassSecurityTrustUrl(objectURL) as string;
           });

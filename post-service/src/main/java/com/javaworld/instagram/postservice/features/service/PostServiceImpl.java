@@ -109,6 +109,8 @@ public class PostServiceImpl implements PostService {
 	public int deletePosts(List<String> postStrUuids) {
 
 		logger.info("deletePosts: tries to delete posts with uuids {}", postStrUuids);
+		
+		//TODO: delete posts images from file system
 
 		return postRepository.deleteByPostUuidIn(postMapper.mapStrUuidToUuidObj(postStrUuids));
 
@@ -117,6 +119,8 @@ public class PostServiceImpl implements PostService {
 	@Override
 	@Transactional
     public void deletePostsByUserUuid(UUID userUuid) {
+		//TODO: delete posts images from file system
+
 		postRepository.deleteByUserUuid(userUuid);	
 	}
 

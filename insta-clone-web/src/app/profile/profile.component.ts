@@ -4,8 +4,8 @@ import { User } from '../shared/models/user.model';
 import { StateService } from '../shared/services/state.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileImageUploadComponent } from './profile-image-upload/profile-image-upload.component';
-import { PostService } from '../shared/services/post.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { FileService } from '../shared/services/file.service';
 
 @Component({
   selector: 'insta-profile',
@@ -21,7 +21,7 @@ export class ProfileComponent {
   constructor(
     private userService: UserService,
     private stateService: StateService,
-    private postService: PostService,
+    private fileService: FileService,
     private sanitizer: DomSanitizer, // Add DomSanitizer
     public dialog: MatDialog){}
 
@@ -52,31 +52,39 @@ export class ProfileComponent {
 
     dialogRef.componentInstance.profileImageUploadedEvent.subscribe((files: FileList) => {
       // Handle the emitted event here
-      this.handleProfileImageUploaded(files);
+      dialogRef.close();
+      this.handleProfileImageUploadingEvent(files);
     });
-  
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }    
 
-  // Event handler method for the emitted event from ProfileImageUploadComponent
-  handleProfileImageUploaded(files: FileList): void {
-    console.log("profile image uploaded..");
-    const uploadedFile = files[0];
-    this.updateProfileImage(uploadedFile);
+    dialogRef.componentInstance.profileImageRemovalEvent.subscribe(() => {
+      dialogRef.close();
+      this.handleProfileImageRemovalEvent();
+    });
+
+    dialogRef.componentInstance.dialogClosingEvent.subscribe(event => {
+      dialogRef.close();
+    });
+
+    dialogRef.afterClosed().subscribe(event => {
+      //console.log('The dialog was closed');
+    });
   }
+  
+  // Event handler method for the emitted event from ProfileImageUploadComponent
+  handleProfileImageUploadingEvent(files: FileList): void {
+    const uploadedFile = files[0];
 
-  /**
-   * this function does the following steps:-
-   * 1- save image file 
-   * 2- updates profile Image name field ofuser entity in db
-   * 3- views profile image..(this last step is a verification that the 
-   *     above two steps are done successfully)
-   */
-  updateProfileImage(file: File): void {
+    if(!this.userDetails) {
+      return;
+    }
 
-    this.postService.uploadFile(file).subscribe(res => {
+    //delete old profile image
+    if(this.userDetails.profileImageName){
+      this.fileService.deleteFile(this.userDetails.profileImageName).subscribe(res => {});
+    }
+
+    //upload new profile image & update user entity profile image name in DB
+    this.fileService.uploadFile(uploadedFile).subscribe(res => {
 
       let partialUpdateUser :PartialUpdateUser = {
         "userUuid": this.userUuid,
@@ -84,13 +92,45 @@ export class ProfileComponent {
       };
 
       this.userService.partialUpdate(partialUpdateUser).subscribe(res => {
-        const dataFromBody = res.body;
-        this.viewProfileImage(file);
+        
+        if(this.userDetails && res.body){
+          this.userDetails.profileImageName = res.body.profileImageName;
+        }
+        
+        this.viewProfileImage(uploadedFile);
       });
 
     });
   }
+
+  handleProfileImageRemovalEvent() {
+    
+    if(!this.userDetails) {
+      return;
+    }
+
+    this.fileService.deleteFile(this.userDetails?.profileImageName).subscribe(res => {
+
+      // update image name in user enity in DB 
+      let partialUpdateUser :PartialUpdateUser = {
+        "userUuid": this.userUuid,
+        "profileImageName": ""
+      };
   
+      this.userService.partialUpdate(partialUpdateUser).subscribe(res => {
+        const dataFromBody = res.body;
+
+        if(this.userDetails){
+          this.userDetails.profileImageName = "";
+        }
+
+        this.viewDummyProfileImage();
+      });
+
+    });
+    
+  }
+
   /**
    * 
    * this function is used to view profile image once 
@@ -105,13 +145,17 @@ export class ProfileComponent {
     reader.readAsDataURL(file);
   }
 
+  viewDummyProfileImage() {
+    this.profileImage = "";
+  }
+
   /**
    * 
    * this function is used to view profile image 
    * when we refresh the profile
    */
   private viewProfileImageByName(fileName: string){
-    this.postService.downloadFile(fileName).subscribe(blob => {
+    this.fileService.downloadFile(fileName).subscribe(blob => {
       const objectURL = URL.createObjectURL(blob);
       this.profileImage = this.sanitizer.bypassSecurityTrustUrl(objectURL) as string;
     });

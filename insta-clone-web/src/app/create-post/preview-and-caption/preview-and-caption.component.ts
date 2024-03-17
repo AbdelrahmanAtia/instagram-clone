@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Post } from 'src/app/shared/models/post.model';
+import { FileService } from 'src/app/shared/services/file.service';
 import { PostService } from 'src/app/shared/services/post.service';
 
 @Component({
@@ -19,6 +20,7 @@ export class PreviewAndCaptionComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
+    private fileService: FileService,
     public postService: PostService){      
   }
 
@@ -54,7 +56,7 @@ export class PreviewAndCaptionComponent implements OnInit {
     // Assuming you want to upload the first file
     const postMedia: File = this.uploadedFiles[0];
     
-    this.postService.uploadFile(postMedia).subscribe(
+    this.fileService.uploadFile(postMedia).subscribe(
       response => {
         this.createPost(response.fileName);
       },

@@ -3,12 +3,23 @@
     <div class="row">
       <!-- Narrower First Vertical Element -->
       <div class="col-4" style="padding-left: 85px;">
+
         <img 
+          *ngIf="profileImage"
           [src]="profileImage"
           class="image-container hover-cursor"
           alt="profile picture image"
           (click)="openUploadDialog()"
         >
+  
+        <img
+          *ngIf="!profileImage"
+          src="../../assets/no-profile-image.png" 
+          alt="no profile picture image" 
+          class="image-container hover-cursor"
+          (click)="openUploadDialog()"
+        >
+
       </div>  
   
       <!-- Wider Second Vertical Element -->

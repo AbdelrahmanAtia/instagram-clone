@@ -26,7 +26,9 @@
   <div>
     <button 
       class="my-custom-btn"
-      style="color: #ed4956;">
+      style="color: #ed4956;"
+      (click)="removeProilePhoto()"
+    >
         Remove Current Photo
     </button>
   </div>
@@ -34,7 +36,8 @@
   <div>
     <button 
       class="my-custom-btn"
-      style="color: white;">
+      style="color: white;"
+      (click)="closeDialog()">
         Cancel
     </button>
   </div>
