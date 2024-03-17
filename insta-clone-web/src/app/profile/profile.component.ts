@@ -53,16 +53,46 @@ export class ProfileComponent {
 
     dialogRef.componentInstance.profileImageUploadedEvent.subscribe((files: FileList) => {
       // Handle the emitted event here
-      this.handleProfileImageUploaded(files);
+      this.handleProfileImageUploadingEvent(files);
     });
 
     dialogRef.componentInstance.profileImageRemovalEvent.subscribe(() => {
-
       this.handleProfileImageRemovalEvent();
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+    });
+  }
+  
+  // Event handler method for the emitted event from ProfileImageUploadComponent
+  handleProfileImageUploadingEvent(files: FileList): void {
+    const uploadedFile = files[0];
+
+    if(!this.userDetails) {
+      return;
+    }
+
+    //delete old profile image
+    this.fileService.deleteFile(this.userDetails.profileImageName).subscribe(res => {});
+
+    //upload new profile image & update user entity profile image name in DB
+    this.fileService.uploadFile(uploadedFile).subscribe(res => {
+
+      let partialUpdateUser :PartialUpdateUser = {
+        "userUuid": this.userUuid,
+        "profileImageName": res.fileName
+      };
+
+      this.userService.partialUpdate(partialUpdateUser).subscribe(res => {
+        
+        if(this.userDetails && res.body){
+          this.userDetails.profileImageName = res.body.profileImageName;
+        }
+        
+        this.viewProfileImage(uploadedFile);
+      });
+
     });
   }
 
@@ -86,44 +116,7 @@ export class ProfileComponent {
       });
 
     });
-  
     
-  }
-
-
-  // Event handler method for the emitted event from ProfileImageUploadComponent
-  handleProfileImageUploaded(files: FileList): void {
-    const uploadedFile = files[0];
-
-    if(!this.userDetails) {
-      return;
-    }
-
-    console.log(">> old image name: " + this.userDetails.profileImageName)
-
-    //delete old profile image
-    this.fileService.deleteFile(this.userDetails.profileImageName).subscribe(res => {
-      console.log(">> deleted old profile image")
-    });
-
-    //upload new profile image & update user entity profile image name in DB
-    this.fileService.uploadFile(uploadedFile).subscribe(res => {
-
-      let partialUpdateUser :PartialUpdateUser = {
-        "userUuid": this.userUuid,
-        "profileImageName": res.fileName
-      };
-
-      this.userService.partialUpdate(partialUpdateUser).subscribe(res => {
-        
-        if(this.userDetails && res.body){
-          this.userDetails.profileImageName = res.body.profileImageName;
-        }
-        
-        this.viewProfileImage(uploadedFile);
-      });
-
-    });
   }
 
   /**
