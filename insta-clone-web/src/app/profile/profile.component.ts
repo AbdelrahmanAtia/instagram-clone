@@ -4,7 +4,6 @@ import { User } from '../shared/models/user.model';
 import { StateService } from '../shared/services/state.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileImageUploadComponent } from './profile-image-upload/profile-image-upload.component';
-import { PostService } from '../shared/services/post.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FileService } from '../shared/services/file.service';
 
@@ -74,7 +73,9 @@ export class ProfileComponent {
     }
 
     //delete old profile image
-    this.fileService.deleteFile(this.userDetails.profileImageName).subscribe(res => {});
+    if(this.userDetails.profileImageName){
+      this.fileService.deleteFile(this.userDetails.profileImageName).subscribe(res => {});
+    }
 
     //upload new profile image & update user entity profile image name in DB
     this.fileService.uploadFile(uploadedFile).subscribe(res => {
@@ -112,6 +113,11 @@ export class ProfileComponent {
   
       this.userService.partialUpdate(partialUpdateUser).subscribe(res => {
         const dataFromBody = res.body;
+
+        if(this.userDetails){
+          this.userDetails.profileImageName = "";
+        }
+
         this.viewDummyProfileImage();
       });
 
