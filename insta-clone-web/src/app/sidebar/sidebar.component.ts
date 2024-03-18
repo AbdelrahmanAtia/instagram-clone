@@ -10,6 +10,7 @@ import { PostCreateComponent } from '../create-post/post-create.component';
 export class SidebarComponent {
 
   constructor(public dialog: MatDialog) {}
+  isSidebarOpen: boolean = false;
 
   links = [
     { label: 'Instagram', icon: null, route: '/' },
@@ -39,5 +40,8 @@ export class SidebarComponent {
     });
   }
 
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
 
 }

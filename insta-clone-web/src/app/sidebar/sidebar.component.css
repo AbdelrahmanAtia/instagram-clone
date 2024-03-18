@@ -18,3 +18,18 @@
 .icon {
   margin-right: 10px; /* Adjust the margin as needed to control the space between icon and text */
 }
+
+
+.sidebar-wrapper {
+  width: 245px; /* Adjust width as needed */
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: -245px; /* Initially hidden off-screen */
+  background-color: black;
+  transition: left 0.3s ease; /* Transition for smooth sliding */
+}
+
+.sidebar-visible {
+  left: 0; /* Slides the sidebar into view */
+}

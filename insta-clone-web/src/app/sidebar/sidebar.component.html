@@ -1,15 +1,18 @@
-<div class="sidebar">
-  <ul class="nav flex-column">
-    <li class="nav-item" *ngFor="let link of links">
-      <a 
-        class="nav-link" 
-        (click)="link.label === 'Create' && openUploadDialog()"
-        [routerLink]="link.route"
-      >
-        <i *ngIf="link.icon" [class]="link.icon"></i>
-        <span style="margin-left: 20px;">{{link.label}}</span>
-      </a>
-    </li>
-  </ul>
+<!-- HTML Template -->
+<div class="sidebar-wrapper" [ngClass]="{'sidebar-visible': isSidebarOpen}">
+  <div class="sidebar">
+    <ul class="nav flex-column">
+      <li class="nav-item" *ngFor="let link of links">
+        <a 
+          class="nav-link" 
+          (click)="link.label === 'Create' && openUploadDialog()"
+          [routerLink]="link.route"
+        >
+          <i *ngIf="link.icon" [class]="link.icon"></i>
+          <span style="margin-left: 20px;">{{link.label}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
 </div>
-
+<button (click)="toggleSidebar()">Toggle Sidebar</button>
