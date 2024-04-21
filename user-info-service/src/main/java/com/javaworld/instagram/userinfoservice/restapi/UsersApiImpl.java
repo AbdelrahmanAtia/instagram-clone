@@ -1,5 +1,6 @@
 package com.javaworld.instagram.userinfoservice.restapi;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -59,10 +60,17 @@ public class UsersApiImpl implements UsersApi {
 		return new DeletedUsersResponseApiDto().deletedUsersCount(deletedUsersCount)
 				.message("users deleted successfully")
 				.serviceAddress(serviceUtil.getServiceAddress());
-
+	}
+	
+	@Override
+	public List<UserApiDto> getSuggestedUsers(String size) {
+		logger.info("retrieving suggested users");
+		List<User> suggestedUsers =  userService.getSuggestedUsers(size);
+		return mapper.toApiDtoList(suggestedUsers);
 	}
 	
 	private UserApiDto setServiceAddress(UserApiDto userApiDto) {
+
 		userApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return userApiDto;
 	}

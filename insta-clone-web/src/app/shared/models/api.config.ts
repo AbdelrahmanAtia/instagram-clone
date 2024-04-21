@@ -4,6 +4,7 @@ export const API_CONFIG = {
     authEndpoint: '/oauth2/token',
     registerEndpoint: '/services/user-ms/users/',
     getUserEndPoint: '/services/user-ms/users/',
+    getSuggestedUsersEndPoint: '/services/user-ms/users/suggested',
     uploadFileEndpoint: '/services/post-ms/files/upload',
     downloadFileEndpoint: '/services/post-ms/files/download',
     deleteFileEndpoint: '/services/post-ms/files/delete',

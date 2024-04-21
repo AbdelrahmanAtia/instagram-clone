@@ -1,0 +1,21 @@
+<div class="container">
+
+
+
+    <div class="row" *ngFor="let suggestedUser of suggestedUsers; let i = index">
+      <div class="col-md-2">
+        <img 
+            [src]="suggestedUser.profileImage" 
+            class="img-fluid mb-3"
+            [style.width.px]="110"  
+            [style.height.px]="110"  
+            alt="">
+      </div>
+
+      <div class="col-md-3">
+        {{suggestedUser.username}}
+        <br>
+        <span>Suggested for you</span>
+      </div>
+    </div>
+  </div>

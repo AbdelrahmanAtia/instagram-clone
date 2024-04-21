@@ -21,7 +21,7 @@ export class RegisterComponent {
   onSubmit(registerModel: RegisterModel) {
     //TODO: handle cases when an error occurs
     this.authService.register(registerModel).subscribe(res => {
-      this.stateService.setCurrentUserUuid(res.userUuid);
+      this.stateService.setCurrentUserUuid(res.userUuid); 
       this.navigateToLogin();
     });
   }

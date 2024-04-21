@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -52,6 +53,14 @@ class GlobalControllerExceptionHandler {
 	@ExceptionHandler(TimeoutException.class)
 	public @ResponseBody HttpErrorInfo handleTimeoutException(HttpServletRequest request, TimeoutException ex) {
 		return createHttpErrorInfo(INTERNAL_SERVER_ERROR, request, ex);
+	}
+	
+	@ResponseStatus(BAD_REQUEST)
+	@ExceptionHandler(MissingServletRequestParameterException.class)
+	public @ResponseBody HttpErrorInfo handleMissingServletRequestParameterException(HttpServletRequest request,
+			MissingServletRequestParameterException ex) {
+		System.out.println(">> msg: " + ex.getMessage());
+		return createHttpErrorInfo(BAD_REQUEST, request, ex);
 	}
 
 	private HttpErrorInfo createHttpErrorInfo(HttpStatus httpStatus, HttpServletRequest request, Exception ex) {
