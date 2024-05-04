@@ -14,4 +14,11 @@ public interface UserService {
 	
 	int deleteUser(UUID userUuid);
 	
+<<<<<<< Updated upstream
+=======
+	List<User> getSuggestedUsers(String size);
+	
+	void followUser(UUID fromUserId, UUID toUserId);
+	
+>>>>>>> Stashed changes
 }

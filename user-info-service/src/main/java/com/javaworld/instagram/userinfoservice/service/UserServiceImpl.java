@@ -15,6 +15,8 @@ import com.javaworld.instagram.userinfoservice.commons.exceptions.HttpErrorInfo;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.InvalidInputException;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.NotFoundException;
 import com.javaworld.instagram.userinfoservice.integration.PostServiceIntegration;
+import com.javaworld.instagram.userinfoservice.persistence.FollowerEntity;
+import com.javaworld.instagram.userinfoservice.persistence.FollowerRepository;
 import com.javaworld.instagram.userinfoservice.persistence.UserEntity;
 import com.javaworld.instagram.userinfoservice.persistence.UserRepository;
 import com.javaworld.instagram.userinfoservice.service.dto.User;
@@ -29,7 +31,10 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-
+	
+	@Autowired
+	private FollowerRepository followerRepository;
+	
 	@Autowired
 	private UserMapper userMapper;
 		
@@ -114,6 +119,48 @@ public class UserServiceImpl implements UserService {
 		return deletedRowsCount;
 	}	
 	
+<<<<<<< Updated upstream
+=======
+	@Override
+	public List<User> getSuggestedUsers(String size) {
+		int count;
+		if ("MIN".equalsIgnoreCase(size)) {
+			count = 5; // Minimum number of suggested users
+		} else if ("MAX".equalsIgnoreCase(size)) {
+			count = 30; // Maximum number of suggested users
+		} else {
+			throw new InvalidInputException("Invalid value for size parameter. It should be either 'MIN' or 'MAX'.");
+		}
+
+		List<UserEntity> suggestedUserEntities = userRepository.findRandomUsers(PageRequest.of(0, count));
+
+		return userMapper.toDto(suggestedUserEntities);
+	}
+	
+	@Override
+	public void followUser(UUID followerId, UUID followedId) {
+		
+		UserEntity followerUserEntity = userRepository.findByUserUuid(followerId).orElseThrow(
+				() -> new NotFoundException("Follower with uuid: " + followerId.toString() + " not found"));
+
+		UserEntity followedUser = userRepository.findByUserUuid(followedId).orElseThrow(
+				() -> new NotFoundException("Followed User with uuid: " + followedId.toString() + " not found"));
+
+		
+		if (followerRepository.findByFollowerIdAndFollowedId(followerId, followedId).isPresent()) {
+			logger.warn("user with id " + followerId + " already following user with id " + followedId);
+			return;
+		}
+		
+		FollowerEntity followerEntity = new FollowerEntity();
+		followerEntity.setFollower(followerUserEntity);
+		followerEntity.setFollowed(followedUser);		
+		
+		followerRepository.save(followerEntity);
+		
+	}
+	
+>>>>>>> Stashed changes
 	// TODO: move to a utility class
 	private void handleException(RuntimeException ex)  {
 

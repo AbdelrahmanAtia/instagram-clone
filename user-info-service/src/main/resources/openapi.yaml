@@ -123,6 +123,59 @@ paths:
             $ref: '#/definitions/DeletedUsersResponse'
         '400':
           description: Invalid userId
+<<<<<<< Updated upstream
+=======
+          
+
+  /users/suggested:              
+    get:
+      tags:
+        - User
+      summary: get suggested users
+      description: ''
+      operationId: getSuggestedUsers
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: size
+          description: ''
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        '400':
+          description: ''
+
+  /users/follow:              
+    post:
+      tags:
+        - User
+      summary: send a follow request to another user
+      description: ''
+      operationId: followUser
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "FollowUserRequest"
+          description: ""
+          required: true
+          schema:
+            $ref: '#/definitions/FollowUserRequest'
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/GenericResponse'     
+>>>>>>> Stashed changes
 
   /reports/downloadaccountinformationreport:                  
     get:
@@ -188,6 +241,19 @@ definitions:
         type: string    
       password:
         type: string 
+        
+  FollowUserRequest:        
+    type: object
+    required:
+      - followerId
+      - followedId
+    properties:
+      followerId:
+        type: string
+        format: uuid  
+      followedId:
+        type: string
+        format: uuid  
     
     
   PartialUpdateUserRequest:
@@ -221,4 +287,12 @@ definitions:
         example: users deleted successfully
       serviceAddress:
         type: string
-        
+
+  GenericResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        example: message
+      serviceAddress:
+        type: string   
