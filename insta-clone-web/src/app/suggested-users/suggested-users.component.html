@@ -1,21 +1,44 @@
 <div class="container">
 
+    <div class="row">
+      <div class="col-md-9" style="padding-left: 0px; margin-bottom: 20px;">
+        <span style="
+          font-weight: bold; 
+          color: grey;
+          ">Suggested for you</span>
+      </div>
 
+
+
+      <div class="col-md-3">
+        <span style="color: white; font-weight: 600;">See All</span>
+      </div>
+
+
+    </div>
 
     <div class="row" *ngFor="let suggestedUser of suggestedUsers; let i = index">
       <div class="col-md-2">
         <img 
             [src]="suggestedUser.profileImage" 
             class="img-fluid mb-3"
-            [style.width.px]="110"  
-            [style.height.px]="110"  
+            [style.width.px]="44"  
+            [style.height.px]="44"  
+            style="border-radius: 50%;"
             alt="">
       </div>
 
-      <div class="col-md-3">
-        {{suggestedUser.username}}
+      <div class="col-md-7" >
+        <span style="font-weight: bold; color: white;">
+          {{suggestedUser.username}}
+        </span>
         <br>
-        <span>Suggested for you</span>
+        <span style="color: grey;">Suggested for you</span>
       </div>
+
+      <div class="col-md-3">
+        <a href="your_link_here" style="text-decoration: none; color: #0062a2;">Follow</a>
+      </div>
+
     </div>
   </div>
