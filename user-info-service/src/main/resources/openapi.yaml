@@ -123,12 +123,6 @@ paths:
             $ref: '#/definitions/DeletedUsersResponse'
         '400':
           description: Invalid userId
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> temp
-          
 
   /users/suggested:              
     get:
@@ -154,9 +148,7 @@ paths:
               $ref: '#/definitions/User'
         '400':
           description: ''
-<<<<<<< HEAD
-      
-=======
+
 
   /users/follow:              
     post:
@@ -181,8 +173,6 @@ paths:
           description: Successful operation
           schema:
             $ref: '#/definitions/GenericResponse'     
->>>>>>> Stashed changes
->>>>>>> temp
 
   /reports/downloadaccountinformationreport:                  
     get:

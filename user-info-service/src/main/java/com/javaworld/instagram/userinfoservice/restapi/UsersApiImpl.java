@@ -62,11 +62,6 @@ public class UsersApiImpl implements UsersApi {
 		return new DeletedUsersResponseApiDto().deletedUsersCount(deletedUsersCount)
 				.message("users deleted successfully")
 				.serviceAddress(serviceUtil.getServiceAddress());
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-
-=======
 	}
 	
 	@Override
@@ -81,7 +76,7 @@ public class UsersApiImpl implements UsersApi {
 		response.setMessage("operation success");
 
 		return response;
->>>>>>> temp
+
 	}
 	
 	@Override
@@ -89,10 +84,6 @@ public class UsersApiImpl implements UsersApi {
 		logger.info("retrieving suggested users");
 		List<User> suggestedUsers =  userService.getSuggestedUsers(size);
 		return mapper.toApiDtoList(suggestedUsers);
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
->>>>>>> temp
 	}
 	
 	private UserApiDto setServiceAddress(UserApiDto userApiDto) {

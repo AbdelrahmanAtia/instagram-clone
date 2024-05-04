@@ -120,12 +120,7 @@ public class UserServiceImpl implements UserService {
 
 		return deletedRowsCount;
 	}	
-	
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> temp
+
 	@Override
 	public List<User> getSuggestedUsers(String size) {
 		int count;
@@ -141,10 +136,7 @@ public class UserServiceImpl implements UserService {
 
 		return userMapper.toDto(suggestedUserEntities);
 	}
-<<<<<<< HEAD
 
-	
-=======
 	
 	@Override
 	public void followUser(UUID followerId, UUID followedId) {
@@ -169,8 +161,6 @@ public class UserServiceImpl implements UserService {
 		
 	}
 	
->>>>>>> Stashed changes
->>>>>>> temp
 	// TODO: move to a utility class
 	private void handleException(RuntimeException ex)  {
 
@@ -205,8 +195,5 @@ public class UserServiceImpl implements UserService {
 			return ex.getMessage();
 		}
 	}
-
-
-
 
 }
