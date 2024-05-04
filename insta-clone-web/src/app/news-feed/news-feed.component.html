@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="row">
+      <div class="col-md-7">
+        hello
+      </div>
+      <div class="col-md-5" 
+      style=
+        "border: 1px solid yellow;
+         padding-left: 105px;
+        ">
+
+        <!-- current user details (image, userName, fullName, switch account link) -->
+        <div class="row" style="margin-bottom: 33px; padding-top: 40px;">
+          <div class="col-md-2">
+            <img 
+              [src]="profileImage"
+              class="img-fluid mb-3"
+              [style.width.px]="44"  
+              [style.height.px]="44"  
+              style="border-radius: 50%;"
+              alt="">
+          </div>
+
+          <div class="col-md-7">
+            <span style="font-weight: bold; color: white;">
+              {{userDetails?.username}}
+            </span>
+            <br>
+            <span style="color: grey;">{{userDetails?.name}}</span>    
+          </div>   
+          
+          <div class="col-md-3">
+            <a href="your_link_here" style="text-decoration: none; color: #0062a2;">Switch</a>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <insta-suggested-users ></insta-suggested-users>      
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+

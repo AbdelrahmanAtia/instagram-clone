@@ -14,7 +14,7 @@ export class SidebarComponent {
 
   links = [
     { label: 'Instagram', icon: null, route: '/' },
-    { label: 'Home', icon: 'fas fa-home', route: '/home' },
+    { label: 'Home', icon: 'fas fa-home', route: '/home/newsfeed' },
     { label: 'Search', icon: 'fas fa-search', route: '#' },
     { label: 'Explore', icon: 'fas fa-compass', route: '#' },
     { label: 'Reels', icon: 'fas fa-film', route: '#' },

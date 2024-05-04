@@ -5,9 +5,11 @@ import { Observable } from 'rxjs';
 import { API_CONFIG } from '../models/api.config';
 
 export type EntityResponseType = HttpResponse<User>;
+export type EntityArrayResponseType = HttpResponse<User[]>;
+
 export type PartialUpdateUser = Partial<User> & Pick<User, 'userUuid'>;
 
-@Injectable()
+@Injectable() 
 export class UserService {
   
   constructor(private http: HttpClient) {}
@@ -16,6 +18,15 @@ export class UserService {
     const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.getUserEndPoint}`;
     let params = new HttpParams().set('userUuid', userUuid);
     return this.http.get<User>(reqUrl, { params: params });
+  }
+
+  querySuggestedUsers(size: string): Observable<EntityArrayResponseType> {
+    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.getSuggestedUsersEndPoint}`;
+    let params = new HttpParams().set('size', size);
+    return this.http.get<User[]>(reqUrl, {
+        params: params,
+        observe: 'response'
+    });
   }
 
   partialUpdate(

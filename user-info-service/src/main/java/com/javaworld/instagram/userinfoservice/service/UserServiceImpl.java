@@ -1,11 +1,13 @@
 package com.javaworld.instagram.userinfoservice.service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -114,6 +116,23 @@ public class UserServiceImpl implements UserService {
 		return deletedRowsCount;
 	}	
 	
+	@Override
+	public List<User> getSuggestedUsers(String size) {
+		int count;
+		if ("MIN".equalsIgnoreCase(size)) {
+			count = 5; // Minimum number of suggested users
+		} else if ("MAX".equalsIgnoreCase(size)) {
+			count = 30; // Maximum number of suggested users
+		} else {
+			throw new InvalidInputException("Invalid value for size parameter. It should be either 'MIN' or 'MAX'.");
+		}
+
+		List<UserEntity> suggestedUserEntities = userRepository.findRandomUsers(PageRequest.of(0, count));
+
+		return userMapper.toDto(suggestedUserEntities);
+	}
+
+	
 	// TODO: move to a utility class
 	private void handleException(RuntimeException ex)  {
 
@@ -148,6 +167,8 @@ public class UserServiceImpl implements UserService {
 			return ex.getMessage();
 		}
 	}
+
+
 
 
 }

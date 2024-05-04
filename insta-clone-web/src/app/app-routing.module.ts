@@ -5,12 +5,17 @@ import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfilePostsComponent } from './profile/profile-posts/profile-posts.component';
+import { NewsFeedComponent } from './news-feed/news-feed.component';
 
 const routes: Routes = [
   {
     path: 'home', 
     component: HomeComponent,
     children: [
+      {
+        path: 'newsfeed',
+        component: NewsFeedComponent
+      },
       {
         path: 'profile',
         component: ProfileComponent,

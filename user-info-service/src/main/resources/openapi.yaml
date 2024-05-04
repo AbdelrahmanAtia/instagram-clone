@@ -123,6 +123,33 @@ paths:
             $ref: '#/definitions/DeletedUsersResponse'
         '400':
           description: Invalid userId
+          
+
+  /users/suggested:              
+    get:
+      tags:
+        - User
+      summary: get suggested users
+      description: ''
+      operationId: getSuggestedUsers
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: size
+          description: ''
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        '400':
+          description: ''
+      
 
   /reports/downloadaccountinformationreport:                  
     get:
