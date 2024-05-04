@@ -14,6 +14,8 @@ import com.javaworld.instagram.userinfoservice.server.dto.PartialUpdateUserReque
 import com.javaworld.instagram.userinfoservice.server.api.UsersApi;
 import com.javaworld.instagram.userinfoservice.server.dto.CreateUserRequestApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.DeletedUsersResponseApiDto;
+import com.javaworld.instagram.userinfoservice.server.dto.FollowUserRequestApiDto;
+import com.javaworld.instagram.userinfoservice.server.dto.GenericResponseApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.UserApiDto;
 import com.javaworld.instagram.userinfoservice.service.UserService;
 import com.javaworld.instagram.userinfoservice.service.dto.User;
@@ -60,6 +62,26 @@ public class UsersApiImpl implements UsersApi {
 		return new DeletedUsersResponseApiDto().deletedUsersCount(deletedUsersCount)
 				.message("users deleted successfully")
 				.serviceAddress(serviceUtil.getServiceAddress());
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+
+=======
+	}
+	
+	@Override
+	public GenericResponseApiDto followUser(FollowUserRequestApiDto followUserRequest) {
+		
+		logger.info("requesting to follow user with id: " + followUserRequest.getFollowedId() + " by user with id: "
+				+ followUserRequest.getFollowerId());
+
+		userService.followUser(followUserRequest.getFollowerId(), followUserRequest.getFollowedId());
+
+		GenericResponseApiDto response = new GenericResponseApiDto();
+		response.setMessage("operation success");
+
+		return response;
+>>>>>>> temp
 	}
 	
 	@Override
@@ -67,6 +89,10 @@ public class UsersApiImpl implements UsersApi {
 		logger.info("retrieving suggested users");
 		List<User> suggestedUsers =  userService.getSuggestedUsers(size);
 		return mapper.toApiDtoList(suggestedUsers);
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> temp
 	}
 	
 	private UserApiDto setServiceAddress(UserApiDto userApiDto) {
@@ -74,8 +100,5 @@ public class UsersApiImpl implements UsersApi {
 		userApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return userApiDto;
 	}
-
-
-
 
 }

@@ -13,5 +13,11 @@
 	<include
 		file="/dblogs/changelog/changes/231220231718-add-new-col-to-user-profile.xml" />
 
+	<include
+		file="/dblogs/changelog/changes/260420240126-create-followers-table.xml" />
+		
+	<include
+		file="/dblogs/changelog/changes/280420240455-create-constraint-of-follower-table.xml" />		
+
 
 </databaseChangeLog>
