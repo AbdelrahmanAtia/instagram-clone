@@ -138,6 +138,8 @@ public class UserServiceImpl implements UserService {
 		
 		UUID currentUserUuid = SecurityUtil.getUserUuidFromAccessToken(getSecurityContext());
 		List<UserEntity> suggestedUserEntities = userRepository.findSuggestedUsers(currentUserUuid, PageRequest.of(0, count));
+		
+		
 
 		return userMapper.toDto(suggestedUserEntities);
 	}

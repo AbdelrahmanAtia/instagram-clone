@@ -41,5 +41,26 @@ export class UserService {
     );
   }
 
+  followUser(
+    followUserRequest: FollowUserRequest
+  ): Observable<HttpResponse<GenericResponse>> {
+    
+    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.followUsersEndPoint}`;
+
+    return this.http.post<GenericResponse>(reqUrl,
+      followUserRequest,
+      {
+        observe: 'response'
+      }
+    );
+  }  
+
 }
  
+export interface FollowUserRequest {
+  followedId: string;
+}
+
+export interface GenericResponse {
+  message: string;
+}

@@ -10,10 +10,11 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(private stateService: StateService) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const isAuthRequest = this.isAuthRequest(req);
+        console.log("starting interceptor to add token");
 
-        if (!isAuthRequest) {
+        if (!this.isPublicEndPoint(req)) {
             const accessToken = this.stateService.getAccessToken();
+            console.log(accessToken)
             if (accessToken) {
                 req = req.clone({
                     setHeaders: { 
@@ -26,14 +27,14 @@ export class AuthInterceptor implements HttpInterceptor {
         return next.handle(req);
     }
 
-    private isAuthRequest(req: HttpRequest<any>): boolean {
+    private isPublicEndPoint(req: HttpRequest<any>): boolean {
 
         // TODO: instead of checking the method is post or not to avoid the conflict
         // between it and between the getUser endpoint , i think 
         // it's better to make the register user url more specific  for example
         // /users/register
 
-        return (req.url.includes(API_CONFIG.authEndpoint) || 
-                (req.url.includes(API_CONFIG.registerEndpoint) && req.method === 'POST'));
+        let isRegisterRequest = req.url.endsWith(API_CONFIG.registerEndpoint) && req.method === 'POST';
+        return req.url.includes(API_CONFIG.authEndpoint) || isRegisterRequest;
     }
 }

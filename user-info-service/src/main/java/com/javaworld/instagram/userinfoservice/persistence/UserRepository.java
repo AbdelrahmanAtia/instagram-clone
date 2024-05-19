@@ -15,8 +15,9 @@ public interface UserRepository extends CrudRepository<UserEntity, String> {
 	int deleteByUserUuid(UUID userUuid);
 
 	@Query("SELECT u FROM UserEntity u WHERE u.userUuid NOT IN "
-			+ "(SELECT f.followed.userUuid FROM FollowerEntity f WHERE f.follower.userUuid = :currentUserUuid) "
-			+ "ORDER BY RAND()")
+	        + "(SELECT f.followed.userUuid FROM FollowerEntity f WHERE f.follower.userUuid = :currentUserUuid) "
+	        + "AND u.userUuid <> :currentUserUuid "
+	        + "ORDER BY RAND()")
 	List<UserEntity> findSuggestedUsers(UUID currentUserUuid, Pageable pageable);
 
 }
