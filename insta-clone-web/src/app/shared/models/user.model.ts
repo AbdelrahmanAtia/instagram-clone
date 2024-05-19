@@ -11,4 +11,5 @@ export interface User {
     followingCount: number;
     userUuid: string;
     serviceAddress: string;
+    followedByCurrentUser: boolean;
 }

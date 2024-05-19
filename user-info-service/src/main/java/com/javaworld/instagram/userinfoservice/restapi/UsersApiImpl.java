@@ -14,6 +14,8 @@ import com.javaworld.instagram.userinfoservice.server.dto.PartialUpdateUserReque
 import com.javaworld.instagram.userinfoservice.server.api.UsersApi;
 import com.javaworld.instagram.userinfoservice.server.dto.CreateUserRequestApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.DeletedUsersResponseApiDto;
+import com.javaworld.instagram.userinfoservice.server.dto.FollowUserRequestApiDto;
+import com.javaworld.instagram.userinfoservice.server.dto.GenericResponseApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.UserApiDto;
 import com.javaworld.instagram.userinfoservice.service.UserService;
 import com.javaworld.instagram.userinfoservice.service.dto.User;
@@ -63,6 +65,18 @@ public class UsersApiImpl implements UsersApi {
 	}
 	
 	@Override
+	public GenericResponseApiDto followUser(FollowUserRequestApiDto followUserRequest) {
+
+		userService.followUser(followUserRequest.getFollowedId());
+
+		GenericResponseApiDto response = new GenericResponseApiDto();
+		response.setMessage("operation success");
+
+		return response;
+
+	}
+	
+	@Override
 	public List<UserApiDto> getSuggestedUsers(String size) {
 		logger.info("retrieving suggested users");
 		List<User> suggestedUsers =  userService.getSuggestedUsers(size);
@@ -74,8 +88,5 @@ public class UsersApiImpl implements UsersApi {
 		userApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return userApiDto;
 	}
-
-
-
 
 }

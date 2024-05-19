@@ -37,8 +37,21 @@
       </div>
 
       <div class="col-md-3">
-        <a href="your_link_here" style="text-decoration: none; color: #0062a2;">Follow</a>
+        
+        <a *ngIf="!suggestedUser.followedByCurrentUser" href="#" 
+           style="text-decoration: none; color: #0062a2;"
+           (click)="onFollowUserClick($event, suggestedUser.userUuid)">
+          Follow
+        </a>
+
+        <a *ngIf="suggestedUser.followedByCurrentUser" href="#" 
+           style="text-decoration: none; color: #0062a2;"
+        >
+          Followed
+        </a>
+
       </div>
+      
 
     </div>
   </div>

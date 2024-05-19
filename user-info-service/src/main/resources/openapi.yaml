@@ -123,7 +123,6 @@ paths:
             $ref: '#/definitions/DeletedUsersResponse'
         '400':
           description: Invalid userId
-          
 
   /users/suggested:              
     get:
@@ -149,7 +148,31 @@ paths:
               $ref: '#/definitions/User'
         '400':
           description: ''
-      
+
+
+  /users/follow:              
+    post:
+      tags:
+        - User
+      summary: send a follow request to another user
+      description: ''
+      operationId: followUser
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "FollowUserRequest"
+          description: ""
+          required: true
+          schema:
+            $ref: '#/definitions/FollowUserRequest'
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/GenericResponse'     
 
   /reports/downloadaccountinformationreport:                  
     get:
@@ -215,7 +238,15 @@ definitions:
         type: string    
       password:
         type: string 
-    
+        
+  FollowUserRequest:        
+    type: object
+    required:
+      - followedId
+    properties: 
+      followedId:
+        type: string
+        format: uuid  
     
   PartialUpdateUserRequest:
     type: object
@@ -248,4 +279,12 @@ definitions:
         example: users deleted successfully
       serviceAddress:
         type: string
-        
+
+  GenericResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        example: message
+      serviceAddress:
+        type: string   

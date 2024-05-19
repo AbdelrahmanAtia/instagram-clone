@@ -17,4 +17,7 @@ public interface UserService {
 	
 	List<User> getSuggestedUsers(String size);
 	
+	void followUser(UUID toUserId);
+	
+
 }

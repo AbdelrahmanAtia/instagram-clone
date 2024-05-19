@@ -4,6 +4,7 @@ import { User } from '../shared/models/user.model';
 import { ActivatedRoute } from '@angular/router';
 import { FileService } from '../shared/services/file.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { StateService } from '../shared/services/state.service';
 @Component({
   selector: 'insta-suggested-users',
   templateUrl: './suggested-users.component.html',
@@ -11,12 +12,14 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class SuggestedUsersComponent implements OnInit {
 
+
   suggestedUsers: User [] = [];
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
     private fileService: FileService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private stateService: StateService
   ){}
   
   ngOnInit(): void {
@@ -38,6 +41,25 @@ export class SuggestedUsersComponent implements OnInit {
       const objectURL = URL.createObjectURL(blob);
       user.profileImage = this.sanitizer.bypassSecurityTrustUrl(objectURL) as string;
     });
+  }
+
+  onFollowUserClick(event: Event, followedId: string) {
+
+    event.preventDefault();
+
+    let followUserReq = {
+      followedId: followedId
+    };
+
+    this.userService.followUser(followUserReq).subscribe(res => {
+
+      const followedUser: User | undefined = this.suggestedUsers.find(u => u.userUuid === followedId);
+      if(followedUser){
+        followedUser.followedByCurrentUser = true;
+      }
+
+    });
+  
   }
 
 
