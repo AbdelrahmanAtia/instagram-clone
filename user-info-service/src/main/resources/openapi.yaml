@@ -242,16 +242,11 @@ definitions:
   FollowUserRequest:        
     type: object
     required:
-      - followerId
       - followedId
-    properties:
-      followerId:
-        type: string
-        format: uuid  
+    properties: 
       followedId:
         type: string
         format: uuid  
-    
     
   PartialUpdateUserRequest:
     type: object

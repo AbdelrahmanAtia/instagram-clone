@@ -1,5 +1,6 @@
 package com.javaworld.instagram.userinfoservice.persistence;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -27,7 +28,9 @@ import lombok.ToString;
 @ToString
 //TODO: crate an abstract entity that holds the version property and each entity shall extend that 
 //abstract entity
-public class UserEntity {
+public class UserEntity implements Serializable {
+	
+    private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

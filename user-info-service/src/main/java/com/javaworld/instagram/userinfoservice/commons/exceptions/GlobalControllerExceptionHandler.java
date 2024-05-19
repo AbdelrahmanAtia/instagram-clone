@@ -55,6 +55,12 @@ class GlobalControllerExceptionHandler {
 		return createHttpErrorInfo(INTERNAL_SERVER_ERROR, request, ex);
 	}
 	
+	@ResponseStatus(INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(IllegalArgumentException.class)
+	public @ResponseBody HttpErrorInfo handleIllegalArgumentException(HttpServletRequest request, IllegalArgumentException ex) {
+		return createHttpErrorInfo(INTERNAL_SERVER_ERROR, request, ex);
+	}	
+	
 	@ResponseStatus(BAD_REQUEST)
 	@ExceptionHandler(MissingServletRequestParameterException.class)
 	public @ResponseBody HttpErrorInfo handleMissingServletRequestParameterException(HttpServletRequest request,

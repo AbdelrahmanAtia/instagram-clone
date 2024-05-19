@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface FollowerRepository extends CrudRepository<FollowerEntity, String> {
 
-	@Query("SELECT f FROM FollowerEntity f WHERE f.follower.id = :followerId AND f.followed.id = :followedId")
+	@Query("SELECT f FROM FollowerEntity f WHERE f.follower.userUuid = :followerId AND f.followed.userUuid = :followedId")
 	Optional<FollowerEntity> findByFollowerIdAndFollowedId(@Param("followerId") UUID followerId,
 			@Param("followedId") UUID followedId);
 

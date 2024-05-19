@@ -8,14 +8,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.javaworld.instagram.userinfoservice.commons.exceptions.BadRequestException;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.HttpErrorInfo;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.InvalidInputException;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.NotFoundException;
+import com.javaworld.instagram.userinfoservice.commons.utils.SecurityUtil;
 import com.javaworld.instagram.userinfoservice.integration.PostServiceIntegration;
 import com.javaworld.instagram.userinfoservice.persistence.FollowerEntity;
 import com.javaworld.instagram.userinfoservice.persistence.FollowerRepository;
@@ -131,25 +135,36 @@ public class UserServiceImpl implements UserService {
 		} else {
 			throw new InvalidInputException("Invalid value for size parameter. It should be either 'MIN' or 'MAX'.");
 		}
-
-		List<UserEntity> suggestedUserEntities = userRepository.findRandomUsers(PageRequest.of(0, count));
+		
+		UUID currentUserUuid = SecurityUtil.getUserUuidFromAccessToken(getSecurityContext());
+		List<UserEntity> suggestedUserEntities = userRepository.findSuggestedUsers(currentUserUuid, PageRequest.of(0, count));
 
 		return userMapper.toDto(suggestedUserEntities);
 	}
 
 	
 	@Override
-	public void followUser(UUID followerId, UUID followedId) {
+	public void followUser(UUID followedId) {
 		
-		UserEntity followerUserEntity = userRepository.findByUserUuid(followerId).orElseThrow(
-				() -> new NotFoundException("Follower with uuid: " + followerId.toString() + " not found"));
+		UUID currentUserUuid = SecurityUtil.getUserUuidFromAccessToken(getSecurityContext());
+		
+		logger.info("user with id {} is requesting to follow user with id {}", currentUserUuid, followedId);
+		
+		if(currentUserUuid.equals(followedId)) {
+			throw new BadRequestException("user can't follow itself");
+		}
+		
+		//loggedIn user
+		UserEntity followerUserEntity = userRepository.findByUserUuid(currentUserUuid).orElseThrow(
+				() -> new NotFoundException("logged in user with uuid: " + currentUserUuid.toString() + " not found"));
 
 		UserEntity followedUser = userRepository.findByUserUuid(followedId).orElseThrow(
 				() -> new NotFoundException("Followed User with uuid: " + followedId.toString() + " not found"));
+		
 
 		
-		if (followerRepository.findByFollowerIdAndFollowedId(followerId, followedId).isPresent()) {
-			logger.warn("user with id " + followerId + " already following user with id " + followedId);
+		if (followerRepository.findByFollowerIdAndFollowedId(currentUserUuid, followedId).isPresent()) {
+			logger.warn("user with id " + currentUserUuid + " already following user with id " + followedId);
 			return;
 		}
 		
@@ -194,6 +209,10 @@ public class UserServiceImpl implements UserService {
 		} catch (IOException ioex) {
 			return ex.getMessage();
 		}
+	}
+	
+	private SecurityContext getSecurityContext() {
+		return SecurityContextHolder.getContext();
 	}
 
 }

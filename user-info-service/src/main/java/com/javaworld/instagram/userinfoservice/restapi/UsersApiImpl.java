@@ -66,11 +66,8 @@ public class UsersApiImpl implements UsersApi {
 	
 	@Override
 	public GenericResponseApiDto followUser(FollowUserRequestApiDto followUserRequest) {
-		
-		logger.info("requesting to follow user with id: " + followUserRequest.getFollowedId() + " by user with id: "
-				+ followUserRequest.getFollowerId());
 
-		userService.followUser(followUserRequest.getFollowerId(), followUserRequest.getFollowedId());
+		userService.followUser(followUserRequest.getFollowedId());
 
 		GenericResponseApiDto response = new GenericResponseApiDto();
 		response.setMessage("operation success");
