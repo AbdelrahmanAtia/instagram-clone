@@ -16,6 +16,8 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
 	private static final Logger logger = LoggerFactory.getLogger(JpaRegisteredClientRepository.class);
 
 	private final ClientRepository clientRepository;
+	
+	private static final int TOKEN_EXP_TIME_IN_SECONDS = 40;
 
 	public JpaRegisteredClientRepository(ClientRepository clientRepository) {
 		this.clientRepository = clientRepository;
@@ -36,7 +38,7 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
 		}
 
 		if (clientId.equals("writer")) {
-			return getWriterClient();
+			return geOldtWriterClient();
 		}
 		
 		
@@ -45,7 +47,7 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
 		});
 
 		// @formatter:off
-		 RegisteredClient writerClient = RegisteredClient.withId(UUID.randomUUID().toString())
+		 RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
 			      //.clientId("writer")
 			      //.clientSecret("secret")
 				  .clientId(client.getClientId())
@@ -64,11 +66,11 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
 			      .scope("user:read")
 			      .scope("user:write")
 			      .clientSettings(clientSettings -> clientSettings.requireUserConsent(true))
-			      .tokenSettings(ts -> ts.accessTokenTimeToLive(Duration.ofHours(1)))
+			      .tokenSettings(ts -> ts.accessTokenTimeToLive(Duration.ofSeconds(TOKEN_EXP_TIME_IN_SECONDS)))
 			      .build();
 		 // @formatter:on
 
-		return writerClient;
+		return registeredClient;
 	}
 	
 	//TODO: to be removed..this is just a workaround method that is used till i updated the postman tests
@@ -92,7 +94,7 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
 
 	//TODO: to be removed..this is just a workaround method that is used till i updated the postman tests
 	//to use non static users other than reader & writer	
-	private RegisteredClient getWriterClient() {
+	private RegisteredClient geOldtWriterClient() {
 		RegisteredClient writerClient = RegisteredClient.withId(UUID.randomUUID().toString()).clientId("writer")
 				.clientSecret("secret").clientAuthenticationMethod(ClientAuthenticationMethod.BASIC)
 				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)

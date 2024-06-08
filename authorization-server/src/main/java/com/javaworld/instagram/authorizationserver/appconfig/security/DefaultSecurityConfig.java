@@ -32,6 +32,7 @@ public class DefaultSecurityConfig {
         .anyRequest().authenticated()
       )
       .formLogin(withDefaults());
+      //.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint());
     return http.build();
   }
   // formatter:on
