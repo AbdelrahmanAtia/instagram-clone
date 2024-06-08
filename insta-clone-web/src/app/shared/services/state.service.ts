@@ -16,6 +16,10 @@ export class StateService {
     return localStorage.getItem(this.ACCESS_TOKE) || '';
   }
 
+  removeToken(): void {
+    localStorage.removeItem(this.ACCESS_TOKE);
+  }
+
   setCurrentUserUuid(userUuid: string){
     localStorage.setItem(this.USER_UUID, userUuid);
   }

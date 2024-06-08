@@ -4,11 +4,17 @@ import { Observable } from 'rxjs';
 import { RegisterModel } from 'src/app/register/register.model';
 import { API_CONFIG } from '../models/api.config';
 import { User } from '../models/user.model';
+import { StateService } from './state.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private stateService: StateService,
+    private router: Router
+  ) {}
 
   //TODO: Replace type any with an Object that represents the actual login response
   login(username: string, password: string): Observable<any> {
@@ -23,6 +29,16 @@ export class AuthService {
   register(registerModel: RegisterModel): Observable<User> {
     const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.registerEndpoint}`;
     return this.http.post<User>(reqUrl, registerModel);
+  }
+
+  logout(): void {
+    console.log('logging out...')
+    this.stateService.removeToken();
+
+    //TODO: are there any backend request needed to be done such as deleting
+    //token from BE
+
+    this.router.navigate(['/login']);
   }
 
  
