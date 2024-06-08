@@ -1,5 +1,6 @@
 package com.javaworld.instagram.authorizationserver.appconfig.security;
 
+/*
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -27,3 +28,4 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 		writer.flush();
 	}
 }
+*/
