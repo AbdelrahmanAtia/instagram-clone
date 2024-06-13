@@ -1,39 +1,55 @@
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { StateService } from '../services/state.service';
 import { Injectable } from '@angular/core';
 import { API_CONFIG } from '../models/api.config';
 import { AuthService } from '../services/auth.service';
 import { catchError, tap } from 'rxjs/operators';
+import { JwtService } from '../services/jwt.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
     constructor(
       private stateService: StateService,
-      private authService:AuthService
+      private authService: AuthService,
+      private jwtService: JwtService,
+      private router: Router
     ) {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         console.log("starting interceptor to add token");
-        console.log(this.isPublicEndPoint(req))
-
 
         if (!this.isPublicEndPoint(req)) {
             const accessToken = this.stateService.getAccessToken();
-            console.log('accessToken: ' + accessToken);
-            console.log(accessToken)
-            if (accessToken) {
-                req = req.clone({
-                    setHeaders: { 
-                        'Authorization': `${accessToken}`
-                    }
-                });
+
+            if(!accessToken){
+              this.router.navigate(['/login']);
+              return EMPTY;  // Return an empty observable to stop the request
             }
+
+            if(this.jwtService.isTokenExpired(accessToken)){
+              console.log('token expired..logging out')
+              this.authService.logout();
+              return EMPTY;  // Return an empty observable to stop the request
+            }
+            
+            req = req.clone({
+                setHeaders: { 
+                    'Authorization': `${accessToken}`
+                }
+            });
+            
         }
 
+
+        return next.handle(req);
         //strangely when the request is not authorized, we got a response 
         // with zero response status code
+
+
+        /*
         return next.handle(req).pipe(
             tap({
               error: (err: HttpErrorResponse) => {
@@ -43,6 +59,7 @@ export class AuthInterceptor implements HttpInterceptor {
               },
             })
           );
+          */
     }
 
     private isPublicEndPoint(req: HttpRequest<any>): boolean {

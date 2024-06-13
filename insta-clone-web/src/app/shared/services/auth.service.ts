@@ -32,7 +32,6 @@ export class AuthService {
   }
 
   logout(): void {
-    console.log('logging out...')
     this.stateService.removeToken();
 
     //TODO: are there any backend request needed to be done such as deleting
