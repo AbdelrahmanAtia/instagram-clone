@@ -23,7 +23,6 @@ export class ProfilePostsComponent implements OnInit {
   ){}
 
   ngOnInit(): void {  
-    this.stateService.printLocalStorageInfo();
     this.loadUserPosts();
   }
 

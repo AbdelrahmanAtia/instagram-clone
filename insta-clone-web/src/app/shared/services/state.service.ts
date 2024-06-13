@@ -3,21 +3,21 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class StateService {
 
-  ACCESS_TOKE: string = "accessToken";
+  ACCESS_TOKEN: string = "accessToken";
   USER_UUID: string = "userUuid";
 
   constructor() { }
 
   setAccessToken(token: string) {
-    localStorage.setItem(this.ACCESS_TOKE, token);
+    localStorage.setItem(this.ACCESS_TOKEN, token);
   }
 
   getAccessToken(): string {
-    return localStorage.getItem(this.ACCESS_TOKE) || '';
+    return localStorage.getItem(this.ACCESS_TOKEN) || '';
   }
 
   removeToken(): void {
-    localStorage.removeItem(this.ACCESS_TOKE);
+    localStorage.removeItem(this.ACCESS_TOKEN);
   }
 
   setCurrentUserUuid(userUuid: string){
