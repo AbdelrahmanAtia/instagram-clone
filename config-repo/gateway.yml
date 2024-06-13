@@ -33,12 +33,14 @@ spring.security.oauth2.resourceserver.jwt.issuer-uri: http://${app.auth-server}:
 #################################    
 spring.sleuth.reactor.instrumentation-type: decorate-on-last
 
+
 ##################
 ## Cors configs ##
 ##################    
 spring:
   cloud:
     gateway:
+      ##httpserver.wiretap: true
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -61,6 +63,10 @@ spring.cloud.gateway.globalcors.add-to-simple-url-handler-mapping: true
 logging:
   level:
     root: INFO
+    org.springframework.security: DEBUG
+    ##org.springframework.web.HttpLogging: TRACE
+    ##reactor.netty.http.server: DEBUG
+    ##reactor.netty.http.client: DEBUG
     org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: INFO
     org.springframework.cloud.gateway: TRACE
     
