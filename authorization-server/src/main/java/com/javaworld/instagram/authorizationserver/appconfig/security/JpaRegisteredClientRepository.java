@@ -17,7 +17,7 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
 
 	private final ClientRepository clientRepository;
 	
-	private static final int TOKEN_EXP_TIME_IN_SECONDS = 40;
+	private static final int TOKEN_EXP_TIME_IN_SECONDS = 10800; //3 hrs
 
 	public JpaRegisteredClientRepository(ClientRepository clientRepository) {
 		this.clientRepository = clientRepository;
