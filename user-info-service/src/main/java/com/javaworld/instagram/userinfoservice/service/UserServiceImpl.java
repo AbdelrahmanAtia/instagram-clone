@@ -2,6 +2,8 @@ package com.javaworld.instagram.userinfoservice.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,7 @@ import com.javaworld.instagram.userinfoservice.persistence.FollowerEntity;
 import com.javaworld.instagram.userinfoservice.persistence.FollowerRepository;
 import com.javaworld.instagram.userinfoservice.persistence.UserEntity;
 import com.javaworld.instagram.userinfoservice.persistence.UserRepository;
+import com.javaworld.instagram.userinfoservice.service.dto.Follower;
 import com.javaworld.instagram.userinfoservice.service.dto.User;
 import com.javaworld.instagram.userinfoservice.service.dtomapper.UserMapper;
 
@@ -76,7 +79,12 @@ public class UserServiceImpl implements UserService {
 			throw new NotFoundException("user with uuid: " + userUuid.toString() + " not found");
 		});
 
+		int followersCount = followerRepository.getFollowersCount(userUuid);
+		int followingCount = followerRepository.getFollowingCount(userUuid);
+		
 		User userDto = userMapper.toDto(existingUser);
+		userDto.setFollowersCount(followersCount);
+		userDto.setFollowingCount(followingCount);
 
 		boolean getPostsCountFromPostsService = true; // TODO: shall be an external configuration flag
 
@@ -176,6 +184,31 @@ public class UserServiceImpl implements UserService {
 		
 		followerRepository.save(followerEntity);
 		
+	}
+	
+	//TODO: update the following method to support pagination..
+	@Override
+	public List<User> getUserFollowers(UUID userUuid) {
+		
+		
+		logger.info("starting to get followers for user with uuid {}", userUuid);
+
+		UserEntity userEntity = userRepository.findByUserUuid(userUuid).orElseThrow(() -> {
+			throw new NotFoundException("user with uuid: " + userUuid.toString() + " not found");
+		});
+		
+		//TODO: when loading followers entities, does it load the underlaying 
+		//user entity list that representss these followers ? or 
+		//does the mappers load them one by one!!
+		
+		//TODO: if above is correct, then the most optimal solution is to load the 
+		// followers ids in one query, and then load the corresponding 
+		// user entities in another query..
+		Set<FollowerEntity> followers = userEntity.getFollowers();
+		
+		List<User> users = userMapper.toUserDtoList(followers);
+
+		return users;
 	}
 	
 	// TODO: move to a utility class

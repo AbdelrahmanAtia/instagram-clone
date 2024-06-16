@@ -83,6 +83,15 @@ public class UsersApiImpl implements UsersApi {
 		return mapper.toApiDtoList(suggestedUsers);
 	}
 	
+	//TODO: i thin kit's better to have service address set on the header..
+	//TODO: generate by swagger..
+	public List<UserApiDto> getUserFollowers(UUID userUuid) {
+		logger.info("retrieving followers of user with uuid {}", userUuid);
+		List<User> followers = userService.getUserFollowers(userUuid);
+		return mapper.toApiDtoList(followers);
+	}
+	
+	
 	private UserApiDto setServiceAddress(UserApiDto userApiDto) {
 
 		userApiDto.setServiceAddress(serviceUtil.getServiceAddress());

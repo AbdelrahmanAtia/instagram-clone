@@ -9,27 +9,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class User {
+public class Follower {
 
-	private String mobileNumber;
-
-	private String email;
-
+	private UUID userUuid;
+	
+	private String profileImageName;
+	
 	private String fullName;
 
 	private String username;
-
-	private String password;
-
-	private UUID userUuid;
-
-	private int postsCount;
-	
-	private int followersCount;
-
-	private int followingCount;
-
-	private String profileImageName;
-
 
 }
