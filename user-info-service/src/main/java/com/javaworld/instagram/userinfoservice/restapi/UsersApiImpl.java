@@ -3,6 +3,9 @@ package com.javaworld.instagram.userinfoservice.restapi;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,19 +86,20 @@ public class UsersApiImpl implements UsersApi {
 		return mapper.toApiDtoList(suggestedUsers);
 	}
 	
-	//TODO: i thin kit's better to have service address set on the header..
-	//TODO: generate by swagger..
-	public List<UserApiDto> getUserFollowers(UUID userUuid) {
+	//TODO: i think it's better to have service address set on the header..
+	@Override
+	public List<UserApiDto> getUserFollowers(UUID userUuid, Integer page, Integer size) {
 		logger.info("retrieving followers of user with uuid {}", userUuid);
 		List<User> followers = userService.getUserFollowers(userUuid);
 		return mapper.toApiDtoList(followers);
 	}
-	
+
 	
 	private UserApiDto setServiceAddress(UserApiDto userApiDto) {
 
 		userApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return userApiDto;
 	}
+
 
 }
