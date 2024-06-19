@@ -165,22 +165,23 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		//loggedIn user
-		UserEntity followerUserEntity = userRepository.findByUserUuid(currentUserUuid).orElseThrow(
+		UserEntity follower = userRepository.findByUserUuid(currentUserUuid).orElseThrow(
 				() -> new NotFoundException("logged in user with uuid: " + currentUserUuid.toString() + " not found"));
 
-		UserEntity followedUser = userRepository.findByUserUuid(followedId).orElseThrow(
+		//to be followed user
+		UserEntity followed = userRepository.findByUserUuid(followedId).orElseThrow(
 				() -> new NotFoundException("Followed User with uuid: " + followedId.toString() + " not found"));
 		
-
 		
 		if (followerRepository.findByFollowerIdAndFollowedId(currentUserUuid, followedId).isPresent()) {
 			logger.warn("user with id " + currentUserUuid + " already following user with id " + followedId);
 			return;
-		}
+		}		
 		
 		FollowerEntity followerEntity = new FollowerEntity();
-		followerEntity.setFollower(followerUserEntity);
-		followerEntity.setFollowed(followedUser);		
+		followerEntity.setFollower(followed);
+		followerEntity.setFollowed(follower);
+				
 		
 		followerRepository.save(followerEntity);
 		
@@ -188,25 +189,21 @@ public class UserServiceImpl implements UserService {
 	
 	//TODO: update the following method to support pagination..
 	@Override
-	public List<User> getUserFollowers(UUID userUuid) {
+	public List<User> getUserFollowers(UUID followedId) {
 		
-		
-		logger.info("starting to get followers for user with uuid {}", userUuid);
+		logger.info("starting to get followers for user with uuid {}", followedId);
 
-		UserEntity userEntity = userRepository.findByUserUuid(userUuid).orElseThrow(() -> {
-			throw new NotFoundException("user with uuid: " + userUuid.toString() + " not found");
+		//validate the followedId exists
+		userRepository.findByUserUuid(followedId).orElseThrow(() -> {
+			throw new NotFoundException("user with uuid: " + followedId.toString() + " not found");
 		});
 		
-		//TODO: when loading followers entities, does it load the underlaying 
-		//user entity list that representss these followers ? or 
-		//does the mappers load them one by one!!
 		
-		//TODO: if above is correct, then the most optimal solution is to load the 
-		// followers ids in one query, and then load the corresponding 
-		// user entities in another query..
-		Set<FollowerEntity> followers = userEntity.getFollowers();
+		List<UUID> followersIds = followerRepository.findFollowerIdsByFollowedId(followedId);
 		
-		List<User> users = userMapper.toUserDtoList(followers);
+		List<UserEntity> followersList = userRepository.findUsersByUuids(followersIds);
+				
+		List<User> users = userMapper.toUserDtoList(followersList);
 
 		return users;
 	}

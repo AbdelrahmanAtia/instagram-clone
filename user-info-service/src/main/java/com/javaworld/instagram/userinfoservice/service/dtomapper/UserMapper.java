@@ -19,13 +19,15 @@ public interface UserMapper extends EntityMapper<User, UserEntity> {
 	UserEntity toEntity(User user);	
 	
 	
+	/*
 	@Mapping(target = "userUuid", source = "followerEntity.follower.userUuid")
 	@Mapping(target = "profileImageName", source = "followerEntity.follower.profileImageName")
 	@Mapping(target = "username", source = "followerEntity.follower.username")
 	@Mapping(target = "fullName", source = "followerEntity.follower.fullName")
 	User toUserDto(FollowerEntity followerEntity);
+	*/
 
-	List<User> toUserDtoList(Set<FollowerEntity> followerEntityList);
+	List<User> toUserDtoList(List<UserEntity> followerEntityList);
 	
 
 }

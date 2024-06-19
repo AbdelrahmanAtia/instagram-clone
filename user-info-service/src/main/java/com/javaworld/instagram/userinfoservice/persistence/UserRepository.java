@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends CrudRepository<UserEntity, String> {
 
@@ -19,5 +20,8 @@ public interface UserRepository extends CrudRepository<UserEntity, String> {
 	        + "AND u.userUuid <> :currentUserUuid "
 	        + "ORDER BY RAND()")
 	List<UserEntity> findSuggestedUsers(UUID currentUserUuid, Pageable pageable);
+	
+	@Query("SELECT u FROM UserEntity u WHERE u.userUuid IN :userUuids")
+	List<UserEntity> findUsersByUuids(@Param("userUuids") List<UUID> userUuids);
 
 }

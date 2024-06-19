@@ -1,5 +1,6 @@
 package com.javaworld.instagram.userinfoservice.persistence;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,5 +22,7 @@ public interface FollowerRepository extends CrudRepository<FollowerEntity, Strin
     @Query("SELECT COUNT(f) FROM FollowerEntity f WHERE f.follower.userUuid = :followerId")
 	int getFollowingCount(@Param("followerId") UUID followerId);
     
-    
+    @Query("SELECT f.followed.userUuid FROM FollowerEntity f WHERE f.follower.userUuid = :followedId")
+    List<UUID> findFollowerIdsByFollowedId(@Param("followedId") UUID followedId);
+
 }
