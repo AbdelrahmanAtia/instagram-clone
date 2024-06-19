@@ -17,6 +17,8 @@ export class ProfileComponent {
   userDetails?: User;
   profileImage: string | null = null;
   userUuid: string = "";
+  showModal: boolean = false;
+
 
   constructor(
     private userService: UserService,
@@ -160,6 +162,15 @@ export class ProfileComponent {
       this.profileImage = this.sanitizer.bypassSecurityTrustUrl(objectURL) as string;
     });
 
+  }
+
+  openModal(): void {
+    console.log('open modal....')
+    this.showModal = true;
+  }
+
+  closeModal(): void {
+    this.showModal = false;
   }
 
 

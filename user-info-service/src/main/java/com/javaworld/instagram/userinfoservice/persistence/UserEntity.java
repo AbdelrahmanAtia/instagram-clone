@@ -65,5 +65,14 @@ public class UserEntity implements Serializable {
 		
 	@Version
 	private int version;
+	
+	
+	public void addFollower(FollowerEntity entity) {
+		this.followers.add(entity);
+	}
+	
+	public void addFollowing(FollowerEntity entity) {
+		this.following.add(entity);
+	}
 
 }

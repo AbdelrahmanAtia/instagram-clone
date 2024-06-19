@@ -19,6 +19,15 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 5
     leaseExpirationDurationInSeconds: 5
+    
+#####################################
+## Database related configurations ##
+#####################################
+    
+spring:
+  jpa:
+    properties:
+      hibernate.format_sql: true    
    
 ###############################
 ## Actuators related configs ##

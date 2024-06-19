@@ -17,10 +17,15 @@ import org.springframework.security.oauth2.client.web.reactive.function.client.S
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import io.netty.handler.logging.LogLevel;
 import reactor.core.publisher.Mono;
+import reactor.netty.http.client.HttpClient;
+import reactor.netty.transport.logging.AdvancedByteBufFormat;
 
 import java.util.Collections;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.reactive.ClientHttpConnector;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 
 @SpringBootApplication
 public class UserInfoServiceApplication {
@@ -60,12 +65,30 @@ public class UserInfoServiceApplication {
 				authorizedClientManager);
 		
 		filter.setDefaultClientRegistrationId("mywebclient");
-
-		return WebClient.builder().apply(filter.oauth2Configuration());
+		
+		return WebClient
+				.builder()
+				//.clientConnector(getClientConnector())  //this is used for logging the outgoing request url & headers
+				.apply(filter.oauth2Configuration());
 
 	}	
+	
+	//======= solution one for logging web login requests (not working) ====//
+	/**
+	// used for logging outgoing web client requests URLs & headers
+	
+	private ClientHttpConnector getClientConnector() {
+		HttpClient httpClient = HttpClient.create().wiretap(this.getClass().getCanonicalName(), LogLevel.DEBUG,
+				AdvancedByteBufFormat.TEXTUAL);
+		ClientHttpConnector conn = new ReactorClientHttpConnector(httpClient);
+
+		return conn;
+	}
+	**/
 
 	
+	//======= solution 2 for logging web login requests (not working) ====//
+
 	/*
     // This method returns filter function which will log request data
 	private static ExchangeFilterFunction logRequest() {

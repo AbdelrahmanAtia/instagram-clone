@@ -2,6 +2,8 @@ package com.javaworld.instagram.userinfoservice.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,7 @@ import com.javaworld.instagram.userinfoservice.persistence.FollowerEntity;
 import com.javaworld.instagram.userinfoservice.persistence.FollowerRepository;
 import com.javaworld.instagram.userinfoservice.persistence.UserEntity;
 import com.javaworld.instagram.userinfoservice.persistence.UserRepository;
+import com.javaworld.instagram.userinfoservice.service.dto.Follower;
 import com.javaworld.instagram.userinfoservice.service.dto.User;
 import com.javaworld.instagram.userinfoservice.service.dtomapper.UserMapper;
 
@@ -76,7 +79,12 @@ public class UserServiceImpl implements UserService {
 			throw new NotFoundException("user with uuid: " + userUuid.toString() + " not found");
 		});
 
+		int followersCount = followerRepository.getFollowersCount(userUuid);
+		int followingCount = followerRepository.getFollowingCount(userUuid);
+		
 		User userDto = userMapper.toDto(existingUser);
+		userDto.setFollowersCount(followersCount);
+		userDto.setFollowingCount(followingCount);
 
 		boolean getPostsCountFromPostsService = true; // TODO: shall be an external configuration flag
 
@@ -157,25 +165,47 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		//loggedIn user
-		UserEntity followerUserEntity = userRepository.findByUserUuid(currentUserUuid).orElseThrow(
+		UserEntity follower = userRepository.findByUserUuid(currentUserUuid).orElseThrow(
 				() -> new NotFoundException("logged in user with uuid: " + currentUserUuid.toString() + " not found"));
 
-		UserEntity followedUser = userRepository.findByUserUuid(followedId).orElseThrow(
+		//to be followed user
+		UserEntity followed = userRepository.findByUserUuid(followedId).orElseThrow(
 				() -> new NotFoundException("Followed User with uuid: " + followedId.toString() + " not found"));
 		
-
 		
 		if (followerRepository.findByFollowerIdAndFollowedId(currentUserUuid, followedId).isPresent()) {
 			logger.warn("user with id " + currentUserUuid + " already following user with id " + followedId);
 			return;
-		}
+		}		
 		
 		FollowerEntity followerEntity = new FollowerEntity();
-		followerEntity.setFollower(followerUserEntity);
-		followerEntity.setFollowed(followedUser);		
+		followerEntity.setFollower(followed);
+		followerEntity.setFollowed(follower);
+				
 		
 		followerRepository.save(followerEntity);
 		
+	}
+	
+	//TODO: update the following method to support pagination..
+	@Override
+	public List<User> getUserFollowers(UUID followedId) {
+		
+		logger.info("starting to get followers for user with uuid {}", followedId);
+
+		//validate the followedId exists
+		userRepository.findByUserUuid(followedId).orElseThrow(() -> {
+			throw new NotFoundException("user with uuid: " + followedId.toString() + " not found");
+		});
+		
+		
+		List<UUID> followersIds = followerRepository.findFollowerIdsByFollowedId(followedId);
+		
+		List<UserEntity> followersList = userRepository.findUsersByUuids(followersIds);
+				
+		List<User> users = userMapper.toUserDtoList(followersList);
+
+		return users;
 	}
 	
 	// TODO: move to a utility class

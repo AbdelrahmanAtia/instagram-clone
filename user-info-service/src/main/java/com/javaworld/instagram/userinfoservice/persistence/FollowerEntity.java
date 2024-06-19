@@ -24,18 +24,17 @@ import lombok.ToString;
 public class FollowerEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
     @ManyToOne
-    @JoinColumn(name = "follower_id", referencedColumnName = "userUuid")
+    @JoinColumn(name = "followed_id", referencedColumnName = "userUuid") 
     private UserEntity follower;
 
     @ManyToOne
-    @JoinColumn(name = "followed_id", referencedColumnName = "userUuid")
+    @JoinColumn(name = "follower_id", referencedColumnName = "userUuid")
     private UserEntity followed;
 	
 	@Version
