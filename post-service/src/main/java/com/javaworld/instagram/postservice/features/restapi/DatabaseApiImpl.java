@@ -1,9 +1,13 @@
 package com.javaworld.instagram.postservice.features.restapi;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.javaworld.instagram.postservice.features.service.DatabaseServiceImpl;
 
 import liquibase.exception.LiquibaseException;
 import liquibase.integration.spring.SpringLiquibase;
@@ -13,6 +17,9 @@ import liquibase.integration.spring.SpringLiquibase;
 public class DatabaseApiImpl {
 
 	private final SpringLiquibase liquibase;
+	
+	@Autowired
+	private DatabaseServiceImpl databaseService;
 
 	public DatabaseApiImpl(SpringLiquibase liquibase) {
 		this.liquibase = liquibase;
@@ -30,4 +37,11 @@ public class DatabaseApiImpl {
 		return ResponseEntity.ok("Database recreated successfully.");
 
 	}
+	
+	@GetMapping("/clear")
+	public ResponseEntity<String> clearDatabase()  {
+		databaseService.clearDatabase();
+		return ResponseEntity.ok("Database cleared successfully.");
+
+	}	
 }

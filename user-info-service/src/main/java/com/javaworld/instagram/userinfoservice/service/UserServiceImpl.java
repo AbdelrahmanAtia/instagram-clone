@@ -172,10 +172,8 @@ public class UserServiceImpl implements UserService {
 		UserEntity followed = userRepository.findByUserUuid(followedId).orElseThrow(
 				() -> new NotFoundException("Followed User with uuid: " + followedId.toString() + " not found"));
 		
-		
 		if (followerRepository.findByFollowerIdAndFollowedId(currentUserUuid, followedId).isPresent()) {
-			logger.warn("user with id " + currentUserUuid + " already following user with id " + followedId);
-			return;
+			throw new BadRequestException("user with id " + currentUserUuid + " already following user with id " + followedId);
 		}		
 		
 		FollowerEntity followerEntity = new FollowerEntity();
