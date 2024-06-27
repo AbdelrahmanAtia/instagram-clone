@@ -17,8 +17,8 @@ export class ProfileComponent {
   userDetails?: User;
   profileImage: string | null = null;
   userUuid: string = "";
+  userFollowers: User[] = [];
   showModal: boolean = false;
-
 
   constructor(
     private userService: UserService,
@@ -165,8 +165,13 @@ export class ProfileComponent {
   }
 
   openModal(): void {
-    console.log('open modal....')
+
     this.showModal = true;
+
+    this.userService.getUserFollowers(this.userUuid).subscribe(res => {
+      this.userFollowers = res.body ? res.body : [];
+    });
+
   }
 
   closeModal(): void {

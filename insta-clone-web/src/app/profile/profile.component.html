@@ -65,22 +65,27 @@
     </div>
 
 
-    <!-- Modal -->
+    <!-- followers Modal -->
     <div class="modal" [ngClass]="{'show': showModal}">
       <div class="modal-content">
         <span class="close" (click)="closeModal()">&times;</span>
         <h2>Followers</h2>
-        <ul>
+        
           <!--
-          <li *ngFor="let follower of followers">{{ follower.name }}</li>
+          <li *ngFor="let follower of userFollowers">{{ follower.username }}</li>
           -->
-          <li>vvvvvvvvv</li>
-          <li>vvvvvvvvv</li>
-          <li>vvvvvvvvv</li>
-          <li>vvvvvvvvv</li>
-          <li>vvvvvvvvv</li>
-          <li>vvvvvvvvv</li>
-        </ul>
+          <div class="row" *ngFor="let follower of userFollowers; let i = index">
+            <div class="col-md-2">
+              <img 
+                  [src]="follower.profileImage" 
+                  class="img-fluid mb-3"
+                  [style.width.px]="44"  
+                  [style.height.px]="44"  
+                  style="border-radius: 50%;"
+                  alt="">
+            </div>
+          </div>
+        
       </div>
     </div>
 

@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   register(registerModel: RegisterModel): Observable<User> {
-    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.registerEndpoint}`;
+    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.usersEntityUrl}`;
     return this.http.post<User>(reqUrl, registerModel);
   }
 
