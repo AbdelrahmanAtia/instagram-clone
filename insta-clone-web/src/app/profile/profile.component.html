@@ -45,7 +45,7 @@
           <div class="col-2 white-text">
             {{userDetails?.postsCount}} posts
           </div>
-          <div class="col-2 white-text" (click)="openModal()">
+          <div class="col-2 white-text" (click)="openFollowersModal()">
             {{userDetails?.followersCount}} followers
           </div>
           <div class="col white-text">
@@ -66,27 +66,50 @@
 
 
     <!-- followers Modal -->
-    <div class="modal" [ngClass]="{'show': showModal}">
-      <div class="modal-content">
-        <span class="close" (click)="closeModal()">&times;</span>
-        <h2>Followers</h2>
-        
-          <!--
-          <li *ngFor="let follower of userFollowers">{{ follower.username }}</li>
-          -->
-          <div class="row" *ngFor="let follower of userFollowers; let i = index">
-            <div class="col-md-2">
-              <img 
-                  [src]="follower.profileImage" 
-                  class="img-fluid mb-3"
-                  [style.width.px]="44"  
-                  [style.height.px]="44"  
-                  style="border-radius: 50%;"
-                  alt="">
-            </div>
-          </div>
-        
+    <div 
+      class="modal" 
+      [ngClass]="{'show': showFollowersModal}" 
+      style="background-color: #262626; 
+             width: 440px; 
+             height: 440px;
+             margin-left: 450px;
+             margin-top: 100px;
+             padding-top: 0px;"
+    >
+
+      <span class="close" (click)="closeFollowersModal()">&times;</span>
+      <h2 style="color: white;">Followers</h2>
+      <div class="row" *ngFor="let follower of userFollowers; let i = index">
+        <div class="col-md-2">
+          <img 
+              [src]="follower.profileImage" 
+              class="img-fluid mb-3"
+              [style.width.px]="44"  
+              [style.height.px]="44"  
+              style="border-radius: 50%;"
+              alt="">
+        </div>
+
+        <div class="col-md-7" >
+          <span style="font-weight: bold; color: white;">
+            {{follower.username}}
+          </span>
+        </div>   
+
+        <div class="col-md-3">
+
+          <button
+            style="background-color: rgb(0, 149, 246);"
+            class="btn btn-primary"
+            (click)="onFollowUserClick(follower.userUuid)"
+            >Follow              
+          </button>
+  
+  
+        </div>            
+
       </div>
+        
     </div>
 
 

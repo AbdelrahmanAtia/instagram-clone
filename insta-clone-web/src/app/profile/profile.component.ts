@@ -18,7 +18,7 @@ export class ProfileComponent {
   profileImage: string | null = null;
   userUuid: string = "";
   userFollowers: User[] = [];
-  showModal: boolean = false;
+  showFollowersModal: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -161,21 +161,48 @@ export class ProfileComponent {
       const objectURL = URL.createObjectURL(blob);
       this.profileImage = this.sanitizer.bypassSecurityTrustUrl(objectURL) as string;
     });
-
+  }
+  
+  setUserProfileImage(user: User){
+    this.fileService.downloadFile(user.profileImageName).subscribe(blob => {
+      const objectURL = URL.createObjectURL(blob);
+      user.profileImage = this.sanitizer.bypassSecurityTrustUrl(objectURL) as string;
+    });
   }
 
-  openModal(): void {
+  openFollowersModal(): void {
 
-    this.showModal = true;
+    this.showFollowersModal = true;
 
     this.userService.getUserFollowers(this.userUuid).subscribe(res => {
       this.userFollowers = res.body ? res.body : [];
+      this.userFollowers.forEach(follower => {
+        this.setUserProfileImage(follower);
+      });
     });
 
   }
 
-  closeModal(): void {
-    this.showModal = false;
+  closeFollowersModal(): void {
+    this.showFollowersModal = false;
+  }
+
+
+  onFollowUserClick(followedId: string) {
+
+    let followUserReq = {
+      followedId: followedId
+    };
+
+    this.userService.followUser(followUserReq).subscribe(res => {
+
+      const followedUser: User | undefined = this.userFollowers.find(u => u.userUuid === followedId);
+      if(followedUser){
+        followedUser.followedByCurrentUser = true;
+      }
+
+    });
+  
   }
 
 
