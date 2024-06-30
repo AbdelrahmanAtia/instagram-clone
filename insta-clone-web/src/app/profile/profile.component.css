@@ -55,17 +55,16 @@ body {
 	top: 0;
 	padding-left: 0px;
 	padding-right: 0px;
-    overflow-x: hidden; /* Hide horizontal scroll bar */
-    overflow-y: auto;   /* Keep vertical scroll bar if needed */
+	overflow-x: hidden; /* Hide horizontal scroll bar */
+	overflow-y: auto;   /* Keep vertical scroll bar if needed */
 	border-radius: 15px;
-
-  }
+}
   
-  .modal.show {
+.modal.show {
 	display: block;
-  }
-  
-  .header-container {
+}
+
+.header-container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -76,17 +75,28 @@ body {
 	color: white; /* Optional: sets text color */
 	border-bottom: 1px solid #363636;
 	margin-bottom: 20px;
-  }
+}
   
-  .header-container h2 {
+.header-container h2 {
 	margin: 0;
-  }
+}
   
-  .close {
+.close {
 	position: absolute;
 	right: 20px;
 	top: 50%;
 	transform: translateY(-50%);
 	font-size: 24px;
 	cursor: pointer;
-  }
+}
+
+.profile-btns {
+	background-color: rgb(54, 54, 54);
+	border-color: rgba(0, 0, 0, 0.4);
+	height: 32px;
+	font-weight: 600;
+	font-size: 14px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

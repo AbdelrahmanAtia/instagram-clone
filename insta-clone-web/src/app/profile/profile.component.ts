@@ -164,6 +164,11 @@ export class ProfileComponent {
   }
   
   setUserProfileImage(user: User){
+
+    if(!user.profileImageName){
+      return;
+    }
+
     this.fileService.downloadFile(user.profileImageName).subscribe(blob => {
       const objectURL = URL.createObjectURL(blob);
       user.profileImage = this.sanitizer.bypassSecurityTrustUrl(objectURL) as string;
