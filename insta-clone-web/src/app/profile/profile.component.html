@@ -94,24 +94,34 @@
             style="border-radius: 50%; float: left; margin-right: 13px;"
             alt="">  
 
-        <span style="font-weight: bold; color: white;">
-          {{follower.username}}
+        <span style="font-weight: 600; font-size: 14px; color: rgb(245, 245, 245);">
+          {{follower.username}} 
+        </span>
+        <br>
+        <span style="font-weight: 400; font-size: 14px; color: rgb(168, 168, 168);">
+          {{follower.fullName}} 
         </span>
       </div>
 
       <div class="col-md-3" style="padding-left: 15px;">
-
         <button
-          style="background-color: rgb(0, 149, 246); 
+          style="
+            background-color: rgb(0, 149, 246); 
             width: 90px; 
             height: 35px;
-            padding-bottom: 30px;
-            "
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+          "
           class="btn btn-primary"
           (click)="onFollowUserClick(follower.userUuid)"
-          >Remove              
+        >
+          Remove              
         </button>  
-      </div>            
+      </div>      
+              
     </div>
 
         

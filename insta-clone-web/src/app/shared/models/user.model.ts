@@ -2,6 +2,7 @@ export interface User {
     id: string;
     name: string;
     username: string;
+    fullName: string;
     email: string;
     profileImageName: string;
     profileImage: string; //base64 string
