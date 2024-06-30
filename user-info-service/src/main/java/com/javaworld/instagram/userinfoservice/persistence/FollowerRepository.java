@@ -15,11 +15,10 @@ public interface FollowerRepository extends CrudRepository<FollowerEntity, Strin
 			@Param("followedId") UUID followedId);
 	
 		
-    @Query("SELECT COUNT(f) FROM FollowerEntity f WHERE f.followed.userUuid = :followedId")
+    @Query("SELECT COUNT(f) FROM FollowerEntity f WHERE f.follower.userUuid = :followedId")
 	int getFollowersCount(@Param("followedId") UUID followedId);
     
-    
-    @Query("SELECT COUNT(f) FROM FollowerEntity f WHERE f.follower.userUuid = :followerId")
+    @Query("SELECT COUNT(f) FROM FollowerEntity f WHERE f.followed.userUuid = :followerId")
 	int getFollowingCount(@Param("followerId") UUID followerId);
     
     @Query("SELECT f.followed.userUuid FROM FollowerEntity f WHERE f.follower.userUuid = :followedId")
