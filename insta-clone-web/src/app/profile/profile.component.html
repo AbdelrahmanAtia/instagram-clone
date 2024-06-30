@@ -70,7 +70,7 @@
       class="modal" 
       [ngClass]="{'show': showFollowersModal}" 
       style="background-color: #262626; 
-             width: 450px; 
+             width: 440px; 
              height: 440px;
              margin-left: 450px;
              margin-top: 96px;
@@ -85,31 +85,33 @@
 
     <div class="row" *ngFor="let follower of userFollowers; let i = index"
       >
-      <div class="col-md-2" style=" border: 1px solid red">
+      <div class="col-md-8" style="padding-left: 28px;">
         <img 
             [src]="follower.profileImage" 
             class="img-fluid mb-3"
             [style.width.px]="44"  
             [style.height.px]="44"  
-            style="border-radius: 50%;"
-            alt="">
+            style="border-radius: 50%; float: left; margin-right: 13px;"
+            alt="">  
+
+        <span style="font-weight: bold; color: white;">
+          {{follower.username}}
+        </span>
       </div>
 
-        <div class="col-md-4" style="border: 1px solid green; padding-left: 0px;">
-          <span style="font-weight: bold; color: white;">
-            {{follower.username}}
-          </span>
-        </div>   
+      <div class="col-md-3" style="padding-left: 15px;">
 
-        <div class="col-md-4" style="border: 1px solid yellow;">
-
-          <button
-            style="background-color: rgb(0, 149, 246);"
-            class="btn btn-primary"
-            (click)="onFollowUserClick(follower.userUuid)"
-            >Follow              
-          </button>  
-        </div>            
+        <button
+          style="background-color: rgb(0, 149, 246); 
+            width: 90px; 
+            height: 35px;
+            padding-bottom: 30px;
+            "
+          class="btn btn-primary"
+          (click)="onFollowUserClick(follower.userUuid)"
+          >Remove              
+        </button>  
+      </div>            
     </div>
 
         
