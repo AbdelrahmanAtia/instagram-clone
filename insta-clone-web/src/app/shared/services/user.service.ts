@@ -45,7 +45,7 @@ export class UserService {
     followUserRequest: FollowUserRequest
   ): Observable<HttpResponse<GenericResponse>> {
     
-    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.usersEntityUrl}`;
+    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.followUsersEndPoint}`;
 
     return this.http.post<GenericResponse>(reqUrl,
       followUserRequest,
