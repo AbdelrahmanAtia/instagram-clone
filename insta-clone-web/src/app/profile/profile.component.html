@@ -28,28 +28,48 @@
         <br>
         <br>
         <div class="row mb-2">
-          <div class="col-auto white-text">
-            <span>{{userDetails?.username}}</span>
+          <div class="col-auto">
+            <span style="font-weight:400; 
+                         font-size: 20px;
+                         color: rgb(245, 245, 245);
+                         cursor: pointer;">
+              {{userDetails?.username}}
+            </span>
           </div>
 
-          <div class="col-auto">
-            <button class="btn btn-primary btn-grey">Edit Profile</button>
+          <div class="col-auto" >
+            <button 
+              class="btn btn-primary btn-grey profile-btns" 
+            >
+              Edit Profile
+            </button>
           </div>
           <div class="col-auto">
-            <button class="btn btn-primary btn-grey">View Archive</button>
+            <button class="btn btn-primary btn-grey profile-btns">
+              View Archive
+            </button>
           </div>
         </div>
   
         <!-- Second Row -->
-        <div class="row mb-2">
-          <div class="col-2 white-text">
-            {{userDetails?.postsCount}} posts
+        <div class="row mb-2" style="padding-top: 18px;">
+
+          <div class="col-2">
+            <span style="font-weight: 400;font-size: 15px;color: rgb(245, 245, 245);">
+              {{userDetails?.postsCount}} posts
+            </span>            
           </div>
-          <div class="col-2 white-text" (click)="openModal()">
-            {{userDetails?.followersCount}} followers
+
+          <div class="col-2" (click)="openFollowersModal()">
+            <span style="font-weight: 400;font-size: 15px;color: rgb(245, 245, 245);cursor: pointer;">            
+              {{userDetails?.followersCount}} followers
+            </span>
           </div>
-          <div class="col white-text">
-            {{userDetails?.followingCount}} following
+
+          <div class="col">
+            <span style="font-weight: 400;font-size: 15px;color: rgb(245, 245, 245);cursor: pointer;">            
+              {{userDetails?.followingCount}} following            
+            </span>
           </div>
 
         </div>
@@ -65,23 +85,77 @@
     </div>
 
 
-    <!-- Modal -->
-    <div class="modal" [ngClass]="{'show': showModal}">
-      <div class="modal-content">
-        <span class="close" (click)="closeModal()">&times;</span>
-        <h2>Followers</h2>
-        <ul>
-          <!--
-          <li *ngFor="let follower of followers">{{ follower.name }}</li>
-          -->
-          <li>vvvvvvvvv</li>
-          <li>vvvvvvvvv</li>
-          <li>vvvvvvvvv</li>
-          <li>vvvvvvvvv</li>
-          <li>vvvvvvvvv</li>
-          <li>vvvvvvvvv</li>
-        </ul>
+    <!-- followers Modal -->
+    <div 
+      class="modal" 
+      [ngClass]="{'show': showFollowersModal}" 
+      style="background-color: #262626; 
+             width: 440px; 
+             height: 440px;
+             margin-left: 450px;
+             margin-top: 96px;
+             padding-top: 0px;
+             "
+    >
+
+    <div class="header-container">
+      <span style="font-weight: bold;">Followers</span>
+      <span class="close" (click)="closeFollowersModal()">&times;</span>
+    </div>
+
+    <div class="row" *ngFor="let follower of userFollowers; let i = index"
+      >
+      <div class="col-md-8" style="padding-left: 28px;">
+        <img 
+            *ngIf="follower.profileImage"
+            [src]="follower.profileImage" 
+            class="img-fluid mb-3"
+            [style.width.px]="44"  
+            [style.height.px]="44"  
+            style="border-radius: 50%; float: left; margin-right: 13px;"
+            alt="">  
+
+        <img
+          *ngIf="!follower.profileImage"
+          src="../../assets/no-profile-image.png" 
+          class="img-fluid mb-3"
+          [style.width.px]="44"  
+          [style.height.px]="44"       
+          style="border-radius: 50%; float: left; margin-right: 13px;"     
+          alt="no profile picture image" 
+        >
+
+        <span style="font-weight: 600; font-size: 14px; color: rgb(245, 245, 245);">
+          {{follower.username}} 
+        </span>
+        <br>
+        <span style="font-weight: 400; font-size: 14px; color: rgb(168, 168, 168);">
+          {{follower.fullName}} 
+        </span>
       </div>
+
+      <div class="col-md-3" style="padding-left: 15px; padding-top: 5px;">
+        <button
+          style="
+            background-color: rgb(0, 149, 246); 
+            width: 100px; 
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+          "
+          class="btn btn-primary"
+          (click)="onFollowUserClick(follower.userUuid)"
+        >
+          Remove              
+        </button>  
+      </div>      
+              
+    </div>
+
+        
     </div>
 
 

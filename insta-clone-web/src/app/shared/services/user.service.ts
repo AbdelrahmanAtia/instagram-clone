@@ -15,7 +15,7 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getUser(userUuid: string): Observable<User> {
-    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.getUserEndPoint}`;
+    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.usersEntityUrl}`;
     let params = new HttpParams().set('userUuid', userUuid);
     return this.http.get<User>(reqUrl, { params: params });
   }
@@ -32,7 +32,7 @@ export class UserService {
   partialUpdate(
     partialUpdateUser: PartialUpdateUser
   ): Observable<EntityResponseType> {
-    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.getUserEndPoint}`;
+    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.usersEntityUrl}`;
     return this.http.patch<User>(reqUrl,
       partialUpdateUser,
       {
@@ -53,6 +53,23 @@ export class UserService {
         observe: 'response'
       }
     );
+  }  
+
+  getUserFollowers(
+    userUuid: string
+  ): Observable<EntityArrayResponseType> {
+    
+    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.usersEntityUrl}${userUuid}/followers`;
+
+    let params = new HttpParams()
+      .set('page', 0)
+      .set('size', 10);
+
+    return this.http.get<User[]>(reqUrl, {
+      params: params,
+      observe: 'response'
+    });
+
   }  
 
 }

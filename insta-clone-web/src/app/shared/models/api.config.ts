@@ -1,13 +1,16 @@
 export const API_CONFIG = {
 
     baseUrl: 'https://localhost:8443',
+
+    
     authEndpoint: '/oauth2/token',
+    usersEntityUrl: '/services/user-ms/users/',
 
     //-------------------------- user-ms ------------------------------//
-    registerEndpoint: '/services/user-ms/users/',
-    getUserEndPoint: '/services/user-ms/users/',
     getSuggestedUsersEndPoint: '/services/user-ms/users/suggested',
     followUsersEndPoint: '/services/user-ms/users/follow',
+    getUserFollowersEndPoint: '/services/user-ms/users/{}',
+
 
     //-------------------------- post-ms ------------------------------//
     uploadFileEndpoint: '/services/post-ms/files/upload',

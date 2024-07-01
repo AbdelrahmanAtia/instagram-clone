@@ -69,7 +69,7 @@ export class AuthInterceptor implements HttpInterceptor {
         // it's better to make the register user url more specific  for example
         // /users/register
 
-        let isRegisterRequest = req.url.endsWith(API_CONFIG.registerEndpoint) && req.method === 'POST';
+        let isRegisterRequest = req.url.endsWith(API_CONFIG.usersEntityUrl) && req.method === 'POST';
         return req.url.includes(API_CONFIG.authEndpoint) || isRegisterRequest;
     }
 }
