@@ -193,17 +193,13 @@ export class ProfileComponent {
   }
 
 
-  onFollowUserClick(followedId: string) {
+  onFollowUserClick(followerUser: User) {
 
-    let followUserReq = {
-      followedId: followedId
-    };
+    this.userService.removeFollower(followerUser.userUuid).subscribe(res => {
 
-    this.userService.followUser(followUserReq).subscribe(res => {
-
-      const followedUser: User | undefined = this.userFollowers.find(u => u.userUuid === followedId);
-      if(followedUser){
-        followedUser.followedByCurrentUser = true;
+      const follower: User | undefined = this.userFollowers.find(u => u.userUuid === followerUser?.userUuid);
+      if(follower){
+        follower.removedFromFollowersList = true;
       }
 
     });

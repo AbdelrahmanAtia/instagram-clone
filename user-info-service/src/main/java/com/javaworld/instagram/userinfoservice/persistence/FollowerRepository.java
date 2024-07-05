@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface FollowerRepository extends CrudRepository<FollowerEntity, String> {  
 
@@ -23,5 +25,10 @@ public interface FollowerRepository extends CrudRepository<FollowerEntity, Strin
     
     @Query("SELECT f.followed.userUuid FROM FollowerEntity f WHERE f.follower.userUuid = :followedId")
     List<UUID> findFollowerIdsByFollowedId(@Param("followedId") UUID followedId);
+    
+	@Modifying
+    @Transactional
+    @Query("DELETE FROM FollowerEntity f WHERE f.follower.userUuid = :followedId AND f.followed.userUuid = :followerId")
+	void deleteFollower(@Param("followedId") UUID followedId, @Param("followerId") UUID followerId);
 
 }

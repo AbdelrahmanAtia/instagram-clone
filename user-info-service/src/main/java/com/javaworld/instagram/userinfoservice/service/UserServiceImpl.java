@@ -2,8 +2,6 @@ package com.javaworld.instagram.userinfoservice.service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +25,6 @@ import com.javaworld.instagram.userinfoservice.persistence.FollowerEntity;
 import com.javaworld.instagram.userinfoservice.persistence.FollowerRepository;
 import com.javaworld.instagram.userinfoservice.persistence.UserEntity;
 import com.javaworld.instagram.userinfoservice.persistence.UserRepository;
-import com.javaworld.instagram.userinfoservice.service.dto.Follower;
 import com.javaworld.instagram.userinfoservice.service.dto.User;
 import com.javaworld.instagram.userinfoservice.service.dtomapper.UserMapper;
 
@@ -185,6 +182,25 @@ public class UserServiceImpl implements UserService {
 		
 	}
 	
+	@Override
+	public void removeFollower(UUID followerId) {
+		
+		UUID currentUserUuid = SecurityUtil.getUserUuidFromAccessToken(getSecurityContext());
+
+		logger.info("user with id {} is requesting to remove follower with id {}", currentUserUuid, followerId);
+		
+		//loggedIn user
+		UserEntity followed = userRepository.findByUserUuid(currentUserUuid).orElseThrow(
+				() -> new NotFoundException("logged in user with uuid: " + currentUserUuid.toString() + " not found"));
+
+		
+		UserEntity follower = userRepository.findByUserUuid(followerId).orElseThrow(
+				() -> new NotFoundException("Follower  with uuid: " + followerId.toString() + " not found"));
+		
+		followerRepository.deleteFollower(currentUserUuid, followerId);
+		
+	}
+	
 	//TODO: update the following method to support pagination..
 	@Override
 	public List<User> getUserFollowers(UUID followedId) {
@@ -244,5 +260,7 @@ public class UserServiceImpl implements UserService {
 	private SecurityContext getSecurityContext() {
 		return SecurityContextHolder.getContext();
 	}
+
+
 
 }

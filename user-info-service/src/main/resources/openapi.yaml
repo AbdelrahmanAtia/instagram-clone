@@ -208,6 +208,40 @@ paths:
             items:
               $ref: '#/definitions/User'
         '400':
+          description: ''   
+          
+  /users/followers/{followerUuid}:              
+    delete:
+      tags:
+        - User
+      summary: remove follower
+      description: ''
+      operationId: removeFollower
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: followerUuid
+          description: ''
+          required: true
+          type: string
+          format: uuid     
+        - in: query
+          name: page
+          description: ''
+          required: true
+          type: integer
+        - in: query
+          name: size
+          description: ''
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/GenericResponse'     
+        '400':
           description: ''            
 
   /reports/downloadaccountinformationreport:                  

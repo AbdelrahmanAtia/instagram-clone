@@ -3,22 +3,18 @@ package com.javaworld.instagram.userinfoservice.restapi;
 import java.util.List;
 import java.util.UUID;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.javaworld.instagram.userinfoservice.commons.utils.ServiceUtil;
-import com.javaworld.instagram.userinfoservice.server.dto.PartialUpdateUserRequestApiDto;
-
 import com.javaworld.instagram.userinfoservice.server.api.UsersApi;
 import com.javaworld.instagram.userinfoservice.server.dto.CreateUserRequestApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.DeletedUsersResponseApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.FollowUserRequestApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.GenericResponseApiDto;
+import com.javaworld.instagram.userinfoservice.server.dto.PartialUpdateUserRequestApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.UserApiDto;
 import com.javaworld.instagram.userinfoservice.service.UserService;
 import com.javaworld.instagram.userinfoservice.service.dto.User;
@@ -79,6 +75,8 @@ public class UsersApiImpl implements UsersApi {
 
 	}
 	
+	
+	
 	@Override
 	public List<UserApiDto> getSuggestedUsers(String size) {
 		logger.info("retrieving suggested users");
@@ -93,10 +91,19 @@ public class UsersApiImpl implements UsersApi {
 		List<User> followers = userService.getUserFollowers(userUuid);
 		return mapper.toApiDtoList(followers);
 	}
+	
+	@Override
+	public GenericResponseApiDto removeFollower(UUID followerUuid, Integer page, Integer size) {
+		
+		userService.removeFollower(followerUuid);
+		
+		GenericResponseApiDto response = new GenericResponseApiDto();
+		response.setMessage("operation success");
+		return response;
+	}
 
 	
 	private UserApiDto setServiceAddress(UserApiDto userApiDto) {
-
 		userApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return userApiDto;
 	}
