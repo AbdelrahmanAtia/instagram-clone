@@ -19,6 +19,8 @@ public interface UserService {
 	
 	void followUser(UUID toUserId);
 	
+	void removeFollower(UUID followerId);
+	
 	List<User> getUserFollowers(UUID followedId);
 	
 }

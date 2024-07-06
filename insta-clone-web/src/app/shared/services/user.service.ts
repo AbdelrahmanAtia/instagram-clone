@@ -55,6 +55,24 @@ export class UserService {
     );
   }  
 
+  removeFollower(
+    followerUuid: string
+  ): Observable<HttpResponse<GenericResponse>> {
+    
+    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.usersEntityUrl}/followers/${followerUuid}`;
+    
+    let params = new HttpParams()
+      .set('page', 0)
+      .set('size', 10);
+
+    return this.http.delete<GenericResponse>(reqUrl,
+      {
+        params: params,
+        observe: 'response'
+      }
+    );
+  }    
+
   getUserFollowers(
     userUuid: string
   ): Observable<EntityArrayResponseType> {
