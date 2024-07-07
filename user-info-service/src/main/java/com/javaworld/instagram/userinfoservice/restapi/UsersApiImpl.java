@@ -15,6 +15,7 @@ import com.javaworld.instagram.userinfoservice.server.dto.DeletedUsersResponseAp
 import com.javaworld.instagram.userinfoservice.server.dto.FollowUserRequestApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.GenericResponseApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.PartialUpdateUserRequestApiDto;
+import com.javaworld.instagram.userinfoservice.server.dto.UnFollowUserRequestApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.UserApiDto;
 import com.javaworld.instagram.userinfoservice.service.UserService;
 import com.javaworld.instagram.userinfoservice.service.dto.User;
@@ -65,17 +66,15 @@ public class UsersApiImpl implements UsersApi {
 	
 	@Override
 	public GenericResponseApiDto followUser(FollowUserRequestApiDto followUserRequest) {
-
 		userService.followUser(followUserRequest.getFollowedId());
-
-		GenericResponseApiDto response = new GenericResponseApiDto();
-		response.setMessage("operation success");
-
-		return response;
-
+		return getGenericSuccessResponse();
 	}
 	
-	
+	@Override
+	public GenericResponseApiDto unfollowUser(UnFollowUserRequestApiDto unFollowUserRequest) {
+		userService.unfollow(unFollowUserRequest.getFollowedId());
+		return getGenericSuccessResponse();
+	}	
 	
 	@Override
 	public List<UserApiDto> getSuggestedUsers(String size) {
@@ -93,13 +92,16 @@ public class UsersApiImpl implements UsersApi {
 	}
 	
 	@Override
+	public List<UserApiDto> getUserFollowings(UUID userUuid,   Integer page,
+			  Integer size) {
+		logger.info("retrieving followings of user with uuid {}", userUuid);
+		return mapper.toApiDtoList(userService.getUserFollowings(userUuid));
+	}	
+	
+	@Override
 	public GenericResponseApiDto removeFollower(UUID followerUuid, Integer page, Integer size) {
-		
 		userService.removeFollower(followerUuid);
-		
-		GenericResponseApiDto response = new GenericResponseApiDto();
-		response.setMessage("operation success");
-		return response;
+		return getGenericSuccessResponse();
 	}
 
 	
@@ -107,6 +109,11 @@ public class UsersApiImpl implements UsersApi {
 		userApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return userApiDto;
 	}
-
+	
+	private GenericResponseApiDto getGenericSuccessResponse() {
+		GenericResponseApiDto response = new GenericResponseApiDto();
+		response.setMessage("operation success");
+		return response;
+	}
 
 }

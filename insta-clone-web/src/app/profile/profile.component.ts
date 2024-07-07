@@ -18,7 +18,11 @@ export class ProfileComponent {
   profileImage: string | null = null;
   userUuid: string = "";
   userFollowers: User[] = [];
+  userFollowings: User[] = [];
+
   showFollowersModal: boolean = false;
+  showFollowingsModal: boolean = false;
+
 
   constructor(
     private userService: UserService,
@@ -188,23 +192,51 @@ export class ProfileComponent {
 
   }
 
+  openFollowingsModal(): void {
+
+    this.showFollowingsModal = true;
+
+    this.userService.getUserFollowings(this.userUuid).subscribe(res => {
+      this.userFollowings = res.body ? res.body : [];
+      this.userFollowings.forEach(following => {
+        this.setUserProfileImage(following);
+      });
+    });
+
+  }
+
   closeFollowersModal(): void {
     this.showFollowersModal = false;
   }
 
+  closeFollowingsModal(): void {
+    this.showFollowingsModal = false;
+  }  
 
   onFollowUserClick(followerUser: User) {
-
     this.userService.removeFollower(followerUser.userUuid).subscribe(res => {
-
       const follower: User | undefined = this.userFollowers.find(u => u.userUuid === followerUser?.userUuid);
       if(follower){
         follower.removedFromFollowersList = true;
       }
-
     });
-  
   }
+
+  followOrUnfollowUser(user: User) {
+    if(user.removedFromFollowingsList){
+      //follow
+      this.userService.followUser({"followedId": user.userUuid}).subscribe(res => {
+        user.removedFromFollowingsList = false;
+      });
+    } else {
+      //unfollow
+      this.userService.unfollowUser({"followedId": user.userUuid}).subscribe(res => {
+        user.removedFromFollowingsList = true;
+      });
+    }
+  }
+
+
 
 
 }

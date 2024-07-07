@@ -57,10 +57,10 @@ public class UserEntity implements Serializable {
 	@Column
 	private String profileImageName;
 
-    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "followed", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<FollowerEntity> followers = new HashSet<>();
 
-    @OneToMany(mappedBy = "followed", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<FollowerEntity> following = new HashSet<>();
 		
 	@Version
