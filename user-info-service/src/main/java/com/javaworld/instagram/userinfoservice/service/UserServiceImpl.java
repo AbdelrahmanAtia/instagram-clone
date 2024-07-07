@@ -174,8 +174,8 @@ public class UserServiceImpl implements UserService {
 		}		
 		
 		FollowerEntity followerEntity = new FollowerEntity();
-		followerEntity.setFollower(followed);
-		followerEntity.setFollowed(follower);
+		followerEntity.setFollower(follower);
+		followerEntity.setFollowed(followed);
 				
 		
 		followerRepository.save(followerEntity);
@@ -192,8 +192,7 @@ public class UserServiceImpl implements UserService {
 		validateUserExists(currentUserUuid);
 		validateUserExists(followerId);
 		
-		followerRepository.deleteFollower(currentUserUuid, followerId);
-		
+		followerRepository.delete(followerId, currentUserUuid);
 	}
 	
 	@Override
@@ -205,8 +204,7 @@ public class UserServiceImpl implements UserService {
 		validateUserExists(followedId);
 		validateUserExists(followerId);
 		
-		followerRepository.unfollow(followerId, followedId);
-		
+		followerRepository.delete(followerId, followedId);
 	}
 	
 	//TODO: update the following method to support pagination..
