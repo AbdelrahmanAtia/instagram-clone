@@ -230,7 +230,7 @@ export class ProfileComponent {
       });
     } else {
       //unfollow
-      this.userService.removeFollower(user.userUuid).subscribe(res => {
+      this.userService.unfollowUser({"followedId": user.userUuid}).subscribe(res => {
         user.removedFromFollowingsList = true;
       });
     }
