@@ -3,9 +3,6 @@ package com.javaworld.instagram.userinfoservice.restapi;
 import java.util.List;
 import java.util.UUID;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +15,7 @@ import com.javaworld.instagram.userinfoservice.server.dto.DeletedUsersResponseAp
 import com.javaworld.instagram.userinfoservice.server.dto.FollowUserRequestApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.GenericResponseApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.PartialUpdateUserRequestApiDto;
+import com.javaworld.instagram.userinfoservice.server.dto.UnFollowUserRequestApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.UserApiDto;
 import com.javaworld.instagram.userinfoservice.service.UserService;
 import com.javaworld.instagram.userinfoservice.service.dto.User;
@@ -69,10 +67,14 @@ public class UsersApiImpl implements UsersApi {
 	@Override
 	public GenericResponseApiDto followUser(FollowUserRequestApiDto followUserRequest) {
 		userService.followUser(followUserRequest.getFollowedId());
-		GenericResponseApiDto response = new GenericResponseApiDto();
-		response.setMessage("operation success");
-		return response;
+		return getGenericSuccessResponse();
 	}
+	
+	@Override
+	public GenericResponseApiDto unfollowUser(UnFollowUserRequestApiDto unFollowUserRequest) {
+		userService.unfollow(unFollowUserRequest.getFollowedId());
+		return getGenericSuccessResponse();
+	}	
 	
 	@Override
 	public List<UserApiDto> getSuggestedUsers(String size) {
@@ -98,12 +100,8 @@ public class UsersApiImpl implements UsersApi {
 	
 	@Override
 	public GenericResponseApiDto removeFollower(UUID followerUuid, Integer page, Integer size) {
-		
 		userService.removeFollower(followerUuid);
-		
-		GenericResponseApiDto response = new GenericResponseApiDto();
-		response.setMessage("operation success");
-		return response;
+		return getGenericSuccessResponse();
 	}
 
 	
@@ -111,8 +109,11 @@ public class UsersApiImpl implements UsersApi {
 		userApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return userApiDto;
 	}
-
-
-
+	
+	private GenericResponseApiDto getGenericSuccessResponse() {
+		GenericResponseApiDto response = new GenericResponseApiDto();
+		response.setMessage("operation success");
+		return response;
+	}
 
 }
