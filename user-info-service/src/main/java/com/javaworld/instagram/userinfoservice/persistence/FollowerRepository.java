@@ -26,9 +26,17 @@ public interface FollowerRepository extends CrudRepository<FollowerEntity, Strin
     @Query("SELECT f.followed.userUuid FROM FollowerEntity f WHERE f.follower.userUuid = :followedId")
     List<UUID> findFollowerIdsByFollowedId(@Param("followedId") UUID followedId);
     
+    @Query("SELECT f.follower.userUuid FROM FollowerEntity f WHERE f.followed.userUuid = :followerId")
+    List<UUID> findFollowingsIdsByFollowerId(@Param("followerId") UUID followerId);
+    
 	@Modifying
     @Transactional
     @Query("DELETE FROM FollowerEntity f WHERE f.follower.userUuid = :followedId AND f.followed.userUuid = :followerId")
 	void deleteFollower(@Param("followedId") UUID followedId, @Param("followerId") UUID followerId);
+	
+	@Modifying
+    @Transactional
+    @Query("DELETE FROM FollowerEntity f WHERE f.follower.userUuid = :followedId AND f.followed.userUuid = :followerId")
+	void unfollow(@Param("followerId") UUID followerId, @Param("followedId") UUID followedId);
 
 }

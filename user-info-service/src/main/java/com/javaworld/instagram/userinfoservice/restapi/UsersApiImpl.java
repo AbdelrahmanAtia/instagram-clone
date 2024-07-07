@@ -3,6 +3,9 @@ package com.javaworld.instagram.userinfoservice.restapi;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,17 +68,11 @@ public class UsersApiImpl implements UsersApi {
 	
 	@Override
 	public GenericResponseApiDto followUser(FollowUserRequestApiDto followUserRequest) {
-
 		userService.followUser(followUserRequest.getFollowedId());
-
 		GenericResponseApiDto response = new GenericResponseApiDto();
 		response.setMessage("operation success");
-
 		return response;
-
 	}
-	
-	
 	
 	@Override
 	public List<UserApiDto> getSuggestedUsers(String size) {
@@ -93,6 +90,13 @@ public class UsersApiImpl implements UsersApi {
 	}
 	
 	@Override
+	public List<UserApiDto> getUserFollowings(UUID userUuid,   Integer page,
+			  Integer size) {
+		logger.info("retrieving followings of user with uuid {}", userUuid);
+		return mapper.toApiDtoList(userService.getUserFollowings(userUuid));
+	}	
+	
+	@Override
 	public GenericResponseApiDto removeFollower(UUID followerUuid, Integer page, Integer size) {
 		
 		userService.removeFollower(followerUuid);
@@ -107,6 +111,8 @@ public class UsersApiImpl implements UsersApi {
 		userApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return userApiDto;
 	}
+
+
 
 
 }

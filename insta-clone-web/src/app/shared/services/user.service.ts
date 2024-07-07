@@ -87,8 +87,23 @@ export class UserService {
       params: params,
       observe: 'response'
     });
-
   }  
+
+  getUserFollowings(
+    userUuid: string
+  ): Observable<EntityArrayResponseType> {
+    
+    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.usersEntityUrl}${userUuid}/followings`;
+
+    let params = new HttpParams()
+      .set('page', 0)
+      .set('size', 10);
+
+    return this.http.get<User[]>(reqUrl, {
+      params: params,
+      observe: 'response'
+    });
+  }    
 
 }
  

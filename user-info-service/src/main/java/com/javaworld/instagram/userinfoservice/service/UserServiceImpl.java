@@ -189,37 +189,46 @@ public class UserServiceImpl implements UserService {
 
 		logger.info("user with id {} is requesting to remove follower with id {}", currentUserUuid, followerId);
 		
-		//loggedIn user
-		UserEntity followed = userRepository.findByUserUuid(currentUserUuid).orElseThrow(
-				() -> new NotFoundException("logged in user with uuid: " + currentUserUuid.toString() + " not found"));
-
-		
-		UserEntity follower = userRepository.findByUserUuid(followerId).orElseThrow(
-				() -> new NotFoundException("Follower  with uuid: " + followerId.toString() + " not found"));
+		validateUserExists(currentUserUuid);
+		validateUserExists(followerId);
 		
 		followerRepository.deleteFollower(currentUserUuid, followerId);
+		
+	}
+	
+	@Override
+	public void unfollow(UUID followedId) {
+		
+		UUID followerId = SecurityUtil.getUserUuidFromAccessToken(getSecurityContext());
+		logger.info("user with id {} is requesting to unfollow user with id {}", followerId, followedId);
+		
+		validateUserExists(followedId);
+		validateUserExists(followerId);
+		
+		followerRepository.unfollow(followerId, followedId);
 		
 	}
 	
 	//TODO: update the following method to support pagination..
 	@Override
 	public List<User> getUserFollowers(UUID followedId) {
-		
+
 		logger.info("starting to get followers for user with uuid {}", followedId);
 
-		//validate the followedId exists
-		userRepository.findByUserUuid(followedId).orElseThrow(() -> {
-			throw new NotFoundException("user with uuid: " + followedId.toString() + " not found");
-		});
-		
-		
-		List<UUID> followersIds = followerRepository.findFollowerIdsByFollowedId(followedId);
-		
-		List<UserEntity> followersList = userRepository.findUsersByUuids(followersIds);
-				
-		List<User> users = userMapper.toUserDtoList(followersList);
+		// validate the followedId exists
+		validateUserExists(followedId);
 
-		return users;
+		List<UUID> followersIds = followerRepository.findFollowerIdsByFollowedId(followedId);
+
+		return userMapper.toUserDtoList(userRepository.findUsersByUuids(followersIds));
+	}
+	
+	@Override
+	public List<User> getUserFollowings(UUID followerId) {
+		logger.info("starting to get followings for user with uuid {}", followerId);
+		validateUserExists(followerId);
+		List<UUID> followingsIds = followerRepository.findFollowingsIdsByFollowerId(followerId);
+		return userMapper.toUserDtoList(userRepository.findUsersByUuids(followingsIds));
 	}
 	
 	// TODO: move to a utility class
@@ -260,7 +269,11 @@ public class UserServiceImpl implements UserService {
 	private SecurityContext getSecurityContext() {
 		return SecurityContextHolder.getContext();
 	}
-
-
+	
+	private void validateUserExists(UUID userUuid) {
+		userRepository.findByUserUuid(userUuid).orElseThrow(() -> {
+			throw new NotFoundException("user with uuid: " + userUuid.toString() + " not found");
+		});
+	}
 
 }

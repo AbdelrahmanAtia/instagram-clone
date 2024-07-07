@@ -66,7 +66,7 @@
             </span>
           </div>
 
-          <div class="col">
+          <div class="col" (click)="openFollowingsModal()">
             <span style="font-weight: 400;font-size: 15px;color: rgb(245, 245, 245);cursor: pointer;">            
               {{userDetails?.followingCount}} following            
             </span>
@@ -161,7 +161,82 @@
         
     </div>
 
+    <!-- followings Modal -->  
+    <div 
+      class="modal" 
+      [ngClass]="{'show': showFollowingsModal}" 
+      style="background-color: #262626; 
+             width: 440px; 
+             height: 440px;
+             margin-left: 450px;
+             margin-top: 96px;
+             padding-top: 0px;
+             "
+    >
 
+    <div class="header-container">
+      <span style="font-weight: bold;">Followers</span>
+      <span class="close" (click)="closeFollowingsModal()">&times;</span>
+    </div>
+
+    <div class="row" *ngFor="let following of userFollowings; let i = index"
+      >
+      <div class="col-md-8" style="padding-left: 28px;">
+        <img 
+            *ngIf="following.profileImage"
+            [src]="following.profileImage" 
+            class="img-fluid mb-3"
+            [style.width.px]="44"  
+            [style.height.px]="44"  
+            style="border-radius: 50%; float: left; margin-right: 13px;"
+            alt="">  
+
+        <img
+          *ngIf="!following.profileImage"
+          src="../../assets/no-profile-image.png" 
+          class="img-fluid mb-3"
+          [style.width.px]="44"  
+          [style.height.px]="44"       
+          style="border-radius: 50%; float: left; margin-right: 13px;"     
+          alt="no profile picture image" 
+        >
+
+        <span style="font-weight: 600; font-size: 14px; color: rgb(245, 245, 245);">
+          {{following.username}} 
+        </span>
+        <br>
+        <span style="font-weight: 400; font-size: 14px; color: rgb(168, 168, 168);">
+          {{following.fullName}} 
+        </span>
+      </div>
+
+      <div class="col-md-3" style="padding-left: 15px; padding-top: 5px;">
+        <button
+          [style.background-color]="following.removedFromFollowingsList ? 'red' : 'rgb(0, 149, 246)'"
+          [style.border-color]="following.removedFromFollowingsList ? 'red' : 'rgb(0, 149, 246)'"
+          style="
+            width: 100px; 
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+          "
+          class="btn btn-primary"
+          (click)="followOrUnfollowUser(following)" 
+        >
+          <span *ngIf="!following.removedFromFollowingsList">Following</span>
+          <span *ngIf="following.removedFromFollowingsList">Follow</span>
+                        
+        </button>  
+      </div>      
+              
+    </div>
+
+        
+    </div>
+    
     <div class="tabs-container">
       <a routerLink="./posts" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <i class="fas fa-th"></i> POSTS
