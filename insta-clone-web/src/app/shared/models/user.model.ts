@@ -14,4 +14,6 @@ export interface User {
     serviceAddress: string;
     followedByCurrentUser: boolean;
     removedFromFollowersList: boolean;
+    removedFromFollowingsList: boolean;
+
 }

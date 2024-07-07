@@ -53,7 +53,19 @@ export class UserService {
         observe: 'response'
       }
     );
-  }  
+  } 
+  
+  unfollowUser(
+    unfollowUserRequest: UnFollowUserRequest
+  ): Observable<HttpResponse<GenericResponse>> {
+    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.usersEntityUrl}unfollow`;
+    return this.http.post<GenericResponse>(reqUrl,
+      unfollowUserRequest,
+      {
+        observe: 'response'
+      }
+    );
+  }    
 
   removeFollower(
     followerUuid: string
@@ -87,14 +99,34 @@ export class UserService {
       params: params,
       observe: 'response'
     });
-
   }  
+
+  getUserFollowings(
+    userUuid: string
+  ): Observable<EntityArrayResponseType> {
+    
+    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.usersEntityUrl}${userUuid}/followings`;
+
+    let params = new HttpParams()
+      .set('page', 0)
+      .set('size', 10);
+
+    return this.http.get<User[]>(reqUrl, {
+      params: params,
+      observe: 'response'
+    });
+  }    
 
 }
  
 export interface FollowUserRequest {
   followedId: string;
 }
+
+export interface UnFollowUserRequest {
+  followedId: string;
+}
+
 
 export interface GenericResponse {
   message: string;
