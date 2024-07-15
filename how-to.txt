@@ -14,5 +14,14 @@ cd ../var/lib/insta-ms/posts-images
 
 rm *
 =================================================================================================
+Q2) How to access jenkins ?
+
+>> jenkins is installed locally and runs as a service that starts automatically
+>> visti the following url http://localhost:8090/
+>> use credentials:-
+          username: admin
+		  password: admin
+=================================================================================================
+		  
 
 
