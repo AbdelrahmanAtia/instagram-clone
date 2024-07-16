@@ -18,7 +18,7 @@
 
    
 # Deploying all services to the cluster
-1- start docker desktop
+1- start docker desktop <br>
 1- move to instagram-clone/automation directory <br>
 2- execute batch file *all-services-build-deploy.bat* <br>
 
@@ -31,7 +31,7 @@
 the front end is built using angular.. it is not deployed as part of the cluster (till now)..follow the following steps to start it:- <br>
 1- import the following project \instagram-clone\insta-clone-web into VSC <br>
 2- run command  <br>
-``` ng serve ```
+``` ng serve ``` <br>
 3- access it through http://localhost:4200/  <br>
 
 # Software needed to be installed
