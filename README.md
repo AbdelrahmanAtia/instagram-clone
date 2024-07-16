@@ -18,6 +18,7 @@
 
    
 # Deploying all services to the cluster
+1- start docker desktop
 1- move to instagram-clone/automation directory <br>
 2- execute batch file *all-services-build-deploy.bat* <br>
 
@@ -26,6 +27,12 @@
 2- import the following file instagram-clone/insta-clone-testing-soapui-project.xml into soup ui <br>
 3- run the whole test suit <br>
 
+# Running Front end
+the front end is built using angular.. it is not deployed as part of the cluster (till now)..follow the following steps to start it:- <br>
+1- import the following project \instagram-clone\insta-clone-web into VSC <br>
+2- run command  <br>
+``` ng serve ```
+3- access it through http://localhost:4200/  <br>
 
 # Software needed to be installed
 1- Github Desktop <br>
