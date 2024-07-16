@@ -19,27 +19,20 @@
    
 # Deploying all services to the cluster
 1- move to instagram-clone/automation directory <br>
-2- execute batch file *_3_build-deploy-all.bat* <br>
+2- execute batch file *all-services-build-deploy.bat* <br>
 
 # Running test script
-1- move to instagram-clone dir <br>
-2- right click on and click "Git Bash Here <br>
-3- run command:  `bash test-em-all.bash` <br>
+1- install soup-ui tool..u can download it from here https://www.soapui.org/downloads/soapui/ <br>
+2- import the following file instagram-clone/insta-clone-testing-soapui-project.xml into soup ui <br>
+3- run the whole test suit <br>
 
 
 # Software needed to be installed
-1- Docker <br>
-2- jq tool  <br>
-
-
-# jq tool installation steps
-1 - open git bash and run command `curl -L -o /usr/bin/jq.exe https://github.com/stedolan/jq/releases/latest/download/jq-win64.exe` <br>
-2 - Make sure jq is installed with the `jq --version` command.   <br>
-
-
-# E2E testing using postman
-to run e2e tests, import the following file into postman: instagram-clone.postman_collection.json <br>
-then run it and make sure that all tests are passed. <br>
+1- Github Desktop <br>
+2- Docker <br>
+3- Eclipse <br>
+4- soup ui <br>
+5- visual studio code (VSC) <br>
 
 # Tools used
 <table>
@@ -66,25 +59,5 @@ then run it and make sure that all tests are passed. <br>
 </table>
 <br>
 
-# Properties description
-<table>
-    <thead>
-      <tr>
-        <th>Property name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>spring.application.name</td>
-            <td>it represents the name under which the application will be registered in eureka also
-                it represents the externalized config file name of that microservice in the config-repo folder
-            </td>
-        </tr>
-        <tr>
-            <td>spring.cloud.config.server.native.searchLocations</td>
-            <td>The location of the configuration repository</td>
-        </tr>
-     </tbody>
-  </table>
+
 
