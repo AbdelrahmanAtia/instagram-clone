@@ -1,12 +1,26 @@
 pipeline {
     agent any
+	
+    environment {
+        USER_PROJECT_DIR = 'user-info-service'
+        POST_PROJECT_DIR = 'post-service'
+    }
     
     stages {
         stage('Build') {
             steps {
-                echo 'Starting the Build stage...'
-                // Add build commands here, for example:
-                echo 'Building the application...'
+                
+                dir("${USER_PROJECT_DIR}") {
+                    script {
+                        sh 'mvn clean install  -DskipTests=true'
+                    }
+                }
+				
+                dir("${POST_PROJECT_DIR}") {
+                    script {
+                        sh 'mvn clean install  -DskipTests=true'
+                    }
+                }
             }
         }
         
