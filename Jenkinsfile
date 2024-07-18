@@ -12,13 +12,13 @@ pipeline {
                 
                 dir("${USER_PROJECT_DIR}") {
                     script {
-                        bat 'mvn clean install -o -DskipTests=true'
+                        sh 'mvn clean install -o -DskipTests=true'
                     }
                 }
 				
                 dir("${POST_PROJECT_DIR}") {
                     script {
-                        bat 'mvn clean install -o -DskipTests=true'
+                        sh 'mvn clean install -o -DskipTests=true'
                     }
                 }
             }
