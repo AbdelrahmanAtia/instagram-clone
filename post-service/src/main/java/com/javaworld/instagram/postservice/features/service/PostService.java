@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 
+import com.javaworld.instagram.postservice.features.service.dto.Comment;
 import com.javaworld.instagram.postservice.features.service.dto.Post;
 
 public interface PostService {
@@ -18,5 +19,7 @@ public interface PostService {
 	int countPosts(UUID userUuid);
 
 	void deletePostsByUserUuid(UUID userUuid);
+	
+	List<Comment> getPostComments(UUID postId);
 
 }

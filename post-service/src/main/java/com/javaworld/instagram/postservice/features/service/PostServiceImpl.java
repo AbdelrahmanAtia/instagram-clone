@@ -24,6 +24,7 @@ import com.javaworld.instagram.postservice.features.persistence.entities.PostEnt
 import com.javaworld.instagram.postservice.features.persistence.entities.TagEntity;
 import com.javaworld.instagram.postservice.features.persistence.repositories.PostRepository;
 import com.javaworld.instagram.postservice.features.persistence.repositories.TagRepository;
+import com.javaworld.instagram.postservice.features.service.dto.Comment;
 import com.javaworld.instagram.postservice.features.service.dto.Post;
 import com.javaworld.instagram.postservice.features.service.dtomapper.PostMapper;
 import org.springframework.data.domain.Page;
@@ -157,6 +158,14 @@ public class PostServiceImpl implements PostService {
 		}
 
 		return hashtags;
+	}
+
+	@Override
+	public List<Comment> getPostComments(UUID postId) {
+		
+		//TODO: to be implemented..
+		
+		return null;
 	}
 	
 }
