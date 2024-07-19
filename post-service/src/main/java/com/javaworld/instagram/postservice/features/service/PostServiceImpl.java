@@ -164,9 +164,7 @@ public class PostServiceImpl implements PostService {
 	public List<Comment> getPostComments(UUID postId) {
 		
 		//TODO: to be implemented..
-		
-		
-		
+
 		
 		return null;
 	}
