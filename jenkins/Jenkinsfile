@@ -1,24 +1,73 @@
 pipeline {
     agent any
-	
+    
     environment {
         USER_PROJECT_DIR = 'user-info-service'
         POST_PROJECT_DIR = 'post-service'
     }
     
     stages {
+
+	
+        stage('Fetch Develop Branch') {
+            steps {
+                echo 'Fetching the develop branch from remote repository...'
+                script {
+                    sh "git fetch origin develop"
+                }
+            }
+        }
+		
+	
+        stage('Determine Changed Files') {
+            steps {
+                echo 'Determining changed files...'
+                script {
+                    def changedFiles = sh(script: 'git diff --name-only origin/develop...HEAD', returnStdout: true).trim().split('\n')
+                    echo "================= changed files names ================="
+					changedFiles.each { file ->
+						echo file
+					}
+					echo "======================================================="
+					env.CHANGED_FILES = changedFiles.join(',')
+                }
+            }
+        }
+        
         stage('Build') {
             steps {
-                
-                dir("${USER_PROJECT_DIR}") {
-                    script {
-                        sh 'mvn clean install  -DskipTests=true'
+                script {
+                    echo 'Starting the build process...'
+                    def servicesToBuild = []
+                    def microservices = [
+                        'user-info-service': "${USER_PROJECT_DIR}", 
+                        'post-service': "${POST_PROJECT_DIR}"
+                    ]
+                    for (service in microservices) {
+                        for (file in env.CHANGED_FILES.split(',')) {
+                            if (file.startsWith(service.value)) {
+                                servicesToBuild.add(service.key)
+                                break
+                            }
+                        }
                     }
-                }
-				
-                dir("${POST_PROJECT_DIR}") {
-                    script {
-                        sh 'mvn clean install  -DskipTests=true'
+                    if (servicesToBuild.isEmpty()) {
+                        echo "No services to build."
+                    } else {
+                        echo "Services to build: ${servicesToBuild.join(', ')}"
+                        for (service in servicesToBuild) {
+                            if (service == 'user-info-service') {
+                                echo "Building ${USER_PROJECT_DIR}..."
+                                dir("${USER_PROJECT_DIR}") {
+                                    sh 'mvn clean install -DskipTests=true'
+                                }
+                            } else if (service == 'post-service') {
+                                echo "Building ${POST_PROJECT_DIR}..."
+                                dir("${POST_PROJECT_DIR}") {
+                                    sh 'mvn clean install -DskipTests=true'
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -43,7 +92,7 @@ pipeline {
     
     post {
         always {
-            echo 'Pipeline execution finished..'
+            echo 'Pipeline execution finished...'
         }
     }
 }
