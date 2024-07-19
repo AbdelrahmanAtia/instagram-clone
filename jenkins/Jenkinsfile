@@ -24,8 +24,8 @@ pipeline {
                 echo 'Determining changed files...'
                 script {
                     def changedFiles = sh(script: 'git diff --name-only origin/develop...HEAD', returnStdout: true).trim().split('\n')
-                    env.CHANGED_FILES = changedFiles.join(',')
-                    echo "Changed files: ${env.CHANGED_FILES}"
+                    echo "Changed files: ${changedFiles}"
+					env.CHANGED_FILES = changedFiles.join(',')
                 }
             }
         }
