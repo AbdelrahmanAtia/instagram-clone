@@ -23,7 +23,7 @@ pipeline {
             steps {
                 echo 'Determining changed files...'
                 script {
-                    def changedFiles = sh(script: 'git diff --name-only develop', returnStdout: true).trim().split('\n')
+                    def changedFiles = sh(script: 'git diff --name-only develop...HEAD', returnStdout: true).trim().split('\n')
                     env.CHANGED_FILES = changedFiles.join(',')
                     echo "Changed files: ${env.CHANGED_FILES}"
                 }
