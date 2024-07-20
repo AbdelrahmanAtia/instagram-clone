@@ -42,7 +42,7 @@ pipeline {
                         }
                     }
 
-					env.SERVICES_TO_BUILD = servicesToBuild
+					env.SERVICES_TO_BUILD = servicesToBuild.join(',')
 
                 }
             }
@@ -52,11 +52,13 @@ pipeline {
             steps {
                 script {
                    
-                    if (env.SERVICES_TO_BUILD.isEmpty()) {
+                    def servicesToBuild = env.SERVICES_TO_BUILD.split(',')
+					
+                    if (servicesToBuild.isEmpty()) {
                         echo "No services to build."
                     } else {
                         echo "Services to build: ${servicesToBuild.join(', ')}"
-                        env.SERVICES_TO_BUILD.each { service ->
+                        servicesToBuild.each { service ->
                             if (service == 'user-info-service') {
                                 stage("Build ${USER_PROJECT_DIR}") {
                                     echo "Building ${USER_PROJECT_DIR}..."
