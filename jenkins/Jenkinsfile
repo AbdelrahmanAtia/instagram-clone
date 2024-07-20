@@ -27,7 +27,7 @@ pipeline {
                         echo file
                     }
                     echo "======================================================="
-					def servicesToBuild = []
+                    def servicesToBuild = []
                     def microservices = [
                         'user-info-service': "${USER_PROJECT_DIR}", 
                         'post-service': "${POST_PROJECT_DIR}"
@@ -42,8 +42,7 @@ pipeline {
                         }
                     }
 
-					env.SERVICES_TO_BUILD = servicesToBuild.join(',')
-
+                    env.SERVICES_TO_BUILD = servicesToBuild.join(',')
                 }
             }
         }
@@ -51,9 +50,7 @@ pipeline {
         stage('Dynamic Build Stages') {
             steps {
                 script {
-                   
                     def servicesToBuild = env.SERVICES_TO_BUILD.split(',')
-					
                     if (servicesToBuild.isEmpty()) {
                         echo "No services to build."
                     } else {
