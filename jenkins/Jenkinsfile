@@ -51,7 +51,7 @@ pipeline {
             steps {
                 script {
                     def servicesToBuild = env.SERVICES_TO_BUILD.split(',')
-                    if (servicesToBuild.isEmpty()) {
+                    if (servicesToBuild.length == 0) {
                         echo "No services to build."
                     } else {
                         echo "Services to build: ${servicesToBuild.join(', ')}"
