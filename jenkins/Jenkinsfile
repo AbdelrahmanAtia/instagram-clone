@@ -17,7 +17,7 @@ pipeline {
             }
         }
 
-        stage('Determine Changed Files') {
+        stage('Determine Changed Services') {
             steps {
                 echo 'Determining changed files...'
                 script {
@@ -27,7 +27,23 @@ pipeline {
                         echo file
                     }
                     echo "======================================================="
-                    env.CHANGED_FILES = changedFiles.join(',')
+					def servicesToBuild = []
+                    def microservices = [
+                        'user-info-service': "${USER_PROJECT_DIR}", 
+                        'post-service': "${POST_PROJECT_DIR}"
+                    ]
+                    
+                    for (service in microservices) {
+                        for (file in changedFiles) {
+                            if (file.startsWith(service.value)) {
+                                servicesToBuild.add(service.key)
+                                break
+                            }
+                        }
+                    }
+
+					env.SERVICES_TO_BUILD = servicesToBuild
+
                 }
             }
         }
@@ -35,26 +51,12 @@ pipeline {
         stage('Dynamic Build Stages') {
             steps {
                 script {
-                    def servicesToBuild = []
-                    def microservices = [
-                        'user-info-service': "${USER_PROJECT_DIR}", 
-                        'post-service': "${POST_PROJECT_DIR}"
-                    ]
-                    
-                    for (service in microservices) {
-                        for (file in env.CHANGED_FILES.split(',')) {
-                            if (file.startsWith(service.value)) {
-                                servicesToBuild.add(service.key)
-                                break
-                            }
-                        }
-                    }
-                    
-                    if (servicesToBuild.isEmpty()) {
+                   
+                    if (env.SERVICES_TO_BUILD.isEmpty()) {
                         echo "No services to build."
                     } else {
                         echo "Services to build: ${servicesToBuild.join(', ')}"
-                        servicesToBuild.each { service ->
+                        env.SERVICES_TO_BUILD.each { service ->
                             if (service == 'user-info-service') {
                                 stage("Build ${USER_PROJECT_DIR}") {
                                     echo "Building ${USER_PROJECT_DIR}..."

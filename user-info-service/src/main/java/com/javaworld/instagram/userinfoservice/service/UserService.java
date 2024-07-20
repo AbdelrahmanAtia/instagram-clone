@@ -26,6 +26,9 @@ public interface UserService {
 	List<User> getUserFollowings(UUID followerId);
 
 	void unfollow(UUID followedId);
+	
+	
+	
 
 	
 }
