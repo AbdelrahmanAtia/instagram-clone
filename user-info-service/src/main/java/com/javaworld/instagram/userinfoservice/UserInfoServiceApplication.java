@@ -24,6 +24,7 @@ import reactor.netty.transport.logging.AdvancedByteBufFormat;
 
 import java.util.Collections;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 
@@ -43,6 +44,7 @@ public class UserInfoServiceApplication {
 	}	
 	
 	@Bean
+	@Profile("!test")
 	public OAuth2AuthorizedClientManager authorizedClientManager(
 			ClientRegistrationRepository clientRegistrationRepository,
 			OAuth2AuthorizedClientRepository authorizedClientRepository) {
@@ -60,6 +62,7 @@ public class UserInfoServiceApplication {
 	
 	@Bean
 	@LoadBalanced
+	@Profile("!test")
 	public WebClient.Builder loadBalancedWebClientBuilder(OAuth2AuthorizedClientManager authorizedClientManager) {
 		ServletOAuth2AuthorizedClientExchangeFilterFunction filter = new ServletOAuth2AuthorizedClientExchangeFilterFunction(
 				authorizedClientManager);

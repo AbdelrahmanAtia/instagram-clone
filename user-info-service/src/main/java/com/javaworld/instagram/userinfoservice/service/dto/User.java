@@ -2,6 +2,7 @@ package com.javaworld.instagram.userinfoservice.service.dto;
 
 import java.util.UUID;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,6 +10,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class User {
 
 	private String mobileNumber;
