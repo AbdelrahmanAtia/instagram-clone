@@ -21,5 +21,8 @@ public interface PostService {
 	void deletePostsByUserUuid(UUID userUuid);
 	
 	List<Comment> getPostComments(UUID postId);
+	
+	
+	
 
 }
