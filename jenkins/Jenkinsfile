@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     options {
-        ansiColor('xterm')
+        ansiColor('xterm') 
     }
 	
 
@@ -51,9 +51,9 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('E2E Test') {
             steps {
-                echo 'Starting the Test stage...'
+                echo 'Starting the e2e Test stage...'
                 // Add test commands here, for example:
                 echo 'Running tests...'
             }
