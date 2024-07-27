@@ -1,6 +1,7 @@
 package com.javaworld.instagram.userinfoservice.restapi;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import liquibase.integration.spring.SpringLiquibase;
 
 @RestController
 @RequestMapping("/db")
+@Profile("!test")
 public class DatabaseApiImpl {
 	
 	private final SpringLiquibase liquibase;

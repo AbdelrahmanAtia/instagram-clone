@@ -1,14 +1,19 @@
 pipeline {
+
     agent any
-    
+
+    options {
+        ansiColor('xterm')
+    }
+	
+
     environment {
         USER_PROJECT_DIR = 'user-info-service'
         POST_PROJECT_DIR = 'post-service'
     }
-    
+
     stages {
 
-	
         stage('Fetch Develop Branch') {
             steps {
                 echo 'Fetching the develop branch from remote repository...'
@@ -17,62 +22,35 @@ pipeline {
                 }
             }
         }
-		
-	
-        stage('Determine Changed Files') {
+
+        stage('Determine Changed Services') {
             steps {
                 echo 'Determining changed files...'
                 script {
-                    def changedFiles = sh(script: 'git diff --name-only origin/develop...HEAD', returnStdout: true).trim().split('\n')
-                    echo "================= changed files names ================="
-					changedFiles.each { file ->
-						echo file
-					}
-					echo "======================================================="
-					env.CHANGED_FILES = changedFiles.join(',')
+                    def changedFiles = getChangedFiles()
+                    echoChangedFiles(changedFiles)
+                    def servicesToBuild = determineServicesToBuild(changedFiles)
+                    env.SERVICES_TO_BUILD = servicesToBuild.join(',')
                 }
             }
         }
-        
-        stage('Build') {
+
+        stage('Dynamic Build Stages') {
             steps {
                 script {
-                    echo 'Starting the build process...'
-                    def servicesToBuild = []
-                    def microservices = [
-                        'user-info-service': "${USER_PROJECT_DIR}", 
-                        'post-service': "${POST_PROJECT_DIR}"
-                    ]
-                    for (service in microservices) {
-                        for (file in env.CHANGED_FILES.split(',')) {
-                            if (file.startsWith(service.value)) {
-                                servicesToBuild.add(service.key)
-                                break
-                            }
-                        }
-                    }
-                    if (servicesToBuild.isEmpty()) {
+                    def servicesToBuild = env.SERVICES_TO_BUILD.split(',')
+                    if (servicesToBuild.length == 0) {
                         echo "No services to build."
                     } else {
                         echo "Services to build: ${servicesToBuild.join(', ')}"
-                        for (service in servicesToBuild) {
-                            if (service == 'user-info-service') {
-                                echo "Building ${USER_PROJECT_DIR}..."
-                                dir("${USER_PROJECT_DIR}") {
-                                    sh 'mvn clean install -DskipTests=true'
-                                }
-                            } else if (service == 'post-service') {
-                                echo "Building ${POST_PROJECT_DIR}..."
-                                dir("${POST_PROJECT_DIR}") {
-                                    sh 'mvn clean install -DskipTests=true'
-                                }
-                            }
+                        servicesToBuild.each { service ->
+                            buildService(service)
                         }
                     }
                 }
             }
         }
-        
+
         stage('Test') {
             steps {
                 echo 'Starting the Test stage...'
@@ -80,7 +58,7 @@ pipeline {
                 echo 'Running tests...'
             }
         }
-        
+
         stage('Deploy') {
             steps {
                 echo 'Starting the Deploy stage...'
@@ -89,10 +67,58 @@ pipeline {
             }
         }
     }
-    
+
     post {
         always {
             echo 'Pipeline execution finished...'
+        }
+    }
+}
+
+def getChangedFiles() {
+    return sh(script: 'git diff --name-only origin/develop...HEAD', returnStdout: true).trim().split('\n')
+}
+
+def echoChangedFiles(changedFiles) {
+    echo "================= changed files names ================="
+    changedFiles.each { file ->
+        echo file
+    }
+    echo "======================================================="
+}
+
+def determineServicesToBuild(changedFiles) {
+    def servicesToBuild = []
+    def microservices = [
+        'user-info-service': "${USER_PROJECT_DIR}",
+        'post-service': "${POST_PROJECT_DIR}"
+    ]
+
+    for (service in microservices) {
+        for (file in changedFiles) {
+            if (file.startsWith(service.value)) {
+                servicesToBuild.add(service.key)
+                break
+            }
+        }
+    }
+    return servicesToBuild
+}
+
+def buildService(service) {
+    if (service == 'user-info-service') {
+        stage("Build & Test ${USER_PROJECT_DIR}") {
+            echo "Building ${USER_PROJECT_DIR}..."
+            dir("${USER_PROJECT_DIR}") {
+                sh 'mvn clean install -DskipTests=false'
+            }
+        }
+    } else if (service == 'post-service') {
+        stage("Build & Test ${POST_PROJECT_DIR}") {
+            echo "Building ${POST_PROJECT_DIR}..."
+            dir("${POST_PROJECT_DIR}") {
+                sh 'mvn clean install -DskipTests=false'
+            }
         }
     }
 }

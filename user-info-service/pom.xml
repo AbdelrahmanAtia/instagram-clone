@@ -23,6 +23,11 @@
 		<org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
 		<spring-cloud.version>2020.0.3</spring-cloud.version>
 		<resilience4jVersion>1.7.0</resilience4jVersion>
+		<junit-jupiter.version>5.3.2</junit-jupiter.version>
+        <mockito.version>2.24.0</mockito.version>
+        <mockito-core-version>3.11.2</mockito-core-version>
+        <mockito-junit-jupiter-version>4.8.0</mockito-junit-jupiter-version>
+        <junit-jupiter-api-version>5.7.2</junit-jupiter-api-version>
 	</properties>
 	
 	<dependencies>
@@ -33,8 +38,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>
-				org.springframework.boot</groupId>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 		
@@ -43,7 +47,60 @@
 				org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>	
+		
+		
+		<!-- ################### Testing dependencies ################################ -->	
+	
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+				<exclusion>
+                	<groupId>org.junit</groupId>
+                	<artifactId>junit</artifactId>
+            	</exclusion>
+			</exclusions>
+		</dependency>
+		
+	    <!-- JUnit Jupiter API -->
+	    <dependency>
+	        <groupId>org.junit.jupiter</groupId>
+	        <artifactId>junit-jupiter-api</artifactId>
+	        <scope>test</scope>
+	    </dependency>
 
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+	    <!-- Mockito core -->
+	    <dependency>
+	        <groupId>org.mockito</groupId>
+	        <artifactId>mockito-core</artifactId>
+	        <version>3.11.2</version>	        
+	        <scope>test</scope>
+	    </dependency>
+
+	    <!-- Mockito JUnit Jupiter -->
+	    <dependency>
+	        <groupId>org.mockito</groupId>
+	        <artifactId>mockito-junit-jupiter</artifactId>
+	        <scope>test</scope>
+	    </dependency>		
+
+		<!-- 	
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-test</artifactId>
+		</dependency>		
+		-->
 				
 		<!-- ################### Resilience  configuration ############### -->
 		<dependency>
@@ -110,28 +167,7 @@
 				spring-security-oauth2-jose</artifactId>
 		</dependency>
 		
-		<!-- ################### Testing dependencies ################################ -->	
-	
-		<dependency>
-			<groupId>
-				org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>
-				test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-	
-		<dependency>
-			<groupId>
-				io.projectreactor</groupId>
-			<artifactId>reactor-test</artifactId>
-		</dependency>		
-		
+
 		<!-- ########################### DB & persistence layer dependencies ################################ -->
 
 		<dependency>
@@ -165,38 +201,47 @@
 			<groupId>
 				com.h2database</groupId>
 			<artifactId>h2</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>org.liquibase</groupId>
+			<groupId>
+				org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
 		</dependency>
 
 		<!-- ################### dependencies needed for open-API code generator ################################ -->
 		
 		<dependency>
-			<groupId>io.swagger</groupId>
+			<groupId>
+				io.swagger</groupId>
 			<artifactId>swagger-annotations</artifactId>
-			<version>${swagger-annotations-version}</version>
+			<version>
+				${swagger-annotations-version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.openapitools</groupId>
+			<groupId>
+				org.openapitools</groupId>
 			<artifactId>jackson-databind-nullable</artifactId>
-			<version>${jackson-databind-nullable}</version>
+			<version>
+				${jackson-databind-nullable}</version>
 		</dependency>
 
 		<dependency>
-		    <groupId>io.springfox</groupId>
+		    <groupId>
+				io.springfox</groupId>
 		    <artifactId>springfox-boot-starter</artifactId>
 		    <version>3.0.0</version>
 		</dependency>
 		
 		<dependency>
-    		<groupId>org.projectlombok</groupId>
+    		<groupId>
+				org.projectlombok</groupId>
     		<artifactId>lombok</artifactId>
     		<version>1.18.30</version>
-    		<scope>provided</scope>
+    		<scope>
+				provided</scope>
 		</dependency>
 
 
@@ -229,28 +274,35 @@
 		<!-- ################################ Spring Cloud ################################################ -->
 	
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<groupId>
+				org.springframework.cloud</groupId>
+			<artifactId>
+				spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
+			<groupId>
+				org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-sleuth</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
+			<groupId>
+				org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-sleuth-zipkin</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+			<groupId>
+				org.springframework.cloud</groupId>
+			<artifactId>
+				spring-cloud-starter-stream-rabbit</artifactId>
 		</dependency>
 
 		<!-- ################################ Jasper Reports ################################################ -->
 		<dependency>
-			<groupId>net.sf.jasperreports</groupId>
+			<groupId>
+				net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
 			<version>6.17.0</version>
 		</dependency>
@@ -351,6 +403,7 @@
 	
 
 	<build>
+    
 		<plugins>		
 		
 			<plugin>
@@ -365,9 +418,11 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
+				<groupId>
+					org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<version>
+					3.8.1</version>
 				
 				<configuration>
 					<source>1.8</source> 
@@ -376,16 +431,19 @@
 
 						<path>
 				            <groupId>org.projectlombok</groupId>
-				            <artifactId>lombok</artifactId>
-				            <version>1.18.30</version> 
-            			</path>
+				            <artifactId>
+								lombok</artifactId>
+				            <version>1.18.30</version>
+						</path>
 
 						<path>
-							<groupId>org.mapstruct</groupId>
+							<groupId>
+								org.mapstruct</groupId>
 							<artifactId>mapstruct-processor</artifactId>
-							<version>${org.mapstruct.version}</version>
-						</path>						
-            			
+							<version>
+								${org.mapstruct.version}</version>
+						</path>
+
 						<!-- other annotation processors -->
 
 					</annotationProcessorPaths>
@@ -400,25 +458,34 @@
 			-->
 			
 			<plugin>
-				<groupId>org.openapitools</groupId>
+				<groupId>
+					org.openapitools</groupId>
 				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>6.0.1</version>
+				<version>
+					6.0.1</version>
 				<executions>
 					<execution>
 						<goals>
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
-							<templateDirectory>src/main/resources/openapi-templates</templateDirectory>
-							<generatorName>spring</generatorName>
-							<apiPackage>com.javaworld.instagram.userinfoservice.server.api</apiPackage>
-							<modelPackage>com.javaworld.instagram.userinfoservice.server.dto</modelPackage>
-							<modelNameSuffix>ApiDto</modelNameSuffix>
+							<inputSpec>
+								${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+							<templateDirectory>
+								src/main/resources/openapi-templates</templateDirectory>
+							<generatorName>
+								spring</generatorName>
+							<apiPackage>
+								com.javaworld.instagram.userinfoservice.server.api</apiPackage>
+							<modelPackage>
+								com.javaworld.instagram.userinfoservice.server.dto</modelPackage>
+							<modelNameSuffix>
+								ApiDto</modelNameSuffix>
 							<configOptions>
 								<interfaceOnly>true</interfaceOnly>
 								<skipDefaultInterface>true</skipDefaultInterface>
-								<reactive>false</reactive>
+								<reactive>
+									false</reactive>
 							</configOptions>
 						</configuration>
 					</execution>

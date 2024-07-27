@@ -1,0 +1,18 @@
+
+spring:
+  profiles: test
+   
+server.port: 9999   
+insta.post-service.url: http://insta-ms-post
+
+insta.post-service.virtual-url: http://post-ms    ## url to discover the actual url of the service from eureka
+insta.user-info-service.virtual-url: http://user-ms
+   
+spring.cloud.config.enabled: false
+eureka.client.enabled: false  ## disable eureka
+
+liquibase.enabled: false
+spring.liquibase.enabled: false
+
+
+spring.main.allow-bean-definition-overriding: true
