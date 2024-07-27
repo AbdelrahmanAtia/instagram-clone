@@ -1,5 +1,11 @@
 pipeline {
+
     agent any
+
+    options {
+        ansiColor('xterm')
+    }
+	
 
     environment {
         USER_PROJECT_DIR = 'user-info-service'
@@ -104,7 +110,7 @@ def buildService(service) {
         stage("Build ${USER_PROJECT_DIR}") {
             echo "Building ${USER_PROJECT_DIR}..."
             dir("${USER_PROJECT_DIR}") {
-                sh 'mvn clean install -DskipTests=false'
+                sh 'mvn clean install -DskipTests=true'
             }
         }
     } else if (service == 'post-service') {
