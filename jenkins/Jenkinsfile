@@ -107,14 +107,14 @@ def determineServicesToBuild(changedFiles) {
 
 def buildService(service) {
     if (service == 'user-info-service') {
-        stage("Build & Test ${USER_PROJECT_DIR}") {
+        stage("Build & Test <br> ${USER_PROJECT_DIR}") {
             echo "Building ${USER_PROJECT_DIR}..."
             dir("${USER_PROJECT_DIR}") {
                 sh 'mvn clean install -DskipTests=false'
             }
         }
     } else if (service == 'post-service') {
-        stage("Build & Test ${POST_PROJECT_DIR}") {
+        stage("Build & Test <br> ${POST_PROJECT_DIR}") {
             echo "Building ${POST_PROJECT_DIR}..."
             dir("${POST_PROJECT_DIR}") {
                 sh 'mvn clean install -DskipTests=false'
