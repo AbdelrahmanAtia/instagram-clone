@@ -104,14 +104,14 @@ def buildService(service) {
         stage("Build ${USER_PROJECT_DIR}") {
             echo "Building ${USER_PROJECT_DIR}..."
             dir("${USER_PROJECT_DIR}") {
-                sh 'mvn clean install -DskipTests=true'
+                sh 'mvn clean install -DskipTests=false'
             }
         }
     } else if (service == 'post-service') {
         stage("Build ${POST_PROJECT_DIR}") {
             echo "Building ${POST_PROJECT_DIR}..."
             dir("${POST_PROJECT_DIR}") {
-                sh 'mvn clean install -DskipTests=true'
+                sh 'mvn clean install -DskipTests=false'
             }
         }
     }
