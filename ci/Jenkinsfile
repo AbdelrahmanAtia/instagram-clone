@@ -31,7 +31,8 @@ pipeline {
                 echo 'Fetching the develop branch from remote repository...'
                 script {
 					sh 'docker --version'
-                    sh "git fetch origin develop:develop"
+					sh 'git branch --all'
+                    sh "git fetch origin develop"
                 }
             }
         }
@@ -89,7 +90,7 @@ pipeline {
 }
 
 def getChangedFiles() {
-    return sh(script: 'git diff --name-only origin/develop...HEAD', returnStdout: true).trim().split('\n')
+    return sh(script: 'git diff --name-only develop...HEAD', returnStdout: true).trim().split('\n')
 }
 
 def echoChangedFiles(changedFiles) {
