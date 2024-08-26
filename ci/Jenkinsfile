@@ -31,7 +31,7 @@ pipeline {
                 echo 'Fetching the develop branch from remote repository...'
                 script {
 					sh 'docker --version'
-                    sh "git fetch origin develop"
+                    sh "git fetch origin develop:develop"
                 }
             }
         }
