@@ -1,14 +1,13 @@
 
 pipeline {
 
-    agent any
+    //agent any
 	
-	
-    //agent {
-    //    docker { 
-	//		image 'maven:3.8.7-openjdk-17'
-	//	}
-    //}
+    agent {
+        docker { 
+			image 'maven:3.8.5-openjdk-17'
+		}
+    }
 	
 
     options {
@@ -17,6 +16,7 @@ pipeline {
 	
 	tools {
         dockerTool 'myDocker'  // Specify Docker by the name defined in Global Tool Configuration
+		maven 'myMaven'  // myMaven is the maven tool name defined in (Dashboard/Manage Jenkins/Tools)
     }
 
     environment {
@@ -25,12 +25,22 @@ pipeline {
     }
 
     stages {
+		
+		stage('printing tools versions') {
+            steps {
+                script {
+					//sh 'docker --version'
+					sh 'mvn -version'
+					sh 'java -version'
+                }
+            }
+        }
+		
 	
         stage('Fetch Develop Branch') {
             steps {
                 echo 'Fetching the develop branch from remote repository...'
                 script {
-					sh 'docker --version'
 					//sh 'git branch --all'
                     sh "git fetch origin develop"
                 }
