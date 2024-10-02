@@ -1,11 +1,23 @@
+
 pipeline {
 
-    agent any
-
-    options {
-        ansiColor('xterm')
+    //agent any
+	
+    agent {
+        docker { 
+			image 'maven:3.8.5-openjdk-17'
+		}
     }
 	
+
+    options {
+        ansiColor('xterm') 
+    }
+	
+	tools {
+        dockerTool 'myDocker'  // Specify Docker by the name defined in Global Tool Configuration
+		maven 'myMaven'  // myMaven is the maven tool name defined in (Dashboard/Manage Jenkins/Tools)
+    }
 
     environment {
         USER_PROJECT_DIR = 'user-info-service'
@@ -13,11 +25,23 @@ pipeline {
     }
 
     stages {
-
+		
+		stage('printing tools versions') {
+            steps {
+                script {
+					//sh 'docker --version'
+					sh 'mvn -version'
+					sh 'java -version'
+                }
+            }
+        }
+		
+	
         stage('Fetch Develop Branch') {
             steps {
                 echo 'Fetching the develop branch from remote repository...'
                 script {
+					//sh 'git branch --all'
                     sh "git fetch origin develop"
                 }
             }
@@ -51,9 +75,9 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('E2E Test') {
             steps {
-                echo 'Starting the Test stage...'
+                echo 'Starting the e2e Test stage...'
                 // Add test commands here, for example:
                 echo 'Running tests...'
             }
@@ -76,7 +100,7 @@ pipeline {
 }
 
 def getChangedFiles() {
-    return sh(script: 'git diff --name-only origin/develop...HEAD', returnStdout: true).trim().split('\n')
+    return sh(script: 'git diff --name-only develop...HEAD', returnStdout: true).trim().split('\n')
 }
 
 def echoChangedFiles(changedFiles) {
@@ -107,18 +131,34 @@ def determineServicesToBuild(changedFiles) {
 
 def buildService(service) {
     if (service == 'user-info-service') {
-        stage("Build & Test ${USER_PROJECT_DIR}") {
+        stage("Build ${USER_PROJECT_DIR}") {
             echo "Building ${USER_PROJECT_DIR}..."
             dir("${USER_PROJECT_DIR}") {
                 sh 'mvn clean install -DskipTests=false'
             }
         }
+		
+        stage("Test ${USER_PROJECT_DIR}") {
+            echo "Testing ${USER_PROJECT_DIR}..."
+            dir("${USER_PROJECT_DIR}") {
+                sh 'mvn clean test -Dspring.profiles.active=test'
+            }
+        }
+		
     } else if (service == 'post-service') {
-        stage("Build & Test ${POST_PROJECT_DIR}") {
+        stage("Build ${POST_PROJECT_DIR}") {
             echo "Building ${POST_PROJECT_DIR}..."
             dir("${POST_PROJECT_DIR}") {
                 sh 'mvn clean install -DskipTests=false'
             }
         }
+		
+        stage("Test ${POST_PROJECT_DIR}") {
+            echo "Testing ${POST_PROJECT_DIR}..."
+            dir("${POST_PROJECT_DIR}") {
+                sh 'mvn clean test -Dspring.profiles.active=test'
+            }
+        }		
+		
     }
 }
