@@ -1,3 +1,16 @@
+.container {
+  display: flex;
+  justify-content: space-between; /* Adjusts space between columns */
+}
+
+.column {
+  flex: 1; /* Each column takes up equal width */
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin: 5px;
+}
+
+
 .sidebar {
   width: 245px;
   height: 100%;
