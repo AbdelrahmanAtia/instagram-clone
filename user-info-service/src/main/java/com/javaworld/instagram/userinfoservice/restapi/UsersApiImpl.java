@@ -17,7 +17,9 @@ import com.javaworld.instagram.userinfoservice.server.dto.GenericResponseApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.PartialUpdateUserRequestApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.UnFollowUserRequestApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.UserApiDto;
+import com.javaworld.instagram.userinfoservice.service.UserQueryService;
 import com.javaworld.instagram.userinfoservice.service.UserService;
+import com.javaworld.instagram.userinfoservice.service.criteria.UserCriteria;
 import com.javaworld.instagram.userinfoservice.service.dto.User;
 
 @RestController
@@ -27,18 +29,27 @@ public class UsersApiImpl implements UsersApi {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private UserQueryService userQueryService;
 
 	@Autowired
 	private UserApiDtoMapper mapper;
 
 	@Autowired
 	private ServiceUtil serviceUtil;
+	
 
 	@Override
 	public UserApiDto createUser(CreateUserRequestApiDto createUserRequestApiDto) {
 		User savedUser = userService.createUser(mapper.mapCreateUserRequestToUserDto(createUserRequestApiDto));
 		UserApiDto response = mapper.toApiDto(savedUser);
 		return setServiceAddress(response);
+	}
+	
+	public List<UserApiDto> searchForUsers(UserCriteria criteria) {
+		List<User> userDtoList = userQueryService.findByCriteria(criteria);
+		return mapper.toApiDtoList(userDtoList);
 	}
 
 	@Override
