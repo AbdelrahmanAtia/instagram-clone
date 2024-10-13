@@ -6,6 +6,8 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.javaworld.instagram.userinfoservice.commons.utils.ServiceUtil;
@@ -47,6 +49,10 @@ public class UsersApiImpl implements UsersApi {
 		return setServiceAddress(response);
 	}
 	
+	//TODO: this will not appear in swagger doc as i don't know
+	//till now how the criteria will be represent in the swagger file
+	//TODO: this annotation shall be removed once we defined that api in swagger
+	@GetMapping(value = "/users/search", produces = { "application/json" }, consumes = { "application/json" })
 	public List<UserApiDto> searchForUsers(UserCriteria criteria) {
 		List<User> userDtoList = userQueryService.findByCriteria(criteria);
 		return mapper.toApiDtoList(userDtoList);

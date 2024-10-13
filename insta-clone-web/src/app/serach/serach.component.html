@@ -1,1 +1,26 @@
-<p>serach works!</p>
+<div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <input
+            type="text"
+            placeholder="Search..."
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="onSearch()"
+            class="form-control"
+          />
+        </div>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let item of filteredItems">
+            {{ item }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
