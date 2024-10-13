@@ -1,27 +1,4 @@
-
-<div class="container">
-  <div class="column  column-one">
-    <ul class="nav">
-      <li class="nav-item" *ngFor="let link of links">
-        <a 
-          class="nav-link" 
-          (click)="onClick(link.label)"
-          [routerLink]="link.route"
-        >
-          <i *ngIf="link.icon" [class]="link.icon"></i>
-          <span style="margin-left: 20px;">{{link.label}}</span>
-        </a>
-      </li>
-    </ul>
-  </div>
-
-  
-  <div class="column column-two">Column 2 content</div>
-</div>
-
-
 <!-- HTML Template -->
-<!--
 <div class="sidebar-wrapper" [ngClass]="{'sidebar-visible': isSidebarOpen}">
   <div class="sidebar">
     <ul class="nav flex-column">
@@ -39,4 +16,3 @@
   </div>
 </div>
 <button (click)="toggleSidebar()">Toggle Sidebar</button>
-!-->

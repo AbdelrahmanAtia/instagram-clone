@@ -45,16 +45,11 @@ export class SidebarComponent {
   }
 
   onClick(linkLabel: string) {
-
     if(linkLabel === 'Create'){
       this.openUploadDialog();
     } else if(linkLabel === 'Search') {
       
     }
-
-
-  }
-
-
+  }  
 
 }
