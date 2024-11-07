@@ -29,6 +29,7 @@ import { AuthInterceptor } from './shared/interceptor/auth.interceptor';
 import { ProfileImageUploadComponent } from './profile/profile-image-upload/profile-image-upload.component';
 import { SuggestedUsersComponent } from './suggested-users/suggested-users.component';
 import { NewsFeedComponent } from './news-feed/news-feed.component';
+import { SerachComponent } from './serach/serach.component';
 
 
 const COMPONENTS = [ AppComponent,
@@ -59,7 +60,7 @@ const MODULES = [
 const SERVICES = [AuthService, UserService, StateService, PostService];
 
 @NgModule({
-  declarations: [COMPONENTS, ProfileImageUploadComponent, SuggestedUsersComponent, NewsFeedComponent],
+  declarations: [COMPONENTS, ProfileImageUploadComponent, SuggestedUsersComponent, NewsFeedComponent, SerachComponent],
   imports: [MODULES],
   providers: [
     SERVICES,

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PostCreateComponent } from '../create-post/post-create.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'insta-sidebar',
@@ -9,7 +10,11 @@ import { PostCreateComponent } from '../create-post/post-create.component';
 })
 export class SidebarComponent {
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    public router: Router
+  ) {}
+
   isSidebarOpen: boolean = false;
 
   links = [
@@ -43,5 +48,13 @@ export class SidebarComponent {
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
+
+  onClick(linkLabel: string) {
+    if(linkLabel === 'Create') {
+      this.openUploadDialog();
+    } else if(linkLabel === 'Search') {
+      this.router.navigate(['/home/search']);
+    }
+  }  
 
 }

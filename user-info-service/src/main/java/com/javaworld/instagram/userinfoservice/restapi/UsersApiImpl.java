@@ -6,6 +6,8 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.javaworld.instagram.userinfoservice.commons.utils.ServiceUtil;
@@ -17,7 +19,9 @@ import com.javaworld.instagram.userinfoservice.server.dto.GenericResponseApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.PartialUpdateUserRequestApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.UnFollowUserRequestApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.UserApiDto;
+import com.javaworld.instagram.userinfoservice.service.UserQueryService;
 import com.javaworld.instagram.userinfoservice.service.UserService;
+import com.javaworld.instagram.userinfoservice.service.criteria.UserCriteria;
 import com.javaworld.instagram.userinfoservice.service.dto.User;
 
 @RestController
@@ -27,18 +31,31 @@ public class UsersApiImpl implements UsersApi {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private UserQueryService userQueryService;
 
 	@Autowired
 	private UserApiDtoMapper mapper;
 
 	@Autowired
 	private ServiceUtil serviceUtil;
+	
 
 	@Override
 	public UserApiDto createUser(CreateUserRequestApiDto createUserRequestApiDto) {
 		User savedUser = userService.createUser(mapper.mapCreateUserRequestToUserDto(createUserRequestApiDto));
 		UserApiDto response = mapper.toApiDto(savedUser);
 		return setServiceAddress(response);
+	}
+	
+	//TODO: this will not appear in swagger doc as i don't know
+	//till now how the criteria will be represent in the swagger file
+	//TODO: this annotation shall be removed once we defined that api in swagger
+	@GetMapping(value = "/users/search")
+	public List<UserApiDto> searchForUsers(UserCriteria criteria) {
+		List<User> userDtoList = userQueryService.findByCriteria(criteria);
+		return mapper.toApiDtoList(userDtoList);
 	}
 
 	@Override

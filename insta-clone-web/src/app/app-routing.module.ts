@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfilePostsComponent } from './profile/profile-posts/profile-posts.component';
 import { NewsFeedComponent } from './news-feed/news-feed.component';
+import { SerachComponent } from './serach/serach.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
         path: 'newsfeed',
         component: NewsFeedComponent
       },
+      {
+        path: 'search',
+        component: SerachComponent
+      },      
       {
         path: 'profile',
         component: ProfileComponent,

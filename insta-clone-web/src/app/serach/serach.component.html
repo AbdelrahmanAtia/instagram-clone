@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <br>
+          <input
+            type="text"
+            placeholder="Search"
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="onSearch()"
+            style="background-color: #363636; color: white; border: 1px solid #363636;"
+            class="form-control"
+          />
+        </div>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let user of users" style="background-color: black;">
+
+            <div class="col-md-8" style="padding-left: 28px;">
+              <img 
+                  *ngIf="user.profileImageName"
+                  [src]="user.profileImage" 
+                  class="img-fluid mb-3"
+                  [style.width.px]="44"  
+                  [style.height.px]="44"  
+                  style="border-radius: 50%; float: left; margin-right: 13px;"
+                  alt="">  
+      
+              <img
+                *ngIf="!user.profileImageName"
+                src="../../assets/no-profile-image.png" 
+                class="img-fluid mb-3"
+                [style.width.px]="44"  
+                [style.height.px]="44"       
+                style="border-radius: 50%; float: left; margin-right: 13px;"     
+                alt="no profile picture image" 
+              >
+      
+              <span style="font-weight: 600; font-size: 14px; color: rgb(245, 245, 245);">
+                {{user.username}} 
+              </span>
+              <br>
+              <span style="font-weight: 400; font-size: 14px; color: rgb(168, 168, 168);">
+                {{user.fullName}} 
+              </span>
+            </div>           
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
