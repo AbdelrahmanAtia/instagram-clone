@@ -52,7 +52,7 @@ public class UsersApiImpl implements UsersApi {
 	//TODO: this will not appear in swagger doc as i don't know
 	//till now how the criteria will be represent in the swagger file
 	//TODO: this annotation shall be removed once we defined that api in swagger
-	@GetMapping(value = "/users/search", produces = { "application/json" }, consumes = { "application/json" })
+	@GetMapping(value = "/users/search")
 	public List<UserApiDto> searchForUsers(UserCriteria criteria) {
 		List<User> userDtoList = userQueryService.findByCriteria(criteria);
 		return mapper.toApiDtoList(userDtoList);

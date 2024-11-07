@@ -36,20 +36,20 @@ public class UserQueryServiceImpl extends QueryService<UserEntity> implements Us
 	@Transactional(readOnly = true)
 	public List<User> findByCriteria(UserCriteria criteria) {
 		logger.info("find users by criteria : {}", criteria);
-		final Specification<UserEntity> specification = createSpecification(criteria);
+		final Specification<UserEntity> specification = createSearchSpecification(criteria);
 		return userMapper.toDto(userRepository.findAll(specification));
 	}
 
-	protected Specification<UserEntity> createSpecification(UserCriteria criteria) {
+	protected Specification<UserEntity> createSearchSpecification(UserCriteria criteria) {
 		Specification<UserEntity> specification = Specification.where(null);
 		if (criteria != null) {
 			// This has to be called first, because the distinct method returns null
-			if (criteria.getName() != null) {
+			if (criteria.getName() != null && !criteria.getName().getEquals().isBlank()) {
 				specification = specification.and(buildStringSpecification(criteria.getName(), UserEntity_.username));
 			}
 
-			if (criteria.getFullName() != null) {
-				specification = specification.and(buildStringSpecification(criteria.getName(), UserEntity_.fullName));
+			if (criteria.getFullName() != null && !criteria.getFullName().getEquals().isBlank()) {
+				specification = specification.or(buildStringSpecification(criteria.getName(), UserEntity_.fullName));
 			}
 
 		}
