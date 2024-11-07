@@ -29,6 +29,14 @@ export class UserService {
     });
   }
 
+  searchForUsers(params: any): Observable<EntityArrayResponseType> {
+    const reqUrl = `${API_CONFIG.baseUrl}${API_CONFIG.usersEntityUrl}search`;
+    return this.http.get<User[]>(reqUrl, {
+      params: params,
+      observe: 'response'
+    });
+  }  
+
   partialUpdate(
     partialUpdateUser: PartialUpdateUser
   ): Observable<EntityResponseType> {
@@ -115,7 +123,9 @@ export class UserService {
       params: params,
       observe: 'response'
     });
-  }    
+  }
+  
+
 
 }
  

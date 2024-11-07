@@ -14,6 +14,7 @@ import com.javaworld.instagram.userinfoservice.service.dtomapper.UserMapper;
 
 import tech.jhipster.service.QueryService;
 
+import com.javaworld.instagram.userinfoservice.commons.utils.StringUitl;
 import com.javaworld.instagram.userinfoservice.persistence.UserEntity;
 import com.javaworld.instagram.userinfoservice.persistence.UserRepository;
 
@@ -44,11 +45,11 @@ public class UserQueryServiceImpl extends QueryService<UserEntity> implements Us
 		Specification<UserEntity> specification = Specification.where(null);
 		if (criteria != null) {
 			// This has to be called first, because the distinct method returns null
-			if (criteria.getName() != null && !criteria.getName().getEquals().isBlank()) {
+			if (criteria.getName() != null && !StringUitl.isBlankOrNull(criteria.getName().getContains())) {
 				specification = specification.and(buildStringSpecification(criteria.getName(), UserEntity_.username));
 			}
 
-			if (criteria.getFullName() != null && !criteria.getFullName().getEquals().isBlank()) {
+			if (criteria.getFullName() != null && !StringUitl.isBlankOrNull(criteria.getFullName().getContains())) {
 				specification = specification.or(buildStringSpecification(criteria.getName(), UserEntity_.fullName));
 			}
 

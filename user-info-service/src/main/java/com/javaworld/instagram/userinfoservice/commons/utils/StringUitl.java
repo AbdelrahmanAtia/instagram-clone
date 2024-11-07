@@ -2,11 +2,11 @@ package com.javaworld.instagram.userinfoservice.commons.utils;
 
 public class StringUitl {
 
-	public static boolean isEmptyOrNull(String str) {
+	public static boolean isBlankOrNull(String str) {
 
 		if (str == null) {
 			return true;
-		} else if (str.trim().equals("")) {
+		} else if (str.isBlank()) {
 			return true;
 		}
 
