@@ -9,13 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.javaworld.instagram.commonlib.messaging.Event;
 import com.javaworld.instagram.postservice.commons.exceptions.EventProcessingException;
 import com.javaworld.instagram.postservice.features.service.PostService;
 
 @Configuration
-public class MessageProcessorConfig {
+public class MessageConsumer {
 
-	private static final Logger LOG = LoggerFactory.getLogger(MessageProcessorConfig.class);
+	private static final Logger LOG = LoggerFactory.getLogger(MessageConsumer.class);
 
 	@Autowired
 	private PostService postService;   
@@ -23,14 +24,14 @@ public class MessageProcessorConfig {
 	@Bean
 	public Consumer<Event<UUID, Object>> messageProcessor() {
 		
-		return event -> {
+		return event -> { 
 
 			LOG.info("Process message created at {}...", event.getEventCreatedAt());
 
 			switch (event.getEventType()) { 
 
 			case DELETE:
-				UUID userUuid = event.getKey();
+			 	UUID userUuid = event.getKey();
 				LOG.info("Delete posts for user with uuid: {}", userUuid);
 				postService.deletePostsByUserUuid(userUuid);
 				break;
