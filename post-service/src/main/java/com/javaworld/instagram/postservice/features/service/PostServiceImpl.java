@@ -17,6 +17,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.javaworld.instagram.commonlib.messaging.Event;
+import com.javaworld.instagram.commonlib.messaging.Event.Type;
+import com.javaworld.instagram.commonlib.messaging.MessageSender;
 import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
 import com.javaworld.instagram.postservice.commons.utils.SecurityLoggingUtil;
 import com.javaworld.instagram.postservice.commons.utils.SecurityUtil;
@@ -50,6 +53,9 @@ public class PostServiceImpl implements PostService {
 	@Autowired
 	private HttpServletResponse httpServletResponse;
 	
+	@Autowired
+	private MessageSender messageSender;
+	
 	@Override
 	@Transactional
 	public Post createPost(Post post) {
@@ -71,6 +77,13 @@ public class PostServiceImpl implements PostService {
 			Post savedPost = postMapper.entityToDto(postEntity);
 
 			logger.info("createPost: created a post entity");
+			
+			//publish post into topic
+			
+			Event<UUID, Object> event = new Event(Type.CREATE, 
+					savedPost.getPostUuid(),
+					null);
+			messageSender.sendMessage("bindingName", null);
 
 			return savedPost;
 
