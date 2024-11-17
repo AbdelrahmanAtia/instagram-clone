@@ -43,16 +43,25 @@ spring.security.oauth2.resourceserver.jwt.issuer-uri: http://${app.auth-server}:
 ## messaging configs ##
 #######################
 
-spring.cloud.function.definition: messageProcessor
+spring.cloud.function.definition: messageProcessor,newsFeedSource
 
 spring.cloud.stream:
   default.contentType: application/json
-  bindings.messageProcessor-in-0:
-    destination: posts   ## topic name
-    group: postsGroup    ## a message pushed to posts topic will be consumed by one instance of post-ms even if
-                         ## we have mutiple instances of it
+  bindings:
+    messageProcessor-in-0:
+      destination: posts   ## topic name
+      group: postsGroup    ## a message pushed to posts topic will be consumed by one instance of post-ms even if
+                           ## we have mutiple instances of it
+    newsFeedSource-out-0:
+      destination: newsfeed   ## topic name
+      group: newsfeedGroup    ## a message pushed to newsfeed topic will be consumed by one instance of newsfeed-ms even if
+                              ## we have mutiple instances of it
+      
 
-    
+
+##TODO: Do we need to add more configs like the following 
+## for news feed binding 
+
 spring.cloud.stream.bindings.messageProcessor-in-0.consumer:
   maxAttempts: 3
   backOffInitialInterval: 500
