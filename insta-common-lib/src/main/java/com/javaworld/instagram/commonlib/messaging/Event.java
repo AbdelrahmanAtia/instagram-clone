@@ -1,4 +1,4 @@
-package com.javaworld.instagram.postservice.features.messaging;
+package com.javaworld.instagram.commonlib.messaging;
 
 import static java.time.ZonedDateTime.now;
 
@@ -9,8 +9,9 @@ import java.time.ZonedDateTime;
 public class Event<K, T> {
 
   public enum Type {
+    DELETE,
     CREATE,
-    DELETE
+    GENERATE_USER_ACCOUNT_INFORMATION_REPORT
   }
 
   private final Type eventType;

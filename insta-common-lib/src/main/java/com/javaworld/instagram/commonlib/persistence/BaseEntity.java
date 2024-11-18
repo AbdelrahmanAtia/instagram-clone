@@ -1,4 +1,4 @@
-package com.javaworld.instagram.postservice.commons.entities;
+package com.javaworld.instagram.commonlib.persistence;
 
 import java.time.LocalDateTime;
 

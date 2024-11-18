@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
-import com.javaworld.instagram.postservice.commons.entities.BaseEntity;
+import com.javaworld.instagram.commonlib.persistence.BaseEntity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
