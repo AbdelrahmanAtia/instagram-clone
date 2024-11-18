@@ -83,8 +83,9 @@ public class PostServiceImpl implements PostService {
 			Event<UUID, Object> event = new Event(Type.CREATE, 
 					savedPost.getPostUuid(),
 					null);
-			messageSender.sendMessage("bindingName", null);
-
+			
+			messageSender.sendMessage("newsFeed-out-0", event);
+			
 			return savedPost;
 
 		} catch (DataIntegrityViolationException dive) {
