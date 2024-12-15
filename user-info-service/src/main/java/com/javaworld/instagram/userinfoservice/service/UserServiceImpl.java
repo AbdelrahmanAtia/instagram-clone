@@ -15,11 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.javaworld.instagram.commonlib.security.SecurityUtil;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.BadRequestException;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.HttpErrorInfo;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.InvalidInputException;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.NotFoundException;
-import com.javaworld.instagram.userinfoservice.commons.utils.SecurityUtil;
 import com.javaworld.instagram.userinfoservice.integration.PostServiceIntegration;
 import com.javaworld.instagram.userinfoservice.persistence.FollowerEntity;
 import com.javaworld.instagram.userinfoservice.persistence.FollowerRepository;

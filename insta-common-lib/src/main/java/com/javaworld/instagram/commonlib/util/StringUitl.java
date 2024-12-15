@@ -1,5 +1,4 @@
-package com.javaworld.instagram.userinfoservice.commons.utils;
-
+package com.javaworld.instagram.commonlib.util;
 public class StringUitl {
 
 	public static boolean isBlankOrNull(String str) {

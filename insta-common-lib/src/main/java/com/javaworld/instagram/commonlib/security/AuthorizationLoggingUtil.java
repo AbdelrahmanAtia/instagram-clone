@@ -1,4 +1,4 @@
-package com.javaworld.instagram.userinfoservice.commons.utils;
+package com.javaworld.instagram.commonlib.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,9 +8,9 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import java.net.URL;
 import java.util.List;
 
-public class LoggingUtil {
+public class AuthorizationLoggingUtil {
 
-	private static final Logger LOG = LoggerFactory.getLogger(LoggingUtil.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AuthorizationLoggingUtil.class);
 
 	public static void logAuthorizationInfo(SecurityContext sc) {		
 		if (sc != null && sc.getAuthentication() != null && sc.getAuthentication() instanceof JwtAuthenticationToken) {

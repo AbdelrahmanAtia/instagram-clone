@@ -14,7 +14,7 @@ import com.javaworld.instagram.userinfoservice.service.dtomapper.UserMapper;
 
 import tech.jhipster.service.QueryService;
 
-import com.javaworld.instagram.userinfoservice.commons.utils.StringUitl;
+import com.javaworld.instagram.commonlib.util.StringUitl;
 import com.javaworld.instagram.userinfoservice.persistence.UserEntity;
 import com.javaworld.instagram.userinfoservice.persistence.UserRepository;
 
