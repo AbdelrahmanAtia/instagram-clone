@@ -1,0 +1,68 @@
+openapi: 3.0.3
+info:
+  title: "instagram-newsfeed-service"
+  description: ""
+  termsOfService: ""
+  version: 1.0.0
+externalDocs:
+  description: ""
+  url: ""
+servers:
+  - url: http://localhost:8080/services
+    description: Generated server url
+tags:
+  - name: NewsFeed
+    description: Operations about newsfeed
+    externalDocs:
+      description: ""
+      url: ""
+
+    
+paths:
+  /newsfeed:                  
+    get:
+      tags:
+        - NewsFeed
+      summary: Finds loggedin user news feed
+      description: ''
+      operationId: retrieveNewsFeed
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'          
+          
+
+components:
+  schemas:
+    Post:
+      type: object
+      properties:
+        caption:
+          type: string
+        fileName:
+          type: string  
+          example: test.png
+        userUuid:
+          type: string    
+          format: uuid
+        postUuid:
+          type: string    
+          format: uuid          
+        serviceAddress:
+          type: string  
+
+          
+    GenericResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: message
+        serviceAddress:
+          type: string              
+          

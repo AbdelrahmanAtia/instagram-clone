@@ -28,7 +28,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 
-@SpringBootApplication
+
+@SpringBootApplication(scanBasePackages ="com.javaworld.instagram" )
 public class UserInfoServiceApplication {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserInfoServiceApplication.class);

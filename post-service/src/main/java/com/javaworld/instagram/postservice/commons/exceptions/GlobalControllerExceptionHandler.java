@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.javaworld.instagram.commonlib.exception.BadRequestException;
+import com.javaworld.instagram.commonlib.exception.HttpErrorInfo;
+import com.javaworld.instagram.commonlib.exception.InvalidInputException;
+import com.javaworld.instagram.commonlib.exception.NotFoundException;
+
 @RestControllerAdvice
 class GlobalControllerExceptionHandler {
 

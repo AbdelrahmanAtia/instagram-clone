@@ -17,8 +17,8 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.javaworld.instagram.commonlib.exception.NotFoundException;
 import com.javaworld.instagram.postservice.commons.Constants;
-import com.javaworld.instagram.postservice.commons.exceptions.NotFoundException;
 import com.javaworld.instagram.postservice.commons.utils.ServiceUtil;
 import com.javaworld.instagram.postservice.server.api.FilesApi;
 import com.javaworld.instagram.postservice.server.dto.GenericResponseApiDto;

@@ -11,7 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
+import com.javaworld.instagram.commonlib.exception.InvalidInputException;
 import com.javaworld.instagram.postservice.commons.utils.ServiceUtil;
 import com.javaworld.instagram.postservice.features.restapi.apidtomapper.PostApiDtoMapper;
 import com.javaworld.instagram.postservice.features.service.PostService;

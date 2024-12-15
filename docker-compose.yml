@@ -27,6 +27,18 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+        
+  insta-ms-newsfeed:
+    build: newsfeed
+    mem_limit: 512m
+    env_file: ./.env    
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_SECURITY_USER_NAME=${CONFIG_SERVER_USR}
+      - SPRING_SECURITY_USER_PASSWORD=${CONFIG_SERVER_PWD}      
+    depends_on:
+      mysql:
+        condition: service_healthy        
 
   mysql:
     image: mysql:5.7.32

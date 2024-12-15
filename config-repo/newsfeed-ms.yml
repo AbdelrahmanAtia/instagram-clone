@@ -1,0 +1,100 @@
+server:
+  port: 8080
+  
+  
+#####################################
+## Database related configurations ##
+#####################################
+
+##spring.jpa.hibernate.ddl-auto: create # TODO: Strongly recommend to set this property to "none" in a production environment!
+
+spring.jpa.database-platform: org.hibernate.dialect.MySQL8Dialect  
+
+spring.datasource:
+  url: jdbc:mysql://mysql/newsfeed-db 
+  username: root
+  password: rootpwd  
+  
+  
+# TODO: logging SQL queries should be disabled on production env as it heavily affects the performance
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    com.javaworld.instagram.userinfoservice.commons.utils.LoggingUtil: DEBUG  ## this is not related to database config..it is just added here to benefit from YAML properties nesting
+    
+spring.liquibase:
+  ##changeLog: "classpath:dblogs\changelog\changelog-master.xml"
+  enabled: true  
+  
+  
+  
+########################################
+## Auth server related configurations ##
+########################################
+
+spring:
+  security:
+    oauth2:
+      resourceserver.jwt.issuer-uri: http://${app.auth-server}:9999
+      ## the following configuration is needed for the webclient filter that will call the auth-server
+      ## to get an access token when the service needs to call another service
+      client:
+        registration:
+          mywebclient:
+            client-id: writer
+            client-secret: secret
+            authorization-grant-type: client_credentials
+        provider:
+          mywebclient:
+            issuer-uri: http://${app.auth-server}:9999  
+            
+##########################
+## resilience4j configs ##
+##########################
+      
+resilience4j.timelimiter:
+  instances:
+    postsCount:
+      timeoutDuration: 2s
+
+resilience4j.retry:
+  instances:
+    default:
+      maxAttempts: 3
+      waitDuration: 1000
+      retryExceptions:
+        - org.springframework.web.reactive.function.client.WebClientResponseException$InternalServerError
+
+management.health.circuitbreakers.enabled: true
+
+resilience4j.circuitbreaker:
+  instances:
+    default:
+      allowHealthIndicatorToFail: false
+      registerHealthIndicator: true
+      slidingWindowType: COUNT_BASED
+      slidingWindowSize: 5
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10000
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      ignoreExceptions:
+        - com.javaworld.instagram.commonlib.exception.InvalidInputException
+        - com.javaworld.instagram.commonlib.exception.NotFoundException                        
+        
+#######################
+## messaging configs ##
+#######################     
+
+spring.cloud.function.definition: messageProcessor
+
+
+spring.cloud.stream:
+  default.contentType: application/json
+  bindings:
+    posts-out-0:
+      destination: posts
+      producer:
+        required-groups: auditGroup        

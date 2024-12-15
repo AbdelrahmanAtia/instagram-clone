@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.reactive.function.client.WebClient;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages ="com.javaworld.instagram" )
 @EnableJpaAuditing
 public class PostServiceApplication {
 

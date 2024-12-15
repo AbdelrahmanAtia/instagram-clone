@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.javaworld.instagram.commonlib.messaging.Event;
+import com.javaworld.instagram.commonlib.messaging.MessageSender;
 import com.javaworld.instagram.userinfoservice.caching.InstaCache;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.NotFoundException;
 import com.javaworld.instagram.userinfoservice.configuration.PropertiesConfig;
-import com.javaworld.instagram.userinfoservice.messaging.Event;
-import com.javaworld.instagram.userinfoservice.messaging.MessageSender;
 import com.javaworld.instagram.userinfoservice.service.dto.PostsCountResponse;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
