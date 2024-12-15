@@ -1,5 +1,7 @@
 package com.javaworld.instagram.commonlib.messaging;
 
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -17,7 +19,7 @@ public class MessageSender {
 	@Autowired
 	private StreamBridge streamBridge;
 
-	public void sendMessage(String bindingName, Event event) {
+	public void sendMessage(String bindingName, Event<UUID, Object> event) {
 		logger.info("Sending a {} message to {}", event.getEventType(), bindingName);
 		
 		Message message = MessageBuilder.withPayload(event)
