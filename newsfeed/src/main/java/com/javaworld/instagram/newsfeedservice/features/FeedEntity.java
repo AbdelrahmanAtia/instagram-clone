@@ -1,7 +1,6 @@
+package com.javaworld.instagram.newsfeedservice.features;
 
-
-import java.util.UUID;
-
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -13,15 +12,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Table
-@Entity(name="user_feed")
+@Entity(name = "user_feed")
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 public class FeedEntity extends BaseEntity {
-	
-	private UUID userId;
-	
-	private UUID postId;
+
+	@EmbeddedId
+	private FeedId id;
 
 }
