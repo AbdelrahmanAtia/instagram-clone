@@ -1,7 +1,9 @@
 package com.javaworld.instagram.postservice.features.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,12 +19,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.javaworld.instagram.commonlib.exception.InvalidInputException;
 import com.javaworld.instagram.commonlib.messaging.Event;
 import com.javaworld.instagram.commonlib.messaging.Event.Type;
 import com.javaworld.instagram.commonlib.messaging.MessageSender;
-import com.javaworld.instagram.postservice.commons.exceptions.InvalidInputException;
 import com.javaworld.instagram.postservice.commons.utils.SecurityLoggingUtil;
 import com.javaworld.instagram.postservice.commons.utils.SecurityUtil;
+import com.javaworld.instagram.postservice.features.messaging.RabbitMQProducer;
 import com.javaworld.instagram.postservice.features.persistence.entities.PostEntity;
 import com.javaworld.instagram.postservice.features.persistence.entities.TagEntity;
 import com.javaworld.instagram.postservice.features.persistence.repositories.PostRepository;
@@ -56,6 +59,9 @@ public class PostServiceImpl implements PostService {
 	@Autowired
 	private MessageSender messageSender;
 	
+	@Autowired
+	private RabbitMQProducer rabbitMQProducer;
+	
 	@Override
 	@Transactional
 	public Post createPost(Post post) {
@@ -78,19 +84,32 @@ public class PostServiceImpl implements PostService {
 
 			logger.info("createPost: created a post entity");
 			
-			//publish post into topic
+			//TODO: get logged in userUuid and send it into topic also		
+			UUID loggedInUserId = SecurityUtil.getUserUuidFromAccessToken(getSecurityContext());
 			
-			Event<UUID, Object> event = new Event(Type.CREATE, 
-					savedPost.getPostUuid(),
-					null);
 			
-			messageSender.sendMessage("newsFeed-out-0", event);
+			rabbitMQProducer.sendMessage("posts.created", "post with id " + savedPost.getPostUuid() + " created successfully..");
+			//sendToTopic(savedPost.getPostUuid(), loggedInUserId);
 			
 			return savedPost;
 
 		} catch (DataIntegrityViolationException dive) {
 			throw new InvalidInputException(dive.getMessage(), dive);
 		}
+	}
+
+	private void sendToTopic(UUID postUuid, UUID userUuid) {
+		
+		Map<Object, Object> messageBody = new HashMap<>();
+		
+		messageBody.put("userUuid", userUuid);
+		messageBody.put("postUuid", postUuid);
+		
+		Event<UUID, Object> event = new Event(Type.CREATE, 
+				postUuid,
+				messageBody);
+		
+		messageSender.sendMessage("newsFeed-out-0", event);
 	}
 	
 	@Override

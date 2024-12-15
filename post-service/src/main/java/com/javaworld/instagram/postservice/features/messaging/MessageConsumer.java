@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.javaworld.instagram.commonlib.exception.EventProcessingException;
 import com.javaworld.instagram.commonlib.messaging.Event;
-import com.javaworld.instagram.postservice.commons.exceptions.EventProcessingException;
 import com.javaworld.instagram.postservice.features.service.PostService;
 
 @Configuration
