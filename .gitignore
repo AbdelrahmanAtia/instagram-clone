@@ -24,3 +24,6 @@ buildNumber.properties
 */.gitignore
 
 /.metadata/
+user-info-service/.factorypath
+post-service/.factorypath
+newsfeed/.factorypath
