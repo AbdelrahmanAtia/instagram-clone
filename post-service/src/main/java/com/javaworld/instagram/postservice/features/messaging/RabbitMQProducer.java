@@ -14,8 +14,7 @@ public class RabbitMQProducer {
 		this.amqpTemplate = amqpTemplate;
 	}
 
-	public void sendMessage(String routingKey, String message) {
+	public void sendMessage(String routingKey, Object message) {
 		amqpTemplate.convertAndSend("direct_exchange_for_created_posts", routingKey, message);
-		System.out.println("Sent message: " + message + " with routing key: " + routingKey);
 	}
 }
