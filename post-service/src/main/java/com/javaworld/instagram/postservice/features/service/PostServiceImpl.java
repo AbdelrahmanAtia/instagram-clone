@@ -19,6 +19,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javaworld.instagram.commonlib.exception.InvalidInputException;
 import com.javaworld.instagram.commonlib.messaging.Event;
 import com.javaworld.instagram.commonlib.messaging.Event.Type;
@@ -31,6 +33,7 @@ import com.javaworld.instagram.postservice.features.persistence.entities.TagEnti
 import com.javaworld.instagram.postservice.features.persistence.repositories.PostRepository;
 import com.javaworld.instagram.postservice.features.persistence.repositories.TagRepository;
 import com.javaworld.instagram.postservice.features.service.dto.Comment;
+import com.javaworld.instagram.postservice.features.service.dto.FeedDto;
 import com.javaworld.instagram.postservice.features.service.dto.Post;
 import com.javaworld.instagram.postservice.features.service.dtomapper.PostMapper;
 import org.springframework.data.domain.Page;
@@ -87,9 +90,7 @@ public class PostServiceImpl implements PostService {
 			//TODO: get logged in userUuid and send it into topic also		
 			UUID loggedInUserId = SecurityUtil.getUserUuidFromAccessToken(getSecurityContext());
 			
-			
-			rabbitMQProducer.sendMessage("posts.created", "post with id " + savedPost.getPostUuid() + " created successfully..");
-			//sendToTopic(savedPost.getPostUuid(), loggedInUserId);
+			sendMessageToCreatedPostsTopic(savedPost.getPostUuid(), loggedInUserId);
 			
 			return savedPost;
 
@@ -98,18 +99,24 @@ public class PostServiceImpl implements PostService {
 		}
 	}
 
-	private void sendToTopic(UUID postUuid, UUID userUuid) {
-		
-		Map<Object, Object> messageBody = new HashMap<>();
-		
-		messageBody.put("userUuid", userUuid);
-		messageBody.put("postUuid", postUuid);
-		
-		Event<UUID, Object> event = new Event(Type.CREATE, 
-				postUuid,
-				messageBody);
-		
-		messageSender.sendMessage("newsFeed-out-0", event);
+	private void sendMessageToCreatedPostsTopic(UUID postUuid, UUID userUuid) {
+
+		FeedDto feedDto = new FeedDto();
+		feedDto.setPostUuid(postUuid);
+		feedDto.setUserUuid(userUuid);
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		String jsonString;
+		try {
+			jsonString = objectMapper.writeValueAsString(feedDto);
+			Event<UUID, String> event = new Event(Type.CREATE, postUuid, jsonString);
+			rabbitMQProducer.sendMessage("posts.created", event);
+			// messageSender.sendMessage("newsFeed-out-0", event); //using spring cloud stream..
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+
 	}
 	
 	@Override
