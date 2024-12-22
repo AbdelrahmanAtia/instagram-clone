@@ -213,7 +213,6 @@ public class UserServiceImpl implements UserService {
 
 		logger.info("starting to get followers for user with uuid {}", followedId);
 
-		// validate the followedId exists
 		validateUserExists(followedId);
 
 		List<UUID> followersIds = followerRepository.findFollowerIdsByFollowedId(followedId);
@@ -221,6 +220,14 @@ public class UserServiceImpl implements UserService {
 		return userMapper.toUserDtoList(userRepository.findUsersByUuids(followersIds));
 	}
 	
+	@Override
+	public List<UUID> getUserFollowersIds(UUID followedId) {
+		logger.info("starting to get followers for user with uuid {}", followedId);
+		validateUserExists(followedId);
+		List<UUID> followersIds = followerRepository.findFollowerIdsByFollowedId(followedId);
+		return followersIds;
+	}
+
 	@Override
 	public List<User> getUserFollowings(UUID followerId) {
 		logger.info("starting to get followings for user with uuid {}", followerId);
