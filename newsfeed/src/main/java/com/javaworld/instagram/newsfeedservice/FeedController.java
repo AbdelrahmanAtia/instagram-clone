@@ -1,3 +1,4 @@
+package com.javaworld.instagram.newsfeedservice;
 /*
  * package com.javaworld.instagram.newsfeedservice.features;
  * 

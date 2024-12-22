@@ -1,4 +1,4 @@
-package com.javaworld.instagram.newsfeedservice.features;
+package com.javaworld.instagram.newsfeedservice.persistence.entity;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
