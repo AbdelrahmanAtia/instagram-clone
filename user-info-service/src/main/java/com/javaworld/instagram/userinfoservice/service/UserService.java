@@ -7,31 +7,27 @@ import com.javaworld.instagram.userinfoservice.service.dto.User;
 
 public interface UserService {
 
-	User createUser(User user);
-
 	User findUser(UUID userUuid, int delay, int faultPercent);
+	
+	List<User> getUserFollowers(UUID followedId);
+	
+	List<User> getUserFollowings(UUID followerId);
+	
+	List<User> getSuggestedUsers(String size);
+	
+	List<UUID> getUserFollowersIds(UUID followedId);
+	
+	User createUser(User user);
 	
 	User partialUpdateUser(User updatedUserData);
 	
 	int deleteUser(UUID userUuid);
 	
-	List<User> getSuggestedUsers(String size);
-	
 	void followUser(UUID toUserId);
 	
 	void removeFollower(UUID followerId);
-	
-	List<User> getUserFollowers(UUID followedId);
-	
-	List<User> getUserFollowings(UUID followerId);
 
 	void unfollow(UUID followedId);
-	
-	
-	
-	
-	
-	
 
 	
 }

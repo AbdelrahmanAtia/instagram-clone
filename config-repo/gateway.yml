@@ -100,6 +100,14 @@ spring.cloud.gateway.routes:
   - Path=/services/user-ms/**
   filters:
   - RewritePath=/services/user-ms/(?<segment>.*), /$\{segment}
+  
+
+- id: newsfeed-micro-service
+  uri: lb://newsfeed-ms   ## name used by service to be registered in eureka
+  predicates:
+  - Path=/services/newsfeed-ms/**
+  filters:
+  - RewritePath=/services/newsfeed-ms/(?<segment>.*), /$\{segment}  
 
   
   ## routing rules for eureka

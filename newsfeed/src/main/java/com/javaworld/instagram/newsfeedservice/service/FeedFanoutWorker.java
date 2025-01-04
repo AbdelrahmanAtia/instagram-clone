@@ -1,6 +1,7 @@
 package com.javaworld.instagram.newsfeedservice.service;
 import java.util.UUID;
 import java.util.function.Consumer;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,12 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javaworld.instagram.commonlib.exception.EventProcessingException;
 import com.javaworld.instagram.commonlib.messaging.Event;
 import com.javaworld.instagram.newsfeedservice.dto.FeedDto;
+import com.javaworld.instagram.newsfeedservice.integration.UserServiceIntegration;
 import com.javaworld.instagram.newsfeedservice.persistence.entity.FeedEntity;
 import com.javaworld.instagram.newsfeedservice.persistence.entity.FeedId;
 import com.javaworld.instagram.newsfeedservice.persistence.repository.FeedRepository;
@@ -28,14 +31,14 @@ public class FeedFanoutWorker {
 
 	private static final Logger logger = LoggerFactory.getLogger(FeedFanoutWorker.class);
 
-    //@Autowired
-    //private UserService userService; // Fetch followers
+    @Autowired
+    private UserServiceIntegration userServiceIntegration; // Fetch followers
 
 	@Autowired
 	private FeedRepository feedRepository;
-
-	
+		
 	@RabbitListener(queues = "created_posts")
+	@Transactional
 	public void handleCreatingPost(Event<UUID, Object> event) {
 		logger.info("consumed a new event message with key: {}", event.getKey());
 
@@ -49,13 +52,15 @@ public class FeedFanoutWorker {
 
 			UUID userId = feedDto.getUserUuid();
 
-			List<UUID> userFollowersIds = new ArrayList<>(); // TODO: call user service to get all of the user followers
+			List<UUID> userFollowersIds = userServiceIntegration.getUserFollowersIds(userId).block();
+			
+			logger.info("retrieved followers ids: {}", userFollowersIds);
 
 			List<FeedEntity> feedEntities = new ArrayList<>();
 
 			userFollowersIds.forEach(followerId -> {
 
-				FeedId feedId = new FeedId(feedDto.getUserUuid(), feedDto.getPostUuid());
+				FeedId feedId = new FeedId(followerId, feedDto.getPostUuid());
 
 				FeedEntity feedEntity = new FeedEntity();
 				feedEntity.setId(feedId);

@@ -109,6 +109,12 @@ public class UsersApiImpl implements UsersApi {
 	}
 	
 	@Override
+	public List<UUID> getUserFollowersIds(UUID userUuid) {
+		logger.info("retrieving followers ids of user with uuid {}", userUuid);
+		return userService.getUserFollowersIds(userUuid);
+	}
+	
+	@Override
 	public List<UserApiDto> getUserFollowings(UUID userUuid,   Integer page,
 			  Integer size) {
 		logger.info("retrieving followings of user with uuid {}", userUuid);

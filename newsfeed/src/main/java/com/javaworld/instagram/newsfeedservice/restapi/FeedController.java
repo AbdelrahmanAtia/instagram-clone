@@ -1,4 +1,4 @@
-package com.javaworld.instagram.newsfeedservice;
+package com.javaworld.instagram.newsfeedservice.restapi;
 /*
  * package com.javaworld.instagram.newsfeedservice.features;
  * 
