@@ -218,37 +218,29 @@
 		<!-- ################### dependencies needed for open-API code generator ################################ -->
 		
 		<dependency>
-			<groupId>
-				io.swagger</groupId>
+			<groupId>io.swagger</groupId>
 			<artifactId>swagger-annotations</artifactId>
-			<version>
-				${swagger-annotations-version}</version>
+			<version>${swagger-annotations-version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>
-				org.openapitools</groupId>
+			<groupId>org.openapitools</groupId>
 			<artifactId>jackson-databind-nullable</artifactId>
-			<version>
-				${jackson-databind-nullable}</version>
+			<version>${jackson-databind-nullable}</version>
 		</dependency>
 
 		<dependency>
-		    <groupId>
-				io.springfox</groupId>
+		    <groupId>io.springfox</groupId>
 		    <artifactId>springfox-boot-starter</artifactId>
 		    <version>3.0.0</version>
 		</dependency>
 		
 		<dependency>
-    		<groupId>
-				org.projectlombok</groupId>
+    		<groupId>org.projectlombok</groupId>
     		<artifactId>lombok</artifactId>
     		<version>1.18.30</version>
-    		<scope>
-				provided</scope>
+    		<scope>provided</scope>
 		</dependency>
-
 
 		<!-- ################################ MapStruct ################################################ -->
 
@@ -439,6 +431,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<mainClass>com.javaworld.instagram.newsfeedservice.NewsfeedServiceApplication</mainClass>
 					<layers>
 						<enabled>true</enabled>
 						<!-- <configuration>${project.basedir}/src/layers.xml</configuration> -->
@@ -488,40 +481,48 @@
 			     this Mono<Flux<T>> for api's that return an array
 			-->
 			
+
 			<plugin>
-				<groupId>
-					org.openapitools</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>
-					6.0.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<inputSpec>
-								${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
-							<templateDirectory>
-								src/main/resources/openapi-templates</templateDirectory>
-							<generatorName>
-								spring</generatorName>
-							<apiPackage>
-								com.javaworld.instagram.newsfeedservice.server.api</apiPackage>
-							<modelPackage>
-								com.javaworld.instagram.newsfeedservice.server.dto</modelPackage>
-							<modelNameSuffix>
-								ApiDto</modelNameSuffix>
-							<configOptions>
-								<interfaceOnly>true</interfaceOnly>
-								<skipDefaultInterface>true</skipDefaultInterface>
-								<reactive>
-									false</reactive>
-							</configOptions>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+			   <groupId>org.openapitools</groupId>
+			   <artifactId>openapi-generator-maven-plugin</artifactId>
+			   <version>6.0.1</version>
+			   <executions>
+			      <!-- generate resource api interface for this microservice -->
+			      <execution>
+			         <goals>
+			            <goal>generate</goal>
+			         </goals>
+			         <configuration>
+			            <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+			            <templateDirectory>src/main/resources/openapi-templates</templateDirectory>
+			            <generatorName>spring</generatorName>
+			            <apiPackage>com.javaworld.instagram.newsfeedservice.server.api</apiPackage>
+			            <modelPackage>com.javaworld.instagram.newsfeedservice.server.dto</modelPackage>
+			            <modelNameSuffix>ApiDto</modelNameSuffix>
+			            <configOptions>
+			               <interfaceOnly>true</interfaceOnly>
+			               <skipDefaultInterface>true</skipDefaultInterface>
+			               <reactive>false</reactive>
+			            </configOptions>
+			         </configuration>
+			      </execution>
+			      
+			      <!-- generate server client for post service -->
+			      <execution>
+			         <id>generate-post-service-server-client</id>
+			         <goals>
+			            <goal>generate</goal>
+			         </goals>
+			         <configuration>
+						 
+			            <inputSpec>${project.basedir}/src/main/resources/clients/post-ms.yml</inputSpec>
+			            <generatorName>spring</generatorName>
+			            <language>java</language>
+			            <output>${project.build.directory}/generated-sources/postservice</output>
+			         </configuration>
+			      </execution>
+			   </executions>
+			</plugin>						
 
 		</plugins>
 	</build>

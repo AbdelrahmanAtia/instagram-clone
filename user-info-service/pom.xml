@@ -491,38 +491,29 @@
 			-->
 			
 			<plugin>
-				<groupId>
-					org.openapitools</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>
-					6.0.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<inputSpec>
-								${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
-							<templateDirectory>
-								src/main/resources/openapi-templates</templateDirectory>
-							<generatorName>
-								spring</generatorName>
-							<apiPackage>
-								com.javaworld.instagram.userinfoservice.server.api</apiPackage>
-							<modelPackage>
-								com.javaworld.instagram.userinfoservice.server.dto</modelPackage>
-							<modelNameSuffix>
-								ApiDto</modelNameSuffix>
-							<configOptions>
-								<interfaceOnly>true</interfaceOnly>
-								<skipDefaultInterface>true</skipDefaultInterface>
-								<reactive>
-									false</reactive>
-							</configOptions>
-						</configuration>
-					</execution>
-				</executions>
+			   <groupId>org.openapitools</groupId>
+			   <artifactId>openapi-generator-maven-plugin</artifactId>
+			   <version>6.0.1</version>
+			   <executions>
+			      <execution>
+			         <goals>
+			            <goal>generate</goal>
+			         </goals>
+			         <configuration>
+			            <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+			            <templateDirectory>src/main/resources/openapi-templates</templateDirectory>
+			            <generatorName>spring</generatorName>
+			            <apiPackage>com.javaworld.instagram.userinfoservice.server.api</apiPackage>
+			            <modelPackage>com.javaworld.instagram.userinfoservice.server.dto</modelPackage>
+			            <modelNameSuffix>ApiDto</modelNameSuffix>
+			            <configOptions>
+			               <interfaceOnly>true</interfaceOnly>
+			               <skipDefaultInterface>true</skipDefaultInterface>
+			               <reactive>false</reactive>
+			            </configOptions>
+			         </configuration>
+			      </execution>
+			   </executions>
 			</plugin>
 
 		</plugins>
