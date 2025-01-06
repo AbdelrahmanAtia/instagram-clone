@@ -510,15 +510,33 @@
 			      <!-- generate server client for post service -->
 			      <execution>
 			         <id>generate-post-service-server-client</id>
+			         <phase>generate-sources</phase>
 			         <goals>
 			            <goal>generate</goal>
 			         </goals>
 			         <configuration>
-						 
-			            <inputSpec>${project.basedir}/src/main/resources/clients/post-ms.yml</inputSpec>
-			            <generatorName>spring</generatorName>
-			            <language>java</language>
-			            <output>${project.build.directory}/generated-sources/postservice</output>
+					    <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+					    <inputSpec>${project.basedir}/src/main/resources/clients/post-ms.yml</inputSpec>
+			            <generatorName>java</generatorName>
+    				    <library>resttemplate</library> <!-- Use spring-boot -->
+    				    
+                        <apiPackage>com.javaworld.instagram.postservice.server.api</apiPackage>
+                        <modelPackage>com.javaworld.instagram.postservice.server.dto</modelPackage>
+                        
+                        <generateApis>true</generateApis>
+                        <generateApiDocumentation>false</generateApiDocumentation>
+                        <generateApiTests>false</generateApiTests>
+                        <generateModels>true</generateModels>
+                        <generateModelDocumentation>false</generateModelDocumentation>
+                        <generateModelTests>false</generateModelTests>
+                        <generateSupportingFiles>true</generateSupportingFiles>
+                        <configOptions>
+                            <sourceFolder>src/main/java</sourceFolder>
+                            <java8>true</java8>
+                            <dateLibrary>java8</dateLibrary>
+                            <useTags>true</useTags>
+                            <interfaceOnly>false</interfaceOnly>
+                        </configOptions>
 			         </configuration>
 			      </execution>
 			   </executions>
