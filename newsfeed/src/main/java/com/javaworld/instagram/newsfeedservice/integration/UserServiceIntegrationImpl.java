@@ -32,7 +32,7 @@ public class UserServiceIntegrationImpl implements UserServiceIntegration {
 	public UserServiceIntegrationImpl(WebClient.Builder webClientBuilder) {
 		this.webClient = webClientBuilder.build();
 	}	
-
+	
 	@Override
 	public Mono<List<UUID>> getUserFollowersIds(UUID userId) {
 
@@ -45,7 +45,6 @@ public class UserServiceIntegrationImpl implements UserServiceIntegration {
 		ParameterizedTypeReference<List<UUID>> responseType = 
 				new ParameterizedTypeReference<List<UUID>>() {};
 
-		//TODO: make it an internal api in the user service that doesn't need authorization
 		return webClient.get().uri(url)
 				.accept(MediaType.APPLICATION_JSON)
 				.retrieve()

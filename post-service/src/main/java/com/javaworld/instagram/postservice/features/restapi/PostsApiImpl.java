@@ -16,8 +16,10 @@ import com.javaworld.instagram.postservice.commons.utils.ServiceUtil;
 import com.javaworld.instagram.postservice.features.restapi.apidtomapper.PostApiDtoMapper;
 import com.javaworld.instagram.postservice.features.service.PostService;
 import com.javaworld.instagram.postservice.features.service.dto.Post;
+
 import com.javaworld.instagram.postservice.server.api.PostsApi;
 import com.javaworld.instagram.postservice.server.dto.DeletedPostsResponseApiDto;
+import com.javaworld.instagram.postservice.server.dto.GetPostsRequestApiDto;
 import com.javaworld.instagram.postservice.server.dto.PostApiDto;
 import com.javaworld.instagram.postservice.server.dto.PostsCountResponseApiDto;
 
@@ -90,8 +92,15 @@ public class PostsApiImpl implements PostsApi {
 		return new DeletedPostsResponseApiDto().deletedPostsCount(deletedPostsCount)
 				.message("Posts deleted successfully")
 				.serviceAddress(serviceUtil.getServiceAddress());
-	}
+	}	
 	
+	@Override
+	public List<PostApiDto> retrievePosts(GetPostsRequestApiDto getPostsRequestApiDto) {
+		logger.info("starting to retrieve posts with ids: {}", getPostsRequestApiDto.getPostsIds());
+		List<Post> posts = postService.findPostsByIdsIn(getPostsRequestApiDto.getPostsIds());
+		return postApiDtoMapper.mapToApiDto(posts);
+	}
+
 	private PostApiDto setServiceAddress(PostApiDto postApiDto) {
 		postApiDto.setServiceAddress(serviceUtil.getServiceAddress());
 		return postApiDto;
@@ -132,5 +141,7 @@ public class PostsApiImpl implements PostsApi {
 
 		return randomNumberGenerator.nextInt((max - min) + 1) + min;
 	}
+
+
 
 }

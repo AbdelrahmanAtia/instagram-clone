@@ -1,4 +1,4 @@
-package com.javaworld.instagram.userinfoservice.commons.mapping;
+package com.javaworld.instagram.commonlib.mapper;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
-package com.javaworld.instagram.userinfoservice.restapi;
+package com.javaworld.instagram.userinfoservice.restapi.apidtomapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
-import com.javaworld.instagram.userinfoservice.commons.mapping.ApiDtoMapper;
+import com.javaworld.instagram.commonlib.mapper.ApiDtoMapper;
 import com.javaworld.instagram.userinfoservice.server.dto.CreateUserRequestApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.PartialUpdateUserRequestApiDto;
 import com.javaworld.instagram.userinfoservice.server.dto.UserApiDto;

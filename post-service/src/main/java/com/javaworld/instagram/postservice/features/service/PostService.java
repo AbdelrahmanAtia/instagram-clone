@@ -22,7 +22,6 @@ public interface PostService {
 	
 	List<Comment> getPostComments(UUID postId);
 	
+	List<Post> findPostsByIdsIn(List<UUID> postsIds);
 	
-	
-
 }

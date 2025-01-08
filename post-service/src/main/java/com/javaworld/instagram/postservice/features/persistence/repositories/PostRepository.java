@@ -15,12 +15,12 @@ public interface PostRepository extends JpaRepository<PostEntity, Integer> {
 	
 	List<PostEntity> findByUserUuid(UUID userUuid);
 	
+	List<PostEntity> findByPostUuidIn(List<UUID> postsIds);
+
+	int deleteByUserUuid(UUID userUuid);
+
 	int deleteByPostUuidIn(List<UUID> postUuid);
 	
 	int countByUserUuid(UUID userUuid);
 	
-	int deleteByUserUuid(UUID userUuid);
-
-
-
 }

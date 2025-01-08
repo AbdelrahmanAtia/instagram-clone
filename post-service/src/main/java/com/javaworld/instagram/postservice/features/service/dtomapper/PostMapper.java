@@ -11,12 +11,16 @@ import com.javaworld.instagram.postservice.features.persistence.entities.PostEnt
 import com.javaworld.instagram.postservice.features.service.dto.Post;
 
 @Mapper(componentModel = "spring", imports = { java.util.UUID.class })
+
+//TODO: extend Generic mapper
 public interface PostMapper {
 
 	@Mapping(target = "postUuid", expression = "java(post.getPostUuid() == null ? UUID.randomUUID() : post.getPostUuid())")
 	PostEntity dtoToEntity(Post post);
 
 	Post entityToDto(PostEntity entity);
+	
+	List<Post> toDto(List<PostEntity> posts);
 
 	List<Post> entityListToDtoList(List<PostEntity> entityList);
 

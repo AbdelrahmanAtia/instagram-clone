@@ -6,7 +6,7 @@ import java.util.Set;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.javaworld.instagram.userinfoservice.commons.mapping.EntityMapper;
+import com.javaworld.instagram.commonlib.mapper.EntityMapper;
 import com.javaworld.instagram.userinfoservice.persistence.FollowerEntity;
 import com.javaworld.instagram.userinfoservice.persistence.UserEntity;
 import com.javaworld.instagram.userinfoservice.service.dto.User;
