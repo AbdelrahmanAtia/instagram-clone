@@ -1,4 +1,4 @@
-package com.javaworld.instagram.userinfoservice.restapi;
+package com.javaworld.instagram.userinfoservice.restapi.apidtomapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

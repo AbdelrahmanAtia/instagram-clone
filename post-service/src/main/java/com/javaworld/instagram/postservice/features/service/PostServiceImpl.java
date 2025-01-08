@@ -208,5 +208,12 @@ public class PostServiceImpl implements PostService {
 		
 		return null;
 	}
+
+	@Override
+	public List<Post> findPostsByIdsIn(List<UUID> postsIds) {
+		logger.info("starting to get posts by ids in: {}", postsIds);
+		List<PostEntity> postEntities = postRepository.findByPostUuidIn(postsIds);
+		return postMapper.toDto(postEntities);
+	}
 	
 }
