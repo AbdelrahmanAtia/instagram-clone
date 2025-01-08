@@ -3,7 +3,7 @@ info:
   title: "instagram-post-service"
   description: ""
   termsOfService: ""
-  version: 1.0
+  version: 1.1.0
 externalDocs:
   description: ""
   url: ""
@@ -235,6 +235,30 @@ paths:
                 $ref: '#/components/schemas/DeletedPostsResponse'          
         '400':
           description: ""
+  /posts/retrieve:          
+    post:
+      tags:
+        - Post
+      summary: retrieve posts by ids in given list
+      description: ''
+      operationId: retrievePosts
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetPostsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Post'     
+       
 
 components:
   schemas:
@@ -254,6 +278,18 @@ components:
           format: uuid          
         serviceAddress:
           type: string  
+          
+    GetPostsRequest:
+      type: object
+      properties:
+        postsIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+        serviceAddress:
+          type: string  
+         
           
     PostsCountResponse:
       type: object

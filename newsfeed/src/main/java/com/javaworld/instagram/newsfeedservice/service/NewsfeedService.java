@@ -1,10 +1,11 @@
 package com.javaworld.instagram.newsfeedservice.service;
 
 import java.util.List;
-import java.util.UUID;
+
+import com.javaworld.instagram.newsfeedservice.dto.Post;
 
 public interface NewsfeedService {
 		
-	List<UUID> getMyNewsfeed();
+	List<Post> getMyNewsfeed();
 
 }

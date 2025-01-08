@@ -3,7 +3,6 @@ package com.javaworld.instagram.newsfeedservice.service;
 import java.util.List;
 import java.util.UUID;
 
-import org.openapitools.api.PostsApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.javaworld.instagram.commonlib.security.SecurityUtil;
+import com.javaworld.instagram.newsfeedservice.dto.Post;
+import com.javaworld.instagram.newsfeedservice.integration.PostIntegrationService;
 import com.javaworld.instagram.newsfeedservice.persistence.repository.FeedRepository;
 
 @Service
@@ -21,24 +22,21 @@ public class NewsfeedServiceImpl implements NewsfeedService {
 
 	@Autowired
 	private FeedRepository feedRepository;
-	
+
 	@Autowired
-	private PostsApi postsApi;
+	private PostIntegrationService postIntegrationService;
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<UUID> getMyNewsfeed() {
-		
+	public List<Post> getMyNewsfeed() {
+
 		UUID loggedInUserId = SecurityUtil.getUserUuidFromAccessToken(SecurityContextHolder.getContext());
-		
+
 		logger.info("retrieving feed for user id: {}", loggedInUserId);
-		
-		List<UUID> postsIds = feedRepository.findPostIdsByUserId(loggedInUserId);
-		
-		//TODO: create a new api in posts-ms to get posts list by id
-		//TODO: use postsApi to call this newly created api
-				
-		return null;
+
+		List<UUID> postsIds = feedRepository.findByIdUserUuid(loggedInUserId);
+
+		return postIntegrationService.getPosts(postsIds);
 	}
 
 }
