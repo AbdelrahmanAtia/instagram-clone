@@ -15,7 +15,6 @@ import com.javaworld.instagram.newsfeedservice.server.dto.PostApiDto;
 import com.javaworld.instagram.newsfeedservice.service.NewsfeedService;
 
 @RestController
-@RequestMapping("/feed")
 public class NewsfeedApiImpl implements NewsfeedApi {
 
 	private static final Logger logger = LoggerFactory.getLogger(NewsfeedApiImpl.class);
