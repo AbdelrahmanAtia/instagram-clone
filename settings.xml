@@ -53,7 +53,7 @@ under the License.
   <localRepository>/path/to/local/repo</localRepository>
   -->
   
-    <localRepository>C:\_workspaces\instagram-clone\.m2\repository</localRepository>
+    <localRepository>C:\__GitHub\instagram-clone\.m2/repository</localRepository>
 
 
   <!-- interactiveMode
