@@ -86,11 +86,9 @@
 		<!-- ################################ Jpa metamodels ########################################## -->
         
         <dependency>
-	        <groupId>
-				org.hibernate</groupId>
+	        <groupId>org.hibernate</groupId>
 	        <artifactId>hibernate-jpamodelgen</artifactId>
-	        <scope>
-				provided</scope>
+	        <scope>provided</scope>
 		</dependency>	
         
 		<!-- ################################ Liquibase ########################################## -->
@@ -105,11 +103,9 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>
-					org.springframework.cloud</groupId>
+                <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>
-					${spring-cloud.version}</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
 			</dependency>
@@ -119,12 +115,10 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>
-					org.springframework.boot</groupId>
+                <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <classifier>
-						exec</classifier>
+                    <classifier>exec</classifier>
 				</configuration>
 			</plugin>
 		</plugins>
