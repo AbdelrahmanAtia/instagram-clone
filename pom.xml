@@ -23,11 +23,13 @@
         <java.version>11</java.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <insta-common-lib-version>1.0.1</insta-common-lib-version>
+        <spring-cloud.version>2020.0.3</spring-cloud.version>
     </properties>
 
     <modules>
         <module>insta-common-lib</module>
         <module>config-server</module>
+        <module>eureka-server</module>
         <module>user-info-service</module>
     </modules>
 
