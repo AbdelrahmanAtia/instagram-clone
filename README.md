@@ -15,7 +15,9 @@
    git clone https://{PAT}@github.com/AbdelrahmanAtia/instagram-clone.git
 ```
 3- import the project into Github Desktop <br>
-
+# running services locally
+1) start config server..make sure u provide profiles (native & local)
+2) also make sure that u import .env file in ur ide
    
 # Deploying all services to the cluster
 1- start docker desktop <br>
