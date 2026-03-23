@@ -1,5 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Eureka server" type="Application" factoryName="Application">
+    <option name="envFilePaths">
+      <option value="$PROJECT_DIR$/.env" />
+    </option>
     <option name="MAIN_CLASS_NAME" value="com.javaworld.instagram.eurekaserver.EurekaserverApplication" />
     <module name="eureka-server" />
     <shortenClasspath name="ARGS_FILE" />

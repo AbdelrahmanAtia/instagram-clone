@@ -23,6 +23,12 @@ spring:
   config.activate.on-profile: local
   cloud.config.server.native.searchLocations: ./config-repo
 
+# TODO: improve to retrieve such values from vault..also do the same for the other credentials in .env file
+# TODO:i had to add the encrypt key here as I don't know why the encrypt key in the .env file is not working..i think the
+#      property name is different..is it also not working in docker ??
+encrypt:
+  key: my-very-secure-encrypt-key
+
 ---
 spring:
   config.activate.on-profile: docker
