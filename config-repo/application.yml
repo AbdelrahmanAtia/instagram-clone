@@ -7,7 +7,8 @@ app:
   eureka-password: '{cipher}8059cb5b292ce59006e227215a06b2a35c65825af3f847a9540d7e022fecb447'
   eureka-server: eureka
   auth-server: auth-server    
-  
+
+
 eureka:
   client:
     serviceUrl:
@@ -25,7 +26,8 @@ eureka:
 spring:
   jpa:
     properties:
-      hibernate.format_sql: true    
+      hibernate.format_sql: true
+
    
 ###############################
 ## Actuators related configs ##

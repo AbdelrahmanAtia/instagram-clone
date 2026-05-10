@@ -1,20 +1,14 @@
 server.port: 8888
 
 spring:
-  profiles:
-    active: native
-
   security:
     user:
       name: ${CONFIG_SERVER_USR}
       password: ${CONFIG_SERVER_PWD}
 
 # WARNING: Exposing all management endpoints over http should only be used during development, must be locked down in production!
-management:
-  endpoint:
-    health.show-details: "ALWAYS"
-  endpoints:
-    web.exposure.include: "*"
+management.endpoint.health.show-details: "ALWAYS"
+management.endpoints.web.exposure.include: "*"
 
 logging.level.root: info
 

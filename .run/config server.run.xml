@@ -5,7 +5,7 @@
     </option>
     <option name="MAIN_CLASS_NAME" value="com.javaworld.instagram.configserver.ConfigServerApplication" />
     <module name="config-server" />
-    <option name="VM_PARAMETERS" value="-Dspring.profiles.active=native,local" />
+    <option name="VM_PARAMETERS" value="-Dspring.profiles.active=local,native" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.javaworld.instagram.userinfoservice.*" />
