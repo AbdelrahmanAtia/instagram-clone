@@ -1,5 +1,4 @@
-server:
-  port: 8080
+server.port: 7001
 
 insta.post-service.url: http://insta-ms-post
 
@@ -95,6 +94,13 @@ spring.cloud.stream:
       destination: posts
       producer:
         required-groups: auditGroup
+
+---
+spring.config.activate.on-profile: docker
+
+server.port: 8080
+
+
   
   
   

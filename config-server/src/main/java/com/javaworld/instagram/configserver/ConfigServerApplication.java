@@ -11,13 +11,13 @@ import org.slf4j.LoggerFactory;
 @SpringBootApplication
 public class ConfigServerApplication {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ConfigServerApplication.class);
+	private static final Logger logger = LoggerFactory.getLogger(ConfigServerApplication.class);
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(ConfigServerApplication.class, args);
 
 		String repoLocation = ctx.getEnvironment().getProperty("spring.cloud.config.server.native.searchLocations");
-		LOG.info("Serving configurations from folder: " + repoLocation);
+        logger.info("Serving configurations from folder: {}", repoLocation);
 	}
 
 }

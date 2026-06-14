@@ -3,7 +3,7 @@ server:
 
 eureka:
   instance:
-    hostname: localhost   ##TODO: is this correct
+    hostname: localhost   #TODO: is this correct
   client:
     registerWithEureka: false
     fetchRegistry: false
@@ -13,3 +13,13 @@ eureka:
   server:
     waitTimeInMsWhenSyncEmpty: 0
     response-cache-update-interval-ms: 5000
+
+
+---
+spring:
+  config.activate.on-profile: prod
+
+# the following property is just for testing the config server api
+eureka:
+  instance:
+    hostname: x.y.z
