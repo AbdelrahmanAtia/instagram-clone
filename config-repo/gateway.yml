@@ -20,6 +20,22 @@ server.ssl:
 ###################################
 ## Eureka related configurations ##
 ###################################
+app:
+  eureka-username: u
+  eureka-password: '{cipher}8059cb5b292ce59006e227215a06b2a35c65825af3f847a9540d7e022fecb447'
+  eureka-server: eureka
+  auth-server: auth-server
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: "http://${app.eureka-username}:${app.eureka-password}@${app.eureka-server}:8761/eureka/"
+    initialInstanceInfoReplicationIntervalSeconds: 5
+    registryFetchIntervalSeconds: 5
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 5
 
 spring.application.name: gateway  ##used by EUREKA to identify each micro service
 

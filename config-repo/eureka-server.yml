@@ -19,7 +19,3 @@ eureka:
 spring:
   config.activate.on-profile: prod
 
-# the following property is just for testing the config server api
-eureka:
-  instance:
-    hostname: x.y.z

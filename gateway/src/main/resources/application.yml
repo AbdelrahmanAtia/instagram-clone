@@ -1,14 +1,133 @@
-spring.config.import: "configserver:"
 
+server.port: 8443
+
+#################################
+## using HTTPS instead of HTTP ##
+#################################
+
+## the following two commented properties are used to disable HTTPS communication
+## and to communicate with the gateway using HTTP protocol
+##server.http2.enabled: false
+##server.ssl.enabled: false
+
+server.ssl:
+  key-store-type: PKCS12
+  key-store: classpath:keystore/edge.p12   ## this is the path of the certificate..it is stored in the app jar
+  key-store-password: password             ## this password is provided during certificate creation
+  key-alias: localhost
+
+
+###################################
+## Eureka related configurations ##
+###################################
+
+spring.application.name: gateway  ##used by EUREKA to identify each micro service
+
+#################################################
+## Authorization server related configurations ##
+#################################################
+spring.security.oauth2.resourceserver.jwt.issuer-uri: http://${app.auth-server}:9999
+
+#################################
+## distributed tracing configs ##
+#################################
+spring.sleuth.reactor.instrumentation-type: decorate-on-last
+
+
+##################
+## Cors configs ##
+##################
 spring:
-  application.name: gateway
-  cloud.config:
-    failFast: true
-    retry:
-      initialInterval: 3000
-      multiplier: 1.3
-      maxInterval: 10000
-      maxAttempts: 20
-    uri: http://config-server:8888
-    username: ${CONFIG_SERVER_USR}
-    password: ${CONFIG_SERVER_PWD}
+  cloud:
+    gateway:
+      ##httpserver.wiretap: true
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - PATCH
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - "*"
+spring.cloud.gateway.globalcors.add-to-simple-url-handler-mapping: true
+
+####################################
+## Routes related configurations  ##
+####################################
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: DEBUG
+    ##org.springframework.web.HttpLogging: TRACE
+    ##reactor.netty.http.server: DEBUG
+    ##reactor.netty.http.client: DEBUG
+    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: INFO
+    org.springframework.cloud.gateway: TRACE
+
+spring.cloud.gateway.routes:
+
+  - id: oauth2-server
+    uri: lb://auth-server
+    predicates:
+      - Path=/oauth2/**
+
+  - id: oauth2-login
+    uri: lb://auth-server
+    predicates:
+      - Path=/login/**
+
+  - id: oauth2-error
+    uri: lb://auth-server
+    predicates:
+      - Path=/error/**
+
+  - id: post-micro-service
+    uri: lb://post-ms   ## name used by service to be registered in eureka
+    predicates:
+      - Path=/services/post-ms/**
+    filters:
+      - RewritePath=/services/post-ms/(?<segment>.*), /$\{segment}
+
+  - id: user-info-micro-service
+    uri: lb://user-ms   ## name used by service to be registered in eureka
+    predicates:
+      - Path=/services/user-ms/**
+    filters:
+      - RewritePath=/services/user-ms/(?<segment>.*), /$\{segment}
+
+
+    ## routing rules for eureka
+    ## the url for eureka api without the gateway is: //${app.eureka-server}:8761/eureka
+  - id: eureka-api
+    uri: http://${app.eureka-server}:8761
+    predicates:
+      - Path=/eureka/api/{segment}
+    filters:
+      - SetPath=/eureka/{segment}
+
+    ## the url for eureka web without the gateway is: //${app.eureka-server}:8761
+  - id: eureka-web-start
+    uri: http://${app.eureka-server}:8761
+    predicates:
+      - Path=/eureka/web
+    filters:
+      - SetPath=/
+
+    ## this is needed for loading .css & .js & .png files when accessing the eureka web page
+  - id: eureka-web-other
+    uri: http://${app.eureka-server}:8761
+    predicates:
+      - Path=/eureka/**
+
+  - id: config-server
+    uri: ${spring.cloud.config.uri}
+    predicates:
+      - Path=/config/**
+    filters:
+      - RewritePath=/config/(?<segment>.*), /$\{segment}
