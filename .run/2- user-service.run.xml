@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="config server" type="Application" factoryName="Application">
+  <configuration default="false" name="2- user-service" type="Application" factoryName="Application">
     <option name="envFilePaths">
       <option value="$PROJECT_DIR$/.env" />
     </option>
-    <option name="MAIN_CLASS_NAME" value="com.javaworld.instagram.configserver.ConfigServerApplication" />
-    <module name="config-server" />
-    <option name="VM_PARAMETERS" value="-Dspring.profiles.active=local,native" />
+    <option name="MAIN_CLASS_NAME" value="com.javaworld.instagram.userinfoservice.UserInfoServiceApplication" />
+    <module name="user-info-service" />
+    <option name="VM_PARAMETERS" value="-Dspring.profiles.active=local" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.javaworld.instagram.userinfoservice.*" />

@@ -29,9 +29,8 @@
     <modules>
         <module>insta-common-lib</module>
         <module>authorization-server</module>
-        <module>config-server</module>
-        <module>eureka-server</module>
         <module>user-info-service</module>
+        <module>post-service</module>
     </modules>
 
     <dependencies>
