@@ -3,6 +3,12 @@
 
 # instagram-clone
 
+# Confluence doc
+
+https://instagram-clone.atlassian.net/wiki/home <br>
+then click on spaces and select instagram-clone space
+
+
 #  Cloning the project
 
 1- Go to c drive <br>

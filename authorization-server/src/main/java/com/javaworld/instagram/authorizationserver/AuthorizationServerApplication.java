@@ -10,7 +10,7 @@ import org.springframework.security.oauth2.core.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenCustomizer;
 
-import com.javaworld.instagram.authorizationserver.appconfig.security.CustomClaims;
+//import com.javaworld.instagram.authorizationserver.appconfig.security.CustomClaims;
 
 @SpringBootApplication
 public class AuthorizationServerApplication {
@@ -22,6 +22,7 @@ public class AuthorizationServerApplication {
 	/**
 	 * this bean is used to customize the jwt token by
 	 */
+    /*
 	@Bean
 	OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer(CustomClaims customClaims) {
 		return context -> {
@@ -32,5 +33,6 @@ public class AuthorizationServerApplication {
 			}
 		};
 	}
+     */
 
 }

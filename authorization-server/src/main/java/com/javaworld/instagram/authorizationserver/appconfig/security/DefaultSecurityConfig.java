@@ -1,4 +1,3 @@
-//CHECKSTYLE:OFF
 package com.javaworld.instagram.authorizationserver.appconfig.security;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -14,16 +13,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-/**
- * @author Joe Grandja
- * @since 0.1.0
- */
+
 @EnableWebSecurity
 public class DefaultSecurityConfig {
 
   private static final Logger LOG = LoggerFactory.getLogger(DefaultSecurityConfig.class);
 
-  // formatter:off
   @Bean
   SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
     http
@@ -35,11 +30,7 @@ public class DefaultSecurityConfig {
       //.exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint());
     return http.build();
   }
-  // formatter:on
-
-  // @formatter:off
   
-  //TODO: what is the use of the following bean ??? when it is used?? is it for protecting eureka ?
   @Bean
   UserDetailsService users() {
     UserDetails user = User.withDefaultPasswordEncoder()
@@ -49,7 +40,5 @@ public class DefaultSecurityConfig {
       .build();
     return new InMemoryUserDetailsManager(user);
   }
-  // @formatter:on
 
 }
-//CHECKSTYLE:ON

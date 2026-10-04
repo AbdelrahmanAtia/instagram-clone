@@ -1,4 +1,4 @@
-
+server.port: 7002
 spring.config.activate.on-profile: docker
 
 spring.config.import: "configserver:"

@@ -1,26 +1,53 @@
-spring.config.import: "configserver:"
-
+server.port: 7001
 spring:
   application.name: user-ms
-  cloud.config:
-    failFast: true
-    retry:
-      initialInterval: 3000
-      multiplier: 1.3
-      maxInterval: 10000
-      maxAttempts: 3
-    uri: http://localhost:8888
-    username: ${CONFIG_SERVER_USR}
-    password: ${CONFIG_SERVER_PWD}
+  cloud.config.enabled: false  # disable spring config server
+
+eureka.client.enabled: false  # disable eureka
+
+spring.liquibase:
+  ##changeLog: "classpath:dblogs\changelog\changelog-master.xml"
+  enabled: true
+
+# spring auth server config
+spring.security:
+    oauth2:
+      resourceserver.jwt.issuer-uri: http://${auth-server.uri}:9999
+      ## the following configuration is needed for the webclient filter that will call the auth-server
+      ## to get an access token when the service needs to call another service
+      client:
+        registration:
+          mywebclient:
+            client-id: writer
+            client-secret: secret
+            authorization-grant-type: client_credentials
+        provider:
+          mywebclient:
+            issuer-uri: http://${auth-server.uri}:9999
 
 ---
-spring.config.activate.on-profile: docker
+spring.config.activate.on-profile: prod
 
-spring:
-  cloud.config:
-    retry:
-      maxAttempts: 20
-    uri: http://config-server:8888
+spring.datasource:
+  url: jdbc:mysql://mysql/user-info-db
+  username: root
+  password: rootpwd
 
+post-ms.uri: "http://localhost:7002" # todo: to be changed
+auth-server.uri: localhost  # todo: to be changed
+---
+spring.config.activate.on-profile: local
+spring.datasource:
+  url: jdbc:mysql://localhost/user-info-db
+  username: root
+  password: rootpwd
 
+auth-server.uri: localhost
+post-ms.uri: "http://localhost:7002"
 
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    com.javaworld.instagram.userinfoservice.commons.utils.LoggingUtil: DEBUG  ## this is not related to database config..it is just added here to benefit from YAML properties nesting

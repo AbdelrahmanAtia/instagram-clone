@@ -1,0 +1,14 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="insert-oauth2-client-001" author="abdelrahman">
+        <insert tableName="oauth2_registered_client">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440000"/>
+            <column name="version" valueNumeric="0"/>
+            <column name="client_id" value="user-ms"/>
+            <column name="client_secret" value="$2a$12$Tsvx7aoynJVY61o/pg/k9.6ucbN986eDeE0QIsPD4XAP0K611GLee"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

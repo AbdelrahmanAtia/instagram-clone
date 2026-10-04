@@ -28,6 +28,13 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
 		throw new RuntimeException("Not implemented method");
 	}
 
+    @Override
+    public RegisteredClient findByClientId(String clientId) {
+
+        return null;
+    }
+
+    /*
 	@Override
 	public RegisteredClient findByClientId(String clientId) {
 
@@ -108,5 +115,6 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
 
 		return writerClient;
 	}
+     */
 
 }

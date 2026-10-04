@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -15,7 +16,6 @@ import com.javaworld.instagram.commonlib.messaging.Event;
 import com.javaworld.instagram.commonlib.messaging.MessageSender;
 import com.javaworld.instagram.userinfoservice.caching.InstaCache;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.NotFoundException;
-import com.javaworld.instagram.userinfoservice.configuration.PropertiesConfig;
 import com.javaworld.instagram.userinfoservice.service.dto.PostsCountResponse;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -29,16 +29,14 @@ public class PostServiceIntegrationImpl implements PostServiceIntegration {
 	private static final Logger logger = LoggerFactory.getLogger(PostServiceIntegrationImpl.class);
 
 	private final WebClient webClient;
+	private final MessageSender messageSender;
+    private final String postServiceUrl;
 
 	@Autowired
-	private PropertiesConfig propertiesConfig;
-	
-	@Autowired
-	private MessageSender messageSender;
-	
-	@Autowired
-	public PostServiceIntegrationImpl(WebClient.Builder webClientBuilder) {
+	public PostServiceIntegrationImpl(WebClient.Builder webClientBuilder, MessageSender messageSender, @Value("post-ms.uri") String postServiceUrl) {
 		this.webClient = webClientBuilder.build();
+        this.messageSender = messageSender;
+        this.postServiceUrl = postServiceUrl;
 	}
 
 	@Override
@@ -47,8 +45,9 @@ public class PostServiceIntegrationImpl implements PostServiceIntegration {
 	@CircuitBreaker(name = "postsCount", fallbackMethod = "getPostsCountFallbackValue")
 	public Mono<PostsCountResponse> getPostsCountByUserUuid(UUID userUuid, int delay, int faultPercent) {
 
-		URI url = UriComponentsBuilder.fromUriString(propertiesConfig.getVirtualPostServiceUrl()
-	    	      + "/posts/count?userUuid={userUuid}&delay={delay}&faultPercent={faultPercent}").build(userUuid, delay, faultPercent);
+        URI url = UriComponentsBuilder.fromUriString(
+                        postServiceUrl + "/posts/count?userUuid={userUuid}&delay={delay}&faultPercent={faultPercent}")
+                .build(userUuid, delay, faultPercent);
 
 		logger.info("Will call the findPostsCount API on URL: {}", url); 
 		 

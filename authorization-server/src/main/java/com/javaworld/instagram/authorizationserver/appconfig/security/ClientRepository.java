@@ -4,9 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ClientRepository extends JpaRepository<ClientEntity, String> {
+public interface ClientRepository extends JpaRepository<Outh2RegisteredClient, String> {
 
-	Optional<ClientEntity> findByClientId(String clientId);
-	
-
+	Optional<Outh2RegisteredClient> findByClientId(String clientId);
 }

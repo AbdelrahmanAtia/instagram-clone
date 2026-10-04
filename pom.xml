@@ -28,6 +28,7 @@
 
     <modules>
         <module>insta-common-lib</module>
+        <module>authorization-server</module>
         <module>config-server</module>
         <module>eureka-server</module>
         <module>user-info-service</module>
@@ -89,7 +90,7 @@
             <artifactId>reactor-test</artifactId>
         </dependency>
         -->
-        <!-- ################################ MapStruct ################################################ -->
+        <!-- MapStruct ################################################ -->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
@@ -105,6 +106,12 @@
             <artifactId>validation-api</artifactId>
             <version>1.1.0.Final</version>
         </dependency>
+        <!-- Database related dependencies -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
