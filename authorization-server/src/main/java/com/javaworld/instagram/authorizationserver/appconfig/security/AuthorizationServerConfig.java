@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.OAuth2Au
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 
-
 @Configuration(proxyBeanMethods = false)
 @Import(OAuth2AuthorizationServerConfiguration.class)
 public class AuthorizationServerConfig {
@@ -25,18 +24,16 @@ public class AuthorizationServerConfig {
     @Value("${issuer.uri}")
     private String issuerUri;
 
-    private final ClientRepository clientRepository;
+    private final Outh2RegisteredClientRepository outh2RegisteredClientRepository;
 
-    public AuthorizationServerConfig(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
+    public AuthorizationServerConfig(Outh2RegisteredClientRepository outh2RegisteredClientRepository) {
+        this.outh2RegisteredClientRepository = outh2RegisteredClientRepository;
     }
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
-
-        LOG.info("register OAUth client allowing all grant flows...");
-
-        return new JpaRegisteredClientRepository(clientRepository);
+        LOG.info("Register OAUth client allowing all grant flows");
+        return new JpaRegisteredClientRepository(outh2RegisteredClientRepository);
     }
 
     @Bean

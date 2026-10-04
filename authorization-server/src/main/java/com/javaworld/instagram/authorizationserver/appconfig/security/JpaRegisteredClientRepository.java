@@ -14,24 +14,51 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 public class JpaRegisteredClientRepository implements RegisteredClientRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(JpaRegisteredClientRepository.class);
+    private static final int TOKEN_EXP_TIME_IN_SECONDS = 10800; //3 hrs
 
-	private final ClientRepository clientRepository;
-	
-	private static final int TOKEN_EXP_TIME_IN_SECONDS = 10800; //3 hrs
+	private final Outh2RegisteredClientRepository outh2RegisteredClientRepository;
 
-	public JpaRegisteredClientRepository(ClientRepository clientRepository) {
-		this.clientRepository = clientRepository;
+	public JpaRegisteredClientRepository(Outh2RegisteredClientRepository outh2RegisteredClientRepository) {
+		this.outh2RegisteredClientRepository = outh2RegisteredClientRepository;
 	}
 
-	@Override
-	public RegisteredClient findById(String id) {
-		throw new RuntimeException("Not implemented method");
-	}
+    @Override
+    public RegisteredClient findById(String id) {
+        throw new RuntimeException("Not implemented method");
+    }
 
     @Override
     public RegisteredClient findByClientId(String clientId) {
 
-        return null;
+        Outh2RegisteredClientEntity clientEntity = outh2RegisteredClientRepository.findByClientId(clientId)
+                .orElseThrow(() ->
+                        new RuntimeException("User with username: " + clientId + " not found")
+                );
+
+        // TODO: ALL the statically set data such as:-
+        //     1- AuthorizationGrantType
+        //     2- ClientAuthenticationMethod
+        //     3-  scopes (in a separate table as it is a many to many relationship)
+        //  shall be stored in db same as clientId & clientSecret
+
+        // TODO: Validate that when the user-service token expires it will request automatically a new acces token from the auth-server and
+        //  it will send it in it's outgoing requests to newsfeed service and post service
+
+        return RegisteredClient
+                .withId(clientEntity.getId().toString())
+                .clientId(clientEntity.getClientId())
+                .clientSecret(clientEntity.getClientSecret())
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .scope(OidcScopes.OPENID)
+                .scope("post-ms:read")
+                .scope("post-ms:write")
+                .scope("user-ms:read")
+                .scope("user-ms:write")
+                .scope("newsfeed-ms.read")
+                .scope("newsfeed-ms.write")
+                .tokenSettings(ts -> ts.accessTokenTimeToLive(Duration.ofSeconds(TOKEN_EXP_TIME_IN_SECONDS)))
+                .build();
     }
 
     /*
