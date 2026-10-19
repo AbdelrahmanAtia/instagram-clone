@@ -9,8 +9,11 @@ import org.mapstruct.Mapping;
 
 import com.javaworld.instagram.postservice.features.persistence.entities.PostEntity;
 import com.javaworld.instagram.postservice.features.service.dto.Post;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", imports = { java.util.UUID.class })
+@Mapper(componentModel = "spring",
+        imports = { java.util.UUID.class },
+        unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PostMapper {
 
 	@Mapping(target = "postUuid", expression = "java(post.getPostUuid() == null ? UUID.randomUUID() : post.getPostUuid())")
@@ -20,11 +23,8 @@ public interface PostMapper {
 
 	List<Post> entityListToDtoList(List<PostEntity> entityList);
 
-	
 	default List<UUID> mapStrUuidToUuidObj(List<String> uuids) {
 		return uuids.stream().map(i -> UUID.fromString(i)).collect(Collectors.toList());
 	}
-	
-
 
 }

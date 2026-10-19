@@ -4,7 +4,7 @@ spring:
   cloud.config.enabled: false  # disable spring config server
   liquibase:
     enabled: true
-    change-log: classpath:db/changelog/changelog-master.xml
+    change-log: classpath:db-changelog/changelog-master.xml
 
 eureka.client.enabled: false  # disable eureka
 

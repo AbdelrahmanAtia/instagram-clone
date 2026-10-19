@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>com.javaworld.instagram</groupId>
         <artifactId>instagram-clone</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-
     <artifactId>user-info-service</artifactId>
     <name>user-info-service</name>
     <description>instagram user info microservice</description>
-
     <properties>
         <swagger-annotations-version>1.6.6</swagger-annotations-version>
         <jackson-databind-nullable>0.2.1</jackson-databind-nullable>
@@ -24,31 +23,22 @@
         <mockito-junit-jupiter-version>4.8.0</mockito-junit-jupiter-version>
         <junit-jupiter-api-version>5.7.2</junit-jupiter-api-version>
     </properties>
-
     <dependencies>
-
         <dependency>
             <groupId>com.javaworld.instagram</groupId>
             <artifactId>insta-common-lib</artifactId>
             <version>${insta-common-lib-version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
-
         <!-- ################### Resilience  configuration ############### -->
         <dependency>
-            <groupId>
-                io.github.resilience4j
-            </groupId>
+            <groupId>io.github.resilience4j</groupId>
             <artifactId>resilience4j-spring-boot2</artifactId>
-            <version>
-                ${resilience4jVersion}
-            </version>
+            <version>${resilience4jVersion}</version>
         </dependency>
-
         <dependency>
             <groupId>
                 io.github.resilience4j
@@ -58,14 +48,12 @@
                 ${resilience4jVersion}
             </version>
         </dependency>
-
         <dependency>
             <groupId>
                 org.springframework.boot
             </groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-
         <!-- ################### config server communication dependencies ############### -->
         <dependency>
             <groupId>
@@ -73,14 +61,12 @@
             </groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
-
         <dependency>
             <groupId>
                 org.springframework.retry
             </groupId>
             <artifactId>spring-retry</artifactId>
         </dependency>
-
         <!-- ################### Security dependencies ################################ -->
         <dependency>
             <groupId>
@@ -88,7 +74,6 @@
             </groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-
         <dependency>
             <groupId>
                 org.springframework.security
@@ -97,7 +82,6 @@
                 spring-security-oauth2-resource-server
             </artifactId>
         </dependency>
-
         <dependency>
             <groupId>
                 org.springframework.boot
@@ -106,8 +90,6 @@
                 spring-boot-starter-oauth2-client
             </artifactId>
         </dependency>
-
-
         <dependency>
             <groupId>
                 org.springframework.security
@@ -116,25 +98,19 @@
                 spring-security-oauth2-jose
             </artifactId>
         </dependency>
-
-
         <!-- ########################### DB & persistence layer dependencies ################################ -->
-
         <dependency>
             <groupId>
                 mysql
             </groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
-
         <dependency>
             <groupId>
                 org.hibernate
             </groupId>
             <artifactId>hibernate-core</artifactId>
         </dependency>
-
         <dependency>
             <groupId>
                 org.hibernate
@@ -144,20 +120,16 @@
                 6.1.2.Final
             </version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
-
         <!-- ################### dependencies needed for open-API code generator ################################ -->
-
         <dependency>
             <groupId>
                 io.swagger
@@ -167,7 +139,6 @@
                 ${swagger-annotations-version}
             </version>
         </dependency>
-
         <dependency>
             <groupId>
                 org.openapitools
@@ -177,7 +148,6 @@
                 ${jackson-databind-nullable}
             </version>
         </dependency>
-
         <dependency>
             <groupId>
                 io.springfox
@@ -187,18 +157,13 @@
         </dependency>
 
         <dependency>
-            <groupId>
-                org.projectlombok
-            </groupId>
+            <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.30</version>
-            <scope>
-                provided
-            </scope>
+            <scope>provided</scope>
         </dependency>
 
         <!-- ################################ Spring Cloud ################################################ -->
-
         <dependency>
             <groupId>
                 org.springframework.cloud
@@ -207,21 +172,18 @@
                 spring-cloud-starter-netflix-eureka-client
             </artifactId>
         </dependency>
-
         <dependency>
             <groupId>
                 org.springframework.cloud
             </groupId>
             <artifactId>spring-cloud-starter-sleuth</artifactId>
         </dependency>
-
         <dependency>
             <groupId>
                 org.springframework.cloud
             </groupId>
             <artifactId>spring-cloud-sleuth-zipkin</artifactId>
         </dependency>
-
         <dependency>
             <groupId>
                 org.springframework.cloud
@@ -230,7 +192,6 @@
                 spring-cloud-starter-stream-rabbit
             </artifactId>
         </dependency>
-
         <!-- ################################ Jasper Reports ################################################ -->
         <dependency>
             <groupId>
@@ -239,33 +200,22 @@
             <artifactId>jasperreports</artifactId>
             <version>6.17.0</version>
         </dependency>
-
         <!-- ################################ JHipster ################################################ -->
-
         <dependency>
             <groupId>tech.jhipster</groupId>
             <artifactId>jhipster-framework</artifactId>
             <version>7.9.3</version>
         </dependency>
-
         <!--
-        <dependency>
-            <groupId>jakarta.persistence</groupId>
-            <artifactId>jakarta.persistence-api</artifactId>
-            <version>3.1.0</version>
-        </dependency>
+        <dependency><groupId>jakarta.persistence</groupId><artifactId>jakarta.persistence-api</artifactId><version>3.1.0</version></dependency>
         -->
-
         <!-- ################################ Jpa metamodels ########################################## -->
-
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -279,7 +229,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
             <dependency>
                 <groupId>
                     io.github.resilience4j
@@ -381,73 +330,47 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-
     <build>
-
         <plugins>
 
             <plugin>
-                <!-- this references the plugin defined in the parent pom -->
-                <artifactId>maven-compiler-plugin</artifactId>
+                <artifactId>maven-compiler-plugin</artifactId> <!-- this references the plugin defined in the parent pom -->
             </plugin>
 
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
             <!-- open API plug-in for API code generator -->
             <!--
                  this plugin is disabled until we fix the issue of wrapping Flux<T> with Mono like
                  this Mono<Flux<T>> for api's that return an array
             -->
-
             <plugin>
-                <groupId>
-                    org.openapitools
-                </groupId>
+                <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>
-                    6.0.1
-                </version>
+                <version>6.0.1</version>
                 <executions>
                     <execution>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>
-                                ${project.basedir}/src/main/resources/openapi.yaml
-                            </inputSpec>
-                            <templateDirectory>
-                                src/main/resources/openapi-templates
-                            </templateDirectory>
-                            <generatorName>
-                                spring
-                            </generatorName>
-                            <apiPackage>
-                                com.javaworld.instagram.userinfoservice.server.api
-                            </apiPackage>
-                            <modelPackage>
-                                com.javaworld.instagram.userinfoservice.server.dto
-                            </modelPackage>
-                            <modelNameSuffix>
-                                ApiDto
-                            </modelNameSuffix>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi.yaml</inputSpec>
+                            <templateDirectory>src/main/resources/openapi-templates</templateDirectory>
+                            <generatorName>spring</generatorName>
+                            <apiPackage>com.javaworld.instagram.userinfoservice.server.api</apiPackage>
+                            <modelPackage>com.javaworld.instagram.userinfoservice.server.dto</modelPackage>
+                            <modelNameSuffix>ApiDto</modelNameSuffix>
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <skipDefaultInterface>true</skipDefaultInterface>
-                                <reactive>
-                                    false
-                                </reactive>
+                                <reactive>false</reactive>
                             </configOptions>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
-
 </project>

@@ -7,13 +7,14 @@ import org.mapstruct.Mapping;
 
 import com.javaworld.instagram.postservice.features.service.dto.Post;
 import com.javaworld.instagram.postservice.server.dto.PostApiDto;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PostApiDtoMapper {
 
 	Post apiToDto(PostApiDto apiDto);
 
-    @Mapping(target = "postUuid", source = "")
+    @Mapping(target = "postUuid", source = "postUuid")
 	PostApiDto mapToApiDto(Post post);
 
 	List<PostApiDto> mapToApiDto(List<Post> post);
