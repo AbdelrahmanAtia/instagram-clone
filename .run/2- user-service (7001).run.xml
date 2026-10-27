@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="2- user-service" type="Application" factoryName="Application">
+  <configuration default="false" name="2- user-service (7001)" type="Application" factoryName="Application">
     <option name="envFilePaths">
       <option value="$PROJECT_DIR$/.env" />
     </option>

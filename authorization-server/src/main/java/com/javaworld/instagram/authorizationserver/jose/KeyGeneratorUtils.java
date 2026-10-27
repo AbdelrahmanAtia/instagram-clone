@@ -1,5 +1,5 @@
 //CHECKSTYLE:OFF
-package com.javaworld.instagram.authorizationserver.appconfig.jose;
+package com.javaworld.instagram.authorizationserver.jose;
 
 import java.math.BigInteger;
 import java.security.KeyPair;

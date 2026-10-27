@@ -1,7 +1,6 @@
-package com.javaworld.instagram.authorizationserver.appconfig.security;
+package com.javaworld.instagram.authorizationserver.registeredclient;
 
 import java.time.Duration;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +28,8 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
 
     @Override
     public RegisteredClient findByClientId(String clientId) {
+
+        logger.info("starting JpaRegisteredClientRepository.findByClientId(clientId = {})", clientId);
 
         Outh2RegisteredClientEntity clientEntity = outh2RegisteredClientRepository.findByClientId(clientId)
                 .orElseThrow(() ->

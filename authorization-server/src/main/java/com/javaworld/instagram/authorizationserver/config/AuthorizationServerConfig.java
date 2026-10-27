@@ -1,6 +1,8 @@
-package com.javaworld.instagram.authorizationserver.appconfig.security;
+package com.javaworld.instagram.authorizationserver.config;
 
-import com.javaworld.instagram.authorizationserver.appconfig.jose.Jwks;
+import com.javaworld.instagram.authorizationserver.jose.Jwks;
+import com.javaworld.instagram.authorizationserver.registeredclient.JpaRegisteredClientRepository;
+import com.javaworld.instagram.authorizationserver.registeredclient.Outh2RegisteredClientRepository;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -32,7 +34,6 @@ public class AuthorizationServerConfig {
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
-        LOG.info("Register OAUth client allowing all grant flows");
         return new JpaRegisteredClientRepository(outh2RegisteredClientRepository);
     }
 

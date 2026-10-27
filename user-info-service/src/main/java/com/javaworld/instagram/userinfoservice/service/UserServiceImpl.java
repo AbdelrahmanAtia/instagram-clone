@@ -54,19 +54,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User createUser(User user) {
-
 		UserEntity userEntity = userMapper.toEntity(user);
 		try {
 			//TODO: make username unique
 			UserEntity savedUser = userRepository.save(userEntity);
-			logger.info("created user with name: " + savedUser.getUsername());
-			
 			return userMapper.toDto(userEntity);
-
 		} catch (DuplicateKeyException ex) {
 			throw new InvalidInputException("Duplicate key, UserName: " + userEntity.getUsername());
 		}
-
 	}
 
 	//TODO: delay & faultPercent shall be removed, this is only for testing the circuit breaker

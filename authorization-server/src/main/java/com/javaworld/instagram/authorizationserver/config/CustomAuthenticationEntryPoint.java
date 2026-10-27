@@ -1,4 +1,4 @@
-package com.javaworld.instagram.authorizationserver.appconfig.security;
+package com.javaworld.instagram.authorizationserver.config;
 
 /*
 import org.springframework.security.core.AuthenticationException;
