@@ -1,15 +1,18 @@
 package com.javaworld.instagram.userinfoservice.service;
 
+import com.javaworld.instagram.commonlib.exception.InvalidInputException;
+import com.javaworld.instagram.userinfoservice.service.dto.UserSearchKeyType;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -18,7 +21,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javaworld.instagram.commonlib.security.SecurityUtil;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.BadRequestException;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.HttpErrorInfo;
-import com.javaworld.instagram.userinfoservice.commons.exceptions.InvalidInputException;
 import com.javaworld.instagram.userinfoservice.commons.exceptions.NotFoundException;
 import com.javaworld.instagram.userinfoservice.integration.PostServiceIntegration;
 import com.javaworld.instagram.userinfoservice.persistence.FollowerEntity;
@@ -46,55 +48,64 @@ public class UserServiceImpl implements UserService {
 		
 	@Autowired
 	private PostServiceIntegration postServiceIntegration;
+
+    private final PasswordEncoder passwordEncoder;
 	
-	
-	public UserServiceImpl(ObjectMapper mapper) {
-		this.mapper = mapper;
+	public UserServiceImpl(
+            ObjectMapper mapper,
+            PasswordEncoder passwordEncoder) {
+        this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
 	}
 
 	@Override
 	public User createUser(User user) {
+
+        Optional<UserEntity> duplicateUser = userRepository.findByUsernameOrEmail(user.getUsername(), user.getEmail());
+        duplicateUser.ifPresent(e -> {
+            if(e.getUsername().equals(user.getUsername())){
+                throw new InvalidInputException("username: " + user.getUsername() + " already exists");
+            }
+
+            if(e.getEmail().equals(user.getEmail())){
+                throw new InvalidInputException("email: " + user.getEmail() + " already exists");
+            }
+        });
+
 		UserEntity userEntity = userMapper.toEntity(user);
-		try {
-			//TODO: make username unique
-			UserEntity savedUser = userRepository.save(userEntity);
-			return userMapper.toDto(userEntity);
-		} catch (DuplicateKeyException ex) {
-			throw new InvalidInputException("Duplicate key, UserName: " + userEntity.getUsername());
-		}
+        userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        //TODO: add unique constraints for username & email in the db
+        return userMapper.toDto(userRepository.save(userEntity));
 	}
 
-	//TODO: delay & faultPercent shall be removed, this is only for testing the circuit breaker
-	public User findUser(UUID userUuid, int delay, int faultPercent) {
+    public User searchUser(String searchKeyValue, UserSearchKeyType searchKeyType) {
 
-		UserEntity existingUser = userRepository.findByUserUuid(userUuid).orElseThrow(() -> {
-			throw new NotFoundException("user with uuid: " + userUuid.toString() + " not found");
-		});
+        logger.info("searching for user with searchKeyValue = {} and searchKeyType = {}", searchKeyValue,
+                searchKeyType);
 
-		int followersCount = followerRepository.getFollowersCount(userUuid);
-		int followingCount = followerRepository.getFollowingCount(userUuid);
-		
-		User userDto = userMapper.toDto(existingUser);
-		userDto.setFollowersCount(followersCount);
-		userDto.setFollowingCount(followingCount);
+        UserEntity userEntity = null;
 
-		boolean getPostsCountFromPostsService = true; // TODO: shall be an external configuration flag
+        switch (searchKeyType) {
+            case USER_UUID:
+                userEntity = userRepository.findByUserUuid(UUID.fromString(searchKeyValue)).orElseThrow(() ->
+                        new NotFoundException("user with uuid: " + searchKeyValue + " not found"));
+                break;
 
-		if (getPostsCountFromPostsService) {
-			
-			try {
-				int postsCount = postServiceIntegration.getPostsCountByUserUuid(userUuid, delay, faultPercent).block()
-						.getPostsCount();
-				userDto.setPostsCount(postsCount);
+            case USER_NAME:
+                userEntity = userRepository.findByUsername(searchKeyValue).orElseThrow(() ->
+                        new NotFoundException("user with username: " + searchKeyValue + " not found"));
+                break;
 
-			}
-			catch(RuntimeException ex) {
-				handleException(ex);
-			}
-		}
+            case USER_EMAIL:
+                throw new RuntimeException("Search by email is not supported yet");
 
-		return userDto;
-	}
+            default:
+                throw new IllegalStateException("Unexpected UserSearchKeyType: " + searchKeyType);
+        }
+
+        return userMapper.toDto(userEntity);
+    }
 	
 	@Override
 	public User partialUpdateUser(User updatedUserData) {
@@ -171,10 +182,8 @@ public class UserServiceImpl implements UserService {
 		FollowerEntity followerEntity = new FollowerEntity();
 		followerEntity.setFollower(follower);
 		followerEntity.setFollowed(followed);
-				
-		
 		followerRepository.save(followerEntity);
-		
+        //TODO: increment followers count in user entity
 	}
 	
 	@Override
@@ -188,6 +197,7 @@ public class UserServiceImpl implements UserService {
 		validateUserExists(followerId);
 		
 		followerRepository.delete(followerId, currentUserUuid);
+        //TODO: Decrease followers count in user entity
 	}
 	
 	@Override
@@ -200,6 +210,8 @@ public class UserServiceImpl implements UserService {
 		validateUserExists(followerId);
 		
 		followerRepository.delete(followerId, followedId);
+
+        //TODO: Decrease following count in user_entity
 	}
 	
 	//TODO: update the following method to support pagination..

@@ -65,8 +65,13 @@ public class UserEntity implements Serializable {
 		
 	@Version
 	private int version;
-	
-	
+
+    private long followersCount;
+
+    private long followingsCount;
+
+    private int postsCount;
+
 	public void addFollower(FollowerEntity entity) {
 		this.followers.add(entity);
 	}

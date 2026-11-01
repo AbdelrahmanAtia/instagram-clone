@@ -1,22 +1,16 @@
 package com.javaworld.instagram.authorizationserver;
 
+import com.javaworld.instagram.authorizationserver.feign.UserServiceClient;
 import com.javaworld.instagram.authorizationserver.registereduser.JpaRegisteredUserDetailsService;
-import com.javaworld.instagram.authorizationserver.registereduser.RegisteredUserRepository;
-import java.util.Map;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.OAuth2TokenType;
-import org.springframework.security.oauth2.server.authorization.JwtEncodingContext;
-import org.springframework.security.oauth2.server.authorization.OAuth2TokenCustomizer;
 
 //import com.javaworld.instagram.authorizationserver.appconfig.security.CustomClaims;
 
@@ -49,8 +43,8 @@ public class AuthorizationServerApplication {
     }
 
     @Bean
-    UserDetailsService userDetailsService(RegisteredUserRepository registeredUserRepository) {
-        return new JpaRegisteredUserDetailsService(registeredUserRepository);
+    UserDetailsService userDetailsService(UserServiceClient userServiceClient) {
+        return new JpaRegisteredUserDetailsService(userServiceClient);
     }
 
     @Bean

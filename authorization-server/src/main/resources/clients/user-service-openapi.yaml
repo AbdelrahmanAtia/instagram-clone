@@ -1,0 +1,432 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0"
+  title: "insta-ms-user-info-api"
+  termsOfService: ""
+  contact:
+    email: "abc@gmail.com"
+host: "localhost"
+basePath: "/api"
+schemes:
+  - http
+
+tags:
+  - name: Users
+    description: Operations about users
+  - name: Reports
+    description: Operations about user account information report
+
+
+paths:
+  /api/users/:
+    post:
+      tags:
+        - Users
+      summary: Create a new user
+      description: ''
+      operationId: createUser
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "CreateUserRequest"
+          description: "Invoice buckets request"
+          required: true
+          schema:
+            $ref: '#/definitions/CreateUserRequest'
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/User'
+
+    patch:
+      tags:
+        - Users
+      summary: Create a new user
+      description: ''
+      operationId: partialUpdateUser
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "invoiceBuckets"
+          description: "Invoice buckets request"
+          required: true
+          schema:
+            $ref: '#/definitions/PartialUpdateUserRequest'
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/User'
+
+    delete:
+      tags:
+        - Users
+      summary: Delete user
+      description: ''
+      operationId: deleteUser
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: userUuid
+          description: ''
+          required: true
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/DeletedUsersResponse'
+        '400':
+          description: Invalid userId
+
+  /internal/users/search:
+    get:
+      tags:
+        - Users
+      summary: Search for user
+      description: ''
+      operationId: searchUser
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: searchKeyValue
+          description: ''
+          required: true
+          type: string
+        - in: query
+          name: searchKeyType
+          description: Type of search key
+          required: true
+          type: string
+          enum:
+            - USER_UUID
+            - USER_NAME
+            - USER_EMAIL
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Invalid userId
+
+  /api/users/suggested:
+    get:
+      tags:
+        - Users
+      summary: get suggested users
+      description: ''
+      operationId: getSuggestedUsers
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: size
+          description: ''
+          required: true
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        '400':
+          description: ''
+
+
+  /api/users/follow:
+    post:
+      tags:
+        - Users
+      summary: send a follow request to another user
+      description: ''
+      operationId: followUser
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "FollowUserRequest"
+          description: ""
+          required: true
+          schema:
+            $ref: '#/definitions/FollowUserRequest'
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/GenericResponse'
+
+  /api/users/unfollow:
+    post:
+      tags:
+        - Users
+      summary: unfollow user
+      description: ''
+      operationId: unfollowUser
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "UnFollowUserRequest"
+          description: ""
+          required: true
+          schema:
+            $ref: '#/definitions/UnFollowUserRequest'
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/GenericResponse'
+
+
+
+  /api/users/{userUuid}/followers:
+    get:
+      tags:
+        - Users
+      summary: get user followers
+      description: ''
+      operationId: getUserFollowers
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: userUuid
+          description: ''
+          required: true
+          type: string
+          format: uuid
+        - in: query
+          name: page
+          description: ''
+          required: true
+          type: integer
+        - in: query
+          name: size
+          description: ''
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        '400':
+          description: ''
+
+  /api/users/{userUuid}/followings:
+    get:
+      tags:
+        - Users
+      summary: get user followings
+      description: ''
+      operationId: getUserFollowings
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: userUuid
+          description: ''
+          required: true
+          type: string
+          format: uuid
+        - in: query
+          name: page
+          description: ''
+          required: true
+          type: integer
+        - in: query
+          name: size
+          description: ''
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        '400':
+          description: ''
+
+
+  /api/users/followers/{followerUuid}:
+    delete:
+      tags:
+        - Users
+      summary: remove follower
+      description: ''
+      operationId: removeFollower
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: followerUuid
+          description: ''
+          required: true
+          type: string
+          format: uuid
+        - in: query
+          name: page
+          description: ''
+          required: true
+          type: integer
+        - in: query
+          name: size
+          description: ''
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/GenericResponse'
+        '400':
+          description: ''
+
+  /api/reports/downloadaccountinformationreport:
+    get:
+      tags:
+        - Reports
+      summary: download user account information report
+      description: ''
+      operationId: downloadAccountInformationReport
+      produces:
+        - application/pdf
+      parameters:
+        - in: query
+          name: userName
+          description: ''
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            type: string
+            format: binary
+
+
+definitions:
+  User:
+    type: object
+    properties:
+      name:
+        type: string
+      username:
+        type: string
+      fullName:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      postsCount:
+        type: integer
+      followersCount:
+        type: integer
+      followingCount:
+        type: integer
+      userUuid:
+        type: string
+        format: uuid
+      profileImageName:
+        type: string
+      serviceAddress:
+        type: string
+
+  CreateUserRequest:
+    type: object
+    required:
+      - mobileNumberOrEmail
+      - username
+      - password
+    properties:
+      mobileNumberOrEmail:
+        type: string
+      fullName:
+        type: string
+      username:
+        type: string
+      password:
+        type: string
+
+  FollowUserRequest:
+    type: object
+    required:
+      - followedId
+    properties:
+      followedId:
+        type: string
+        format: uuid
+
+  UnFollowUserRequest:
+    type: object
+    required:
+      - followedId
+    properties:
+      followedId:
+        type: string
+        format: uuid
+
+
+  PartialUpdateUserRequest:
+    type: object
+    required:
+      - userUuid
+    properties:
+      userUuid:
+        type: string
+        format: uuid
+      profileImageName:
+        type: string
+      mobileNumber:
+        type: string
+      email:
+        type: string
+      username:
+        type: string
+      password:
+        type: string
+
+  DeletedUsersResponse:
+    type: object
+    properties:
+      deletedUsersCount:
+        type: integer
+        format: int32
+        example: 4
+      message:
+        type: string
+        example: users deleted successfully
+      serviceAddress:
+        type: string
+
+  GenericResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        example: message
+      serviceAddress:
+        type: string

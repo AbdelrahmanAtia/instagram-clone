@@ -3,12 +3,19 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="insert-oauth2-client-001" author="abdelrahman">
+    <changeSet id="insert-oauth2-client-001" author="abdelrahman_attya">
         <insert tableName="oauth2_registered_client">
             <column name="id" value="550e8400-e29b-41d4-a716-446655440000"/>
             <column name="version" valueNumeric="0"/>
             <column name="client_id" value="user-ms"/>
-            <column name="client_secret" value="$2a$12$Tsvx7aoynJVY61o/pg/k9.6ucbN986eDeE0QIsPD4XAP0K611GLee"/>
+            <column name="client_secret" value="$2a$10$KbEy4Nakn42o38Vk6pJIJeRCqRmv8fOsEvvbv1b6NeXyKhzzQZ.ja"/>
+        </insert>
+
+        <insert tableName="oauth2_registered_client">
+            <column name="id" value="660e8400-e29b-41d4-a716-446655440000"/>
+            <column name="version" valueNumeric="0"/>
+            <column name="client_id" value="angular_app"/>
+            <column name="client_secret" value="$2a$10$jwyKXcqzWzlyDeWE0/P/s.9DGycSSu.1HExATNnwJyi8UQsf/0nD."/>
         </insert>
     </changeSet>
 </databaseChangeLog>

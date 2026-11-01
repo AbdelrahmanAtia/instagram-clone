@@ -1,5 +1,6 @@
 package com.javaworld.instagram.userinfoservice.service;
 
+import com.javaworld.instagram.userinfoservice.service.dto.UserSearchKeyType;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,7 +10,7 @@ public interface UserService {
 
 	User createUser(User user);
 
-	User findUser(UUID userUuid, int delay, int faultPercent);
+	User searchUser(String searchKeyValue, UserSearchKeyType searchKeyType);
 	
 	User partialUpdateUser(User updatedUserData);
 	

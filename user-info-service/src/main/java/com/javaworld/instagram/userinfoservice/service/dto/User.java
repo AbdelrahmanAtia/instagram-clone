@@ -13,25 +13,14 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class User {
 
-	private String mobileNumber;
-
+    private UUID userUuid;
+    private String mobileNumber;
 	private String email;
-
 	private String fullName;
-
 	private String username;
-
 	private String password;
-
-	private UUID userUuid;
-
-	private int postsCount;
-	
-	private int followersCount;
-
-	private int followingCount;
-
-	private String profileImageName;
-
-
+    private long followersCount;
+    private long followingsCount;
+    private int postsCount;
+    private String profileImageName;
 }

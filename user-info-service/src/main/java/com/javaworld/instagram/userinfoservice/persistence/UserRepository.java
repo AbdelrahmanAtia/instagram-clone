@@ -14,7 +14,11 @@ public interface UserRepository extends CrudRepository<UserEntity, String>, JpaS
 
 	Optional<UserEntity> findByUserUuid(UUID userUuid);
 
-	int deleteByUserUuid(UUID userUuid);
+    Optional<UserEntity> findByUsername(String username);
+
+    Optional<UserEntity> findByUsernameOrEmail(String username, String email);
+
+    int deleteByUserUuid(UUID userUuid);
 
 	@Query("SELECT u FROM UserEntity u WHERE u.userUuid NOT IN "
 	        + "(SELECT f.followed.userUuid FROM FollowerEntity f WHERE f.follower.userUuid = :currentUserUuid) "

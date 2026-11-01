@@ -83,6 +83,8 @@ public class PostServiceImpl implements PostService {
 
 			postRepository.save(postEntity);
 
+            //TODO: A new event shall be published indicating that a new post is created so that the user-service increment it's posts count
+            // u shall use Redis for that
 			Post savedPost = postMapper.entityToDto(postEntity);
 
 			logger.info("createPost: created a post entity");

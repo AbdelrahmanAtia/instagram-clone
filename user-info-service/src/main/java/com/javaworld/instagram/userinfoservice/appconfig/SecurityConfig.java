@@ -20,19 +20,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 		   //even if u made /actuator/** publicly accessible ?
 		  .cors().disable().csrf().disable()
 		  .authorizeRequests()
-			.antMatchers("/openapi/**").permitAll()
-			.antMatchers("/webjars/**").permitAll()
-			.antMatchers("/actuator/**").permitAll()
-			
+			.antMatchers(
+                    "/openapi/**",
+                    "/internal/**",
+                    "/webjars/**",
+                    "/actuator/**")
+                .permitAll()
 			 // TODO: do we need to append the context
-			.antMatchers(POST, "/users/**").permitAll()  //registering user doesn't need to be protected
-			.antMatchers(DELETE, "/users/**").hasAuthority("SCOPE_post:write")
-			.antMatchers(GET, "/users/**").hasAuthority("SCOPE_post:read")
-			.antMatchers(POST, "/db/recreate").hasAuthority("SCOPE_post:write")
-			.antMatchers(POST, "/db/clear").hasAuthority("SCOPE_post:write")
-
-
-
+			.antMatchers(POST, "/api/users/").permitAll()  //registering user doesn't need to be protected
+			.antMatchers(DELETE, "/api/users/**").hasAuthority("SCOPE_post:write") //TODO: Why this is public ?
+			.antMatchers(GET, "/users/**").hasAuthority("SCOPE_post:read") //TODO: Why this is public ?
+			.antMatchers(POST, "/db/recreate").hasAuthority("SCOPE_post:write") //TODO: Why this is public ?
+			.antMatchers(POST, "/db/clear").hasAuthority("SCOPE_post:write") //TODO: Why this is public ?
 			.anyRequest().authenticated()
 			.and()
 		.oauth2ResourceServer()

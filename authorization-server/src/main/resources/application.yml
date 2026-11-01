@@ -27,6 +27,8 @@ issuer.uri: http://localhost:${server.port}
 ---
 spring.config.activate.on-profile: local
 
+spring.urls:
+  user-ms: http://localhost:7001
 
 spring.datasource:
   url: jdbc:mysql://localhost/user-info-db
@@ -34,3 +36,9 @@ spring.datasource:
   password: rootpwd
 
 issuer.uri: http://localhost:${server.port}
+
+#logging:
+#  level:
+#    org.springframework.security: TRACE
+#    org.springframework.security.oauth2: TRACE
+#    org.springframework.web.servlet.DispatcherServlet: TRACE

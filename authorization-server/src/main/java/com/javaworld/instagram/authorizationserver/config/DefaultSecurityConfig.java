@@ -23,7 +23,7 @@ public class DefaultSecurityConfig {
   SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
     http
       .authorizeRequests(authorizeRequests -> authorizeRequests
-        .antMatchers("/actuator/**").permitAll()
+        .antMatchers("/actuator/**", "/internal/**").permitAll()
         .anyRequest().authenticated()
       )
       .formLogin(withDefaults());

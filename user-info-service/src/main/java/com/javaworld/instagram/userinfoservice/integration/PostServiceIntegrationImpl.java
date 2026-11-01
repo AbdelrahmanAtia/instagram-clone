@@ -39,6 +39,7 @@ public class PostServiceIntegrationImpl implements PostServiceIntegration {
         this.postServiceUrl = postServiceUrl;
 	}
 
+    /*
 	@Override
 	@Retry(name = "postsCount")
 	@TimeLimiter(name = "postsCount")
@@ -55,6 +56,7 @@ public class PostServiceIntegrationImpl implements PostServiceIntegration {
 				.retrieve()
 				.bodyToMono(PostsCountResponse.class);
  	}
+     */
 
 	//TODO: suppress the warning
 	private Mono<PostsCountResponse> getPostsCountFallbackValue(UUID userUuid, int delay, int faultPercent,

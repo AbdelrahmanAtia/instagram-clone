@@ -1,10 +1,12 @@
 package com.javaworld.instagram.authorizationserver.registereduser;
 
-
+import com.javaworld.instagram.authorizationserver.feign.UserServiceClient;
+import com.javaworld.instagram.userinfoservice.server.dto.UserApiDto;
+import feign.FeignException;
 import java.util.Collections;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,11 +16,10 @@ public class JpaRegisteredUserDetailsService implements UserDetailsService {
 
     private static final Logger logger = LoggerFactory.getLogger(JpaRegisteredUserDetailsService.class);
 
-    private final RegisteredUserRepository registeredUserRepository;
+    private final UserServiceClient userServiceClient;
 
-    public JpaRegisteredUserDetailsService(
-            RegisteredUserRepository registeredUserRepository) {
-        this.registeredUserRepository = registeredUserRepository;
+    public JpaRegisteredUserDetailsService(UserServiceClient userServiceClient) {
+        this.userServiceClient = userServiceClient;
     }
 
     @Override
@@ -26,17 +27,29 @@ public class JpaRegisteredUserDetailsService implements UserDetailsService {
             throws UsernameNotFoundException {
 
         logger.info(
-                "starting JpaRegisteredUserRepository.loadUserByUsername(username = {})",
+                "starting JpaRegisteredUserDetailsService.loadUserByUsername(username = {})",
                 username);
 
-        RegisteredUserEntity userEntity = registeredUserRepository
-                .findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(
-                        "User with username: " + username + " not found"));
+        //TODO: literal string shall be part of generated api dtos in both user-service and the generated client
+
+        ResponseEntity<UserApiDto> userApiDto = null;
+
+        // TODO: find a better way for error propagation in case of exceptions..and handle common scenarios like
+        //  invalid credentials or when service is down
+        try {
+           //TODO: since search user api is an internal api, we need to find a way to prevent calling it from outside our K8s cluster
+           userApiDto = userServiceClient.usersApi().searchUser(username, "USER_NAME");
+        } catch (FeignException ex) {
+            logger.error("An error occurred while calling user-service. Error message: {} ",
+                    ex.getMessage());
+            throw ex;
+        }
+
+        //TODO: what if userApiDto.getBody() is null ??
 
         return User.builder()
-                .username(userEntity.getUsername())
-                .password(userEntity.getPassword())
+                .username(userApiDto.getBody().getUsername())
+                .password(userApiDto.getBody().getPassword())
                 .authorities(Collections.emptyList())
                 .build();
     }

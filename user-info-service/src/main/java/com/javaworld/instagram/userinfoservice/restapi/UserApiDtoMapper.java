@@ -1,5 +1,7 @@
 package com.javaworld.instagram.userinfoservice.restapi;
 
+import java.util.List;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -13,9 +15,14 @@ import com.javaworld.instagram.userinfoservice.service.dto.User;
 @Mapper(componentModel = "spring")
 public interface UserApiDtoMapper extends ApiDtoMapper<UserApiDto, User> {
 
-	
-	//TODO: Do we need to get rid of CreateUserRequestApiDto & PartialUpdateUserRequestApiDto and use
-	//UserApiDto instead ?
+    @Named("toApiDtoWithoutPass")
+    @Mapping(target = "password", ignore = true)
+    UserApiDto toApiDtoWithoutPass(User user);
+
+    @IterableMapping(qualifiedByName = "toApiDtoWithoutPass")
+    List<UserApiDto> toApiDtoList(List<User> users);
+
+	//TODO: Do we need to get rid of CreateUserRequestApiDto & PartialUpdateUserRequestApiDto and use UserApiDto instead ?
 
 	@Mapping(target = "mobileNumber", source = "apiDto", qualifiedByName = "mobileNumberOrEmailToMobileNumber")
 	@Mapping(target = "email", source = "apiDto", qualifiedByName = "mobileNumberOrEmailToEmail")

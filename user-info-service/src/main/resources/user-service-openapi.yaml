@@ -5,24 +5,24 @@ info:
   title: "insta-ms-user-info-api"
   termsOfService: ""
   contact:
-    email: "abdelrahmanattya94@gmail.com"
+    email: "abc@gmail.com"
 host: "localhost"
-basePath: "/"
+basePath: "/api"
 schemes:
   - http
 
 tags:
-  - name: User
+  - name: Users
     description: Operations about users
   - name: Reports
     description: Operations about user account information report
 
-    
+
 paths:
-  /users/:                  
+  /api/users/:
     post:
       tags:
-        - User
+        - Users
       summary: Create a new user
       description: ''
       operationId: createUser
@@ -41,11 +41,11 @@ paths:
         200:
           description: Successful operation
           schema:
-            $ref: '#/definitions/User'     
-            
+            $ref: '#/definitions/User'
+
     patch:
       tags:
-        - User
+        - Users
       summary: Create a new user
       description: ''
       operationId: partialUpdateUser
@@ -64,46 +64,11 @@ paths:
         200:
           description: Successful operation
           schema:
-            $ref: '#/definitions/User'                
-
-    get:
-      tags:
-        - User
-      summary: Find user
-      description: ''
-      operationId: findUser
-      produces:
-        - "application/json"
-      parameters:
-        - in: query
-          name: userUuid
-          description: ''
-          required: true
-          type: string
-          format: uuid
-        - in: query
-          name: delay
-          description: 'The amount of delay in milliseconds to simulate network latency'
-          required: false
-          type: integer
-          default: 0
-        - in: query
-          name: faultPercent
-          description: 'The percentage of requests that should return a fault response'
-          required: false
-          type: integer
-          default: 0
-      responses:
-        '200':
-          description: successful operation
-          schema:
             $ref: '#/definitions/User'
-        '400':
-          description: Invalid userId
-          
+
     delete:
       tags:
-        - User
+        - Users
       summary: Delete user
       description: ''
       operationId: deleteUser
@@ -124,10 +89,42 @@ paths:
         '400':
           description: Invalid userId
 
-  /users/suggested:              
+  /internal/users/search:
     get:
       tags:
-        - User
+        - Users
+      summary: Search for user
+      description: ''
+      operationId: searchUser
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: searchKeyValue
+          description: ''
+          required: true
+          type: string
+        - in: query
+          name: searchKeyType
+          description: Type of search key
+          required: true
+          type: string
+          enum:
+            - USER_UUID
+            - USER_NAME
+            - USER_EMAIL
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Invalid userId
+
+  /api/users/suggested:
+    get:
+      tags:
+        - Users
       summary: get suggested users
       description: ''
       operationId: getSuggestedUsers
@@ -150,10 +147,10 @@ paths:
           description: ''
 
 
-  /users/follow:              
+  /api/users/follow:
     post:
       tags:
-        - User
+        - Users
       summary: send a follow request to another user
       description: ''
       operationId: followUser
@@ -172,12 +169,12 @@ paths:
         200:
           description: Successful operation
           schema:
-            $ref: '#/definitions/GenericResponse'     
-            
-  /users/unfollow:              
+            $ref: '#/definitions/GenericResponse'
+
+  /api/users/unfollow:
     post:
       tags:
-        - User
+        - Users
       summary: unfollow user
       description: ''
       operationId: unfollowUser
@@ -196,14 +193,14 @@ paths:
         200:
           description: Successful operation
           schema:
-            $ref: '#/definitions/GenericResponse'     
-            
-            
-            
-  /users/{userUuid}/followers:              
+            $ref: '#/definitions/GenericResponse'
+
+
+
+  /api/users/{userUuid}/followers:
     get:
       tags:
-        - User
+        - Users
       summary: get user followers
       description: ''
       operationId: getUserFollowers
@@ -215,7 +212,7 @@ paths:
           description: ''
           required: true
           type: string
-          format: uuid     
+          format: uuid
         - in: query
           name: page
           description: ''
@@ -234,12 +231,12 @@ paths:
             items:
               $ref: '#/definitions/User'
         '400':
-          description: ''   
+          description: ''
 
-  /users/{userUuid}/followings:              
+  /api/users/{userUuid}/followings:
     get:
       tags:
-        - User
+        - Users
       summary: get user followings
       description: ''
       operationId: getUserFollowings
@@ -251,7 +248,7 @@ paths:
           description: ''
           required: true
           type: string
-          format: uuid     
+          format: uuid
         - in: query
           name: page
           description: ''
@@ -270,13 +267,13 @@ paths:
             items:
               $ref: '#/definitions/User'
         '400':
-          description: ''   
+          description: ''
 
-          
-  /users/followers/{followerUuid}:              
+
+  /api/users/followers/{followerUuid}:
     delete:
       tags:
-        - User
+        - Users
       summary: remove follower
       description: ''
       operationId: removeFollower
@@ -288,7 +285,7 @@ paths:
           description: ''
           required: true
           type: string
-          format: uuid     
+          format: uuid
         - in: query
           name: page
           description: ''
@@ -303,11 +300,11 @@ paths:
         '200':
           description: successful operation
           schema:
-            $ref: '#/definitions/GenericResponse'     
+            $ref: '#/definitions/GenericResponse'
         '400':
-          description: ''            
+          description: ''
 
-  /reports/downloadaccountinformationreport:                  
+  /api/reports/downloadaccountinformationreport:
     get:
       tags:
         - Reports
@@ -328,8 +325,8 @@ paths:
           schema:
             type: string
             format: binary
-          
-        
+
+
 definitions:
   User:
     type: object
@@ -337,13 +334,13 @@ definitions:
       name:
         type: string
       username:
-        type: string    
+        type: string
       fullName:
-        type: string          
+        type: string
       email:
-        type: string 
+        type: string
       password:
-        type: string 
+        type: string
       postsCount:
         type: integer
       followersCount:
@@ -351,13 +348,13 @@ definitions:
       followingCount:
         type: integer
       userUuid:
-        type: string    
-        format: uuid   
+        type: string
+        format: uuid
       profileImageName:
-        type: string           
+        type: string
       serviceAddress:
-        type: string 
-        
+        type: string
+
   CreateUserRequest:
     type: object
     required:
@@ -370,53 +367,53 @@ definitions:
       fullName:
         type: string
       username:
-        type: string    
+        type: string
       password:
-        type: string 
-        
-  FollowUserRequest:        
+        type: string
+
+  FollowUserRequest:
     type: object
     required:
       - followedId
-    properties: 
+    properties:
       followedId:
         type: string
-        format: uuid 
-        
-  UnFollowUserRequest:        
+        format: uuid
+
+  UnFollowUserRequest:
     type: object
     required:
       - followedId
-    properties: 
+    properties:
       followedId:
         type: string
-        format: uuid 
-        
-    
+        format: uuid
+
+
   PartialUpdateUserRequest:
     type: object
     required:
-      - userUuid    
+      - userUuid
     properties:
-      userUuid:   
-        type: string    
-        format: uuid   
+      userUuid:
+        type: string
+        format: uuid
       profileImageName:
-        type: string        
+        type: string
       mobileNumber:
         type: string
       email:
         type: string
       username:
-        type: string    
+        type: string
       password:
-        type: string 
- 
+        type: string
+
   DeletedUsersResponse:
     type: object
     properties:
       deletedUsersCount:
-        type: integer    
+        type: integer
         format: int32
         example: 4
       message:
@@ -432,4 +429,4 @@ definitions:
         type: string
         example: message
       serviceAddress:
-        type: string   
+        type: string

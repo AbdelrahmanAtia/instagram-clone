@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProvider;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
@@ -28,8 +30,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 
-
-@SpringBootApplication(scanBasePackages ="com.javaworld.instagram" )
+@SpringBootApplication(
+    scanBasePackages = {
+            "com.javaworld.instagram",
+            "com.javaworld.instagram.commonlib"
+})
 public class UserInfoServiceApplication {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserInfoServiceApplication.class);
@@ -107,5 +112,10 @@ public class UserInfoServiceApplication {
 		});
 	}
 	*/
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }   

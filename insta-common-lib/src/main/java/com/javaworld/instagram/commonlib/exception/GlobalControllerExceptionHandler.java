@@ -1,12 +1,12 @@
-package com.javaworld.instagram.userinfoservice.commons.exceptions;
+package com.javaworld.instagram.commonlib.exception;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+import java.util.concurrent.TimeoutException;
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,15 +15,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import java.util.concurrent.TimeoutException;
 
 @RestControllerAdvice
 class GlobalControllerExceptionHandler {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
 
+    @PostConstruct
+    public void init() {
+        LOG.info("GlobalExceptionHandler initialized");
+    }
+
 	/**
-	 * most of the bad requests  are handled by swagger..and this function will
+	 * most of the bad requests  are handled by swagger, and this function will
 	 * handle other bad requests that are thrown after the request enters the 
 	 * RestImpl layer
 	 */
@@ -41,12 +45,11 @@ class GlobalControllerExceptionHandler {
 		return createHttpErrorInfo(NOT_FOUND, request, ex);
 	}
 
-	@ResponseStatus(UNPROCESSABLE_ENTITY)
+	@ResponseStatus(BAD_REQUEST)
 	@ExceptionHandler(InvalidInputException.class)
 	public @ResponseBody HttpErrorInfo handleInvalidInputException(HttpServletRequest request,
 			InvalidInputException ex) {
-
-		return createHttpErrorInfo(UNPROCESSABLE_ENTITY, request, ex);
+		return createHttpErrorInfo(BAD_REQUEST, request, ex);
 	}
 	
 	@ResponseStatus(INTERNAL_SERVER_ERROR)
@@ -75,7 +78,7 @@ class GlobalControllerExceptionHandler {
 		final String path = request.getServletPath();
 		final String message = ex.getMessage();
 
-		LOG.debug("Returning HTTP status: {} for path: {}, message: {}", httpStatus, path, message);
+		LOG.info("Returning HTTP status: {} for path: {}, message: {}", httpStatus, path, message);
 		return new HttpErrorInfo(httpStatus, path, message);
 	}
 }

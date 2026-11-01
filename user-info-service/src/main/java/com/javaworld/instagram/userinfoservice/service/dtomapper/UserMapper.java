@@ -16,8 +16,10 @@ public interface UserMapper extends EntityMapper<User, UserEntity> {
 
 	@Override
 	@Mapping(target = "userUuid", expression = "java(user.getUserUuid() == null ? UUID.randomUUID() : user.getUserUuid())")
-	UserEntity toEntity(User user);	
-	
+    @Mapping(target = "password", ignore = true)
+    UserEntity toEntity(User user);
+
+    User toDto(UserEntity entity);
 	
 	/*
 	@Mapping(target = "userUuid", source = "followerEntity.follower.userUuid")

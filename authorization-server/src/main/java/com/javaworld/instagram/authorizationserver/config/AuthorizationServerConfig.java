@@ -34,6 +34,7 @@ public class AuthorizationServerConfig {
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
+        LOG.info("creating RegisteredClientRepository Bean");
         return new JpaRegisteredClientRepository(outh2RegisteredClientRepository);
     }
 

@@ -2,9 +2,12 @@ server.port: 7001
 spring:
   application.name: user-ms
   cloud.config.enabled: false  # disable spring config server
+  zipkin:
+    enabled: false
   liquibase:
     enabled: true
     change-log: classpath:db-changelog/changelog-master.xml
+
 
 eureka.client.enabled: false  # disable eureka
 
@@ -35,6 +38,7 @@ spring:
 post-ms.uri: "http://localhost:7002" # todo: to be changed
 auth-server.uri: localhost  # todo: to be changed
 
+user-service.url: "tobeset"
 ---
 spring:
   config.activate.on-profile: local
@@ -44,4 +48,7 @@ spring:
     password: rootpwd
 
 auth-server.uri: localhost
+
+user-service.url: "http://localhost:7001"
+
 post-ms.uri: "http://localhost:7002"
