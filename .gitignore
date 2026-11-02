@@ -29,4 +29,19 @@ newsfeed/.factorypath
 post-service/.factorypath
 user-info-service/.factorypath
 
+# IDE
 /.idea
+.idea/
+.vscode/
+
+# Angular dependencies
+insta-clone-web/node_modules/
+
+# Angular cache
+insta-clone-web/.angular/
+
+# Angular build output
+insta-clone-web/dist/
+
+
+
