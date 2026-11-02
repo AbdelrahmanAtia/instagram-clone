@@ -15,7 +15,6 @@
 	<description>authorization server for instagram </description>
 
 	<properties>
-		<java.version>1.8</java.version>
 		<spring-cloud.version>2020.0.2</spring-cloud.version>
 	</properties>
 
@@ -186,6 +185,11 @@
 
 	<build>
 		<plugins>
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId> <!-- this references the plugin defined in the parent pom -->
+            </plugin>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -222,8 +226,7 @@
                     </execution>
                 </executions>
             </plugin>
-
-		</plugins>
+        </plugins>
 	</build>
 
 </project>

@@ -23,9 +23,10 @@ export class AuthInterceptor implements HttpInterceptor {
 
         if (!this.isPublicEndPoint(req)) {
             const accessToken = this.stateService.getAccessToken();
-
             if(!accessToken){
-              this.router.navigate(['/login']);
+              //start authorization flow
+              this.authService.authorizeClient();
+              //this.router.navigate(['/login']);
               return EMPTY;  // Return an empty observable to stop the request
             }
 
@@ -69,7 +70,7 @@ export class AuthInterceptor implements HttpInterceptor {
         // it's better to make the register user url more specific  for example
         // /users/register
 
-        let isRegisterRequest = req.url.endsWith(API_CONFIG.usersEntityUrl) && req.method === 'POST';
-        return req.url.includes(API_CONFIG.authEndpoint) || isRegisterRequest;
+        let isRegisterRequest = req.url.endsWith(API_CONFIG.createUserUrl) && req.method === 'POST';
+        return req.url.includes(API_CONFIG.tokenEndpoint) || isRegisterRequest;
     }
 }

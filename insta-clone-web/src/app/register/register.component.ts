@@ -21,6 +21,10 @@ export class RegisterComponent {
   onSubmit(registerModel: RegisterModel) {
     //TODO: handle cases when an error occurs
     this.authService.register(registerModel).subscribe(res => {
+      console.log("==========================");
+      console.log(res);
+      console.log("==========================");
+      
       this.stateService.setCurrentUserUuid(res.userUuid); 
       this.navigateToLogin();
     });

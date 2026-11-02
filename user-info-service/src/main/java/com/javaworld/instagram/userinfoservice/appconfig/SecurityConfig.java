@@ -3,6 +3,8 @@ package com.javaworld.instagram.userinfoservice.appconfig;
 import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.OPTIONS;
+
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,13 +21,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 		   //TODO: why without disabling cors & csrf u can't access the actuator end points without token
 		   //even if u made /actuator/** publicly accessible ?
 		  .cors().disable().csrf().disable()
+
 		  .authorizeRequests()
-			.antMatchers(
-                    "/openapi/**",
+                .antMatchers(OPTIONS, "/**").permitAll() // Allow all OPTIONS requests
+                .antMatchers("/openapi/**",
                     "/internal/**",
                     "/webjars/**",
-                    "/actuator/**")
-                .permitAll()
+                    "/actuator/**").permitAll()
+
 			 // TODO: do we need to append the context
 			.antMatchers(POST, "/api/users/").permitAll()  //registering user doesn't need to be protected
 			.antMatchers(DELETE, "/api/users/**").hasAuthority("SCOPE_post:write") //TODO: Why this is public ?

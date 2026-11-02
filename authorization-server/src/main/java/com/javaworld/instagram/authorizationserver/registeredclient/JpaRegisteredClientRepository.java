@@ -50,7 +50,7 @@ public class JpaRegisteredClientRepository implements RegisteredClientRepository
                 .clientId(clientEntity.getClientId())
                 .clientSecret(clientEntity.getClientSecret())
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://localhost:7001/api/users")
+                .redirectUri("http://localhost:4200/auth/callback") //TODO: shall be externalized
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .scope(OidcScopes.OPENID)
                 .scope("post-ms:read")

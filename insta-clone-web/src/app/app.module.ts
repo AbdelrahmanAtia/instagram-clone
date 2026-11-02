@@ -30,6 +30,7 @@ import { ProfileImageUploadComponent } from './profile/profile-image-upload/prof
 import { SuggestedUsersComponent } from './suggested-users/suggested-users.component';
 import { NewsFeedComponent } from './news-feed/news-feed.component';
 import { SerachComponent } from './serach/serach.component';
+import { CallbackComponent } from './auth/callback/callback.component';
 
 
 const COMPONENTS = [ AppComponent,
@@ -60,7 +61,7 @@ const MODULES = [
 const SERVICES = [AuthService, UserService, StateService, PostService];
 
 @NgModule({
-  declarations: [COMPONENTS, ProfileImageUploadComponent, SuggestedUsersComponent, NewsFeedComponent, SerachComponent],
+  declarations: [COMPONENTS, ProfileImageUploadComponent, SuggestedUsersComponent, NewsFeedComponent, SerachComponent, CallbackComponent],
   imports: [MODULES],
   providers: [
     SERVICES,
